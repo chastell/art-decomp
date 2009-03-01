@@ -2,7 +2,7 @@ describe Decomposer do
 
   before do
     @fsm      = mock 'FSM'
-    @archs    = Set[mock('Arch', :pins => 5), mock('Arch', :pins => 4)] # FIXME unmock
+    @archs    = Set[Arch[5,1], Arch[4,2]]
     @uv_gen   = mock 'UVGenerator'
     @qu_gen   = mock 'QuGenerator'
     @qv_gen   = mock 'QvGenerator'
