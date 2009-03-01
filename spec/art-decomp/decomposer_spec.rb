@@ -32,22 +32,22 @@ describe Decomposer do
       qu_b = mock('Blanket')
       @qu_gen.should_receive(:each).with(u_b, v_b).and_yield(qu_b)
 
-      g_a1, qv_a1 = mock('Blanket'), mock('Blanket')
-      @qv_gen.should_receive(:each).with(u_a, v_a, qu_a1).and_yield(g_a1, qv_a1)
+      qv_a1, g_a1 = mock('Blanket'), mock('Blanket')
+      @qv_gen.should_receive(:each).with(u_a, v_a, qu_a1).and_yield(qv_a1, g_a1)
 
-      g_a2, qv_a2 = mock('Blanket'), mock('Blanket')
-      @qv_gen.should_receive(:each).with(u_a, v_a, qu_a2).and_yield(g_a2, qv_a2)
+      qv_a2, g_a2 = mock('Blanket'), mock('Blanket')
+      @qv_gen.should_receive(:each).with(u_a, v_a, qu_a2).and_yield(qv_a2, g_a2)
 
-      g_bA, qv_bA = mock('Blanket'), mock('Blanket')
-      g_bB, qv_bB = mock('Blanket'), mock('Blanket')
-      @qv_gen.should_receive(:each).with(u_b, v_b, qu_b).and_yield(g_bA, qv_bA).and_yield(g_bB, qv_bB)
+      qv_bA, g_bA = mock('Blanket'), mock('Blanket')
+      qv_bB, g_bB = mock('Blanket'), mock('Blanket')
+      @qv_gen.should_receive(:each).with(u_b, v_b, qu_b).and_yield(qv_bA, g_bA).and_yield(qv_bB, g_bB)
 
       decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_class => @uv_class, :qu_class => @qu_class, :qv_class => @qv_class
       results = []
       decomposer.each { |dec| results << dec }
       results.size.should  == 4
-      results.first.should == Decomposition.new(@fsm, u_a, v_a, qu_a1, g_a1, qv_a1)
-      results.last.should  == Decomposition.new(@fsm, u_b, v_b, qu_b,  g_bB, qv_bB)
+      results.first.should == Decomposition.new(@fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
+      results.last.should  == Decomposition.new(@fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
     end
 
   end
