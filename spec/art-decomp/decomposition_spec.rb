@@ -6,6 +6,7 @@ describe Decomposition do
     qu, qv, g = mock('Blanket'), mock('Blanket'), mock('Blanket')
     dec = Decomposition.new fsm, u, v, qu, qv, g
     [dec.fsm, dec.u, dec.v, dec.qu, dec.qv, dec.g].should == [fsm, u, v, qu, qv, g]
+    dec.should == Decomposition.new(fsm, u, v, qu, qv, g)
   end
 
 end
