@@ -1,0 +1,75 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1LION
+.model 1LION.esp
+.start_kiss
+
+.i 2 
+.o 1 
+.p 11 
+.s 4
+-0 st0 st0 0
+11 st0 st0 0
+01 st0 st1 -
+0- st1 st1 1
+11 st1 st0 0
+10 st1 st2 1
+1- st2 st2 1
+00 st2 st1 1
+01 st2 st3 1
+0- st3 st3 1
+11 st3 st2 1
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 8
+# Prod.-terms of encoded cover = 6
+# Pla area = 66
+#
+# .start_codes
+.code st0 00
+.code st1 01
+.code st2 11
+.code st3 10
+# .end_codes
+#
+# .start_network
+.inputs v0 v1
+.outputs v4.2
+.latch v4.0 v2 0
+.latch v4.1 v3 0
+.latch_order v2 v3
+.names v0 v1 v2 v3 v4.0
+-11- 1
+--10 1
+10-1 1
+.names v0 v1 v2 v3 v4.1
+1-1- 1
+-0-1 1
+010- 1
+.names v0 v1 v2 v3 v4.2
+-11- 1
+-0-1 1
+--10 1
+010- 1
+.exdc 
+.inputs v0 v1 v2 v3 
+.outputs v4.0 v4.1 v4.2
+.names v0 v1 v2 v3 v4.0
+1010 1
+.names v0 v1 v2 v3 v4.1
+1010 1
+.names v0 v1 v2 v3 v4.2
+1010 1
+0100 1
+.end
+# .end_network
+.i 4
+.o 3
+.p 6
+10-1 100
+010- 011
+1-1- 010
+--10 101
+-0-1 011
+-11- 101
+.e
+#
+# CPU time = 0.0 seconds

@@ -1,0 +1,24 @@
+.model jedi_output
+.start_kiss
+.i 2
+.o 1
+.s 4
+.p 11
+.r st0
+-0 st0 st0 0
+11 st0 st0 0
+01 st0 st1 -
+0- st1 st1 1
+11 st1 st0 0
+10 st1 st2 1
+1- st2 st2 1
+00 st2 st1 1
+01 st2 st3 1
+0- st3 st3 1
+11 st3 st2 1
+.end_kiss
+.code st0 1000
+.code st1 0100
+.code st2 0010
+.code st3 0001
+.end

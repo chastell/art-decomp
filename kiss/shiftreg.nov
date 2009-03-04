@@ -1,0 +1,75 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1SHIFT~1
+.model 1SHIFT~1.esp
+.start_kiss
+
+.i 1 
+.o 1 
+.p 16 
+.s 8
+0 st0 st0 0
+1 st0 st4 0
+0 st1 st0 1
+1 st1 st4 1
+0 st2 st1 0
+1 st2 st5 0
+0 st3 st1 1
+1 st3 st5 1
+0 st4 st2 0
+1 st4 st6 0
+0 st5 st2 1
+1 st5 st6 1
+0 st6 st3 0
+1 st6 st7 0
+0 st7 st3 1
+1 st7 st7 1
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 9
+# Prod.-terms of encoded cover = 8
+# Pla area = 96
+#
+# .start_codes
+.code st0 000
+.code st1 100
+.code st2 011
+.code st3 111
+.code st4 010
+.code st5 110
+.code st6 001
+.code st7 101
+# .end_codes
+#
+# .start_network
+.inputs v0
+.outputs v4.3
+.latch v4.0 v1 0
+.latch v4.1 v2 0
+.latch v4.2 v3 0
+.latch_order v1 v2 v3
+.names v3 v4.0
+1 1
+.names v0 v2 v3 v4.1
+111 1
+001 1
+010 1
+100 1
+.names v2 v3 v4.2
+01 1
+10 1
+.names v1 v4.3
+1 1
+# .end_network
+.i 4
+.o 4
+.p 8
+1-00 0100
+0-10 0100
+0-01 0100
+1-11 0100
+--10 0010
+--01 0010
+-1-- 0001
+---1 1000
+.e
+#
+# CPU time = 0.0 seconds

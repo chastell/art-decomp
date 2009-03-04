@@ -1,0 +1,51 @@
+SUBDESIGN mark1_hot (
+  clk: INPUT;
+  i[4..0]: INPUT;
+  o[15..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[14..0]) WITH STATES (state0 = B"000100000000000", state1 = B"100000000000000", state10 = B"000000100000000", state11 = B"000000000000010", state12 = B"000000000000001", state13 = B"000001000000000", state14 = B"000000000000100", state2 = B"001000000000000", state3 = B"010000000000000", state4 = B"000010000000000", state5 = B"000000000001000", state6 = B"000000000010000", state7 = B"000000000100000", state8 = B"000000001000000", state9 = B"000000010000000");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[4..0], ss => ss, o[15..0];
+    B"0XXXX", state0 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state1 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state10 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state11 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state12 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state13 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state14 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state2 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state3 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state4 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state5 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state6 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state7 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state8 => state1, B"X11XXX1X00XXXXXX";
+    B"0XXXX", state9 => state1, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state1 => state3, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state2 => state0, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state3 => state4, B"101XXX1X01XXXXXX";
+    B"1X111", state4 => state13, B"X11XXX1X00XXXXXX";
+    B"1X110", state4 => state10, B"X11XXX1X00XXXXXX";
+    B"1X10X", state4 => state9, B"X11XXX1X00XXXXXX";
+    B"1X011", state4 => state8, B"X11XXX1X00XXXXXX";
+    B"1X010", state4 => state7, B"X11XXX1X00XXXXXX";
+    B"1X001", state4 => state6, B"X11XXX1X00XXXXXX";
+    B"1X000", state4 => state5, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state5 => state14, B"0011XX1X00XXXXXX";
+    B"1XXXX", state6 => state14, B"00100X0X00000011";
+    B"1XXXX", state7 => state14, B"001XXX1100XXXXXX";
+    B"1XXXX", state8 => state14, B"010XXX1X00XXXXXX";
+    B"1XXXX", state9 => state14, B"001XXX1010000101";
+    B"1XXXX", state10 => state11, B"X11XXX1X00100000";
+    B"10XXX", state11 => state13, B"X11XXX1X00XXXXXX";
+    B"11XXX", state11 => state12, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state12 => state13, B"X110110X00XXXXXX";
+    B"1XXXX", state13 => state14, B"X11XXX1X00XXXXXX";
+    B"1XXXX", state14 => state3, B"X110110X00XXXXXX";
+  END TABLE;
+END;

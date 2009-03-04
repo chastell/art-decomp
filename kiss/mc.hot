@@ -1,0 +1,23 @@
+.model jedi_output
+.start_kiss
+.i 3
+.o 5
+.s 4
+.p 10
+.r HG
+0-- HG HG 00010
+-0- HG HG 00010
+11- HG HY 10010
+--0 HY HY 00110
+--1 HY FG 10110
+10- FG FG 01000
+0-- FG FY 11000
+-1- FG FY 11000
+--0 FY FY 01001
+--1 FY HG 11001
+.end_kiss
+.code HG 1000
+.code HY 0100
+.code FG 0010
+.code FY 0001
+.end

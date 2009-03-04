@@ -1,0 +1,131 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1DK15
+.model 1DK15.esp
+.start_kiss
+
+.i 3 
+.o 5 
+.p 32 
+.s 4
+000 state1 state1 00101
+000 state2 state2 10010
+000 state3 state1 00101
+000 state4 state2 10010
+001 state1 state2 00010
+001 state2 state2 10100
+001 state3 state2 00010
+001 state4 state2 10100
+010 state1 state3 00010
+010 state2 state3 10010
+010 state3 state3 00010
+010 state4 state3 10010
+011 state3 state1 00100
+011 state4 state1 00100
+011 state1 state2 10001
+011 state2 state2 10001
+111 state3 state1 00100
+111 state4 state1 00100
+111 state1 state3 10101
+111 state2 state3 10101
+100 state1 state1 01001
+100 state3 state1 10100
+100 state4 state1 01001
+100 state2 state3 01001
+101 state1 state2 01010
+101 state2 state2 01010
+101 state3 state2 01000
+101 state4 state2 01010
+110 state1 state3 01010
+110 state2 state3 01010
+110 state4 state3 10000
+110 state3 state4 01010
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 17
+# Prod.-terms of encoded cover = 18
+# Pla area = 306
+#
+# .start_codes
+.code state1 10
+.code state2 00
+.code state3 11
+.code state4 01
+# .end_codes
+#
+# .start_network
+.inputs v0 v1 v2
+.outputs v5.2 v5.3 v5.4 v5.5 v5.6
+.latch v5.0 v3 1
+.latch v5.1 v4 0
+.latch_order v3 v4
+.names v0 v1 v2 v3 v4 v5.0
+010-- 1
+-11-1 1
+0001- 1
+1000- 1
+-1001 1
+111-0 1
+110-0 1
+100-0 1
+10011 1
+.names v0 v1 v2 v3 v4 v5.1
+010-- 1
+1101- 1
+-1001 1
+111-0 1
+1-000 1
+.names v0 v1 v2 v3 v4 v5.2
+0-00- 1
+-11-0 1
+0010- 1
+-1001 1
+10011 1
+.names v0 v1 v2 v3 v4 v5.3
+101-- 1
+1101- 1
+1000- 1
+110-0 1
+100-0 1
+.names v0 v1 v2 v3 v4 v5.4
+-11-1 1
+0001- 1
+0010- 1
+111-0 1
+10011 1
+.names v0 v1 v2 v3 v4 v5.5
+010-- 1
+0-00- 1
+0011- 1
+1101- 1
+1010- 1
+101-0 1
+110-0 1
+.names v0 v1 v2 v3 v4 v5.6
+-11-0 1
+0001- 1
+1000- 1
+100-0 1
+# .end_network
+.i 5
+.o 7
+.p 18
+0011- 0000010
+1-000 0100000
+10011 1010100
+0010- 0010100
+101-0 0000010
+1010- 0000010
+-1001 1110000
+0001- 1000101
+1101- 0101010
+-11-0 0010001
+101-- 0001000
+-11-1 1000100
+111-0 1100100
+0-00- 0010010
+100-0 1001001
+1000- 1001001
+110-0 1001010
+010-- 1100010
+.e
+#
+# CPU time = 0.0 seconds

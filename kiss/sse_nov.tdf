@@ -1,0 +1,71 @@
+SUBDESIGN sse_nov (
+  clk: INPUT;
+  i[6..0]: INPUT;
+  o[6..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[3..0]) WITH STATES (st0 = B"0101", st1 = B"0011", st10 = B"0000", st11 = B"1100", st12 = B"0110", st13 = B"1000", st14 = B"1111", st15 = B"1110", st2 = B"0010", st3 = B"1010", st4 = B"1101", st5 = B"1001", st6 = B"0001", st7 = B"0111", st8 = B"0100", st9 = B"1011");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[6..0], ss => ss, o[6..0];
+    B"0XXXXXX", st11 => st11, B"0000000";
+    B"10XXXX0", st11 => st10, B"00110X0";
+    B"10XXXX1", st11 => st10, B"00010X0";
+    B"11XXXX0", st11 => st4, B"0011010";
+    B"11XXXX1", st11 => st4, B"0001010";
+    B"100XXXX", st10 => st10, B"00000X0";
+    B"101X1XX", st10 => st12, B"10000X0";
+    B"101X0XX", st10 => st7, B"10000X0";
+    B"0XXXXXX", st10 => st4, B"000XX10";
+    B"11XXXXX", st10 => st4, B"0000010";
+    B"10XXXXX", st7 => st6, B"00000X0";
+    B"0XXXXXX", st7 => st4, B"000XX10";
+    B"11XXXXX", st7 => st4, B"0000010";
+    B"10XX0XX", st6 => st7, B"10000X0";
+    B"10XX1XX", st6 => st12, B"10000X0";
+    B"0XXXXXX", st6 => st4, B"000XX10";
+    B"11XXXXX", st6 => st4, B"0000010";
+    B"10XXXXX", st12 => st1, B"00000X0";
+    B"0XXXXXX", st12 => st4, B"000XX10";
+    B"11XXXXX", st12 => st4, B"0000010";
+    B"10X1XXX", st1 => st12, B"10000X0";
+    B"10XX1XX", st1 => st12, B"10000X0";
+    B"10X00XX", st1 => st0, B"0100010";
+    B"0XXXXXX", st1 => st4, B"000XX10";
+    B"11XXXXX", st1 => st4, B"0000010";
+    B"10XXX0X", st0 => st0, B"0100000";
+    B"10XXX1X", st0 => st8, B"01000X0";
+    B"0XXXXXX", st0 => st4, B"000XX10";
+    B"11XXXXX", st0 => st4, B"0000010";
+    B"10XXXXX", st8 => st9, B"0000010";
+    B"0XXXXXX", st8 => st4, B"000XX10";
+    B"11XXXXX", st8 => st4, B"0000010";
+    B"10XXX0X", st9 => st9, B"0000000";
+    B"10XXX1X", st9 => st3, B"10000X0";
+    B"0XXXXXX", st9 => st4, B"000XX10";
+    B"11XXXXX", st9 => st4, B"0000010";
+    B"10XXXXX", st3 => st2, B"00000X0";
+    B"0XXXXXX", st3 => st4, B"000XX10";
+    B"11XXXXX", st3 => st4, B"0000010";
+    B"1001XXX", st2 => st2, B"00000X0";
+    B"10X01XX", st2 => st10, B"00010X0";
+    B"10X00XX", st2 => st0, B"0100010";
+    B"1011XXX", st2 => st3, B"10000X0";
+    B"0XXXXXX", st2 => st4, B"000XX10";
+    B"11XXXXX", st2 => st4, B"0000010";
+    B"0XXXX0X", st4 => st4, B"000XX00";
+    B"11XXX0X", st4 => st4, B"0000000";
+    B"0XXXX1X", st4 => st11, B"000XXX1";
+    B"10XXXXX", st4 => st10, B"00000X0";
+    B"11XXX1X", st4 => st5, B"00001X0";
+    B"11XXXXX", st5 => st5, B"00001X0";
+    B"10XXXXX", st5 => st10, B"00000X0";
+    B"0XXXXXX", st5 => st4, B"000XX10";
+    B"0XXXXXX", st13 => st4, B"000XX10";
+    B"0XXXXXX", st14 => st4, B"000XX10";
+    B"0XXXXXX", st15 => st4, B"000XX10";
+  END TABLE;
+END;

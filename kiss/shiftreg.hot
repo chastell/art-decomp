@@ -1,0 +1,33 @@
+.model jedi_output
+.start_kiss
+.i 1
+.o 1
+.s 8
+.p 16
+.r st0
+0 st0 st0 0
+1 st0 st4 0
+0 st1 st0 1
+1 st1 st4 1
+0 st2 st1 0
+1 st2 st5 0
+0 st3 st1 1
+1 st3 st5 1
+0 st4 st2 0
+1 st4 st6 0
+0 st5 st2 1
+1 st5 st6 1
+0 st6 st3 0
+1 st6 st7 0
+0 st7 st3 1
+1 st7 st7 1
+.end_kiss
+.code st0 10000000
+.code st4 01000000
+.code st1 00100000
+.code st2 00010000
+.code st5 00001000
+.code st3 00000100
+.code st6 00000010
+.code st7 00000001
+.end

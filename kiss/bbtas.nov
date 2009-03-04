@@ -1,0 +1,111 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1BBTAS
+.model 1BBTAS.esp
+.start_kiss
+
+.i 2 
+.o 2 
+.p 24 
+.s 6
+00 st0 st0 00
+01 st0 st1 00
+10 st0 st1 00
+11 st0 st1 00
+00 st1 st0 00
+01 st1 st2 00
+10 st1 st2 00
+11 st1 st2 00
+00 st2 st1 00
+01 st2 st3 00
+10 st2 st3 00
+11 st2 st3 00
+00 st3 st4 00
+01 st3 st3 01
+10 st3 st3 10
+11 st3 st3 11
+00 st4 st5 00
+01 st4 st4 00
+10 st4 st4 00
+11 st4 st4 00
+00 st5 st0 00
+01 st5 st5 00
+10 st5 st5 00
+11 st5 st5 00
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 16
+# Prod.-terms of encoded cover = 12
+# Pla area = 180
+#
+# .start_codes
+.code st0 011
+.code st1 000
+.code st2 101
+.code st3 110
+.code st4 001
+.code st5 010
+# .end_codes
+#
+# .start_network
+.inputs v0 v1
+.outputs v5.3 v5.4
+.latch v5.0 v2 0
+.latch v5.1 v3 1
+.latch v5.2 v4 1
+.latch_order v2 v3 v4
+.names v0 v1 v2 v3 v4 v5.0
+1-1-- 1
+-11-- 1
+1--00 1
+-1-00 1
+.names v0 v1 v2 v3 v4 v5.1
+1-1-- 1
+-11-- 1
+000-- 1
+--010 1
+.names v0 v1 v2 v3 v4 v5.2
+00-1- 1
+1-00- 1
+-100- 1
+00--0 1
+.names v0 v2 v4 v5.3
+110 1
+.names v1 v2 v4 v5.4
+110 1
+.exdc 
+.inputs v0 v1 v2 v3 v4 
+.outputs v5.0 v5.1 v5.2 v5.3 v5.4
+.names v2 v3 v4 v5.0
+111 1
+100 1
+.names v2 v3 v4 v5.1
+111 1
+100 1
+.names v2 v3 v4 v5.2
+111 1
+100 1
+.names v2 v3 v4 v5.3
+111 1
+100 1
+.names v2 v3 v4 v5.4
+111 1
+100 1
+.end
+# .end_network
+.i 5
+.o 5
+.p 12
+00-1- 00100
+000-- 01000
+1-1-0 00010
+-11-0 00001
+--010 01000
+00--0 00100
+-100- 00100
+1-00- 00100
+-1-00 10000
+1--00 10000
+-11-- 11000
+1-1-- 11000
+.e
+#
+# CPU time = 0.0 seconds

@@ -1,0 +1,79 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1MC
+.model 1MC.esp
+.start_kiss
+
+.i 3 
+.o 5 
+.p 10 
+.s 4
+0-- HG HG 00010
+-0- HG HG 00010
+11- HG HY 10010
+--0 HY HY 00110
+--1 HY FG 10110
+10- FG FG 01000
+0-- FG FY 11000
+-1- FG FY 11000
+--0 FY FY 01001
+--1 FY HG 11001
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 10
+# Prod.-terms of encoded cover = 9
+# Pla area = 153
+#
+# .start_codes
+.code HG 00
+.code HY 11
+.code FG 01
+.code FY 10
+# .end_codes
+#
+# .start_network
+.inputs v0 v1 v2
+.outputs v5.2 v5.3 v5.4 v5.5 v5.6
+.latch v5.0 v3 0
+.latch v5.1 v4 0
+.latch_order v3 v4
+.names v0 v1 v2 v3 v4 v5.0
+--01- 1
+0--01 1
+-1-01 1
+11-00 1
+.names v0 v1 v3 v4 v5.1
+--11 1
+1001 1
+1100 1
+.names v0 v1 v2 v3 v4 v5.2
+--11- 1
+0--01 1
+-1-01 1
+11-00 1
+.names v0 v1 v3 v4 v5.3
+--10 1
+0-01 1
+-101 1
+1001 1
+.names v3 v4 v5.4
+11 1
+.names v3 v4 v5.5
+11 1
+00 1
+.names v3 v4 v5.6
+10 1
+# .end_network
+.i 5
+.o 7
+.p 9
+10-01 0101000
+11-00 1110000
+--01- 1000000
+--11- 0010000
+---00 0000010
+---10 0001001
+0--01 1011000
+-1-01 1011000
+---11 0100110
+.e
+#
+# CPU time = 0.0 seconds

@@ -1,0 +1,39 @@
+SUBDESIGN bbtas_nov (
+  clk: INPUT;
+  i[1..0]: INPUT;
+  o[1..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[2..0]) WITH STATES (st0 = B"011", st1 = B"000", st2 = B"101", st3 = B"110", st4 = B"001", st5 = B"010");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[1..0], ss => ss, o[1..0];
+    B"00", st0 => st0, B"00";
+    B"01", st0 => st1, B"00";
+    B"10", st0 => st1, B"00";
+    B"11", st0 => st1, B"00";
+    B"00", st1 => st0, B"00";
+    B"01", st1 => st2, B"00";
+    B"10", st1 => st2, B"00";
+    B"11", st1 => st2, B"00";
+    B"00", st2 => st1, B"00";
+    B"01", st2 => st3, B"00";
+    B"10", st2 => st3, B"00";
+    B"11", st2 => st3, B"00";
+    B"00", st3 => st4, B"00";
+    B"01", st3 => st3, B"01";
+    B"10", st3 => st3, B"10";
+    B"11", st3 => st3, B"11";
+    B"00", st4 => st5, B"00";
+    B"01", st4 => st4, B"00";
+    B"10", st4 => st4, B"00";
+    B"11", st4 => st4, B"00";
+    B"00", st5 => st0, B"00";
+    B"01", st5 => st5, B"00";
+    B"10", st5 => st5, B"00";
+    B"11", st5 => st5, B"00";
+  END TABLE;
+END;

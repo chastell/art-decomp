@@ -1,0 +1,148 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1DK512
+.model 1DK512.esp
+.start_kiss
+
+.i 1 
+.o 3 
+.p 30 
+.s 15
+0 state_1 state_8 000
+0 state_2 state_4 000
+0 state_3 state_5 000
+0 state_4 state_8 000
+0 state_5 state_8 000
+0 state_6 state_13 000
+0 state_7 state_4 000
+0 state_8 state_1 001
+0 state_9 state_4 000
+0 state_10 state_1 010
+0 state_11 state_3 010
+0 state_12 state_4 100
+0 state_13 state_5 100
+0 state_14 state_3 100
+0 state_15 state_4 000
+1 state_1 state_9 000
+1 state_2 state_3 000
+1 state_3 state_6 000
+1 state_4 state_11 000
+1 state_5 state_12 000
+1 state_6 state_14 000
+1 state_7 state_15 000
+1 state_8 state_2 001
+1 state_9 state_3 001
+1 state_10 state_2 010
+1 state_11 state_4 010
+1 state_12 state_3 001
+1 state_13 state_6 100
+1 state_14 state_7 100
+1 state_15 state_6 000
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 21
+# Prod.-terms of encoded cover = 19
+# Pla area = 323
+#
+# .start_codes
+.code state_1 0001
+.code state_2 1101
+.code state_3 0011
+.code state_4 0000
+.code state_5 0101
+.code state_6 0100
+.code state_7 1100
+.code state_8 0010
+.code state_9 1000
+.code state_10 0110
+.code state_11 1110
+.code state_12 1001
+.code state_13 1011
+.code state_14 1010
+.code state_15 1111
+# .end_codes
+#
+# .start_network
+.inputs v0
+.outputs v5.4 v5.5 v5.6
+.latch v5.0 v1 0
+.latch v5.1 v2 0
+.latch v5.2 v3 0
+.latch v5.3 v4 1
+.latch_order v1 v2 v3 v4
+.names v0 v1 v2 v3 v4 v5.0
+10-0- 1
+1011- 1
+1-010 1
+11100 1
+00100 1
+.names v0 v1 v2 v3 v4 v5.1
+1--11 1
+1011- 1
+0-011 1
+100-0 1
+1-010 1
+11100 1
+.names v0 v1 v3 v4 v5.2
+110- 1
+000- 1
+-000 1
+0110 1
+.names v0 v1 v2 v3 v4 v5.3
+-011- 1
+11-0- 1
+101-1 1
+0-011 1
+01-10 1
+-0010 1
+00100 1
+.names v0 v1 v2 v3 v4 v5.4
+-101- 1
+010-1 1
+.names v2 v3 v4 v5.5
+110 1
+.names v0 v1 v2 v3 v4 v5.6
+1100- 1
+-0010 1
+.exdc 
+.inputs v0 v1 v2 v3 v4 
+.outputs v5.0 v5.1 v5.2 v5.3 v5.4 v5.5 v5.6
+.names v1 v2 v3 v4 v5.0
+0111 1
+.names v1 v2 v3 v4 v5.1
+0111 1
+.names v1 v2 v3 v4 v5.2
+0111 1
+.names v1 v2 v3 v4 v5.3
+0111 1
+.names v1 v2 v3 v4 v5.4
+0111 1
+.names v1 v2 v3 v4 v5.5
+0111 1
+.names v1 v2 v3 v4 v5.6
+0111 1
+.end
+# .end_network
+.i 5
+.o 7
+.p 19
+010-1 0000100
+11100 1100000
+00100 1001000
+1100- 0000001
+101-1 0001000
+0-011 0101000
+100-0 0100000
+01-10 0011000
+-0010 0001001
+-101- 0000100
+--110 0000010
+1-010 1100000
+1011- 1100000
+00-0- 0010000
+1--11 0100000
+-0-00 0010000
+10-0- 1000000
+-011- 0001000
+11-0- 0011000
+.e
+#
+# CPU time = 0.0 seconds

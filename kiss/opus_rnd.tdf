@@ -1,0 +1,46 @@
+SUBDESIGN opus_rnd (
+  clk: INPUT;
+  i[4..0]: INPUT;
+  o[5..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[3..0]) WITH STATES (IOwait = B"1111", RMACK = B"0000", WMACK = B"1010", init0 = B"1101", init1 = B"0010", init2 = B"1011", init4 = B"1110", read0 = B"0001", read1 = B"1000", write0 = B"0110");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[4..0], ss => ss, o[5..0];
+    B"XX1XX", IOwait => init0, B"110000";
+    B"XX1XX", RMACK => init0, B"110000";
+    B"XX1XX", WMACK => init0, B"110000";
+    B"XX1XX", init0 => init0, B"110000";
+    B"XX1XX", init1 => init0, B"110000";
+    B"XX1XX", init2 => init0, B"110000";
+    B"XX1XX", init4 => init0, B"110000";
+    B"XX1XX", read0 => init0, B"110000";
+    B"XX1XX", read1 => init0, B"110000";
+    B"XX1XX", write0 => init0, B"110000";
+    B"XX1XX", init0 => init0, B"110000";
+    B"XX0XX", init0 => init1, B"110000";
+    B"XX00X", init1 => init1, B"110000";
+    B"XX01X", init1 => init2, B"110001";
+    B"XX0XX", init2 => init4, B"110100";
+    B"XX01X", init4 => init4, B"110100";
+    B"XX00X", init4 => IOwait, B"000000";
+    B"0000X", IOwait => IOwait, B"000000";
+    B"1000X", IOwait => init1, B"110000";
+    B"01000", IOwait => read0, B"101000";
+    B"11000", IOwait => write0, B"100010";
+    B"01001", IOwait => RMACK, B"100000";
+    B"11001", IOwait => WMACK, B"100000";
+    B"XX01X", IOwait => init2, B"110001";
+    B"XX0X0", RMACK => RMACK, B"100000";
+    B"XX0X1", RMACK => read0, B"101000";
+    B"XX0X0", WMACK => WMACK, B"100000";
+    B"XX0X1", WMACK => write0, B"100010";
+    B"XX0XX", read0 => read1, B"101001";
+    B"XX0XX", read1 => IOwait, B"000000";
+    B"XX0XX", write0 => IOwait, B"000000";
+  END TABLE;
+END;

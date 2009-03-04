@@ -1,0 +1,40 @@
+SUBDESIGN lion9_nov (
+  clk: INPUT;
+  i[1..0]: INPUT;
+  o[0..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[3..0]) WITH STATES (st0 = B"0010", st1 = B"0000", st2 = B"0100", st3 = B"0110", st4 = B"0111", st5 = B"0101", st6 = B"0011", st7 = B"0001", st8 = B"1011");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[1..0], ss => ss, o[0..0];
+    B"10", st0 => st1, B"0";
+    B"00", st0 => st0, B"0";
+    B"00", st1 => st0, B"0";
+    B"10", st1 => st1, B"0";
+    B"11", st1 => st2, B"0";
+    B"10", st2 => st1, B"0";
+    B"11", st2 => st2, B"0";
+    B"01", st2 => st3, B"0";
+    B"11", st3 => st2, B"1";
+    B"01", st3 => st3, B"1";
+    B"00", st3 => st4, B"1";
+    B"01", st4 => st3, B"1";
+    B"00", st4 => st4, B"1";
+    B"10", st4 => st5, B"1";
+    B"00", st5 => st4, B"1";
+    B"10", st5 => st5, B"1";
+    B"11", st5 => st6, B"1";
+    B"10", st6 => st5, B"1";
+    B"11", st6 => st6, B"1";
+    B"01", st6 => st7, B"1";
+    B"11", st7 => st6, B"1";
+    B"01", st7 => st7, B"1";
+    B"00", st7 => st8, B"1";
+    B"01", st8 => st7, B"1";
+    B"00", st8 => st8, B"1";
+  END TABLE;
+END;

@@ -1,0 +1,47 @@
+SUBDESIGN dk15_jed (
+  clk: INPUT;
+  i[2..0]: INPUT;
+  o[4..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[1..0]) WITH STATES (state1 = B"01", state2 = B"00", state3 = B"10", state4 = B"11");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[2..0], ss => ss, o[4..0];
+    B"000", state1 => state1, B"00101";
+    B"000", state2 => state2, B"10010";
+    B"000", state3 => state1, B"00101";
+    B"000", state4 => state2, B"10010";
+    B"001", state1 => state2, B"00010";
+    B"001", state2 => state2, B"10100";
+    B"001", state3 => state2, B"00010";
+    B"001", state4 => state2, B"10100";
+    B"010", state1 => state3, B"00010";
+    B"010", state2 => state3, B"10010";
+    B"010", state3 => state3, B"00010";
+    B"010", state4 => state3, B"10010";
+    B"011", state3 => state1, B"00100";
+    B"011", state4 => state1, B"00100";
+    B"011", state1 => state2, B"10001";
+    B"011", state2 => state2, B"10001";
+    B"111", state3 => state1, B"00100";
+    B"111", state4 => state1, B"00100";
+    B"111", state1 => state3, B"10101";
+    B"111", state2 => state3, B"10101";
+    B"100", state1 => state1, B"01001";
+    B"100", state3 => state1, B"10100";
+    B"100", state4 => state1, B"01001";
+    B"100", state2 => state3, B"01001";
+    B"101", state1 => state2, B"01010";
+    B"101", state2 => state2, B"01010";
+    B"101", state3 => state2, B"01000";
+    B"101", state4 => state2, B"01010";
+    B"110", state1 => state3, B"01010";
+    B"110", state2 => state3, B"01010";
+    B"110", state4 => state3, B"10000";
+    B"110", state3 => state4, B"01010";
+  END TABLE;
+END;

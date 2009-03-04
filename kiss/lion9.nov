@@ -1,0 +1,167 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1LION9
+.model 1LION9.esp
+.start_kiss
+
+.i 2 
+.o 1 
+.p 25 
+.s 9
+10 st0 st1 0
+00 st0 st0 0
+00 st1 st0 0
+10 st1 st1 0
+11 st1 st2 0
+10 st2 st1 0
+11 st2 st2 0
+01 st2 st3 0
+11 st3 st2 1
+01 st3 st3 1
+00 st3 st4 1
+01 st4 st3 1
+00 st4 st4 1
+10 st4 st5 1
+00 st5 st4 1
+10 st5 st5 1
+11 st5 st6 1
+10 st6 st5 1
+11 st6 st6 1
+01 st6 st7 1
+11 st7 st6 1
+01 st7 st7 1
+00 st7 st8 1
+01 st8 st7 1
+00 st8 st8 1
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 10
+# Prod.-terms of encoded cover = 9
+# Pla area = 153
+#
+# .start_codes
+.code st0 0010
+.code st1 0000
+.code st2 0100
+.code st3 0110
+.code st4 0111
+.code st5 0101
+.code st6 0011
+.code st7 0001
+.code st8 1011
+# .end_codes
+#
+# .start_network
+.inputs v0 v1
+.outputs v6.4
+.latch v6.0 v2 0
+.latch v6.1 v3 0
+.latch v6.2 v4 1
+.latch v6.3 v5 0
+.latch_order v2 v3 v4 v5
+.names v0 v1 v3 v5 v6.0
+0001 1
+.names v0 v1 v3 v5 v6.1
+-1-0 1
+001- 1
+10-1 1
+0-11 1
+.names v0 v1 v3 v5 v6.2
+0--0 1
+11-1 1
+0-11 1
+0001 1
+.names v0 v1 v3 v5 v6.3
+--01 1
+001- 1
+11-1 1
+10-1 1
+.names v0 v1 v3 v4 v5 v6.4
+--11- 1
+--0-1 1
+11--1 1
+10--1 1
+0-1-1 1
+.exdc 
+.inputs v0 v1 v2 v3 v4 v5 
+.outputs v6.0 v6.1 v6.2 v6.3 v6.4
+.names v0 v1 v2 v3 v4 v5 v6.0
+1-1--- 1
+--11-- 1
+--1-0- 1
+-01--0 1
+01-0-0 1
+-1-010 1
+11-111 1
+01-101 1
+10-001 1
+10-110 1
+00-100 1
+000011 1
+.names v0 v1 v2 v3 v4 v5 v6.1
+1-1--- 1
+--11-- 1
+--1-0- 1
+-01--0 1
+01-0-0 1
+-1-010 1
+11-111 1
+01-101 1
+10-001 1
+10-110 1
+00-100 1
+000011 1
+.names v0 v1 v2 v3 v4 v5 v6.2
+1-1--- 1
+--11-- 1
+--1-0- 1
+-01--0 1
+01-0-0 1
+-1-010 1
+11-111 1
+01-101 1
+10-001 1
+10-110 1
+00-100 1
+000011 1
+.names v0 v1 v2 v3 v4 v5 v6.3
+1-1--- 1
+--11-- 1
+--1-0- 1
+-01--0 1
+01-0-0 1
+-1-010 1
+11-111 1
+01-101 1
+10-001 1
+10-110 1
+00-100 1
+000011 1
+.names v0 v1 v2 v3 v4 v5 v6.4
+1-1--- 1
+--11-- 1
+--1-0- 1
+-01--0 1
+01-0-0 1
+-1-010 1
+11-111 1
+01-101 1
+10-001 1
+10-110 1
+00-100 1
+000011 1
+.end
+# .end_network
+.i 6
+.o 5
+.p 9
+00-0-1 10100
+-1---0 01000
+00-1-- 01010
+---11- 00001
+0----0 00100
+11---1 00111
+10---1 01011
+0--1-1 01101
+---0-1 00011
+.e
+#
+# CPU time = 0.0 seconds

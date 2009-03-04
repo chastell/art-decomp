@@ -1,0 +1,118 @@
+# c:/users/mariusz/sis/bin/nova.exe -t 1MODUL~1
+.model 1MODUL~1.esp
+.start_kiss
+
+.i 1 
+.o 1 
+.p 24 
+.s 12
+0 st0 st0 0
+1 st0 st1 0
+0 st1 st1 0
+1 st1 st2 0
+0 st2 st2 0
+1 st2 st3 0
+0 st3 st3 0
+1 st3 st4 0
+0 st4 st4 0
+1 st4 st5 0
+0 st5 st5 0
+1 st5 st6 0
+0 st6 st6 0
+1 st6 st7 0
+0 st7 st7 0
+1 st7 st8 0
+0 st8 st8 0
+1 st8 st9 0
+0 st9 st9 0
+1 st9 st10 0
+0 st10 st10 0
+1 st10 st11 0
+0 st11 st11 0
+1 st11 st0 0
+.end_kiss
+#
+# Prod.-terms of minimized MV cover = 24
+# Prod.-terms of encoded cover = 12
+# Pla area = 180
+#
+# .start_codes
+.code st0 0000
+.code st1 1111
+.code st2 0001
+.code st3 1110
+.code st4 0010
+.code st5 1101
+.code st6 0011
+.code st7 1100
+.code st8 0100
+.code st9 1011
+.code st10 0101
+.code st11 1010
+# .end_codes
+#
+# .start_network
+.inputs v0
+.outputs v5.4
+.latch v5.0 v1 0
+.latch v5.1 v2 0
+.latch v5.2 v3 0
+.latch v5.3 v4 0
+.latch_order v1 v2 v3 v4
+.names v0 v1 v2 v3 v5.0
+01-- 1
+100- 1
+10-0 1
+.names v0 v1 v2 v3 v4 v5.1
+0-1-- 1
+100-- 1
+1-0-1 1
+-1-00 1
+.names v0 v1 v2 v3 v4 v5.2
+0--1- 1
+10-0- 1
+1--01 1
+--110 1
+.names v0 v1 v4 v5.3
+0-1 1
+-11 1
+100 1
+.names v5.4
+.exdc 
+.inputs v0 v1 v2 v3 v4 
+.outputs v5.0 v5.1 v5.2 v5.3 v5.4
+.names v1 v2 v3 v5.0
+011 1
+100 1
+.names v1 v2 v3 v5.1
+011 1
+100 1
+.names v1 v2 v3 v5.2
+011 1
+100 1
+.names v1 v2 v3 v5.3
+011 1
+100 1
+.names v1 v2 v3 v5.4
+011 1
+100 1
+.end
+# .end_network
+.i 5
+.o 5
+.p 12
+1-0-1 01000
+1--01 00100
+--110 00100
+10--0 00010
+-1-00 01000
+100-- 11000
+10-0- 10100
+0-1-- 01000
+0--1- 00100
+0---1 00010
+01--- 10000
+-1--1 00010
+.e
+#
+# CPU time = 0.0 seconds

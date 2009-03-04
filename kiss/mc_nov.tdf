@@ -1,0 +1,25 @@
+SUBDESIGN mc_nov (
+  clk: INPUT;
+  i[2..0]: INPUT;
+  o[4..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[1..0]) WITH STATES (FG = B"01", FY = B"10", HG = B"00", HY = B"11");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[2..0], ss => ss, o[4..0];
+    B"0XX", HG => HG, B"00010";
+    B"X0X", HG => HG, B"00010";
+    B"11X", HG => HY, B"10010";
+    B"XX0", HY => HY, B"00110";
+    B"XX1", HY => FG, B"10110";
+    B"10X", FG => FG, B"01000";
+    B"0XX", FG => FY, B"11000";
+    B"X1X", FG => FY, B"11000";
+    B"XX0", FY => FY, B"01001";
+    B"XX1", FY => HG, B"11001";
+  END TABLE;
+END;

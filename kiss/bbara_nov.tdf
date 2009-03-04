@@ -1,0 +1,75 @@
+SUBDESIGN bbara_nov (
+  clk: INPUT;
+  i[3..0]: INPUT;
+  o[1..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[3..0]) WITH STATES (st0 = B"0100", st1 = B"0000", st2 = B"0010", st3 = B"0011", st4 = B"0001", st5 = B"1101", st6 = B"1100", st7 = B"0111", st8 = B"0110", st9 = B"0101");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[3..0], ss => ss, o[1..0];
+    B"XX01", st0 => st0, B"00";
+    B"XX10", st0 => st0, B"00";
+    B"XX00", st0 => st0, B"00";
+    B"0011", st0 => st0, B"00";
+    B"X111", st0 => st1, B"00";
+    B"1011", st0 => st4, B"00";
+    B"XX01", st1 => st1, B"00";
+    B"XX10", st1 => st1, B"00";
+    B"XX00", st1 => st1, B"00";
+    B"0011", st1 => st0, B"00";
+    B"X111", st1 => st2, B"00";
+    B"1011", st1 => st4, B"00";
+    B"XX01", st2 => st2, B"00";
+    B"XX10", st2 => st2, B"00";
+    B"XX00", st2 => st2, B"00";
+    B"0011", st2 => st1, B"00";
+    B"X111", st2 => st3, B"00";
+    B"1011", st2 => st4, B"00";
+    B"XX01", st3 => st3, B"10";
+    B"XX10", st3 => st3, B"10";
+    B"XX00", st3 => st3, B"10";
+    B"0011", st3 => st7, B"00";
+    B"X111", st3 => st3, B"10";
+    B"1011", st3 => st4, B"00";
+    B"XX01", st4 => st4, B"00";
+    B"XX10", st4 => st4, B"00";
+    B"XX00", st4 => st4, B"00";
+    B"0011", st4 => st0, B"00";
+    B"X111", st4 => st1, B"00";
+    B"1011", st4 => st5, B"00";
+    B"XX01", st5 => st5, B"00";
+    B"XX10", st5 => st5, B"00";
+    B"XX00", st5 => st5, B"00";
+    B"0011", st5 => st4, B"00";
+    B"X111", st5 => st1, B"00";
+    B"1011", st5 => st6, B"00";
+    B"XX01", st6 => st6, B"01";
+    B"XX10", st6 => st6, B"01";
+    B"XX00", st6 => st6, B"01";
+    B"0011", st6 => st7, B"00";
+    B"X111", st6 => st1, B"00";
+    B"1011", st6 => st6, B"01";
+    B"XX01", st7 => st7, B"00";
+    B"XX10", st7 => st7, B"00";
+    B"XX00", st7 => st7, B"00";
+    B"0011", st7 => st8, B"00";
+    B"X111", st7 => st1, B"00";
+    B"1011", st7 => st4, B"00";
+    B"XX01", st8 => st8, B"00";
+    B"XX10", st8 => st8, B"00";
+    B"XX00", st8 => st8, B"00";
+    B"0011", st8 => st9, B"00";
+    B"X111", st8 => st1, B"00";
+    B"1011", st8 => st4, B"00";
+    B"XX01", st9 => st9, B"00";
+    B"XX10", st9 => st9, B"00";
+    B"XX00", st9 => st9, B"00";
+    B"0011", st9 => st0, B"00";
+    B"X111", st9 => st1, B"00";
+    B"1011", st9 => st4, B"00";
+  END TABLE;
+END;

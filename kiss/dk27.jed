@@ -1,0 +1,32 @@
+#
+# JEDI, official release 1.2
+#
+# States.START 111
+# States.state6 011
+# States.state2 110
+# States.state5 001
+# States.state3 000
+# States.state4 010
+# States.state7 101
+#
+.type fr
+.i 4
+.o 5
+.ilb v.0 v.1.0 v.1.1 v.1.2 
+.ob v.2.0 v.2.1 v.2.2 v.3 v.4 
+0111 01100
+0110 00100
+0000 00100
+0010 01100
+0001 11110
+0011 11101
+0101 00100
+1011 11001
+1001 11010
+1010 01110
+1101 01110
+1111 01000
+1110 00000
+1000 10100
+-100 -----
+.e

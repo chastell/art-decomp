@@ -1,0 +1,29 @@
+SUBDESIGN dk27_jed (
+  clk: INPUT;
+  i[0..0]: INPUT;
+  o[1..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[2..0]) WITH STATES (START = B"111", state2 = B"110", state3 = B"000", state4 = B"010", state5 = B"001", state6 = B"011", state7 = B"101");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[0..0], ss => ss, o[1..0];
+    B"0", START => state6, B"00";
+    B"0", state2 => state5, B"00";
+    B"0", state3 => state5, B"00";
+    B"0", state4 => state6, B"00";
+    B"0", state5 => START, B"10";
+    B"0", state6 => START, B"01";
+    B"0", state7 => state5, B"00";
+    B"1", state6 => state2, B"01";
+    B"1", state5 => state2, B"10";
+    B"1", state4 => state6, B"10";
+    B"1", state7 => state6, B"10";
+    B"1", START => state4, B"00";
+    B"1", state2 => state3, B"00";
+    B"1", state3 => state7, B"00";
+  END TABLE;
+END;

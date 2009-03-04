@@ -1,0 +1,71 @@
+SUBDESIGN dk14_hot (
+  clk: INPUT;
+  i[2..0]: INPUT;
+  o[4..0]: OUTPUT;
+)
+
+VARIABLE
+  ss: MACHINE OF BITS (q[6..0]) WITH STATES (state_1 = B"1000000", state_2 = B"0010000", state_3 = B"0100000", state_4 = B"0001000", state_5 = B"0000100", state_6 = B"0000010", state_7 = B"0000001");
+
+BEGIN
+  ss.clk = clk;
+  TABLE
+    i[2..0], ss => ss, o[4..0];
+    B"000", state_1 => state_3, B"00010";
+    B"000", state_2 => state_1, B"01001";
+    B"000", state_3 => state_3, B"10010";
+    B"000", state_4 => state_3, B"00010";
+    B"000", state_5 => state_1, B"01001";
+    B"000", state_6 => state_1, B"01001";
+    B"000", state_7 => state_3, B"10010";
+    B"100", state_2 => state_2, B"01001";
+    B"100", state_5 => state_2, B"01001";
+    B"100", state_6 => state_2, B"01001";
+    B"100", state_1 => state_4, B"00010";
+    B"100", state_3 => state_4, B"10010";
+    B"100", state_4 => state_4, B"00010";
+    B"100", state_7 => state_4, B"10010";
+    B"111", state_5 => state_1, B"10001";
+    B"111", state_6 => state_1, B"10001";
+    B"111", state_7 => state_1, B"10001";
+    B"111", state_1 => state_3, B"01010";
+    B"111", state_2 => state_3, B"00100";
+    B"111", state_3 => state_3, B"01010";
+    B"111", state_4 => state_3, B"00100";
+    B"110", state_5 => state_1, B"10101";
+    B"110", state_6 => state_1, B"10101";
+    B"110", state_7 => state_1, B"10101";
+    B"110", state_1 => state_4, B"01010";
+    B"110", state_3 => state_4, B"01010";
+    B"110", state_2 => state_5, B"00100";
+    B"110", state_4 => state_5, B"00100";
+    B"011", state_2 => state_2, B"00101";
+    B"011", state_5 => state_2, B"00101";
+    B"011", state_1 => state_3, B"01000";
+    B"011", state_3 => state_3, B"01000";
+    B"011", state_4 => state_3, B"10100";
+    B"011", state_6 => state_3, B"10100";
+    B"011", state_7 => state_3, B"10100";
+    B"001", state_2 => state_1, B"00101";
+    B"001", state_5 => state_1, B"00101";
+    B"001", state_1 => state_5, B"00010";
+    B"001", state_3 => state_5, B"10010";
+    B"001", state_4 => state_5, B"00010";
+    B"001", state_6 => state_5, B"10100";
+    B"001", state_7 => state_5, B"10010";
+    B"101", state_2 => state_1, B"00001";
+    B"101", state_5 => state_2, B"10001";
+    B"101", state_6 => state_2, B"10001";
+    B"101", state_7 => state_2, B"10001";
+    B"101", state_1 => state_5, B"01010";
+    B"101", state_3 => state_5, B"01010";
+    B"101", state_4 => state_5, B"10100";
+    B"010", state_2 => state_2, B"00001";
+    B"010", state_5 => state_2, B"10101";
+    B"010", state_6 => state_2, B"10101";
+    B"010", state_7 => state_2, B"10101";
+    B"010", state_1 => state_6, B"01000";
+    B"010", state_3 => state_6, B"01000";
+    B"010", state_4 => state_7, B"10000";
+  END TABLE;
+END;
