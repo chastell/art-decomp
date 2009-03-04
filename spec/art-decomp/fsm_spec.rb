@@ -2,9 +2,12 @@ describe FSM do
 
   context 'parsed from an example KISS file' do
 
+    before do
+      @opus = FSM.from_kiss 'spec/fixtures/opus'
+    end
+
     it 'should properly report the number of inputs' do
-      fsm = FSM.from_kiss 'spec/fixtures/opus'
-      fsm.input_count.should == 5
+      @opus.input_count.should == 5
     end
 
   end
