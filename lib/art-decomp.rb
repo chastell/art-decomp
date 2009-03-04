@@ -1,5 +1,9 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
+module ArtDecomp
+  DontCare = :-
+end
+
 require 'set'
 
 require 'art-decomp/arch'
