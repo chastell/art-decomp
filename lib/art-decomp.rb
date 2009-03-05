@@ -8,6 +8,7 @@ require 'set'
 
 require 'art-decomp/arch'
 require 'art-decomp/b'
+require 'art-decomp/blanket'
 require 'art-decomp/decomposer'
 require 'art-decomp/decomposition'
 require 'art-decomp/fsm'
