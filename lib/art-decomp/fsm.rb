@@ -17,6 +17,10 @@ module ArtDecomp class FSM
     @inputs, @outputs, @state, @next_state = inputs, outputs, state, next_state
   end
 
+  def beta_q
+    Blanket.from_array @state
+  end
+
   def input_count
     @inputs.size
   end
