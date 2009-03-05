@@ -14,4 +14,8 @@ module ArtDecomp class Arch
     [@pins, @pons] == [other.pins, other.pons]
   end
 
+  def hash
+    @pins.hash ^ @pons.hash
+  end
+
 end end
