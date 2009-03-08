@@ -10,4 +10,9 @@ describe Blanket do
       blanket.should == Blanket[B[0,1,4], B[1,2,5], B[1,3,6]]
   end
 
+  it 'should be inspectable and return a self-instanting form' do
+    Blanket[B[]].inspect.should == 'Blanket[]'
+    Blanket[B[1,2], B[0]].inspect.should == 'Blanket[B[0], B[1,2]]'
+  end
+
 end

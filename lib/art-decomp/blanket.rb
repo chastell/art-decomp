@@ -30,4 +30,10 @@ module ArtDecomp class Blanket
     @ints.hash
   end
 
+  def inspect
+    blocks = @ints.map { |i| (0...i.to_s(2).size).select { |bit| i[bit] == 1 } }
+    blocks = blocks.sort.map { |bl| "B[#{bl.join ','}]" }
+    "Blanket[#{blocks.join ', '}]"
+  end
+
 end end
