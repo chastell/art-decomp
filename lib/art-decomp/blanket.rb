@@ -22,6 +22,16 @@ module ArtDecomp class Blanket
     @ints = ints.to_set.delete 0
   end
 
+  def * other
+    ints = []
+    @ints.each do |this_int|
+      other.ints.each do |other_int|
+        ints << (this_int & other_int)
+      end
+    end
+    Blanket.new ints
+  end
+
   def == other
     @ints == other.ints
   end

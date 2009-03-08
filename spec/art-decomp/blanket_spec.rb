@@ -15,4 +15,10 @@ describe Blanket do
     Blanket[B[1,2], B[0]].inspect.should == 'Blanket[B[0], B[1,2]]'
   end
 
+  it 'should be multipliable by other Blankets' do
+    b1 = Blanket[B[1,2,3], B[4,5,6]]
+    b2 = Blanket[B[1,2], B[3,4], B[5,6]]
+    (b1 * b2).should == Blanket[B[1,2], B[3], B[4], B[5,6]]
+  end
+
 end
