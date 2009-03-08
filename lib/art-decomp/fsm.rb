@@ -17,6 +17,11 @@ module ArtDecomp class FSM
     @inputs, @outputs, @state, @next_state = inputs, outputs, state, next_state
   end
 
+  def beta_f
+    outs = @outputs.map { |output| Blanket.from_array output }
+    outs.inject(:*) * Blanket.from_array(@next_state)
+  end
+
   def beta_q
     Blanket.from_array @state
   end
