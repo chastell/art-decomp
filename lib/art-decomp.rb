@@ -6,6 +6,7 @@ end
 
 require 'set'
 
+require 'enumerable'
 require 'art-decomp/arch'
 require 'art-decomp/b'
 require 'art-decomp/blanket'
