@@ -9,13 +9,8 @@ describe Integer do
   end
 
   it 'should return ceil of base-2 logarithm' do
-    0.log2_ceil.should == 0
-    1.log2_ceil.should == 0
-    2.log2_ceil.should == 1
-    3.log2_ceil.should == 2
-    4.log2_ceil.should == 2
-    5.log2_ceil.should == 3
-    8.log2_ceil.should == 3
+    (0..9).map(&:log2_ceil).should == [0,0,1,2,2,3,3,3,3,4]
+    (2**69).log2_ceil.should == 69
   end
 
 end
