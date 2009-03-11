@@ -6,6 +6,7 @@ require 'set'
 
 require_relative 'enumerable'
 require_relative 'integer'
+require_relative 'set'
 require_relative 'art-decomp/arch'
 require_relative 'art-decomp/b'
 require_relative 'art-decomp/blanket'
