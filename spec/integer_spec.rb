@@ -5,7 +5,7 @@ describe Integer do
     0b111.bits.should    == [0,1,2]
     0b1000.bits.should   == [3]
     0b101010.bits.should == [1,3,5]
-    (2**80).bits.should  == [80]
+    (2**69).bits.should  == [69]
   end
 
   it 'should return ceil of base-2 logarithm' do
