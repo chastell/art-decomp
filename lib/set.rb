@@ -16,9 +16,7 @@ class Set
       end
       subblocks << [elem] unless placed
     end
-    size = subblocks.size
-    return 0 if size == 0 or size == 1
-    (size - 1).to_s(2).size
+    subblocks.size.log2_ceil
   end
 
 end
