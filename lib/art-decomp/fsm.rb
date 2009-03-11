@@ -26,6 +26,10 @@ module ArtDecomp class FSM
     Blanket.from_array @state
   end
 
+  def beta_x ins
+    ins.map { |i| Blanket.from_array @inputs[i] }.inject(:*)
+  end
+
   def input_count
     @inputs.size
   end
