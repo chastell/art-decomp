@@ -1,17 +1,18 @@
 module ArtDecomp::UVGenerator class Braindead
 
   def initialize fsm, archs
-    @fsm, @archs = fsm, archs
+    @input_count = fsm.input_count
+    @max_v_size  = archs.map { |a| a.pins }.max
   end
 
   def each
-    inputs = (0...@fsm.input_count).to_a
-    (0...2**@fsm.input_count).each do |vector|
+    inputs = (0...@input_count).to_a
+    (0...2**@input_count).each do |vector|
       u, v = [], []
-      @fsm.input_count.times do |bit|
+      @input_count.times do |bit|
         (vector[bit].zero? ? u : v) << inputs[bit]
       end
-      yield u, v if v.size <= @archs.map{|a| a.pins}.max
+      yield u, v if v.size <= @max_v_size
     end
   end
 
