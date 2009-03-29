@@ -11,6 +11,10 @@ module ArtDecomp class Graph
     end
   end
 
+  def degree vertex
+    edges.select { |e| e.include? vertex }.size
+  end
+
   def edges
     @edges.keys.to_set
   end
