@@ -16,4 +16,8 @@ describe Graph do
     degrees.each { |vert, deg| @graph.degree(vert).should == deg }
   end
 
+  it 'should return the proper Blanket obtained by colouring the vertices' do
+    @graph.blanket_from_colouring.should == Blanket[B[1,2,5,6], B[3,4,8,9], B[7]]
+  end
+
 end

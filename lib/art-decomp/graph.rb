@@ -12,8 +12,28 @@ module ArtDecomp class Graph
     end
   end
 
+  def blanket_from_colouring
+    colours = {}
+    @vertices.sort_by { |v| degree(v) }.reverse_each do |vertex|
+      forbidden = adjacent(vertex).map { |v| colours[v] }.to_set
+      colour = :a
+      colour = colour.next while forbidden.include? colour
+      colours[vertex] = colour
+    end
+    blocks = Hash.new 0
+    colours.each { |vertex, colour| blocks[colour] |= vertex }
+    Blanket.new blocks.values
+  end
+
   def degree vertex
     @edges.select { |e| e.include? vertex }.size
+  end
+
+  private
+
+  def adjacent vertex
+    return Set[] unless @edges.any? { |e| e.include? vertex }
+    @edges.select { |e| e.include? vertex }.inject(:|).delete vertex
   end
 
 end end
