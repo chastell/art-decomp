@@ -26,7 +26,7 @@ module ArtDecomp class Graph
   end
 
   def degree vertex
-    @edges.select { |e| e.include? vertex }.size
+    @edges.count { |e| e.include? vertex }
   end
 
   private
