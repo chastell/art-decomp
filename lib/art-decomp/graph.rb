@@ -16,6 +16,7 @@ module ArtDecomp class Graph
     colours = {}
     @vertices.sort_by { |v| degree(v) }.reverse_each do |vertex|
       forbidden = adjacent(vertex).map { |v| colours[v] }.to_set
+      # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a
       colour = colour.next while forbidden.include? colour
       colours[vertex] = colour
