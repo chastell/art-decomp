@@ -45,7 +45,7 @@ module ArtDecomp class Blanket
     "Blanket[#{blocks.join ', '}]"
   end
 
-  def separations
+  def seps
     # FIXME: consider an algorithm with lesser complexity
     seps = Set[]
     singles = 0

@@ -2,7 +2,7 @@ module ArtDecomp::QuGenerator class BlockTable
 
   def initialize fsm, archs
     @fsm  = fsm
-    @seps = fsm.beta_f.separations
+    @seps = fsm.beta_f.seps
   end
 
   def each u, v

@@ -22,11 +22,11 @@ describe Blanket do
   end
 
   it 'should properly expose the separations it provides/requires' do
-    Blanket[].separations.should                   == Set[]
-    Blanket[B[1]].separations.should               == Set[]
-    Blanket[B[1], B[2], B[]].separations.should    == Set[Sep[1,2]]
-    Blanket[B[1,2], B[3,4]].separations.should     == Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]]
-    Blanket[B[1,2,3], B[2,3,4]].separations.should == Set[Sep[1,4]]
+    Blanket[].seps.should                   == Set[]
+    Blanket[B[1]].seps.should               == Set[]
+    Blanket[B[1], B[2], B[]].seps.should    == Set[Sep[1,2]]
+    Blanket[B[1,2], B[3,4]].seps.should     == Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]]
+    Blanket[B[1,2,3], B[2,3,4]].seps.should == Set[Sep[1,4]]
   end
 
   it 'should properly report its size' do

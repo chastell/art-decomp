@@ -2,10 +2,10 @@ module ArtDecomp class Graph
 
   attr_reader :edges, :vertices
 
-  def initialize blanket, separations
+  def initialize blanket, seps
     @vertices = blanket.ints.dup
     @edges    = Set[]
-    separations.each do |sep|
+    seps.each do |sep|
       @vertices.every_pair do |a, b|
         @edges << Set[a,b] unless (a & sep).zero? or (b & sep).zero? or (a | b) & sep != sep
       end
