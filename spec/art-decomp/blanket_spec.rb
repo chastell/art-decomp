@@ -29,4 +29,11 @@ describe Blanket do
     Blanket[B[1,2,3], B[2,3,4]].separations.should == Set[Sep[1,4]]
   end
 
+  it 'should properly report its size' do
+    Blanket[].size.should                   == 0
+    Blanket[B[1]].size.should               == 1
+    Blanket[B[1], B[2], B[]].size.should    == 2
+    Blanket[B[1,2,3], B[2,3,4]].size.should == 2
+  end
+
 end

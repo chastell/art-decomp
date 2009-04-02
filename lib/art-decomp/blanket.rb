@@ -61,4 +61,8 @@ module ArtDecomp class Blanket
     seps
   end
 
+  def size
+    @ints.size
+  end
+
 end end
