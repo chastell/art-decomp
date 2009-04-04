@@ -20,4 +20,10 @@ describe Graph do
     @graph.blanket_from_colouring.should == Blanket[B[1,2,5,6], B[3,4,8,9], B[7]]
   end
 
+  it 'should report whether it’s complete' do
+    complete = Graph.new Blanket[B[1], B[2], B[3]], Set[Sep[1,2], Sep[1,3], Sep[2,3]]
+    complete.should   be_complete
+    @graph.should_not be_complete
+  end
+
 end

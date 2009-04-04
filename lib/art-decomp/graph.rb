@@ -26,6 +26,10 @@ module ArtDecomp class Graph
     Blanket.new blocks.values
   end
 
+  def complete?
+    2 * @edges.size == @vertices.size * (@vertices.size - 1)
+  end
+
   def degree vertex
     @edges.count { |e| e.include? vertex }
   end
