@@ -1,4 +1,4 @@
-module ArtDecomp::QvGenerator class BlockGraph
+module ArtDecomp::QvGenerator class GraphColouring
 
   def initialize fsm, arch
     @fsm, @beta_f, @beta_q = fsm, fsm.beta_f, fsm.beta_q

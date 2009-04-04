@@ -1,4 +1,4 @@
-describe QvGenerator::BlockGraph do
+describe QvGenerator::GraphColouring do
 
   context 'when generating G and Qv blankets' do
 
@@ -12,7 +12,7 @@ describe QvGenerator::BlockGraph do
       fsm.should_receive(:beta_x).with([0]).and_return beta_u
       fsm.should_receive(:beta_x).with([1]).and_return beta_v
       archs = Set[Arch[3,1]]
-      gb = QvGenerator::BlockGraph.new fsm, archs
+      gb = QvGenerator::GraphColouring.new fsm, archs
 
       beta_qv, beta_g = nil, nil
       gb.each([0], [1], beta_qu) { |qv, g| beta_qv, beta_g = qv, g }
