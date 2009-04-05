@@ -34,11 +34,25 @@ module ArtDecomp class Graph
     @edges.count { |e| e.include? vertex }
   end
 
+  def merge_until_complete!
+    until complete?
+      @vertices.sort_by { |v| degree v }.every_pair do |a, b|
+        next if @edges.include? Set[a, b]
+        adjacent = adjacent(a) + adjacent(b)
+        @vertices.subtract [a, b]
+        @vertices << (a | b)
+        @edges.delete_if { |e| e.include? a or e.include? b }
+        adjacent.each { |v| @edges << Set[a | b, v] }
+        break
+      end
+    end
+  end
+
   private
 
   def adjacent vertex
     return Set[] unless @edges.any? { |e| e.include? vertex }
-    @edges.select { |e| e.include? vertex }.inject(:|).delete vertex
+    @edges.select { |e| e.include? vertex }.inject(:|) - Set[vertex]
   end
 
 end end

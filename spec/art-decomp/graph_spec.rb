@@ -26,4 +26,11 @@ describe Graph do
     @graph.should_not be_complete
   end
 
+  it 'should properly merge until it’s complete' do
+    @graph.merge_until_complete!
+    @graph.vertices.size.should == 3
+    @graph.vertices.should include(B[5,6])
+    @graph.should be_complete
+  end
+
 end
