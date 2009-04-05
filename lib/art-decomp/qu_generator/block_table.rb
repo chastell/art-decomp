@@ -9,17 +9,17 @@ module ArtDecomp::QuGenerator class BlockTable
     @rows   = @fsm.beta_q.ints.dup
     @cols   = @fsm.beta_x(u).ints
     @r_adms = {}
-    fold_matching
+    fold_matching!
     yield Blanket.new @rows
     while @rows.size > 1
-      fold
+      fold!
       yield Blanket.new @rows
     end
   end
 
   private
 
-  def fold
+  def fold!
     pins = @rows.size.log2_ceil
     until @rows.size.log2_ceil < pins
       @rows.every_pair do |a, b|
@@ -32,7 +32,7 @@ module ArtDecomp::QuGenerator class BlockTable
     end
   end
 
-  def fold_matching
+  def fold_matching!
     begin
       found = false
       @rows.every_pair do |a, b|
