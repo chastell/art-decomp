@@ -54,13 +54,13 @@ module ArtDecomp class Graph
 
   private
 
-  def adjacent vertex
-    return Set[] unless @edges.any? { |e| e.include? vertex }
-    @edges.select { |e| e.include? vertex }.inject(:|) - Set[vertex]
+  def adjacent *vertices
+    return Set[] if @edges.all? { |edge| (edge & vertices).empty? }
+    @edges.reject { |edge| (edge & vertices).empty? }.inject(:|) - vertices
   end
 
   def merge! a, b
-    adjacent = adjacent(a) + adjacent(b) - Set[a, b]
+    adjacent = adjacent a, b
     @vertices.subtract [a, b]
     @vertices << (a|b)
     @edges.delete_if { |e| e.include? a or e.include? b }
