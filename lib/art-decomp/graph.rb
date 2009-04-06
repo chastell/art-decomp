@@ -34,6 +34,18 @@ module ArtDecomp class Graph
     @edges.count { |e| e.include? vertex }
   end
 
+  def merge_by_edge_labels!
+    pins = @vertices.size.log2_ceil
+    until @vertices.size.log2_ceil < pins
+      a, b = *@edges.sort_by { |e| yield *e }.first
+      adjacent = adjacent(a) + adjacent(b) - Set[a, b]
+      @vertices.subtract [a, b]
+      @vertices << (a | b)
+      @edges.delete_if { |e| e.include? a or e.include? b }
+      adjacent.each { |v| @edges << Set[a | b, v] }
+    end
+  end
+
   def merge_until_complete!
     until complete?
       @vertices.sort_by { |v| degree v }.every_pair do |a, b|

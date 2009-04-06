@@ -33,4 +33,13 @@ describe Graph do
     @graph.should be_complete
   end
 
+  it 'should properly merge based on edge weights' do
+    b1234 = Blanket[B[1], B[2], B[3], B[4]]
+    graph = Graph.new b1234, b1234.seps
+    graph.should be_complete
+    graph.merge_by_edge_labels! { |a, b| a | b }
+    graph.vertices.should == Set[B[1,2,3], B[4]]
+    graph.should be_complete
+  end
+
 end
