@@ -14,8 +14,8 @@ module ArtDecomp class Graph
 
   def blanket_from_colouring
     colours = {}
-    @vertices.sort_by { |v| degree(v) }.reverse_each do |vertex|
-      forbidden = adjacent(vertex).map { |v| colours[v] }.to_set
+    @vertices.sort_by { |vert| degree vert }.reverse_each do |vertex|
+      forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
       # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a
       colour = colour.next while forbidden.include? colour
@@ -31,20 +31,20 @@ module ArtDecomp class Graph
   end
 
   def degree vertex
-    @edges.count { |e| e.include? vertex }
+    @edges.count { |edge| edge.include? vertex }
   end
 
   def merge_by_edge_labels!
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins
-      a, b = *@edges.sort_by { |e| yield *e }.first
+      a, b = *@edges.sort_by { |edge| yield *edge }.first
       merge! a, b
     end
   end
 
   def merge_until_complete!
     until complete?
-      @vertices.sort_by { |v| degree v }.every_pair do |a, b|
+      @vertices.sort_by { |vert| degree vert }.every_pair do |a, b|
         next if @edges.include? Set[a, b]
         merge! a, b
         break
@@ -62,9 +62,9 @@ module ArtDecomp class Graph
   def merge! a, b
     adjacent = adjacent a, b
     @vertices.subtract [a, b]
-    @vertices << (a|b)
-    @edges.delete_if { |e| e.include? a or e.include? b }
-    adjacent.each { |v| @edges << Set[a|b, v] }
+    @vertices.add a|b
+    @edges.delete_if { |edge| edge.include? a or edge.include? b }
+    adjacent.each { |vert| @edges << Set[a|b, vert] }
   end
 
 end end
