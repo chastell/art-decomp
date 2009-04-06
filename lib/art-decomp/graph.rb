@@ -38,11 +38,7 @@ module ArtDecomp class Graph
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins
       a, b = *@edges.sort_by { |e| yield *e }.first
-      adjacent = adjacent(a) + adjacent(b) - Set[a, b]
-      @vertices.subtract [a, b]
-      @vertices << (a | b)
-      @edges.delete_if { |e| e.include? a or e.include? b }
-      adjacent.each { |v| @edges << Set[a | b, v] }
+      merge! a, b
     end
   end
 
@@ -50,11 +46,7 @@ module ArtDecomp class Graph
     until complete?
       @vertices.sort_by { |v| degree v }.every_pair do |a, b|
         next if @edges.include? Set[a, b]
-        adjacent = adjacent(a) + adjacent(b)
-        @vertices.subtract [a, b]
-        @vertices << (a | b)
-        @edges.delete_if { |e| e.include? a or e.include? b }
-        adjacent.each { |v| @edges << Set[a | b, v] }
+        merge! a, b
         break
       end
     end
@@ -65,6 +57,14 @@ module ArtDecomp class Graph
   def adjacent vertex
     return Set[] unless @edges.any? { |e| e.include? vertex }
     @edges.select { |e| e.include? vertex }.inject(:|) - Set[vertex]
+  end
+
+  def merge! a, b
+    adjacent = adjacent(a) + adjacent(b) - Set[a, b]
+    @vertices.subtract [a, b]
+    @vertices << (a|b)
+    @edges.delete_if { |e| e.include? a or e.include? b }
+    adjacent.each { |v| @edges << Set[a|b, v] }
   end
 
 end end
