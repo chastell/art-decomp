@@ -37,6 +37,7 @@ module ArtDecomp class Graph
   def merge_by_edge_labels!
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins
+      # FIXME: edge labels can/should be cached from previous computations
       a, b = *@edges.sort_by { |edge| yield *edge }.first
       merge! a, b
     end
