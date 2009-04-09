@@ -35,6 +35,7 @@ module ArtDecomp class Graph
   end
 
   def merge_by_edge_labels!
+    return if @vertices.size == 1
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
