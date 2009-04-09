@@ -43,6 +43,17 @@ module ArtDecomp class Graph
     end
   end
 
+  def merge_by_vertex_degrees!
+    pins = @vertices.size.log2_ceil
+    until @vertices.size.log2_ceil < pins or complete?
+      @vertices.sort_by { |vert| degree vert }.every_pair do |a, b|
+        next if @edges.include? Set[a, b]
+        merge! a, b
+        break
+      end
+    end
+  end
+
   def merge_until_complete!
     until complete?
       @vertices.sort_by { |vert| degree vert }.every_pair do |a, b|

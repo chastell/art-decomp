@@ -42,4 +42,12 @@ describe Graph do
     graph.should be_complete
   end
 
+  it 'should properly merge based on vertex degrees' do
+    graph = Graph.new Blanket[B[1], B[2], B[3], B[4], B[5], B[6]], Set[Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
+    graph.merge_by_vertex_degrees!
+    graph.vertices.should == Set[B[1,2,3], B[4], B[5], B[6]]
+    graph.merge_by_vertex_degrees!
+    graph.vertices.size.should == 3
+  end
+
 end
