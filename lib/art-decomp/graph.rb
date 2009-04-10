@@ -56,13 +56,7 @@ module ArtDecomp class Graph
   end
 
   def merge_until_complete!
-    until complete?
-      @vertices.sort_by { |vert| degree vert }.every_pair do |a, b|
-        next if @edges.include? Set[a, b]
-        merge! a, b
-        break
-      end
-    end
+    merge_by_vertex_degrees! until complete?
   end
 
   private
