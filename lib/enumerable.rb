@@ -1,6 +1,7 @@
 module Enumerable
 
   def every_pair
+    # FIXME: use #combination where feasible
     each_with_index do |a, i|
       each_with_index do |b, j|
         yield a, b if i < j
@@ -9,14 +10,8 @@ module Enumerable
   end
 
   def pairs
-    return combination(2) if respond_to? :combination
-    Enumerator.new do |yielder|
-      each_with_index do |a, i|
-        each_with_index do |b, j|
-          yielder.yield a, b if i < j
-        end
-      end
-    end
+    # FIXME: use #combination where feasible
+    enum_for :every_pair
   end
 
 end
