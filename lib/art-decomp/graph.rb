@@ -14,7 +14,7 @@ module ArtDecomp class Graph
 
   def blanket_from_colouring
     colours = {}
-    @vertices.sort_by { |vert| degree vert }.reverse_each do |vertex|
+    @vertices.sort_by { |vert| -degree(vert) }.each do |vertex|
       forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
       # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a
@@ -47,7 +47,7 @@ module ArtDecomp class Graph
   def merge_by_vertex_degrees!
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins or complete?
-      a, b = *@vertices.sort_by { |v| degree v }.pairs.find { |e| not @edges.include? e }
+      a, b = *@vertices.sort_by { |v| -degree(v) }.pairs.find { |a,b| not @edges.include? Set[a,b] }
       merge! a, b
     end
   end

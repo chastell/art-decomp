@@ -31,7 +31,7 @@ describe Graph do
   it 'should properly merge until it’s complete' do
     @graph.merge_until_complete!
     @graph.vertices.size.should == 3
-    @graph.vertices.should include(B[5,6])
+    @graph.vertices.should include(B[1,2,5,6])
     @graph.should be_complete
   end
 
@@ -49,7 +49,7 @@ describe Graph do
   it 'should properly merge based on vertex degrees' do
     graph = Graph.new Blanket[B[1], B[2], B[3], B[4], B[5], B[6]], Set[Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
     graph.merge_by_vertex_degrees!
-    graph.vertices.should == Set[B[1,2,3], B[4], B[5], B[6]]
+    graph.vertices.should == Set[B[1,2,4], B[3], B[5], B[6]]
     graph.merge_by_vertex_degrees!
     graph.vertices.size.should == 3
   end
