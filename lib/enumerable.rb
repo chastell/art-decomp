@@ -1,7 +1,7 @@
 module Enumerable
 
   def pairs
-    # FIXME: use #combination where feasible
+    return combination 2 if respond_to? :combination
     Enumerator.new do |yielder|
       each_with_index do |a, i|
         each_with_index do |b, j|
