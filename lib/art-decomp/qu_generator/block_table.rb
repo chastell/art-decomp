@@ -22,7 +22,7 @@ module ArtDecomp::QuGenerator class BlockTable
   def fold!
     pins = @rows.size.log2_ceil
     until @rows.size.log2_ceil < pins
-      @rows.every_pair do |a, b|
+      @rows.pairs.each do |a, b|
         @r_adms[Set[a, b]] ||= @cols.map { |col| @seps.r_adm((a | b) & col) }.max
       end
       a, b = *@r_adms.min_by { |key, val| val }.first
@@ -33,17 +33,12 @@ module ArtDecomp::QuGenerator class BlockTable
   end
 
   def fold_matching!
-    begin
-      found = false
-      @rows.every_pair do |a, b|
-        if @cols.all? { |col| (a & col).zero? or (b & col).zero? }
-          @rows.subtract [a, b]
-          @rows << (a | b)
-          found = true
-          break
-        end
-      end
-    end while found
+    loop do
+      a, b = *@rows.pairs.find { |a, b| @cols.all? { |col| (a & col).zero? or (b & col).zero? } }
+      break unless a and b
+      @rows.subtract [a, b]
+      @rows << (a | b)
+    end
   end
 
 end end

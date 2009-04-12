@@ -6,7 +6,7 @@ module ArtDecomp class Graph
     @vertices = blanket.ints.dup
     @edges    = Set[]
     seps.each do |sep|
-      @vertices.every_pair do |a, b|
+      @vertices.pairs.each do |a, b|
         @edges << Set[a,b] unless (a & sep).zero? or (b & sep).zero? or (a | b) & sep != sep
       end
     end
@@ -47,11 +47,8 @@ module ArtDecomp class Graph
   def merge_by_vertex_degrees!
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins or complete?
-      @vertices.sort_by { |vert| degree vert }.every_pair do |a, b|
-        next if @edges.include? Set[a, b]
-        merge! a, b
-        break
-      end
+      a, b = *@vertices.sort_by { |v| degree v }.pairs.find { |e| not @edges.include? e }
+      merge! a, b
     end
   end
 

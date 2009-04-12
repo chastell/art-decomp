@@ -1,10 +1,5 @@
 module Enumerable
 
-  def every_pair &block
-    # FIXME: use #combination where feasible
-    pairs.each &block
-  end
-
   def pairs
     # FIXME: use #combination where feasible
     Enumerator.new do |yielder|

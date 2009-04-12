@@ -49,8 +49,8 @@ module ArtDecomp class Blanket
     # FIXME: consider an algorithm with lesser complexity
     seps = Set[]
     singles = 0
-    @ints.every_pair { |int1, int2| singles |= int1 ^ int2 }
-    singles.bits.every_pair do |elem1, elem2|
+    @ints.pairs.each { |int1, int2| singles |= int1 ^ int2 }
+    singles.bits.pairs.each do |elem1, elem2|
       sep = Sep[elem1, elem2]
       found = false
       @ints.each do |int|
