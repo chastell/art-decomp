@@ -35,13 +35,14 @@ module ArtDecomp class Graph
   end
 
   def merge_by_edge_labels!
-    return if @vertices.size == 1
+    return self if @vertices.size == 1
     pins = @vertices.size.log2_ceil
     until @vertices.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
       a, b = *@edges.sort_by { |edge| yield *edge }.first
       merge! a, b
     end
+    self
   end
 
   def merge_by_vertex_degrees!
@@ -50,10 +51,12 @@ module ArtDecomp class Graph
       a, b = *@vertices.sort_by { |v| -degree(v) }.pairs.find { |a,b| not @edges.include? Set[a,b] }
       merge! a, b
     end
+    self
   end
 
   def merge_until_complete!
     merge_by_vertex_degrees! until complete?
+    self
   end
 
   private

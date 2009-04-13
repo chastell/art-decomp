@@ -28,29 +28,29 @@ describe Graph do
     @graph.should_not be_complete
   end
 
-  it 'should properly merge until it’s complete' do
-    @graph.merge_until_complete!
+  it 'should properly merge until it’s complete and return self' do
+    @graph.merge_until_complete!.should be_a(Graph)
     @graph.vertices.size.should == 3
     @graph.vertices.should include(B[1,2,5,6])
     @graph.should be_complete
   end
 
-  it 'should properly merge based on edge weights' do
+  it 'should properly merge based on edge weights and return self' do
     b1234 = Blanket[B[1], B[2], B[3], B[4]]
     graph = Graph.new b1234, b1234.seps
-    graph.merge_by_edge_labels! { |a, b| a | b }
+    graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
     graph.vertices.should == Set[B[1,2,3], B[4]]
-    graph.merge_by_edge_labels! { |a, b| a | b }
+    graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
     graph.vertices.should == Set[B[1,2,3,4]]
-    graph.merge_by_edge_labels! { |a, b| a | b }
+    graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
     graph.vertices.should == Set[B[1,2,3,4]]
   end
 
-  it 'should properly merge based on vertex degrees' do
+  it 'should properly merge based on vertex degrees and return self' do
     graph = Graph.new Blanket[B[1], B[2], B[3], B[4], B[5], B[6]], Set[Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
-    graph.merge_by_vertex_degrees!
+    graph.merge_by_vertex_degrees!.should be_a(Graph)
     graph.vertices.should == Set[B[1,2,4], B[3], B[5], B[6]]
-    graph.merge_by_vertex_degrees!
+    graph.merge_by_vertex_degrees!.should be_a(Graph)
     graph.vertices.size.should == 3
   end
 
