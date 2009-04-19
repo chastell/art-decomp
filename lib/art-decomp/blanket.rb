@@ -52,11 +52,7 @@ module ArtDecomp class Blanket
     @ints.pairs.each { |int1, int2| singles |= int1 ^ int2 }
     singles.bits.pairs.each do |elem1, elem2|
       sep = Sep[elem1, elem2]
-      found = false
-      @ints.each do |int|
-        found = true and break if int & sep == sep
-      end
-      seps << sep unless found
+      seps << sep unless @ints.any? { |int| int & sep == sep }
     end
     seps
   end
