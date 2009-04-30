@@ -67,11 +67,11 @@ module ArtDecomp class Graph
   end
 
   def merge! a, b
-    adjacent = adjacent a, b
+    new_edges = adjacent(a, b).map { |vert| Set[a|b, vert] }
     @vertices.subtract [a, b]
     @vertices.add a|b
     @edges.delete_if { |edge| edge.include? a or edge.include? b }
-    @edges.merge adjacent.map { |vert| Set[a|b, vert] }
+    @edges.merge new_edges
   end
 
 end end
