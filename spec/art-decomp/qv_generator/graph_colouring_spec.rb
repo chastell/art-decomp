@@ -15,13 +15,16 @@ describe QvGenerator::GraphColouring do
       archs = Set[Arch[3,1]]
       gc = QvGenerator::GraphColouring.new fsm, archs
 
-      beta_qv, beta_g = nil, nil
-      gc.each([0], [1], beta_qu) { |qv, g| beta_qv, beta_g = qv, g }
-      beta_qv.should == Blanket[B[1,2], B[3,4,5,6]]
-      beta_g.should  == Blanket[B[1], B[2,3,5], B[4,6]]
+      pairs = []
+      gc.each([0], [1], beta_qu) { |qv, g| pairs << [qv, g] }
+      pairs.size.should  == 2
+      pairs.first.should == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
+      pairs.last.should  == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
 
-      beta_f.seps.should be_subset(beta_u.seps + beta_qu.seps + beta_g.seps)
-      beta_g.seps.should be_subset(beta_v.seps + beta_qv.seps)
+      pairs.each do |beta_qv, beta_g|
+        beta_f.seps.should be_subset(beta_u.seps + beta_qu.seps + beta_g.seps)
+        beta_g.seps.should be_subset(beta_v.seps + beta_qv.seps)
+      end
     end
 
   end
