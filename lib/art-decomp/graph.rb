@@ -12,6 +12,11 @@ module ArtDecomp class Graph
     end
   end
 
+  def adjacent *vertices
+    return Set[] if @edges.all? { |edge| (edge & vertices).empty? }
+    @edges.reject { |edge| (edge & vertices).empty? }.inject(:|) - vertices
+  end
+
   def blanket_from_colouring
     colours = {}
     @vertices.sort_by { |vert| -degree(vert) }.each do |vertex|
@@ -60,11 +65,6 @@ module ArtDecomp class Graph
   end
 
   private
-
-  def adjacent *vertices
-    return Set[] if @edges.all? { |edge| (edge & vertices).empty? }
-    @edges.reject { |edge| (edge & vertices).empty? }.inject(:|) - vertices
-  end
 
   def merge! a, b
     new_edges = adjacent(a, b).map { |vert| Set[a|b, vert] }

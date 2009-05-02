@@ -54,4 +54,10 @@ describe Graph do
     graph.vertices.size.should == 3
   end
 
+  it 'should report a given vertex’s adjacent vertices' do
+    @graph.adjacent(B[3,4]).should == Set[B[5,6]]
+    @graph.adjacent(B[1,2]).should == Set[]
+    @graph.adjacent(B[5,6], B[7]).should == Set[B[3,4], B[8,9]]
+  end
+
 end
