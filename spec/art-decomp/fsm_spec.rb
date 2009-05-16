@@ -31,6 +31,12 @@ describe FSM do
       @mc.beta_x([1,2]).should == Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9], B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
     end
 
+    it 'should properly generate its KISS representation' do
+      @opus.to_kiss.should == File.read('spec/fixtures/opus')
+      @lion.to_kiss.should == File.read('spec/fixtures/lion')
+      @mc.to_kiss.should   == File.read('spec/fixtures/mc')
+    end
+
   end
 
 end

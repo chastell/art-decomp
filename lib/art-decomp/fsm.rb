@@ -34,4 +34,14 @@ module ArtDecomp class FSM
     @inputs.size
   end
 
+  def to_kiss
+    ins  = @inputs.transpose
+    outs = @outputs.transpose
+    st   = @state.map      { |e| e == DontCare ? '*' : e }
+    nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
+    lines = [".i #{@inputs.size}", ".o #{@outputs.size}", ".p #{@state.size}", ".s #{(@state + @next_state - [DontCare]).uniq.size}"]
+    lines += (0...@state.size).map { |i| [ins[i].join, st[i], nxt[i], outs[i].join].join ' ' }
+    lines.join("\n") + "\n"
+  end
+
 end end
