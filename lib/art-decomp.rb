@@ -5,6 +5,7 @@ end
 require 'set'
 
 require_relative 'enumerable'
+require_relative 'file'
 require_relative 'integer'
 require_relative 'set'
 require_relative 'art-decomp/arch'
