@@ -85,9 +85,24 @@ describe Executable do
     decomposer.should_receive(:each).and_return [:d1, :d2, :d3].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_class => UVGenerator::Braindead, :qu_class => QuGenerator::BlockTable, :qv_class => QvGenerator::GraphColouring).and_return decomposer
 
-    Executable.new(@args).run
+    Executable.new(@args).run false
     decs = Marshal.load(File.read(File.join @dir, 'decompositions'))
     decs.should == [:d1, :d2, :d3]
+  end
+
+  it 'should create files holding the decomposed G and H blocks' do
+    d0 = mock Decomposition, :g_table => 'd0 G table', :h_table => 'd0 H table'
+    d1 = mock Decomposition, :g_table => 'd1 G table', :h_table => 'd1 H table'
+    decomposer = mock Decomposer, :each => [d0, d1].each
+    Decomposer.should_receive(:new).and_return decomposer
+    Marshal.should_receive :dump
+
+    Executable.new(@args).run
+
+    File.read(File.join @dir, '0', 'g').should == 'd0 G table'
+    File.read(File.join @dir, '0', 'h').should == 'd0 H table'
+    File.read(File.join @dir, '1', 'g').should == 'd1 G table'
+    File.read(File.join @dir, '1', 'h').should == 'd1 H table'
   end
 
 end

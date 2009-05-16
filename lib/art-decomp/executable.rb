@@ -32,10 +32,20 @@ module ArtDecomp class Executable
     @qv_class = eval "QvGenerator::" + opts[:qv]
   end
 
-  def run
+  def run dump_tables = true
     decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_class => @uv_class, :qu_class => @qu_class, :qv_class => @qv_class
+    decs = []
+    decomposer.each.with_index do |dec, i|
+      decs << dec
+      if dump_tables
+        Dir.mkdir File.join(@dir, i.to_s)
+        File.open(File.join(@dir, i.to_s, 'g'), 'w') { |f| f << dec.g_table }
+        File.open(File.join(@dir, i.to_s, 'h'), 'w') { |f| f << dec.h_table }
+      end
+    end
+
     filename = File.join @dir, 'decompositions'
-    File.open(filename, 'w') { |f| f << Marshal.dump(decomposer.each.to_a) }
+    File.open(filename, 'w') { |f| f << Marshal.dump(decs) }
   end
 
 end end
