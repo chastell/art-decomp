@@ -39,13 +39,12 @@ module ArtDecomp class Executable
       decs << dec
       if dump_tables
         Dir.mkdir File.join(@dir, i.to_s)
-        File.open(File.join(@dir, i.to_s, 'g'), 'w') { |f| f << dec.g_table }
-        File.open(File.join(@dir, i.to_s, 'h'), 'w') { |f| f << dec.h_table }
+        File.write_data File.join(@dir, i.to_s, 'g'), dec.g_table
+        File.write_data File.join(@dir, i.to_s, 'h'), dec.h_table
       end
     end
 
-    filename = File.join @dir, 'decompositions'
-    File.open(filename, 'w') { |f| f << Marshal.dump(decs) }
+    File.dump_object File.join(@dir, 'decompositions'), decs
   end
 
 end end
