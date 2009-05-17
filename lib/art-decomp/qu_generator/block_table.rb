@@ -28,7 +28,7 @@ module ArtDecomp::QuGenerator class BlockTable
       a, b = *@r_adms.min_by { |key, val| val }.first
       @r_adms.delete_if { |key, val| key.include? a or key.include? b }
       @rows.subtract [a, b]
-      @rows << (a | b)
+      @rows.add a|b
     end
   end
 
@@ -37,7 +37,7 @@ module ArtDecomp::QuGenerator class BlockTable
       a, b = *@rows.pairs.find { |a, b| @cols.all? { |col| (a & col).zero? or (b & col).zero? } }
       break unless a and b
       @rows.subtract [a, b]
-      @rows << (a | b)
+      @rows.add a|b
     end
   end
 
