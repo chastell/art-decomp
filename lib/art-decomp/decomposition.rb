@@ -1,7 +1,5 @@
 module ArtDecomp class Decomposition
 
-  attr_reader :fsm, :u, :v, :qu, :qv, :g
-
   def initialize fsm, u, v, qu, qv, g
     @fsm, @u, @v, @qu, @qv, @g = fsm, u, v, qu, qv, g
   end
@@ -13,5 +11,9 @@ module ArtDecomp class Decomposition
   def hash
     @fsm.hash ^ @u.hash ^ @v.hash ^ @qu.hash ^ @qv.hash ^ @g.hash
   end
+
+  protected
+
+  attr_reader :fsm, :u, :v, :qu, :qv, :g
 
 end end
