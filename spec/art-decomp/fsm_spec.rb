@@ -37,6 +37,16 @@ describe FSM do
       @mc.to_kiss.should   == File.read('spec/fixtures/mc')
     end
 
+    it 'should return a given input’s encoding for the given row(s)' do
+      @opus.x_encodings(2, B[0]).should   == [:'1']
+      @opus.x_encodings(0, B[0]).should   == [:'0', :'1']
+      @opus.x_encodings(0, B[7,8]).should == [:'0']
+    end
+
+    it 'should raise an exception if it’s asked about ambiguous encodings' do
+      lambda { @opus.x_encodings(0, B[8,9])}.should raise_error(RuntimeError, 'ambiguous FSM encoding query')
+    end
+
   end
 
 end

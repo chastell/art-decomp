@@ -44,4 +44,10 @@ module ArtDecomp class FSM
     lines.join("\n") + "\n"
   end
 
+  def x_encodings i, rows
+    encs = rows.bits.map { |row| @inputs[i][row] }.uniq - [DontCare]
+    raise 'ambiguous FSM encoding query' if encs.size > 1
+    encs.empty? ? [:'0', :'1'] : encs
+  end
+
 end end
