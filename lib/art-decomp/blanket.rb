@@ -36,6 +36,11 @@ module ArtDecomp class Blanket
     @ints == other.ints
   end
 
+  def encodings bits
+    sorted = @ints.sort
+    @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }.map(&:to_sym)
+  end
+
   def hash
     @ints.hash
   end

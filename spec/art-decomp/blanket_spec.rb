@@ -36,4 +36,13 @@ describe Blanket do
     Blanket[B[1,2,3], B[2,3,4]].size.should == 2
   end
 
+  it 'should return the Blanket’s ‘natural’ encoding(s), based on the provided subblock' do
+    blanket = Blanket[B[0,1,2], B[1,2,3], B[2,3,4]]
+    blanket.encodings(B[0,1,2]).should == [:'00']
+    blanket.encodings(B[1,2,3]).should == [:'01']
+    blanket.encodings(B[2,3,4]).should == [:'10']
+    blanket.encodings(B[1,2]).should   == [:'00', :'01']
+    blanket.encodings(B[2]).should     == [:'00', :'01', :'10']
+  end
+
 end
