@@ -91,8 +91,8 @@ describe Executable do
   end
 
   it 'should create files holding the decomposed G and H blocks' do
-    d0 = mock Decomposition, :g_table => 'd0 G table', :h_table => 'd0 H table'
-    d1 = mock Decomposition, :g_table => 'd1 G table', :h_table => 'd1 H table'
+    d0 = mock Decomposition, :g_kiss => 'd0 G table', :h_kiss => 'd0 H table'
+    d1 = mock Decomposition, :g_kiss => 'd1 G table', :h_kiss => 'd1 H table'
     decomposer = mock Decomposer, :each => [d0, d1].each
     Decomposer.should_receive(:new).and_return decomposer
     Marshal.should_receive :dump

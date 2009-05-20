@@ -39,8 +39,8 @@ module ArtDecomp class Executable
       decs << dec
       if dump_tables
         Dir.mkdir File.join(@dir, i.to_s)
-        File.write_data File.join(@dir, i.to_s, 'g'), dec.g_table
-        File.write_data File.join(@dir, i.to_s, 'h'), dec.h_table
+        File.write_data File.join(@dir, i.to_s, 'g'), dec.g_kiss
+        File.write_data File.join(@dir, i.to_s, 'h'), dec.h_kiss
       end
     end
 
