@@ -36,9 +36,14 @@ module ArtDecomp class Blanket
     @ints == other.ints
   end
 
-  def encodings bits
+  def encoding bits
     sorted = @ints.sort
-    @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }.map(&:to_sym)
+    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }.map(&:to_sym)
+    case encs.size
+    when 0, @ints.size then DontCare
+    when 1 then encs.first
+    else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{bits.bits.join ','}"
+    end
   end
 
   def hash
