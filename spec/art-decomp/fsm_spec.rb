@@ -38,13 +38,13 @@ describe FSM do
     end
 
     it 'should return a given input’s encoding for the given row(s)' do
-      @opus.x_encodings(2, B[0]).should   == [:'1']
-      @opus.x_encodings(0, B[0]).should   == [:'0', :'1']
-      @opus.x_encodings(0, B[7,8]).should == [:'0']
+      @opus.x_encoding(2, B[0]).should   == :'1'
+      @opus.x_encoding(0, B[0]).should   == DontCare
+      @opus.x_encoding(0, B[7,8]).should == :'0'
     end
 
-    it 'should raise an exception if it’s asked about ambiguous encodings' do
-      lambda { @opus.x_encodings(0, B[8,9])}.should raise_error(RuntimeError, 'ambiguous FSM encoding query')
+    it 'should raise an exception if it’s asked about ambiguous encoding' do
+      lambda { @opus.x_encoding 0, B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: input 0, block 8,9')
     end
 
   end
