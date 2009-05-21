@@ -11,10 +11,9 @@ module ArtDecomp class Decomposition
   def g_kiss
     lines = []
     (@fsm.beta_x(@v) * @qv).ints.each do |row|
-      Enumerable.all_combinations(@v.map { |i| @fsm.x_encodings(i, row) } + [@qv.encodings(row)]).each do |encs|
-        lines << encs.join + ' ' + @g.encodings(row).first
-      end
+      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + @g.encoding(row)
     end
+    # FIXME: drop lines with defined inputs if covered by a row with a don’t-care in the same column
     lines.sort.uniq.join("\n") + "\n"
   end
 
