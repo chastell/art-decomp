@@ -34,6 +34,11 @@ module ArtDecomp class FSM
     @inputs.size
   end
 
+  def state_rows_of_next_state_of rows
+    state = @next_state[rows.bits.first]
+    B[*(0...@state.size).select { |i| @state[i] == state }]
+  end
+
   def to_kiss
     ins  = @inputs.transpose
     outs = @outputs.transpose
