@@ -44,6 +44,12 @@ describe FSM do
       lambda { @opus.x_encoding 0, B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: input 0, block 8,9')
     end
 
+    it 'should return output encoding for the given row(s)' do
+      @opus.y_encoding(B[0]).should       == :'110000'
+      @opus.y_encoding(B[0,1,2,3]).should == :'110000'
+      lambda { @opus.y_encoding B[3,4] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: output, block 3,4')
+    end
+
     it 'should return the row(s) of a state matching next-state of given row(s)' do
       @opus.state_rows_of_next_state_of(B[20,21]).should == B[8,9,10,11,12,13,14]
     end
