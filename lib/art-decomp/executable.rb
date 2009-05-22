@@ -11,7 +11,7 @@ module ArtDecomp class Executable
       opt :qv,     'Qv generator',        :default => 'GraphColouring'
     end
 
-    Trollop::die          'no FSM given'                      unless args.first
+    Trollop::die          'no FSM given'                      if     args.empty?
     Trollop::die          'FSM does not exist'                unless File.exists? args.first
     Trollop::die          'no architecture given'             unless opts[:arch_given]
     Trollop::die :arch,   'not in the form of inputs/outputs' unless opts[:arch].all? { |s| s =~ /^\d+\/\d+$/ }
