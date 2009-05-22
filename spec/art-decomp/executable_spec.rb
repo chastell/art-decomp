@@ -99,10 +99,10 @@ describe Executable do
 
     Executable.new(@args).run
 
-    File.read(File.join @dir, '0', 'g').should == 'd0 G table'
-    File.read(File.join @dir, '0', 'h').should == 'd0 H table'
-    File.read(File.join @dir, '1', 'g').should == 'd1 G table'
-    File.read(File.join @dir, '1', 'h').should == 'd1 H table'
+    File.read(File.join @dir, '0.g').should == 'd0 G table'
+    File.read(File.join @dir, '0.h').should == 'd0 H table'
+    File.read(File.join @dir, '1.g').should == 'd1 G table'
+    File.read(File.join @dir, '1.h').should == 'd1 H table'
   end
 
 end
