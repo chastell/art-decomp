@@ -42,8 +42,7 @@ describe Decomposer do
 
       fsm = mock 'FSM'
       decomposer = Decomposer.new :fsm => fsm, :uv_class => uv_class, :qu_class => qu_class, :qv_class => qv_class
-      results = []
-      decomposer.each { |dec| results << dec }
+      results = decomposer.decompositions.to_a
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
       results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)

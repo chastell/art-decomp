@@ -8,11 +8,13 @@ module ArtDecomp class Decomposer
     @qv_gen = params[:qv_class].new @fsm, @archs
   end
 
-  def each
-    @uv_gen.each do |u, v|
-      @qu_gen.each u, v do |qu|
-        @qv_gen.each u, v, qu do |qv, g|
-          yield Decomposition.new @fsm, u, v, qu, qv, g
+  def decompositions
+    Enumerator.new do |yielder|
+      @uv_gen.each do |u, v|
+        @qu_gen.each u, v do |qu|
+          @qv_gen.each u, v, qu do |qv, g|
+            yielder.yield Decomposition.new @fsm, u, v, qu, qv, g
+          end
         end
       end
     end

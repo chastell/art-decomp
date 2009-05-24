@@ -82,7 +82,7 @@ describe Executable do
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer
-    decomposer.should_receive(:each).and_return [:d1, :d2, :d3].each
+    decomposer.should_receive(:decompositions).and_return [:d1, :d2, :d3].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_class => UVGenerator::Braindead, :qu_class => QuGenerator::BlockTable, :qv_class => QvGenerator::GraphColouring).and_return decomposer
 
     Executable.new(@args).run false
@@ -93,7 +93,7 @@ describe Executable do
   it 'should create files holding the decomposed G and H blocks' do
     d0 = mock Decomposition, :g_kiss => 'd0 G table', :h_kiss => 'd0 H table'
     d1 = mock Decomposition, :g_kiss => 'd1 G table', :h_kiss => 'd1 H table'
-    decomposer = mock Decomposer, :each => [d0, d1].each
+    decomposer = mock Decomposer, :decompositions => [d0, d1].each
     Decomposer.should_receive(:new).and_return decomposer
     Marshal.should_receive :dump
 

@@ -35,7 +35,7 @@ module ArtDecomp class Executable
   def run dump_tables = true
     decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_class => @uv_class, :qu_class => @qu_class, :qv_class => @qv_class
     decs = []
-    decomposer.each.with_index do |dec, i|
+    decomposer.decompositions.with_index do |dec, i|
       decs << dec
       File.write_data File.join(@dir, "#{i}.g"), dec.g_kiss if dump_tables
       File.write_data File.join(@dir, "#{i}.h"), dec.h_kiss if dump_tables
