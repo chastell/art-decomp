@@ -27,6 +27,7 @@ module ArtDecomp class FSM
   end
 
   def beta_x ins
+    return Blanket[B[*0...@state.size]] if ins.empty?
     ins.map { |i| Blanket.from_array @inputs[i] }.inject(:*)
   end
 

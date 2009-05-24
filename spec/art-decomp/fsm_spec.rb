@@ -29,6 +29,7 @@ describe FSM do
     it 'should properly generate selected inputs Blankets' do
       @mc.beta_x([0]).should   == Blanket[B[0,1,3,4,6,7,8,9], B[1,2,3,4,5,7,8,9]]
       @mc.beta_x([1,2]).should == Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9], B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
+      @mc.beta_x([]).should    == Blanket[B[0,1,2,3,4,5,6,7,8,9]]
     end
 
     it 'should properly generate its KISS representation' do
