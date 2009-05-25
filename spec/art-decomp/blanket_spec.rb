@@ -45,4 +45,13 @@ describe Blanket do
     lambda { blanket.encoding(B[1,2]) }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 1,2')
   end
 
+  it 'should return the Blanket’s ‘natural’ encodings in an Array if so asked' do
+    blanket = Blanket[B[0,1,2], B[1,2,3], B[2,3,4]]
+    blanket.encodings(B[0,1,2]).should == [:'00']
+    blanket.encodings(B[1,2,3]).should == [:'01']
+    blanket.encodings(B[2,3,4]).should == [:'10']
+    blanket.encodings(B[2]).should     == [DontCare]
+    blanket.encodings(B[1,2]).should   == [:'00', :'01']
+  end
+
 end

@@ -46,6 +46,12 @@ module ArtDecomp class Blanket
     end
   end
 
+  def encodings bits
+    sorted = @ints.sort
+    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }.map(&:to_sym)
+    encs.size == 0 or encs.size == @ints.size ? [DontCare] : encs
+  end
+
   def hash
     @ints.hash
   end
