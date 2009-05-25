@@ -21,4 +21,13 @@ describe Decomposition do
     decomposition.h_kiss.should == File.read('spec/fixtures/fsm.h')
   end
 
+  it 'should create the H block properly, even if the G blanket seems ambiguous' do
+    fsm = FSM.from_kiss 'spec/fixtures/lion'
+    qu  = Blanket[B[0,1,2,3,4,5], B[6,7,8,9,10]]
+    qv  = Blanket[B[0,1,2], B[3,4,5], B[6,7,8], B[9,10]]
+    g   = Blanket[B[0,1,7,8], B[0,2,9], B[3], B[4,5,6,10]]
+    decomposition = Decomposition.new fsm, [1], [0], qu, qv, g
+    decomposition.h_kiss.should == File.read('spec/fixtures/lion.h')
+  end
+
 end
