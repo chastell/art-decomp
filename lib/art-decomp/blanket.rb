@@ -38,9 +38,10 @@ module ArtDecomp class Blanket
 
   def encoding bits
     sorted = @ints.sort
-    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }
+    width = sorted.size.log2_ceil
+    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust width, '0' }
     case encs.size
-    when 0, @ints.size then DontCare.to_s
+    when 0, @ints.size then DontCare.to_s * width
     when 1 then encs.first
     else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{bits.bits.join ','}"
     end
@@ -48,8 +49,9 @@ module ArtDecomp class Blanket
 
   def encodings bits
     sorted = @ints.sort
-    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust(sorted.size.log2_ceil, '0') }
-    encs.size == 0 or encs.size == @ints.size ? [DontCare.to_s] : encs
+    width = sorted.size.log2_ceil
+    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust width, '0' }
+    encs.size == 0 or encs.size == @ints.size ? [DontCare.to_s * width] : encs
   end
 
   def hash

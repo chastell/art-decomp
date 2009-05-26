@@ -41,7 +41,7 @@ describe Blanket do
     blanket.encoding(B[0,1,2]).should == '00'
     blanket.encoding(B[1,2,3]).should == '01'
     blanket.encoding(B[2,3,4]).should == '10'
-    blanket.encoding(B[2]).should     == '-'
+    blanket.encoding(B[2]).should     == '--'
     lambda { blanket.encoding(B[1,2]) }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 1,2')
   end
 
@@ -50,7 +50,7 @@ describe Blanket do
     blanket.encodings(B[0,1,2]).should == ['00']
     blanket.encodings(B[1,2,3]).should == ['01']
     blanket.encodings(B[2,3,4]).should == ['10']
-    blanket.encodings(B[2]).should     == ['-']
+    blanket.encodings(B[2]).should     == ['--']
     blanket.encodings(B[1,2]).should   == ['00', '01']
   end
 
