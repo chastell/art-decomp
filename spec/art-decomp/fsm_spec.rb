@@ -3,9 +3,10 @@ describe FSM do
   context 'parsed from an example KISS file' do
 
     before do
-      @opus = FSM.from_kiss 'spec/fixtures/opus'
-      @lion = FSM.from_kiss 'spec/fixtures/lion'
-      @mc   = FSM.from_kiss 'spec/fixtures/mc'
+      @lion  = FSM.from_kiss 'spec/fixtures/lion'
+      @mark1 = FSM.from_kiss 'spec/fixtures/mark1'
+      @mc    = FSM.from_kiss 'spec/fixtures/mc'
+      @opus  = FSM.from_kiss 'spec/fixtures/opus'
     end
 
     it 'should properly report the number of inputs' do
@@ -42,13 +43,16 @@ describe FSM do
       @opus.x_encoding(2, B[0]).should   == :'1'
       @opus.x_encoding(0, B[0]).should   == DontCare
       @opus.x_encoding(0, B[7,8]).should == :'0'
-      lambda { @opus.x_encoding 0, B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: input 0, block 8,9')
+      lambda { @opus.x_encoding 0, B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 8,9')
     end
 
     it 'should return output encoding for the given row(s)' do
       @opus.y_encoding(B[0]).should       == :'110000'
       @opus.y_encoding(B[0,1,2,3]).should == :'110000'
-      lambda { @opus.y_encoding B[3,4] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: output, block 3,4')
+      lambda { @opus.y_encoding B[3,4] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 3,4')
+      @lion.y_encoding(B[2,3]).should     == :'1'
+      @mark1.y_encoding(B[0]).should      == :'-11---1-00------'
+      @mark1.y_encoding(B[0,16]).should   == :'-11---1-00100000'
     end
 
     it 'should return the row(s) of a state matching next-state of given row(s)' do

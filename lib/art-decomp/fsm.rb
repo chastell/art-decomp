@@ -51,19 +51,21 @@ module ArtDecomp class FSM
   end
 
   def x_encoding i, rows
-    encs = rows.bits.map { |row| @inputs[i][row] }.uniq - [DontCare]
-    case encs.size
-    when 0 then DontCare
-    when 1 then encs.first
-    else raise AmbiguousEncodingQuery, "ambiguous encoding query: input #{i}, block #{rows.bits.join ','}"
-    end
+    encoding @inputs[i], rows
   end
 
   def y_encoding rows
-    encs = rows.bits.map { |row| @outputs.transpose[row].join.to_sym }.uniq
+    @outputs.map { |output| encoding output, rows }.join.to_sym
+  end
+
+  private
+
+  def encoding column, rows
+    encs = rows.bits.map { |row| column[row] }.uniq - [DontCare]
     case encs.size
+    when 0 then DontCare
     when 1 then encs.first
-    else raise AmbiguousEncodingQuery, "ambiguous encoding query: output, block #{rows.bits.join ','}"
+    else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{rows.bits.join ','}"
     end
   end
 
