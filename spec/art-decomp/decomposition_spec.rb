@@ -30,4 +30,13 @@ describe Decomposition do
     decomposition.h_kiss.should == File.read('spec/fixtures/lion.h')
   end
 
+  it 'should properly recode don’t-care states to *' do
+    fsm = FSM.from_kiss 'spec/fixtures/opus'
+    qu  = Blanket[B[0,1,2,3,4,20,21], B[0,5,6,7], B[0,8,9,10,11,12,13,14,15,16], B[0,17,18,19]]
+    qv  = Blanket[B[0,1,2,6,7,8,9,10,11,12,13,14,17,18], B[0,3,4,5,15,16,19], B[0,20,21]]
+    g   = Blanket[B[0,1], B[2,6,7,8,10,12,14,17,18], B[2,6,7,9,11,13,14,17,18], B[3,4,5,15,16,19], B[20,21]]
+    decomposition = Decomposition.new fsm, [1,3,4], [0,2], qu, qv, g
+    decomposition.h_kiss.should == File.read('spec/fixtures/opus.h')
+  end
+
 end

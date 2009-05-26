@@ -25,8 +25,9 @@ module ArtDecomp class Decomposition
       qup = @qu.encoding @fsm.state_rows_of_next_state_of(row)
       qvp = @qv.encoding @fsm.state_rows_of_next_state_of(row)
       y   = @fsm.y_encoding row
+      qu  = '*' if qu  =~ /^-+$/
+      qup = '*' if qup =~ /^-+$/
       @g.encodings(row).each do |g|
-        # FIXME: qu and qup don’t-cares should be turned into *
         lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
     end
