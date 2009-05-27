@@ -10,16 +10,19 @@ module ArtDecomp class Decomposition
 
   def g_kiss
     lines = []
-    (@fsm.beta_x(@v) * @qv).ints.each do |row|
+    rows = (@fsm.beta_x(@v) * @qv).ints
+    rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
+    rows.each do |row|
       lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + @g.encoding(row)
     end
-    # FIXME: drop lines with defined inputs if covered by a row with a don’t-care in the same column
     lines.sort.uniq.join("\n") + "\n"
   end
 
   def h_kiss
     lines = []
-    (@fsm.beta_x(@u) * @g * @qu).ints.each do |row|
+    rows = (@fsm.beta_x(@u) * @g * @qu).ints
+    rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
+    rows.each do |row|
       u   = @u.map { |i| @fsm.x_encoding i, row }.join
       qu  = @qu.encoding row
       qup = @qu.encoding @fsm.state_rows_of_next_state_of(row)
@@ -31,7 +34,6 @@ module ArtDecomp class Decomposition
         lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
     end
-    # FIXME: drop lines with defined inputs if covered by a row with a don’t-care in the same column
     lines.sort.uniq.join("\n") + "\n"
   end
 
