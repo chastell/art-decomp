@@ -13,7 +13,7 @@ module ArtDecomp class Decomposition
     rows = (@fsm.beta_x(@v) * @qv).ints
     rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
     rows.each do |row|
-      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + @g.encoding(row)
+      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + @g.encodings(row).first
     end
     lines.sort.uniq.join("\n") + "\n"
   end
