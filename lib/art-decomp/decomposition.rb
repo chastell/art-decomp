@@ -11,9 +11,18 @@ module ArtDecomp class Decomposition
   def g_kiss
     lines = []
     rows = (@fsm.beta_x(@v) * @qv).ints
-    rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
+    g_encodings = Hash.new do |hash, row|
+      begin
+        @g.encoding row
+      rescue AmbiguousEncodingQuery
+        encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)
+        raise unless encs.size == 1
+        encs.first
+      end
+    end
     rows.each do |row|
-      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + @g.encodings(row).first
+      next if rows.any? { |r| r != row and r & row == r }
+      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + g_encodings[row]
     end
     lines.sort.uniq.join("\n") + "\n"
   end
