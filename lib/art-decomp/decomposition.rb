@@ -22,7 +22,10 @@ module ArtDecomp class Decomposition
     end
     rows.each do |row|
       next if rows.any? { |r| r != row and r & row == r }
-      lines << @v.map { |i| @fsm.x_encoding(i, row) }.join + @qv.encoding(row) + ' ' + g_encodings[row]
+      v  = @v.map { |i| @fsm.x_encoding(i, row) }.join
+      qv = @qv.encoding row
+      g  = g_encodings[row]
+      lines << "#{v}#{qv} #{g}"
     end
     lines.sort.uniq.join("\n") + "\n"
   end
