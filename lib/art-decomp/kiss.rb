@@ -5,7 +5,7 @@ module ArtDecomp class KISS
   end
 
   def formatted
-    @kiss.lines.sort.join
+    @kiss.lines.sort.uniq.join
   end
 
 end end
