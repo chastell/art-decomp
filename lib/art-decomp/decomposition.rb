@@ -12,7 +12,6 @@ module ArtDecomp class Decomposition
     lines = []
     rows = (@fsm.beta_x(@v) * @qv).ints
     rows.each do |row|
-      next if rows.any? { |r| r != row and r & row == r }
       v  = @v.map { |i| @fsm.x_encoding(i, row) }.join
       qv = @qv.encoding row
       g  = begin
@@ -24,12 +23,13 @@ module ArtDecomp class Decomposition
            end
       lines << "#{v}#{qv} #{g}"
     end
-    lines.sort.uniq.join("\n") + "\n"
+    KISS.new(lines).formatted
   end
 
   def h_kiss
     lines = []
     rows = (@fsm.beta_x(@u) * @g * @qu).ints
+    # FIXME: drop the below line once KISS#formatter learns about don’t-care states
     rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
     rows.each do |row|
       u   = @u.map { |i| @fsm.x_encoding i, row }.join
@@ -43,7 +43,7 @@ module ArtDecomp class Decomposition
         lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
     end
-    lines.sort.uniq.join("\n") + "\n"
+    KISS.new(lines).formatted
   end
 
   def hash

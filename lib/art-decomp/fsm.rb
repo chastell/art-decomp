@@ -45,6 +45,7 @@ module ArtDecomp class FSM
     outs = @outputs.transpose
     st   = @state.map      { |e| e == DontCare ? '*' : e }
     nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
+    # FIXME: migrate the below to KISS once it knows how to handle full-blown FSM files
     lines = [".i #{@inputs.size}", ".o #{@outputs.size}", ".p #{@state.size}", ".s #{(@state + @next_state - [DontCare]).uniq.size}"]
     lines += (0...@state.size).map { |i| [ins[i].join, st[i], nxt[i], outs[i].join].join ' ' }
     lines.join("\n") + "\n"
