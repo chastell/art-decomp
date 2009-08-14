@@ -5,9 +5,8 @@ module ArtDecomp class KISS
   end
 
   def formatted
-    lines = @lines.sort.uniq
-    lines.map do |line|
-      line unless lines.any? { |l| line != l and line =~ Regexp.new("^#{l.split.first.tr '-', '.'}") }
+    @lines.sort.uniq.map do |line|
+      line unless @lines.any? { |l| line != l and line =~ Regexp.new("^#{l.split.first.tr '-', '.'}") }
     end.compact.join("\n") + "\n"
   end
 
