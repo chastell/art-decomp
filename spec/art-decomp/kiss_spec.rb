@@ -10,4 +10,9 @@ module ArtDecomp describe KISS do
     kiss.formatted.should == "0 0\n"
   end
 
+  it 'should drop overlapping entries' do
+    kiss = KISS.new "0-0 0\n010 0\n1-1 1\n--1 1\n"
+    kiss.formatted.should == "--1 1\n0-0 0\n"
+  end
+
 end end
