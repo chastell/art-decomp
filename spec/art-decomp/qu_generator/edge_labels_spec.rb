@@ -1,4 +1,4 @@
-describe QuGenerator::EdgeLabels do
+module ArtDecomp describe QuGenerator::EdgeLabels do
 
   context 'when generating Qu blankets' do
 
@@ -34,4 +34,4 @@ describe QuGenerator::EdgeLabels do
 
   end
 
-end
+end end

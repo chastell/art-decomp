@@ -1,4 +1,4 @@
-describe QvGenerator::Bipainting do
+module ArtDecomp describe QvGenerator::Bipainting do
 
   context 'when generating G and Qv blankets' do
 
@@ -26,4 +26,4 @@ describe QvGenerator::Bipainting do
 
   end
 
-end
+end end

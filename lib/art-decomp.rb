@@ -1,6 +1,19 @@
 module ArtDecomp
+
   DontCare = :-
+
+  module QuGenerator
+  end
+
+  module QvGenerator
+  end
+
+  module UVGenerator
+  end
+
 end
+
+
 
 require 'set'
 

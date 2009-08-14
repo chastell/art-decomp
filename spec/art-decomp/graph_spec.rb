@@ -1,4 +1,4 @@
-describe Graph do
+module ArtDecomp describe Graph do
 
   before do
     blanket = Blanket[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
@@ -60,4 +60,4 @@ describe Graph do
     @graph.adjacent(B[5,6], B[7]).should == Set[B[3,4], B[8,9]]
   end
 
-end
+end end

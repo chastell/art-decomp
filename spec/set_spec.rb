@@ -1,5 +1,7 @@
 describe Set, 'of Separations' do
 
+  include ArtDecomp
+
   it 'should provide a given block’s r-admissibility' do
     b = B[1,2,3,4]
     Set[Sep[1,5]].r_adm(b).should == 0

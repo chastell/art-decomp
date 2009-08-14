@@ -1,4 +1,4 @@
-describe B do
+module ArtDecomp describe B do
 
   context 'when representing ‘set bits’ concept' do
 
@@ -22,4 +22,4 @@ describe B do
 
   end
 
-end
+end end

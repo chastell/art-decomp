@@ -1,4 +1,4 @@
-describe UVGenerator::Braindead do
+module ArtDecomp describe UVGenerator::Braindead do
 
   context 'given a certain FSM and a Set of Archs' do
 
@@ -16,4 +16,4 @@ describe UVGenerator::Braindead do
 
   end
 
-end
+end end

@@ -1,4 +1,4 @@
-module ArtDecomp::QuGenerator class BlockTable
+module ArtDecomp class QuGenerator::BlockTable
 
   def initialize fsm, archs
     @fsm  = fsm

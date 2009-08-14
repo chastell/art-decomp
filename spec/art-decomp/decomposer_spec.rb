@@ -1,4 +1,4 @@
-describe Decomposer do
+module ArtDecomp describe Decomposer do
 
   it 'should instantiate itself and its components properly' do
     fsm      = mock 'FSM'
@@ -50,4 +50,4 @@ describe Decomposer do
 
   end
 
-end
+end end

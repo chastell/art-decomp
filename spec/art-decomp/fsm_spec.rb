@@ -1,4 +1,4 @@
-describe FSM do
+module ArtDecomp describe FSM do
 
   context 'parsed from an example KISS file' do
 
@@ -61,4 +61,4 @@ describe FSM do
 
   end
 
-end
+end end

@@ -1,4 +1,4 @@
-module ArtDecomp::UVGenerator class Braindead
+module ArtDecomp class UVGenerator::Braindead
 
   def initialize fsm, archs
     @input_count = fsm.input_count

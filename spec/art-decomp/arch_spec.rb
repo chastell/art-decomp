@@ -1,4 +1,4 @@
-describe Arch do
+module ArtDecomp describe Arch do
 
   it 'should be instantiable Array-style (and compare and hash properly)' do
     Arch[5,1].should == Arch.new(5, 1)
@@ -7,4 +7,4 @@ describe Arch do
     Arch[5,1].hash.should == Arch[5,1].hash
   end
 
-end
+end end

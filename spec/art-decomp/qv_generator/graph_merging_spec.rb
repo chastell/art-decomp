@@ -1,4 +1,4 @@
-describe QvGenerator::GraphMerging do
+module ArtDecomp describe QvGenerator::GraphMerging do
 
   context 'when generating G and Qv blankets' do
 
@@ -28,4 +28,4 @@ describe QvGenerator::GraphMerging do
 
   end
 
-end
+end end

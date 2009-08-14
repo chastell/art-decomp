@@ -1,4 +1,4 @@
-describe QuGenerator::BlockTable do
+module ArtDecomp describe QuGenerator::BlockTable do
 
   context 'when generating Qu blankets' do
 
@@ -34,4 +34,4 @@ describe QuGenerator::BlockTable do
 
   end
 
-end
+end end

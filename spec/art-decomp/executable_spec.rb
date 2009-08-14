@@ -1,4 +1,4 @@
-describe Executable do
+module ArtDecomp describe Executable do
 
   before do
     @orig_stderr = $stderr
@@ -105,4 +105,4 @@ describe Executable do
     File.read(File.join @dir, '1.h').should == 'd1 H table'
   end
 
-end
+end end

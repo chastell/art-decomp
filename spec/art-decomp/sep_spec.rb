@@ -1,4 +1,4 @@
-describe Sep do
+module ArtDecomp describe Sep do
 
   it 'should be an Integer with bits representing the separated values' do
     Sep[1,2].should  == 0b110
@@ -10,4 +10,4 @@ describe Sep do
     Sep[0,69].hash.should == (2**69 + 0b1).hash
   end
 
-end
+end end

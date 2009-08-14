@@ -1,4 +1,4 @@
-describe QvGenerator::GraphColouring do
+module ArtDecomp describe QvGenerator::GraphColouring do
 
   context 'when generating G and Qv blankets' do
 
@@ -29,4 +29,4 @@ describe QvGenerator::GraphColouring do
 
   end
 
-end
+end end

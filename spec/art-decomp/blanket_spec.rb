@@ -1,4 +1,4 @@
-describe Blanket do
+module ArtDecomp describe Blanket do
 
   it 'should be easily instantiable, properly comparable and usable as a Set element' do
     Blanket[B[], B[0], B[1,2]].should      == Blanket.new([B[1,2], B[0]])
@@ -54,4 +54,4 @@ describe Blanket do
     blanket.encodings(B[1,2]).should   == ['00', '01']
   end
 
-end
+end end

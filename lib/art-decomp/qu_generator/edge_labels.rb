@@ -1,4 +1,4 @@
-module ArtDecomp::QuGenerator class EdgeLabels
+module ArtDecomp class QuGenerator::EdgeLabels
 
   def initialize fsm, archs
     @fsm = fsm

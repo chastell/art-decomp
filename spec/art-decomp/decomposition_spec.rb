@@ -1,4 +1,4 @@
-describe Decomposition do
+module ArtDecomp describe Decomposition do
 
   it 'should instantiate, compare and hash properly' do
     fsm = mock 'FSM'
@@ -49,4 +49,4 @@ describe Decomposition do
     decomposition.h_kiss.should == File.read('spec/fixtures/opus.h')
   end
 
-end
+end end

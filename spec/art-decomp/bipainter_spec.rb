@@ -1,4 +1,4 @@
-describe Bipainter do
+module ArtDecomp describe Bipainter do
 
   context 'when used for generating the Qv and G blankets' do
 
@@ -18,4 +18,4 @@ describe Bipainter do
 
   end
 
-end
+end end
