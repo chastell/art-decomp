@@ -1,14 +1,14 @@
 module ArtDecomp class KISS
 
-  def initialize kiss
-    @kiss = kiss
+  def initialize lines
+    @lines = lines
   end
 
   def formatted
-    lines = @kiss.lines.sort.uniq
+    lines = @lines.sort.uniq
     lines.map do |line|
       line unless lines.any? { |l| line != l and line =~ Regexp.new("^#{l.split.first.tr '-', '.'}") }
-    end.join
+    end.compact.join("\n") + "\n"
   end
 
 end end
