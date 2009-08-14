@@ -15,4 +15,9 @@ module ArtDecomp describe KISS do
     kiss.formatted.should == "--1 1\n0-0 0\n"
   end
 
+  it 'should preserve overlapping entries which differ on subsequent column groups' do
+    kiss = KISS.new ['-- 1 0 1', '10 0 0 1']
+    kiss.formatted.should == "-- 1 0 1\n10 0 0 1\n"
+  end
+
 end end
