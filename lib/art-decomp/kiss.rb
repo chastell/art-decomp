@@ -6,7 +6,7 @@ module ArtDecomp class KISS
 
   def formatted
     @lines.sort.uniq.map do |line|
-      line unless @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr '-', '.'}\s") }
+      line unless @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare, '.'}\s") }
     end.compact.join("\n") + "\n"
   end
 
