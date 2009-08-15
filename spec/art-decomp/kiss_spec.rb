@@ -20,4 +20,11 @@ module ArtDecomp describe KISS do
     kiss.formatted.should == "-- 1 0 1\n10 0 0 1\n"
   end
 
+  it 'should combine matching entries' do
+    kiss = KISS.new ['00 0 1 1', '01 0 1 1', '10 1 0 0', '11 1 0 0']
+    kiss.formatted.should == "0- 0 1 1\n1- 1 0 0\n"
+    kiss = KISS.new ['00 0', '11 0', '10 0', '01 0']
+    kiss.formatted.should == "-- 0\n"
+  end
+
 end end
