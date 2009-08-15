@@ -14,14 +14,21 @@ module ArtDecomp class Decomposition
     rows.each do |row|
       v  = @v.map { |i| @fsm.x_encoding(i, row) }.join
       qv = @qv.encoding row
-      g  = begin
-             @g.encoding row
-           rescue AmbiguousEncodingQuery
-             encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)
-             raise unless encs.size == 1
-             encs.first
-           end
-      lines << "#{v}#{qv} #{g}"
+      if (encs = @g.encodings row).size == 1
+        g = encs.first
+        lines << "#{v}#{qv} #{g}"
+      elsif (encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)).size == 1
+        g = encs.first
+        lines << "#{v}#{qv} #{g}"
+      else
+        # FIXME: make sure the below handles all edge cases properly
+        g = @g.encodings(row).first
+        subrows = rows.select { |r| r != row and r & row == row }
+        subencs = subrows.map { |r| @v.map { |i| @fsm.x_encoding(i, r) }.join }.map { |enc| enc.dc_expand }.flatten
+        (v.dc_expand - subencs).each do |v|
+          lines << "#{v}#{qv} #{g}"
+        end
+      end
     end
     KISS.new(lines).formatted
   end
@@ -39,6 +46,7 @@ module ArtDecomp class Decomposition
       y   = @fsm.y_encoding row
       qu  = '*' if qu  =~ /^-+$/
       qup = '*' if qup =~ /^-+$/
+      # FIXME: use only the encoding(s) really mapped from this row
       @g.encodings(row).each do |g|
         lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
