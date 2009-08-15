@@ -5,9 +5,18 @@ module ArtDecomp class KISS
   end
 
   def formatted
-    @lines.sort.uniq.map do |line|
+    @lines.sort!
+    @lines.uniq!
+    drop_overlapping
+    @lines.join("\n") + "\n"
+  end
+
+  private
+
+  def drop_overlapping
+    @lines = @lines.map do |line|
       line unless @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare, '.'}\s") }
-    end.compact.join("\n") + "\n"
+    end.compact
   end
 
 end end

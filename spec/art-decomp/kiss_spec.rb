@@ -1,6 +1,6 @@
 module ArtDecomp describe KISS do
 
-  it 'should sort the provided KISS entries' do
+  it 'should sort entries' do
     kiss = KISS.new ['1 1', '0 0']
     kiss.formatted.should == "0 0\n1 1\n"
   end
