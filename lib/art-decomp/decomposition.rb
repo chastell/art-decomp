@@ -14,10 +14,7 @@ module ArtDecomp class Decomposition
     rows.each do |row|
       v  = @v.map { |i| @fsm.x_encoding(i, row) }.join
       qv = @qv.encoding row
-      if (encs = @g.encodings row).size == 1
-        g = encs.first
-        lines << "#{v}#{qv} #{g}"
-      elsif (encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)).size == 1
+      if (encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)).size == 1
         g = encs.first
         lines << "#{v}#{qv} #{g}"
       else
