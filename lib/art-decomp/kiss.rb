@@ -14,9 +14,9 @@ module ArtDecomp class KISS
   private
 
   def drop_overlapping
-    @lines = @lines.map do |line|
-      line unless @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare, '.'}\s") }
-    end.compact
+    @lines.reject! do |line|
+      @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare, '.'}\s") }
+    end
   end
 
 end end
