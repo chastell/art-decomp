@@ -42,6 +42,7 @@ module ArtDecomp class KISS
       @lines.delete b
       @lines << (a[0...char] + DontCare + a[char+1..-1])
       combine_matching
+      @lines.sort!
     end
   end
 
