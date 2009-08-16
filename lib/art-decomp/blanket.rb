@@ -37,14 +37,8 @@ module ArtDecomp class Blanket
   end
 
   def encoding bits
-    sorted = @ints.sort
-    width = sorted.size.log2_ceil
-    encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust width, '0' }
-    case encs.size
-    when 0, @ints.size then DontCare.to_s * width
-    when 1 then encs.first
-    else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{bits.bits.join ','}"
-    end
+    encs = encodings bits
+    encs.size == 1 ? encs.first : raise(AmbiguousEncodingQuery, "ambiguous encoding query: block #{bits.bits.join ','}")
   end
 
   def encodings bits
