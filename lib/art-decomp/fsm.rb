@@ -14,7 +14,7 @@ module ArtDecomp class FSM
   end
 
   def initialize inputs, outputs, state, next_state
-    @inputs, @outputs, @state, @next_state = inputs, outputs, state, next_state
+    @inputs, @outputs, @state, @next_state = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze
   end
 
   def beta_f
