@@ -5,6 +5,11 @@ module ArtDecomp describe Blanket do
     Blanket[B[], B[0], B[1,2]].hash.should == Blanket.new([B[1,2], B[0]]).hash
   end
 
+  it 'should expose its internal ints variable and it should be immutable' do
+    Blanket[B[1,2], B[3,4]].ints.should == Set[B[3,4], B[1,2]]
+    Blanket[B[1,2], B[3,4]].ints.should be_frozen
+  end
+
   it 'should be properly instantiable from an Array' do
       blanket = Blanket.from_array [:b, DontCare, :a, :c, :b, :a, :c]
       blanket.should == Blanket[B[0,1,4], B[1,2,5], B[1,3,6]]

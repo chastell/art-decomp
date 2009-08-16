@@ -19,7 +19,7 @@ module ArtDecomp class Blanket
   end
 
   def initialize ints
-    @ints = ints.to_set.delete 0
+    @ints = ints.to_set.delete(0).freeze
   end
 
   def * other
