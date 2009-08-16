@@ -7,7 +7,7 @@ module ArtDecomp describe QuGenerator::EdgeLabels do
       archs = Set[Arch[3,1]]
       el    = QuGenerator::EdgeLabels.new fsm, archs
       qus   = []
-      el.each [0], [1] { |qu| qus << qu }
+      el.each([0], [1]) { |qu| qus << qu }
       qus
     end
 

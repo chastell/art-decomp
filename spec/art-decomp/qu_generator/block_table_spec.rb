@@ -7,7 +7,7 @@ module ArtDecomp describe QuGenerator::BlockTable do
       archs = Set[Arch[3,1]]
       bt    = QuGenerator::BlockTable.new fsm, archs
       qus   = []
-      bt.each [0], [1] { |qu| qus << qu }
+      bt.each([0], [1]) { |qu| qus << qu }
       qus
     end
 
