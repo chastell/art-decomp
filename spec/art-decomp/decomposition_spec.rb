@@ -59,4 +59,14 @@ module ArtDecomp describe Decomposition do
     decomposition.h_kiss.should == File.read('spec/fixtures/opus.h')
   end
 
+  it 'should properly report whether it’s valid' do
+    fsm = FSM.from_kiss 'spec/fixtures/fsm'
+    qu  = Blanket[B[0,1,2,3,4,5,17], B[6,7,8,9,10,11,12,13,14,15,16,18,19]]
+    qv  = Blanket[B[0,1,2,17,19], B[3,6,7,8,9,10,11,12], B[4,5,18], B[13,14,15,16]]
+    g   = Blanket[B[0,1,4,6,17,18,19], B[2,7,9,11], B[3,5,8,10,12], B[13,14,15,16]]
+    Decomposition.new(fsm, [1,3], [0,2], qu, qv, g).should     be_valid
+    Decomposition.new(fsm, [1,3], [0,2], qv, qu, g).should_not be_valid
+    Decomposition.new(fsm, [1,3], [0,2], qv, qv, g).should_not be_valid
+  end
+
 end end
