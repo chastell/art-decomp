@@ -1,8 +1,4 @@
-module ArtDecomp class QvGenerator::GraphColouring
-
-  def initialize fsm, archs
-    @fsm, @beta_f, @beta_q = fsm, fsm.beta_f, fsm.beta_q
-  end
+module ArtDecomp class QvGenerator::GraphColouring < QvGenerator
 
   def each u, v, beta_qu
     beta_u  = @fsm.beta_x u

@@ -1,8 +1,4 @@
-module ArtDecomp class QvGenerator::Bipainting
-
-  def initialize fsm, archs
-    @fsm, @beta_f, @beta_q = fsm, fsm.beta_f, fsm.beta_q
-  end
+module ArtDecomp class QvGenerator::Bipainting < QvGenerator
 
   def each u, v, beta_qu
     beta_u = @fsm.beta_x u
