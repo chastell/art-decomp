@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/art-decomp'
+
+ARGV.each do |fsm_file|
+  fsm = ArtDecomp::FSM.from_kiss fsm_file
+  next if fsm.input_count < 10
+  seps = fsm.beta_f.seps
+  puts
+  puts fsm_file
+  puts "inputs: #{fsm.input_count}"
+  puts "βf sep: #{seps.size}"
+  puts "βq sep: #{(fsm.beta_q.seps & seps).size}"
+  puts "X seps: #{(0...fsm.input_count).map { |i| (fsm.beta_x([i]).seps & seps).size }.sort.reverse}"
+end
