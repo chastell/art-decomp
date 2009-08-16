@@ -33,8 +33,6 @@ module ArtDecomp class Decomposition
   def h_kiss
     lines = []
     rows = (@fsm.beta_x(@u) * @g * @qu).ints
-    # FIXME: drop the below line once KISS#formatter learns about don’t-care states
-    rows.delete_if { |row| rows.any? { |other| other != row and other & row == other } }
     rows.each do |row|
       u   = @u.map { |i| @fsm.x_encoding i, row }.join
       qu  = @qu.encoding row
