@@ -22,8 +22,8 @@ module ArtDecomp class Decomposition
         g = @g.encodings(row).first
         subrows = rows.select { |r| r != row and r & row == row }
         subencs = subrows.map { |r| @v.map { |i| @fsm.x_encoding(i, r) }.join }.map { |enc| enc.dc_expand }.flatten
-        (v.dc_expand - subencs).each do |v|
-          lines << "#{v}#{qv} #{g}"
+        (v.dc_expand - subencs).each do |v_enc|
+          lines << "#{v_enc}#{qv} #{g}"
         end
       end
     end

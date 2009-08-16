@@ -34,7 +34,7 @@ module ArtDecomp class QuGenerator::BlockTable
 
   def fold_matching!
     loop do
-      a, b = *@rows.pairs.find { |a, b| @cols.all? { |col| (a & col).zero? or (b & col).zero? } }
+      a, b = *@rows.pairs.find { |r1, r2| @cols.all? { |col| (r1 & col).zero? or (r2 & col).zero? } }
       break unless a and b
       @rows.subtract [a, b]
       @rows.add a|b

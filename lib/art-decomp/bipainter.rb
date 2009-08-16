@@ -67,11 +67,11 @@ module ArtDecomp class Bipainter
         forbid_qv_colour! q_parent, colour
       end
       trans_adjacent(g_vertex).each do |clansman|
-        (@g_forbidden[g_vertex] - @g_forbidden[clansman]).each do |colour|
-          forbid_g_colour! clansman, colour
+        (@g_forbidden[g_vertex] - @g_forbidden[clansman]).each do |col|
+          forbid_g_colour! clansman, col
         end
-        (@g_forbidden[clansman] - @g_forbidden[g_vertex]).each do |colour|
-          forbid_g_colour! g_vertex, colour
+        (@g_forbidden[clansman] - @g_forbidden[g_vertex]).each do |col|
+          forbid_g_colour! g_vertex, col
         end
         case
         when @g_colours[g_vertex] then colour_g_vertex_with! clansman, @g_colours[g_vertex]
