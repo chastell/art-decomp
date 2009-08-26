@@ -7,8 +7,8 @@ module ArtDecomp describe Decomposer do
     qu_class = mock 'QuGenerator class'
     qv_class = mock 'QvGenerator class'
     uv_class.should_receive(:new).with fsm, archs
-    qu_class.should_receive(:new).with fsm, archs
-    qv_class.should_receive(:new).with fsm, archs
+    qu_class.should_receive(:new).with no_args
+    qv_class.should_receive(:new).with no_args
     Decomposer.new :fsm => fsm, :archs => archs, :uv_class => uv_class, :qu_class => qu_class, :qv_class => qv_class
   end
 
@@ -24,6 +24,8 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
+      fsm = mock 'FSM'
+
       u_a, v_a = [0,1], [2] # for this U/V pair: two Qu generating one Qv/G pair each
       qu_a1, qv_a1, g_a1 = mock('Blanket'), mock('Blanket'), mock('Blanket')
       qu_a2, qv_a2, g_a2 = mock('Blanket'), mock('Blanket'), mock('Blanket')
@@ -33,14 +35,13 @@ module ArtDecomp describe Decomposer do
       qv_bA, g_bA = mock('Blanket'), mock('Blanket')
       qv_bB, g_bB = mock('Blanket'), mock('Blanket')
 
-      uv_class = mock 'UVGenerator class', :new => StubGenerator.new({[] => [[u_a, v_a], [u_b, v_b]]})
-      qu_class = mock 'QuGenerator class', :new => StubGenerator.new({[u_a, v_a] => [qu_a1, qu_a2],
-                                                                      [u_b, v_b] => [qu_b]})
-      qv_class = mock 'QvGenerator class', :new => StubGenerator.new({[u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
-                                                                      [u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
-                                                                      [u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
+      uv_class = mock 'UVGenerator class', :new => StubGenerator.new({[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
+      qu_class = mock 'QuGenerator class', :new => StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
+                                                                      [fsm, u_b, v_b] => [qu_b]})
+      qv_class = mock 'QvGenerator class', :new => StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
+                                                                      [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
+                                                                      [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
-      fsm = mock 'FSM'
       decomposer = Decomposer.new :fsm => fsm, :uv_class => uv_class, :qu_class => qu_class, :qv_class => qv_class
       results = decomposer.decompositions.to_a
       results.size.should  == 4

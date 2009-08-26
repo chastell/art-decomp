@@ -7,11 +7,11 @@ module ArtDecomp describe UVGenerator::Braindead do
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
       uvs = []
-      uv_gen.each { |u, v| uvs << [u, v] }
+      uv_gen.each { |f, u, v| uvs << [f, u, v] }
       uvs.size.should  == 15
-      uvs.first.should == [[0,1,2,3], []]
-      uvs[7].should    == [[3], [0,1,2]]
-      uvs.last.should  == [[0], [1,2,3]]
+      uvs.first.should == [fsm, [0,1,2,3], []]
+      uvs[7].should    == [fsm, [3], [0,1,2]]
+      uvs.last.should  == [fsm, [0], [1,2,3]]
     end
 
   end

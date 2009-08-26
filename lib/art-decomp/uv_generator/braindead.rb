@@ -1,6 +1,7 @@
 module ArtDecomp class UVGenerator::Braindead
 
   def initialize fsm, archs
+    @fsm         = fsm
     @input_count = fsm.input_count
     @max_v_size  = archs.map { |a| a.pins }.max
   end
@@ -12,7 +13,7 @@ module ArtDecomp class UVGenerator::Braindead
       @input_count.times do |bit|
         (vector[bit].zero? ? u : v) << inputs[bit]
       end
-      yield u, v if v.size <= @max_v_size
+      yield @fsm, u, v if v.size <= @max_v_size
     end
   end
 

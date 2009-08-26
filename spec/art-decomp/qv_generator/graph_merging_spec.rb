@@ -13,10 +13,10 @@ module ArtDecomp describe QvGenerator::GraphMerging do
       fsm.should_receive(:beta_x).with([0]).and_return beta_u
       fsm.should_receive(:beta_x).with([1]).and_return beta_v
       archs = Set[Arch[3,1]]
-      gm = QvGenerator::GraphMerging.new fsm, archs
+      gm = QvGenerator::GraphMerging.new
 
       pairs = []
-      gm.each([0], [1], beta_qu) { |qv, g| pairs << [qv, g] }
+      gm.each(fsm, [0], [1], beta_qu) { |qv, g| pairs << [qv, g] }
       pairs.first.should == [Blanket[B[1,2], B[3,4], B[5,6]], Blanket[B[1,5], B[2,3], B[4,6]]]
       pairs.last.should  == [Blanket[B[1,2], B[3,4,5,6]],     Blanket[B[1], B[2,3,5], B[4,6]]]
 

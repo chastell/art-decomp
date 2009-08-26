@@ -1,13 +1,13 @@
-module ArtDecomp class QvGenerator::GraphColouring < QvGenerator
+module ArtDecomp class QvGenerator::GraphColouring
 
-  def each u, v, beta_qu
-    beta_u  = @fsm.beta_x u
-    beta_v  = @fsm.beta_x v
-    beta_g  = Graph.new(@beta_q * beta_v, @beta_f.seps - beta_u.seps - beta_qu.seps).blanket_from_colouring
-    beta_qv = Graph.new(@beta_q, beta_g.seps - beta_v.seps).blanket_from_colouring
+  def each fsm, u, v, beta_qu
+    beta_u  = fsm.beta_x u
+    beta_v  = fsm.beta_x v
+    beta_g  = Graph.new(fsm.beta_q * beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps).blanket_from_colouring
+    beta_qv = Graph.new(fsm.beta_q, beta_g.seps - beta_v.seps).blanket_from_colouring
     yield beta_qv, beta_g
-    beta_qv = Graph.new(@beta_q, @beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps).blanket_from_colouring
-    beta_g  = Graph.new(beta_qv * beta_v, @beta_f.seps - beta_u.seps - beta_qu.seps).blanket_from_colouring
+    beta_qv = Graph.new(fsm.beta_q, fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps).blanket_from_colouring
+    beta_g  = Graph.new(beta_qv * beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps).blanket_from_colouring
     yield beta_qv, beta_g
   end
 

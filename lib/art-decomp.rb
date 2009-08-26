@@ -5,6 +5,9 @@ module ArtDecomp
   module QuGenerator
   end
 
+  module QvGenerator
+  end
+
   module UVGenerator
   end
 
@@ -32,7 +35,6 @@ require_relative 'art-decomp/graph'
 require_relative 'art-decomp/kiss'
 require_relative 'art-decomp/qu_generator/block_table'
 require_relative 'art-decomp/qu_generator/edge_labels'
-require_relative 'art-decomp/qv_generator'
 require_relative 'art-decomp/qv_generator/bipainting'
 require_relative 'art-decomp/qv_generator/graph_colouring'
 require_relative 'art-decomp/qv_generator/graph_merging'

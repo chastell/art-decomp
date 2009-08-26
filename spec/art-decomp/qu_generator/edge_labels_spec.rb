@@ -5,9 +5,9 @@ module ArtDecomp describe QuGenerator::EdgeLabels do
     def qus
       fsm   = mock 'FSM', :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
       archs = Set[Arch[3,1]]
-      el    = QuGenerator::EdgeLabels.new fsm, archs
+      el    = QuGenerator::EdgeLabels.new
       qus   = []
-      el.each([0], [1]) { |qu| qus << qu }
+      el.each(fsm, [0], [1]) { |qu| qus << qu }
       qus
     end
 
