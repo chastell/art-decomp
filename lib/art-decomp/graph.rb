@@ -4,6 +4,7 @@ module ArtDecomp class Graph
 
   def initialize blanket, seps
     @vertices = blanket.ints.dup
+    @vertices.delete_if { |this| @vertices.any? { |other| other != this and other & this == this } }
     @edges    = Set[]
     seps.each do |sep|
       @vertices.pairs.each do |a, b|

@@ -11,6 +11,10 @@ module ArtDecomp describe Graph do
     @graph.edges.should    == Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]], Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
   end
 
+  it 'should drop vertices covered by other vertices upon initialisation' do
+    Graph.new(Blanket[B[1,2], B[2]], Set[]).vertices.should == Set[B[1,2]]
+  end
+
   it 'should properly compute vertex degrees' do
     degrees = {B[1,2] => 0, B[3,4] => 1, B[5,6] => 3, B[7] => 2, B[8,9] => 2}
     degrees.each { |vert, deg| @graph.degree(vert).should == deg }
