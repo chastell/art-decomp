@@ -9,6 +9,8 @@ module ArtDecomp class Decomposition
   end
 
   def g_kiss
+    require 'pp'
+    pp self unless valid?
     lines = []
     rows = (@fsm.beta_x(@v) * @qv).ints
     rows.each do |row|
