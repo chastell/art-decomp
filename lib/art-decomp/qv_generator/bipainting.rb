@@ -1,9 +1,9 @@
-module ArtDecomp class QvGenerator::Bipainting < QvGenerator
+module ArtDecomp class QvGenerator::Bipainting
 
-  def each u, v, beta_qu
-    beta_u = @fsm.beta_x u
-    beta_v = @fsm.beta_x v
-    bipainter = Bipainter.new @beta_q, beta_v, @beta_f.seps - beta_u.seps - beta_qu.seps
+  def each fsm, u, v, beta_qu
+    beta_u = fsm.beta_x u
+    beta_v = fsm.beta_x v
+    bipainter = Bipainter.new fsm.beta_q, beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps
     yield bipainter.blankets
   end
 

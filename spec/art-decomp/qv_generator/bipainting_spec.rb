@@ -13,10 +13,10 @@ module ArtDecomp describe QvGenerator::Bipainting do
       fsm.should_receive(:beta_x).with([0]).and_return beta_u
       fsm.should_receive(:beta_x).with([1]).and_return beta_v
       archs = Set[Arch[3,1]]
-      bi = QvGenerator::Bipainting.new fsm, archs
+      bi = QvGenerator::Bipainting.new
 
       beta_qv, beta_g = nil, nil
-      bi.each([0], [1], beta_qu) { |qv, g| beta_qv, beta_g = qv, g }
+      bi.each(fsm, [0], [1], beta_qu) { |qv, g| beta_qv, beta_g = qv, g }
       beta_qv.should == Blanket[B[1,2], B[3,4,5,6]]
       beta_g.should  == Blanket[B[1], B[2,3,5], B[4,6]]
 

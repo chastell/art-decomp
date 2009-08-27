@@ -3,10 +3,15 @@ module ArtDecomp describe FSM do
   context 'parsed from an example KISS file' do
 
     before do
+      @fsm   = FSM.from_kiss 'spec/fixtures/fsm'
       @lion  = FSM.from_kiss 'spec/fixtures/lion'
       @mark1 = FSM.from_kiss 'spec/fixtures/mark1'
       @mc    = FSM.from_kiss 'spec/fixtures/mc'
       @opus  = FSM.from_kiss 'spec/fixtures/opus'
+    end
+
+    it 'should parse both KISS files and strings' do
+      @mc.should == FSM.from_kiss(File.read 'spec/fixtures/mc')
     end
 
     it 'should properly report the number of inputs' do
@@ -58,6 +63,23 @@ module ArtDecomp describe FSM do
 
     it 'should return the row(s) of a state matching next-state of given row(s)' do
       @opus.state_rows_of_next_state_of(B[20,21]).should == B[8,9,10,11,12,13,14]
+    end
+
+    it 'should equal/not-equal other FSMs and hash properly' do
+      @lion.should_not  == FSM.from_kiss('spec/fixtures/opus')
+      @lion.should      == FSM.from_kiss('spec/fixtures/lion')
+      @lion.hash.should == FSM.from_kiss('spec/fixtures/lion').hash
+    end
+
+    it 'should expand selected input columns and return a new FSM instance' do
+      @lion.expand_x([0,1]).should    == FSM.from_kiss('spec/fixtures/lion.exp')
+      @fsm.expand_x([0,1,2,3]).should == FSM.from_kiss('spec/fixtures/fsm.exp')
+      @fsm.expand_x([0,3]).should     == FSM.from_kiss('spec/fixtures/fsm.partially-exp')
+    end
+
+    it 'should return self if asked to expand columns lacking don’t-cares' do
+      opus = FSM.from_kiss 'spec/fixtures/opus.to_kiss'
+      opus.expand_x([2]).should equal opus
     end
 
   end

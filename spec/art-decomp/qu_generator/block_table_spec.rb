@@ -5,9 +5,9 @@ module ArtDecomp describe QuGenerator::BlockTable do
     def qus
       fsm   = mock 'FSM', :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
       archs = Set[Arch[3,1]]
-      bt    = QuGenerator::BlockTable.new fsm, archs
+      bt    = QuGenerator::BlockTable.new
       qus   = []
-      bt.each([0], [1]) { |qu| qus << qu }
+      bt.each(fsm, [0], [1]) { |qu| qus << qu }
       qus
     end
 

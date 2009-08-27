@@ -1,13 +1,9 @@
 module ArtDecomp class QuGenerator::BlockTable
 
-  def initialize fsm, archs
-    @fsm  = fsm
-    @seps = fsm.beta_f.seps
-  end
-
-  def each u, v
-    @rows   = @fsm.beta_q.ints.dup
-    @cols   = @fsm.beta_x(u).ints
+  def each fsm, u, v
+    @seps   = fsm.beta_f.seps
+    @rows   = fsm.beta_q.ints.dup
+    @cols   = fsm.beta_x(u).ints
     @r_adms = {}
     fold_matching!
     yield Blanket.new @rows
