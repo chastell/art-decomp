@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/art-decomp'
+
+p Marshal.load(File.open ARGV.first).all? { |d| print '.'; d.valid? }
