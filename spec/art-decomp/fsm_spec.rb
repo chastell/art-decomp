@@ -76,6 +76,11 @@ module ArtDecomp describe FSM do
       @fsm.expand_x([0,3]).should     == FSM.from_kiss('spec/fixtures/fsm.partially-exp')
     end
 
+    it 'should return self if asked to expand columns lacking don’t-cares' do
+      opus = FSM.from_kiss 'spec/fixtures/opus.to_kiss'
+      opus.expand_x([2]).should equal opus
+    end
+
   end
 
 end end
