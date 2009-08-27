@@ -9,6 +9,10 @@ module ArtDecomp describe FSM do
       @opus  = FSM.from_kiss 'spec/fixtures/opus'
     end
 
+    it 'should parse both KISS files and strings' do
+      @mc.should == FSM.from_kiss(File.read 'spec/fixtures/mc')
+    end
+
     it 'should properly report the number of inputs' do
       @opus.input_count.should == 5
       @lion.input_count.should == 2

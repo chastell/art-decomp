@@ -1,8 +1,9 @@
 module ArtDecomp class FSM
 
-  def self.from_kiss file
+  def self.from_kiss kiss
+    kiss = File.read kiss unless kiss.index "\n"
     inputs, outputs, state, next_state = [], [], [], []
-    IO.read(file).each_line do |line|
+    kiss.lines do |line|
       next unless line =~ /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/
       ins, st, nxt, outs = line.split
       inputs     << ins.split(//).map(&:to_sym)
