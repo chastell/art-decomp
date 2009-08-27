@@ -13,7 +13,7 @@ module ArtDecomp class UVGenerator::Braindead
       @input_count.times do |bit|
         (vector[bit].zero? ? u : v) << inputs[bit]
       end
-      yield @fsm.expand_v(v), u, v if v.size <= @max_v_size
+      yield @fsm.expand_x(v), u, v if v.size <= @max_v_size
     end
   end
 
