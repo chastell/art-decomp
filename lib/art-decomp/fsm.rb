@@ -36,6 +36,11 @@ module ArtDecomp class FSM
     ins.map { |i| Blanket.from_array @inputs[i] }.inject(:*)
   end
 
+  def expand_x ins
+    # FIXME: short-circuit by returning self if given inputs don’t sport don’t-cares
+    FSM.from_kiss to_kiss.lines.map { |line| line.dc_expand(ins) }.flatten.sort.join
+  end
+
   def hash
     @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
   end

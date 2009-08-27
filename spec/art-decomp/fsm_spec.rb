@@ -3,6 +3,7 @@ module ArtDecomp describe FSM do
   context 'parsed from an example KISS file' do
 
     before do
+      @fsm   = FSM.from_kiss 'spec/fixtures/fsm'
       @lion  = FSM.from_kiss 'spec/fixtures/lion'
       @mark1 = FSM.from_kiss 'spec/fixtures/mark1'
       @mc    = FSM.from_kiss 'spec/fixtures/mc'
@@ -67,6 +68,12 @@ module ArtDecomp describe FSM do
       @lion.should_not  == FSM.from_kiss('spec/fixtures/opus')
       @lion.should      == FSM.from_kiss('spec/fixtures/lion')
       @lion.hash.should == FSM.from_kiss('spec/fixtures/lion').hash
+    end
+
+    it 'should expand selected input columns and return a new FSM instance' do
+      @lion.expand_x([0,1]).should    == FSM.from_kiss('spec/fixtures/lion.exp')
+      @fsm.expand_x([0,1,2,3]).should == FSM.from_kiss('spec/fixtures/fsm.exp')
+      @fsm.expand_x([0,3]).should     == FSM.from_kiss('spec/fixtures/fsm.partially-exp')
     end
 
   end
