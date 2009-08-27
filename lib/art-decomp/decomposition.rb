@@ -12,7 +12,7 @@ module ArtDecomp class Decomposition
     lines = []
     rows = (@fsm.beta_x(@v) * @qv).ints
     rows.each do |row|
-      v  = @v.map { |i| @fsm.x_encoding(i, row) }.join
+      v  = @fsm.x_encoding @v, row
       qv = @qv.encoding row
       if (encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)).size == 1
         g = encs.first
@@ -21,7 +21,7 @@ module ArtDecomp class Decomposition
         # FIXME: make sure the below handles all edge cases properly
         g = @g.encodings(row).first
         subrows = rows.select { |r| r != row and r & row == row }
-        subencs = subrows.map { |r| @v.map { |i| @fsm.x_encoding(i, r) }.join }.map { |enc| enc.dc_expand }.flatten
+        subencs = subrows.map { |r| @fsm.x_encoding @v, r }.map { |enc| enc.dc_expand }.flatten
         (v.dc_expand - subencs).each do |v_enc|
           lines << "#{v_enc}#{qv} #{g}"
         end
@@ -34,7 +34,7 @@ module ArtDecomp class Decomposition
     lines = []
     rows = (@fsm.beta_x(@u) * @g * @qu).ints
     rows.each do |row|
-      u   = @u.map { |i| @fsm.x_encoding i, row }.join
+      u   = @fsm.x_encoding @u, row
       qu  = @qu.encoding row
       qup = @qu.encoding @fsm.state_rows_of_next_state_of(row)
       qvp = @qv.encoding @fsm.state_rows_of_next_state_of(row)
