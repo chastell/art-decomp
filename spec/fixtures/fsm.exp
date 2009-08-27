@@ -1,0 +1,44 @@
+.i 4
+.o 2
+.p 20
+.s 10
+0000 init0 init1 00
+0100 init0 init1 00
+1000 init0 init1 00
+1100 init0 init1 00
+0100 init1 init1 00
+0010 init1 init2 10
+0011 init1 init2 10
+0110 init1 init2 10
+0111 init1 init2 10
+1010 init1 init2 10
+1011 init1 init2 10
+1110 init1 init2 10
+1111 init1 init2 10
+1010 init2 init4 10
+1110 init2 init4 10
+0111 init4 init4 10
+1111 init4 init4 10
+0001 init4 IOwait 01
+0101 init4 IOwait 01
+1001 init4 IOwait 01
+1101 init4 IOwait 01
+0000 IOwait IOwait 01
+0001 IOwait IOwait 01
+1000 IOwait init1 01
+1001 IOwait init1 01
+0110 IOwait read0 00
+1100 IOwait write0 11
+0111 IOwait RMACK 11
+1101 IOwait WMACK 00
+0010 IOwait init2 01
+0011 IOwait init2 01
+1010 IOwait init2 01
+1011 IOwait init2 01
+0010 RMACK RMACK 11
+0111 RMACK read0 00
+1100 WMACK WMACK 00
+1001 WMACK write0 01
+0001 read0 read1 11
+0010 read1 IOwait 01
+0100 write0 IOwait 01
