@@ -34,9 +34,9 @@ module ArtDecomp describe FSM do
     end
 
     it 'should properly generate its KISS representation' do
-      @opus.to_kiss.should == File.read('spec/fixtures/opus')
-      @lion.to_kiss.should == File.read('spec/fixtures/lion')
-      @mc.to_kiss.should   == File.read('spec/fixtures/mc')
+      @opus.to_kiss.should == File.read('spec/fixtures/opus.to_kiss')
+      @lion.to_kiss.should == File.read('spec/fixtures/lion.to_kiss')
+      @mc.to_kiss.should   == File.read('spec/fixtures/mc.to_kiss')
     end
 
     it 'should return a given input’s encoding for the given row(s)' do
