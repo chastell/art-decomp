@@ -39,11 +39,12 @@ module ArtDecomp describe FSM do
       @mc.to_kiss.should   == File.read('spec/fixtures/mc.to_kiss')
     end
 
-    it 'should return a given input’s encoding for the given row(s)' do
-      @opus.x_encoding(2, B[0]).should   == '1'
-      @opus.x_encoding(0, B[0]).should   == '-'
-      @opus.x_encoding(0, B[7,8]).should == '0'
-      lambda { @opus.x_encoding 0, B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 8,9')
+    it 'should return given inputs’ encoding for the given row(s)' do
+      @opus.x_encoding([2], B[0]).should   == '1'
+      @opus.x_encoding([0], B[0]).should   == '-'
+      @opus.x_encoding([0], B[7,8]).should == '0'
+      lambda { @opus.x_encoding [0], B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 8,9')
+      @opus.x_encoding([0,2], B[0]).should == '-1'
     end
 
     it 'should return output encoding for the given row(s)' do
