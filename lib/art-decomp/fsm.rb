@@ -62,8 +62,8 @@ module ArtDecomp class FSM
     KISS.new(cols.transpose.map(&:join)).formatted
   end
 
-  def x_encoding i, rows
-    encoding @inputs[i], rows
+  def x_encoding ins, rows
+    ins.map { |i| encoding @inputs[i], rows }.join
   end
 
   def y_encoding rows
