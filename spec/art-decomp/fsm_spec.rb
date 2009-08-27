@@ -59,6 +59,12 @@ module ArtDecomp describe FSM do
       @opus.state_rows_of_next_state_of(B[20,21]).should == B[8,9,10,11,12,13,14]
     end
 
+    it 'should equal/not-equal other FSMs and hash properly' do
+      @lion.should_not  == FSM.from_kiss('spec/fixtures/opus')
+      @lion.should      == FSM.from_kiss('spec/fixtures/lion')
+      @lion.hash.should == FSM.from_kiss('spec/fixtures/lion').hash
+    end
+
   end
 
 end end

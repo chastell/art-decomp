@@ -17,6 +17,10 @@ module ArtDecomp class FSM
     @inputs, @outputs, @state, @next_state = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze
   end
 
+  def == other
+    [@inputs, @outputs, @state, @next_state] == [other.inputs, other.outputs, other.state, other.next_state]
+  end
+
   def beta_f
     outs = @outputs.map { |output| Blanket.from_array output }
     outs.inject(:*) * Blanket.from_array(@next_state)
@@ -29,6 +33,10 @@ module ArtDecomp class FSM
   def beta_x ins
     return Blanket[B[*0...@state.size]] if ins.empty?
     ins.map { |i| Blanket.from_array @inputs[i] }.inject(:*)
+  end
+
+  def hash
+    @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
   end
 
   def input_count
@@ -55,6 +63,10 @@ module ArtDecomp class FSM
   def y_encoding rows
     @outputs.map { |output| encoding output, rows }.join
   end
+
+  protected
+
+  attr_reader :inputs, :outputs, :state, :next_state
 
   private
 
