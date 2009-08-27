@@ -41,12 +41,11 @@ module ArtDecomp class FSM
   end
 
   def to_kiss
-    ins  = @inputs.transpose
-    outs = @outputs.transpose
     st   = @state.map      { |e| e == DontCare ? '*' : e }
     nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
-    lines = (0...@state.size).map { |i| [ins[i].join, st[i], nxt[i], outs[i].join].join ' ' }
-    KISS.new(lines).formatted
+    div  = Array.new @state.size, ' '
+    cols = @inputs + [div, st, div, nxt, div] + @outputs
+    KISS.new(cols.transpose.map(&:join)).formatted
   end
 
   def x_encoding i, rows
