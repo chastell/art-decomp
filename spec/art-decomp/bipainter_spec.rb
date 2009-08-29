@@ -13,6 +13,10 @@ module ArtDecomp describe Bipainter do
       bipainter.blankets.should == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
     end
 
+    it 'should raise a RuntimeError on non-disjoint beta_v' do
+      lambda { Bipainter.new Blanket[], Blanket[B[0,1], B[0,2]], Set[] }.should raise_error(RuntimeError, 'non-disjoint beta_v')
+    end
+
   end
 
 end end
