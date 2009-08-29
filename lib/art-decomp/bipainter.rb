@@ -6,23 +6,15 @@ module ArtDecomp class Bipainter
     @g_colours  = {}
     @qv_forbidden = Hash.new { |h, k| h[k] = Set[] }
     @g_forbidden  = Hash.new { |h, k| h[k] = Set[] }
-    qv_seps = seps - beta_v.seps
-    @beta_v.ints.pairs.each do |a, b|
-      (a & b).bits.each do |bit|
-        seps.each do |sep|
-          qv_seps += sep.bits.map { |b| Sep[b, bit] } if (a | b) & sep == sep
-        end
-      end
-    end
-    @qv_graph = Graph.new beta_q,          qv_seps
+    @qv_graph = Graph.new beta_q,          seps - beta_v.seps
     @g_graph  = Graph.new beta_q * beta_v, seps
     puts
     puts '___ BIPAINTER ___'
-    puts "beta_q: #{@beta_q.inspect}"
-    puts "beta_v: #{@beta_v.inspect}"
+    puts "beta_q: #{beta_q.inspect}"
+    puts "beta_v: #{beta_v.inspect}"
     puts "qv_graph.vertices: #{@qv_graph.vertices.map(&:bits)}"
     puts "qv_graph.edges: #{@qv_graph.edges.map{|e| e.map(&:bits)}}"
-    puts "qv_graph.seps: #{qv_seps.map(&:bits)}"
+    puts "qv_graph.seps: #{(seps - beta_v.seps).map(&:bits)}"
     puts "g_graph.vertices: #{@g_graph.vertices.map(&:bits)}"
     puts "g_graph.edges: #{@g_graph.edges.map{|e| e.map(&:bits)}}"
     puts "g_graph.seps: #{seps.map(&:bits)}"
@@ -154,27 +146,26 @@ module ArtDecomp class Bipainter
     raise PaintingError if @qv_forbidden[qv_vertex].include? colour
     @qv_colours[qv_vertex] = colour
     @qv_graph.adjacent(qv_vertex).each { |adjacent| forbid_qv! adjacent, colour }
-
-    if @qv_graph.vertices.any? { |qv| @qv_colours[qv] == colour and qv != qv_vertex }
-      @g_graph.vertices.select { |g| g & qv_vertex != 0 }.each do |g_vertex|
+    if @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
+      @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
+        v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
+        @g_graph.adjacent(g_vertex).select { |g| v_parent & g == g and qv_vertex & g != g }.each do |neighbour|
+          @qv_graph.vertices.select { |q| q & neighbour == neighbour }.each do |q_parent|
+            forbid_qv! q_parent, colour
+          end
+        end
         siblings_of(g_vertex).each { |sibling| sync_colours g_vertex, sibling }
       end
     end
-
     p $stack + "…Qv #{qv_vertex.bits} = #{colour}"
     $stack.chop!.chop!
   end
 
   def siblings_of g_vertex
-    # FIXME: consider iterating over @g_graph’s vertices first (thus, only once)
-    siblings = Set[]
-    @qv_graph.vertices.select { |qv| qv & g_vertex != 0 and @qv_colours[qv] }.each do |q_parent|
-      @beta_v.ints.select { |v| v & g_vertex != 0 }.each do |v_parent|
-        @qv_graph.vertices.select { |qv| @qv_colours[qv] == @qv_colours[q_parent] and qv != q_parent }.each do |qv|
-          siblings += @g_graph.vertices.select { |g| g & qv != 0 and g & v_parent != 0 }
-        end
-      end
-    end
+    v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
+    colours  = @qv_colours.select { |q, col| g_vertex & q == g_vertex }.values
+    similar  = @qv_colours.select { |q, col| colours.include? col }.keys
+    siblings = (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
     p $stack + "siblings of #{g_vertex.bits} are #{siblings.map(&:bits)}"
     siblings
   end
