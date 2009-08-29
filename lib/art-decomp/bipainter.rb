@@ -82,20 +82,6 @@ module ArtDecomp class Bipainter
     $stack.chop!.chop!
   end
 
-# def colour_g_vertex_with! g_vertex, colour
-#   $stack << '  '
-#   p $stack + "G #{g_vertex.bits} ← #{colour}…"
-#   # FIXME: raise a custom exception
-#   raise  if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
-#   raise  if @g_forbidden[g_vertex].include? colour
-#   p $stack + "…already coloured" and $stack.chop!.chop! and return if @g_colours[g_vertex]
-#   @g_colours[g_vertex] = colour
-#   @g_graph.adjacent(g_vertex).each { |adj| forbid_g_colour! adj, colour }
-#   trans_adjacent(g_vertex).each { |adj| colour_g_vertex_with! adj, colour }
-#   p $stack + "…G #{g_vertex.bits} = #{colour}"
-#   $stack.chop!.chop!
-# end
-
   def colour_next_vertex!
     p 'colouring next vertex pair…'
     # FIXME: consider colouring G graph’s vertex first
@@ -202,75 +188,8 @@ module ArtDecomp class Bipainter
     end
   end
 
-
-# def colour_qv_vertex_with! qv_vertex, colour
-#   $stack << '  '
-#   p $stack + "Qv #{qv_vertex.bits} ← #{colour}…"
-#   # FIXME: raise a custom exception
-#   raise  if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
-#   raise  if @qv_forbidden[qv_vertex].include? colour
-#   p $stack + "…already coloured" and $stack.chop!.chop! and return if @qv_colours[qv_vertex]
-#   @qv_colours[qv_vertex] = colour
-#   # FIXME: maybe redundant
-#   @qv_graph.adjacent(qv_vertex).each { |adj| forbid_qv_colour! adj, colour }
-#   # FIXME: verify and simplify the below
-#   @g_graph.vertices.select { |g| qv_vertex & g == g }.each do |g_vertex|
-#     v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
-#     @g_graph.adjacent(g_vertex).select { |g| v_parent & g == g and qv_vertex & g != g }.each do |neighbour|
-#       q_parent = @beta_q.ints.find { |q| q & neighbour == neighbour }
-#       forbid_qv_colour! q_parent, colour
-#     end
-#     trans_adjacent(g_vertex).each do |clansman|
-#       # FIXME: factor out this whole block into sync_colours(g_vertex, clansman)
-#       (@g_forbidden[g_vertex] - @g_forbidden[clansman]).each do |col|
-#         forbid_g_colour! clansman, col
-#       end
-#       (@g_forbidden[clansman] - @g_forbidden[g_vertex]).each do |col|
-#         forbid_g_colour! g_vertex, col
-#       end
-#       case
-#       when @g_colours[g_vertex] then colour_g_vertex_with! clansman, @g_colours[g_vertex]
-#       when @g_colours[clansman] then colour_g_vertex_with! g_vertex, @g_colours[clansman]
-#       end
-#     end
-#   end
-#   p $stack + "…Qv #{qv_vertex.bits} = #{colour}"
-#   $stack.chop!.chop!
-# end
-
-# def forbid_g_colour! g_vertex, colour
-#   $stack << '  '
-#   p $stack + "G #{g_vertex.bits} × #{colour}…"
-#   raise PaintingError if colour == @g_colours[g_vertex]
-#   p $stack + "…already forbidden" and $stack.chop!.chop! and return if @g_forbidden[g_vertex].include? colour
-#   @g_forbidden[g_vertex] << colour
-#   trans_adjacent(g_vertex).each { |adj| forbid_g_colour! adj, colour }
-#   p $stack + "…G #{g_vertex.bits} ≠ #{colour}"
-#   $stack.chop!.chop!
-# end
-
-# def forbid_qv_colour! qv_vertex, colour
-#   $stack << '  '
-#   p $stack + "Qv #{qv_vertex.bits} × #{colour}…"
-#   # FIXME: raise a custom exception
-#   raise  if colour == @qv_colours[qv_vertex]
-#   p $stack + "…already forbidden" and $stack.chop!.chop! and return if @qv_forbidden[qv_vertex].include? colour
-#   @qv_forbidden[qv_vertex] << colour
-#   p $stack + "…Qv #{qv_vertex.bits} ≠ #{colour}"
-#   $stack.chop!.chop!
-# end
-
   def painted?
     @qv_graph.vertices == @qv_colours.keys.to_set and @g_graph.vertices == @g_colours.keys.to_set
   end
-
-# def trans_adjacent g_vertex
-#   # FIXME: consider the case of multiple parents
-#   q_parent = @beta_q.ints.find { |q| q & g_vertex == g_vertex }
-#   v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
-#   return [] unless @qv_colours[q_parent]
-#   q_parents = @qv_colours.select { |q, colour| colour == @qv_colours[q_parent] }.keys
-#   @g_graph.vertices.select { |g| v_parent & g == g }.select { |g| q_parents.any? { |q| q & g == g } } - [g_vertex]
-# end
 
 end end
