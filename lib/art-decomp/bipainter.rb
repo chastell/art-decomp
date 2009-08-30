@@ -9,22 +9,9 @@ module ArtDecomp class Bipainter
     @g_forbidden  = Hash.new { |h, k| h[k] = Set[] }
     @qv_graph = Graph.new beta_q,          seps - beta_v.seps
     @g_graph  = Graph.new beta_q * beta_v, seps
-    puts
-    puts '___ BIPAINTER ___'
-    puts "beta_q: #{beta_q.inspect}"
-    puts "beta_v: #{beta_v.inspect}"
-    puts "qv_graph.vertices: #{@qv_graph.vertices.map(&:bits)}"
-    puts "qv_graph.edges: #{@qv_graph.edges.map{|e| e.map(&:bits)}}"
-    puts "qv_graph.seps: #{(seps - beta_v.seps).map(&:bits)}"
-    puts "g_graph.vertices: #{@g_graph.vertices.map(&:bits)}"
-    puts "g_graph.edges: #{@g_graph.edges.map{|e| e.map(&:bits)}}"
-    puts "g_graph.seps: #{seps.map(&:bits)}"
-    puts '^^^ BIPAINTER ^^^'
-    puts
   end
 
   def blankets
-    $stack = ''
     colour_next_vertex! until painted?
     qv_blocks = Hash.new 0
     g_blocks  = Hash.new 0
@@ -58,91 +45,64 @@ module ArtDecomp class Bipainter
   end
 
   def colour_g_vertex! g_vertex
-    $stack << '  '
     begin
       backup!
-      p $stack + "G #{g_vertex.bits}…"
       colour = :a
       colour = colour.next while @g_forbidden[g_vertex].include? colour
       colour_g! g_vertex, colour
     rescue PaintingError
-      p $stack + "PaintingError G #{g_vertex.bits}/#{colour} caught"
       restore!
       forbid_g! g_vertex, colour
       retry
     end
-    p $stack + "…G #{g_vertex.bits} coloured"
-    $stack.chop!.chop!
   end
 
   def colour_next_vertex!
-    p 'colouring next vertex pair…'
     # FIXME: consider colouring G graph’s vertex first
     # FIXME: consider other vertex selection algorithms
     qv_vertex = (@qv_graph.vertices - @qv_colours.keys).sort_by { |v| [-@qv_forbidden[v].size, -@qv_graph.degree(v)] }.first
     colour_qv_vertex! qv_vertex if qv_vertex
     g_vertex = (@g_graph.vertices - @g_colours.keys).sort_by { |v| [-@g_forbidden[v].size, -@g_graph.degree(v)] }.first
     colour_g_vertex! g_vertex if g_vertex
-    p '…next vertex pair coloured'
   end
 
   def colour_qv_vertex! qv_vertex
-    $stack << '  '
     begin
-      p $stack + "Qv #{qv_vertex.bits}…"
       backup!
       colour = :a
       colour = colour.next while @qv_forbidden[qv_vertex].include? colour
       colour_qv! qv_vertex, colour
     rescue PaintingError
-      p $stack + "PaintingError Qv #{qv_vertex.bits}/#{colour} caught"
       restore!
       forbid_qv! qv_vertex, colour
       retry
     end
-    p $stack + "…Qv #{qv_vertex.bits} coloured"
-    $stack.chop!.chop!
   end
 
   def forbid_g! g_vertex, colour
-    $stack << '  '
-    p $stack + "G #{g_vertex.bits} × #{colour}…"
-    p $stack + "…already forbidden" and $stack.chop!.chop! and return if @g_forbidden[g_vertex].include? colour
+    return if @g_forbidden[g_vertex].include? colour
     raise PaintingError if colour == @g_colours[g_vertex]
     @g_forbidden[g_vertex] << colour
     siblings_of(g_vertex).each { |sibling| forbid_g! sibling, colour }
-    p $stack + "…G #{g_vertex.bits} ≠ #{colour}"
-    $stack.chop!.chop!
   end
 
   def forbid_qv! qv_vertex, colour
-    $stack << '  '
-    p $stack + "Qv #{qv_vertex.bits} × #{colour}…"
-    p $stack + "…already forbidden" and $stack.chop!.chop! and return if @qv_forbidden[qv_vertex].include? colour
+    return if @qv_forbidden[qv_vertex].include? colour
     raise PaintingError if colour == @qv_colours[qv_vertex]
     @qv_forbidden[qv_vertex] << colour
-    p $stack + "…Qv #{qv_vertex.bits} ≠ #{colour}"
-    $stack.chop!.chop!
   end
 
   def colour_g! g_vertex, colour
-    raise if colour == :m
-    $stack << '  '
-    p $stack + "G #{g_vertex.bits} ← #{colour}…"
-    p $stack + "…already coloured" and $stack.chop!.chop! and return if @g_colours[g_vertex] == colour
+    return if @g_colours[g_vertex] == colour
     raise PaintingError if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
     raise PaintingError if @g_forbidden[g_vertex].include? colour
     @g_colours[g_vertex] = colour
     @g_graph.adjacent(g_vertex).each { |adjacent| forbid_g! adjacent, colour }
     siblings_of(g_vertex).each { |sibling| colour_g! sibling, colour }
-    p $stack + "…G #{g_vertex.bits} = #{colour}"
-    $stack.chop!.chop!
   end
 
   def colour_qv! qv_vertex, colour
-    $stack << '  '
-    p $stack + "Qv #{qv_vertex.bits} ← #{colour}…"
-    p $stack + "…already coloured" and $stack.chop!.chop! and return if @qv_colours[qv_vertex] == colour
+    return if @qv_colours[qv_vertex] == colour
     raise PaintingError if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
     raise PaintingError if @qv_forbidden[qv_vertex].include? colour
     @qv_colours[qv_vertex] = colour
@@ -158,21 +118,16 @@ module ArtDecomp class Bipainter
         siblings_of(g_vertex).each { |sibling| sync_colours g_vertex, sibling }
       end
     end
-    p $stack + "…Qv #{qv_vertex.bits} = #{colour}"
-    $stack.chop!.chop!
   end
 
   def siblings_of g_vertex
     v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
     colours  = @qv_colours.select { |q, col| g_vertex & q == g_vertex }.values
     similar  = @qv_colours.select { |q, col| colours.include? col }.keys
-    siblings = (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
-    p $stack + "siblings of #{g_vertex.bits} are #{siblings.map(&:bits)}"
-    siblings
+    (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
   end
 
   def sync_colours v1, v2
-    p $stack + "syncing #{v1.bits} and #{v2.bits}"
     (@g_forbidden[v1] - @g_forbidden[v2]).each { |col| forbid_g! v2, col }
     (@g_forbidden[v2] - @g_forbidden[v1]).each { |col| forbid_g! v1, col }
     if    @g_colours[v1] then colour_g! v2, @g_colours[v1]
