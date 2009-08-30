@@ -13,4 +13,8 @@ describe Set, 'of Separations' do
     Blanket[B[1],B[2],B[3],B[4]].seps.r_adm(b).should == 2
   end
 
+  it 'should side-step a MRI bug with Set#hash' do
+    Set[2305860601668175887].hash.should == Set[2305860601668175887].hash
+  end
+
 end
