@@ -7,8 +7,7 @@ module ArtDecomp describe UVGenerator::Braindead do
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
-      uvs = []
-      uv_gen.each { |f, u, v| uvs << [f, u, v] }
+      uvs = uv_gen.uv_pairs.to_a
       uvs.size.should  == 15
       uvs.first.should == [fsm, [0,1,2,3], []]
       uvs[7].should    == [fsm, [3], [0,1,2]]
@@ -21,9 +20,7 @@ module ArtDecomp describe UVGenerator::Braindead do
       fsm.should_receive(:expand_x).exactly(4).times.and_return(fsm0, fsm1, fsm2, fsm3)
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
-      uvs = []
-      uv_gen.each { |f, u, v| uvs << [f, u, v] }
-      uvs.should == [
+      uv_gen.uv_pairs.to_a.should == [
         [fsm0, [0,1], []],
         [fsm1, [1],   [0]],
         [fsm2, [0],   [1]],

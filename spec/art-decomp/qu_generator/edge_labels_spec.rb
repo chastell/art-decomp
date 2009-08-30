@@ -6,9 +6,7 @@ module ArtDecomp describe QuGenerator::EdgeLabels do
       fsm   = mock 'FSM', :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
       archs = Set[Arch[3,1]]
       el    = QuGenerator::EdgeLabels.new
-      qus   = []
-      el.each(fsm, [0], [1]) { |qu| qus << qu }
-      qus
+      el.qu_blankets(fsm, [0], [1]).to_a
     end
 
     it 'should fist merge until its graph is complete' do

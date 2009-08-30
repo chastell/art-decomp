@@ -1,15 +1,17 @@
 module ArtDecomp class QuGenerator::BlockTable
 
-  def each fsm, u, v
-    @seps   = fsm.beta_f.seps
-    @rows   = fsm.beta_q.ints.dup
-    @cols   = fsm.beta_x(u).ints
-    @r_adms = {}
-    fold_matching!
-    yield Blanket.new @rows
-    while @rows.size > 1
-      fold!
-      yield Blanket.new @rows
+  def qu_blankets fsm, u, v
+    Enumerator.new do |yielder|
+      @seps   = fsm.beta_f.seps
+      @rows   = fsm.beta_q.ints.dup
+      @cols   = fsm.beta_x(u).ints
+      @r_adms = {}
+      fold_matching!
+      yielder.yield Blanket.new @rows
+      while @rows.size > 1
+        fold!
+        yielder.yield Blanket.new @rows
+      end
     end
   end
 

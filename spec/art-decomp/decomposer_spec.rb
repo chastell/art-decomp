@@ -18,9 +18,12 @@ module ArtDecomp describe Decomposer do
       def initialize sequences
         @sequences = sequences
       end
-      def each *key, &block
+      def elems *key, &block
         @sequences[key].each &block
       end
+      alias uv_pairs    elems
+      alias qu_blankets elems
+      alias blankets    elems
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do

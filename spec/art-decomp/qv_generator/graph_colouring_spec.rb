@@ -15,8 +15,7 @@ module ArtDecomp describe QvGenerator::GraphColouring do
       archs = Set[Arch[3,1]]
       gc = QvGenerator::GraphColouring.new
 
-      pairs = []
-      gc.each(fsm, [0], [1], beta_qu) { |qv, g| pairs << [qv, g] }
+      pairs = gc.blankets(fsm, [0], [1], beta_qu).to_a
       pairs.size.should  == 2
       pairs.first.should == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
       pairs.last.should  == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
