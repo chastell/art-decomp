@@ -8,6 +8,10 @@ module ArtDecomp class Decomposition
     [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
+  def f_kiss
+    @fsm.to_kiss
+  end
+
   def g_kiss
     require 'pp'
     pp self unless valid?
@@ -37,6 +41,18 @@ module ArtDecomp class Decomposition
       @g.encodings(row).each do |g|
         lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
+    end
+    KISS.new(lines).formatted
+  end
+
+  def q_kiss
+    lines = []
+    rows = @fsm.beta_q.ints
+    rows.each do |row|
+      qu = @qu.encoding row
+      qv = @qv.encoding row
+      q  = @fsm.q_encoding row
+      lines << "#{qu} #{qv}  #{q}"
     end
     KISS.new(lines).formatted
   end

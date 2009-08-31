@@ -1,0 +1,10 @@
+0 00  init2
+0 10  init4
+0 11  init0
+0 11  init1
+0 11  read0
+1 00  IOwait
+1 01  RMACK
+1 01  WMACK
+1 10  read1
+1 11  write0
