@@ -49,6 +49,11 @@ module ArtDecomp class FSM
     @inputs.size
   end
 
+  def q_encoding rows
+    # FIXME: consider tr DontCare, '*'
+    encoding @state, rows
+  end
+
   def state_rows_of_next_state_of rows
     state = @next_state[rows.bits.first]
     B[*(0...@state.size).select { |i| @state[i] == state }]

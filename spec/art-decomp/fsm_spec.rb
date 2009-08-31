@@ -61,6 +61,14 @@ module ArtDecomp describe FSM do
       @mark1.y_encoding(B[0,16]).should   == '-11---1-00100000'
     end
 
+    it 'should return state encoding for the given row(s)' do
+      @opus.q_encoding(B[1]).should     == 'init0'
+      @opus.q_encoding(B[1,2]).should   == 'init0'
+      @opus.q_encoding(B[0,1,2]).should == 'init0'
+      @opus.q_encoding(B[0]).should     == '-'
+      lambda { @opus.q_encoding B[2,3] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 2,3')
+    end
+
     it 'should return the row(s) of a state matching next-state of given row(s)' do
       @opus.state_rows_of_next_state_of(B[20,21]).should == B[8,9,10,11,12,13,14]
     end
