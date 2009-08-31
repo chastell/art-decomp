@@ -13,21 +13,17 @@ module ArtDecomp class Decomposition
   end
 
   def g_kiss
-    lines = []
-    rows = (@fsm.beta_x(@v) * @qv).ints
-    rows.each do |row|
+    lines = (@fsm.beta_x(@v) * @qv).ints.map do |row|
       v  = @fsm.x_encoding @v, row
       qv = @qv.encoding row
       g  = @g.encoding row
-      lines << "#{v}#{qv} #{g}"
+      "#{v}#{qv} #{g}"
     end
     KISS.new(lines).formatted
   end
 
   def h_kiss
-    lines = []
-    rows = (@fsm.beta_x(@u) * @g * @qu).ints
-    rows.each do |row|
+    lines = (@fsm.beta_x(@u) * @g * @qu).ints.map do |row|
       u   = @fsm.x_encoding @u, row
       qu  = @qu.encoding row
       qup = @qu.encoding @fsm.state_rows_of_next_state_of(row)
@@ -36,21 +32,19 @@ module ArtDecomp class Decomposition
       qu  = '*' if qu  =~ /^-+$/
       qup = '*' if qup =~ /^-+$/
       # FIXME: use only the encoding(s) really mapped from this row
-      @g.encodings(row).each do |g|
-        lines << "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
+      @g.encodings(row).map do |g|
+        "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
-    end
+    end.flatten
     KISS.new(lines).formatted
   end
 
   def q_kiss
-    lines = []
-    rows = @fsm.beta_q.ints
-    rows.each do |row|
+    lines = @fsm.beta_q.ints.map do |row|
       qu = @qu.encoding row
       qv = @qv.encoding row
       q  = @fsm.q_encoding row
-      lines << "#{qu} #{qv}  #{q}"
+      "#{qu} #{qv}  #{q}"
     end
     KISS.new(lines).formatted
   end
