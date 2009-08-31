@@ -16,18 +16,8 @@ module ArtDecomp class Decomposition
     rows.each do |row|
       v  = @fsm.x_encoding @v, row
       qv = @qv.encoding row
-      if (encs = rows.select { |r| r & row == row }.map { |r| @g.encodings r }.inject(:&)).size == 1
-        g = encs.first
-        lines << "#{v}#{qv} #{g}"
-      else
-        # FIXME: make sure the below handles all edge cases properly
-        g = @g.encodings(row).first
-        subrows = rows.select { |r| r != row and r & row == row }
-        subencs = subrows.map { |r| @fsm.x_encoding @v, r }.map { |enc| enc.dc_expand }.flatten
-        (v.dc_expand - subencs).each do |v_enc|
-          lines << "#{v_enc}#{qv} #{g}"
-        end
-      end
+      g  = @g.encoding row
+      lines << "#{v}#{qv} #{g}"
     end
     KISS.new(lines).formatted
   end
