@@ -1,7 +1,7 @@
 module ArtDecomp describe Decomposer do
 
   it 'should instantiate itself and its components properly' do
-    fsm      = mock 'FSM'
+    fsm      = mock FSM
     archs    = Set[Arch[5,1], Arch[4,2]]
     uv_class = mock 'UVGenerator class'
     qu_class = mock 'QuGenerator class'
@@ -27,16 +27,16 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
-      fsm = mock 'FSM'
+      fsm = mock FSM
 
       u_a, v_a = [0,1], [2] # for this U/V pair: two Qu generating one Qv/G pair each
-      qu_a1, qv_a1, g_a1 = mock('Blanket'), mock('Blanket'), mock('Blanket')
-      qu_a2, qv_a2, g_a2 = mock('Blanket'), mock('Blanket'), mock('Blanket')
+      qu_a1, qv_a1, g_a1 = mock(Blanket), mock(Blanket), mock(Blanket)
+      qu_a2, qv_a2, g_a2 = mock(Blanket), mock(Blanket), mock(Blanket)
 
       u_b, v_b = [0], [1,2] # for this U/V pair: one Qu generating two Qv/G pairs
-      qu_b = mock('Blanket')
-      qv_bA, g_bA = mock('Blanket'), mock('Blanket')
-      qv_bB, g_bB = mock('Blanket'), mock('Blanket')
+      qu_b = mock Blanket
+      qv_bA, g_bA = mock(Blanket), mock(Blanket)
+      qv_bB, g_bB = mock(Blanket), mock(Blanket)
 
       uv_class = mock 'UVGenerator class', :new => StubGenerator.new({[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
       qu_class = mock 'QuGenerator class', :new => StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],

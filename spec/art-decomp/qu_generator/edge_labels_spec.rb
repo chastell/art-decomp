@@ -3,14 +3,14 @@ module ArtDecomp describe QuGenerator::EdgeLabels do
   context 'when generating Qu blankets' do
 
     def qus
-      fsm   = mock 'FSM', :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
+      fsm   = mock FSM, :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
       archs = Set[Arch[3,1]]
       el    = QuGenerator::EdgeLabels.new
       el.qu_blankets(fsm, [0], [1]).to_a
     end
 
     it 'should fist merge until its graph is complete' do
-      @beta_f = mock 'Blanket', :seps => Set[Sep[1,2], Sep[2,3]]
+      @beta_f = mock Blanket, :seps => Set[Sep[1,2], Sep[2,3]]
       @beta_q = Blanket[B[1], B[2], B[3]]
       @beta_x = Blanket[]
       qus.first.should == Blanket[B[1,3], B[2]]

@@ -1,9 +1,9 @@
 module ArtDecomp describe Decomposition do
 
   it 'should instantiate, compare and hash properly' do
-    fsm = mock 'FSM'
+    fsm = mock FSM
     u, v = [0,1], [2]
-    qu, qv, g = mock('Blanket'), mock('Blanket'), mock('Blanket')
+    qu, qv, g = mock(Blanket), mock(Blanket), mock(Blanket)
     dec = Decomposition.new fsm, u, v, qu, qv, g
     dec.should      == Decomposition.new(fsm, u, v, qu, qv, g)
     dec.should_not  == Decomposition.new(fsm, v, u, qu, qv, g)
@@ -52,8 +52,8 @@ module ArtDecomp describe Decomposition do
   end
 
   it 'should optionally hold the information on what generators were used to construct it' do
-    fsm = mock 'FSM'
-    qu, qv, g = mock('Blanket'), mock('Blanket'), mock('Blanket')
+    fsm = mock FSM
+    qu, qv, g = mock(Blanket), mock(Blanket), mock(Blanket)
     d = Decomposition.new fsm, [0], [1], qu, qv, g, :uv_generator => :Braindead, :qu_generator => :BlockTable, :qv_generator => :GraphColouring
     d.uv_generator.should == :Braindead
     d.qu_generator.should == :BlockTable

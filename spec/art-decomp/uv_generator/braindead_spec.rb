@@ -3,7 +3,7 @@ module ArtDecomp describe UVGenerator::Braindead do
   context 'given a certain FSM and a Set of Archs' do
 
     it 'should yield all non-insane U and V combinations' do
-      fsm = mock 'FSM', :input_count => 4
+      fsm = mock FSM, :input_count => 4
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
@@ -15,8 +15,8 @@ module ArtDecomp describe UVGenerator::Braindead do
     end
 
     it 'should yield V-expanded FSMs' do
-      fsm = mock 'FSM', :input_count => 2
-      fsm0, fsm1, fsm2, fsm3 = mock('FSM'), mock('FSM'), mock('FSM'), mock('FSM')
+      fsm = mock FSM, :input_count => 2
+      fsm0, fsm1, fsm2, fsm3 = mock(FSM), mock(FSM), mock(FSM), mock(FSM)
       fsm.should_receive(:expand_x).exactly(4).times.and_return(fsm0, fsm1, fsm2, fsm3)
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
