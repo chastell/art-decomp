@@ -15,8 +15,9 @@ module ArtDecomp describe Decomposer do
   context 'given that the three generators are working properly' do
 
     class StubGenerator
-      def initialize sequences
-        @sequences = sequences
+      attr_reader :class
+      def initialize klass, sequences
+        @class, @sequences = klass, sequences
       end
       def elems *key, &block
         @sequences[key].each &block
@@ -38,18 +39,21 @@ module ArtDecomp describe Decomposer do
       qv_bA, g_bA = mock(Blanket), mock(Blanket)
       qv_bB, g_bB = mock(Blanket), mock(Blanket)
 
-      uv_class = mock 'UVGenerator class', :new => StubGenerator.new({[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
-      qu_class = mock 'QuGenerator class', :new => StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
-                                                                      [fsm, u_b, v_b] => [qu_b]})
-      qv_class = mock 'QvGenerator class', :new => StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
-                                                                      [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
-                                                                      [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
+      uv_class = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
+      qu_class = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, u_a, v_a] => [qu_a1, qu_a2],
+                                                                                                           [fsm, u_b, v_b] => [qu_b]})
+      qv_class = mock QvGenerator::GraphColouring, :new => StubGenerator.new(QvGenerator::GraphColouring, {[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
+                                                                                                           [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
+                                                                                                           [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
       decomposer = Decomposer.new :fsm => fsm, :uv_class => uv_class, :qu_class => qu_class, :qv_class => qv_class
       results = decomposer.decompositions.to_a
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
       results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
+      results.sample.uv_generator.should == UVGenerator::Braindead
+      results.sample.qu_generator.should == QuGenerator::BlockTable
+      results.sample.qv_generator.should == QvGenerator::GraphColouring
     end
 
   end
