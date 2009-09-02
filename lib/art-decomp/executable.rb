@@ -37,11 +37,11 @@ module ArtDecomp class Executable
     decs = []
     decomposer.decompositions.with_index do |dec, i|
       decs << dec
-      File.write_data File.join(@dir, "#{i}.g"), dec.g_kiss if dump_tables
-      File.write_data File.join(@dir, "#{i}.h"), dec.h_kiss if dump_tables
+      File.write_data dec.g_kiss, File.join(@dir, "#{i}.g") if dump_tables
+      File.write_data dec.h_kiss, File.join(@dir, "#{i}.h") if dump_tables
     end
 
-    File.dump_object File.join(@dir, 'decompositions'), decs
+    File.dump_object decs, File.join(@dir, 'decompositions')
   end
 
 end end
