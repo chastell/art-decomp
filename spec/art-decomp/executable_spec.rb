@@ -4,8 +4,7 @@ module ArtDecomp describe Executable do
     @orig_stderr = $stderr
     $stderr = StringIO.new
     @fsm = 'spec/fixtures/lion'
-    @dir = Dir.tmpdir
-    @dir = File.join Dir.tmpdir, rand.to_s while File.exists? @dir
+    @dir = File.join Dir.tmpdir, rand.to_s
     @args = ['-a', '5/1', '-o', @dir, @fsm]
   end
 
