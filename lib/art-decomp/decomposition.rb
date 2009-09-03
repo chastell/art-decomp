@@ -1,10 +1,10 @@
 module ArtDecomp class Decomposition
 
-  attr_reader :uv_class, :qu_class, :qv_class
+  attr_reader :uv_gen, :qu_gen, :qv_gen
 
   def initialize fsm, u, v, qu, qv, g, opts = {}
     @fsm, @u, @v, @qu, @qv, @g = fsm, u, v, qu, qv, g
-    @uv_class, @qu_class, @qv_class = opts.values_at :uv_class, :qu_class, :qv_class
+    @uv_gen, @qu_gen, @qv_gen = opts.values_at :uv_gen, :qu_gen, :qv_gen
   end
 
   def == other
