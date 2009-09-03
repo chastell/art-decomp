@@ -3,9 +3,9 @@ module ArtDecomp class Decomposer
   def initialize params
     @fsm    = params[:fsm]
     @archs  = params[:archs]
-    @uv_gen = params[:uv_class].new @fsm, @archs
-    @qu_gen = params[:qu_class].new
-    @qv_gen = params[:qv_class].new
+    @uv_gen = params[:uv_gens].first.new @fsm, @archs
+    @qu_gen = params[:qu_gens].first.new
+    @qv_gen = params[:qv_gens].first.new
   end
 
   def decompositions

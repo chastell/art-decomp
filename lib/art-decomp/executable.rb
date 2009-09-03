@@ -27,13 +27,13 @@ module ArtDecomp class Executable
     @fsm   = FSM.from_kiss args.first
     @archs = opts[:arch].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
 
-    @uv_class = eval "UVGenerator::" + opts[:uv]
-    @qu_class = eval "QuGenerator::" + opts[:qu]
-    @qv_class = eval "QvGenerator::" + opts[:qv]
+    @uv_gen = eval "UVGenerator::" + opts[:uv]
+    @qu_gen = eval "QuGenerator::" + opts[:qu]
+    @qv_gen = eval "QvGenerator::" + opts[:qv]
   end
 
   def run dump_tables = true
-    decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_class => @uv_class, :qu_class => @qu_class, :qv_class => @qv_class
+    decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_gens => [@uv_gen], :qu_gens => [@qu_gen], :qv_gens => [@qv_gen]
     decs = []
     decomposer.decompositions.with_index do |dec, i|
       decs << dec
