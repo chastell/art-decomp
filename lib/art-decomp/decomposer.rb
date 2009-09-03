@@ -13,7 +13,7 @@ module ArtDecomp class Decomposer
       @uv_gen.uv_pairs.each do |fsm, u, v|
         @qu_gen.qu_blankets(fsm, u, v).each do |qu|
           @qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
-            yielder.yield Decomposition.new fsm, u, v, qu, qv, g, :uv_generator => @uv_gen.class, :qu_generator => @qu_gen.class, :qv_generator => @qv_gen.class
+            yielder.yield Decomposition.new fsm, u, v, qu, qv, g, :uv_class => @uv_gen.class, :qu_class => @qu_gen.class, :qv_class => @qv_gen.class
           end
         end
       end

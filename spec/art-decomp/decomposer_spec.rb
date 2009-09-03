@@ -51,9 +51,9 @@ module ArtDecomp describe Decomposer do
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
       results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
-      results.sample.uv_generator.should == UVGenerator::Braindead
-      results.sample.qu_generator.should == QuGenerator::BlockTable
-      results.sample.qv_generator.should == QvGenerator::GraphColouring
+      results.sample.uv_class.should == UVGenerator::Braindead
+      results.sample.qu_class.should == QuGenerator::BlockTable
+      results.sample.qv_class.should == QvGenerator::GraphColouring
     end
 
   end

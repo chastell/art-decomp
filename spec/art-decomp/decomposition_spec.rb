@@ -54,10 +54,10 @@ module ArtDecomp describe Decomposition do
   it 'should optionally hold the information on what generators were used to construct it' do
     fsm = mock FSM
     qu, qv, g = mock(Blanket), mock(Blanket), mock(Blanket)
-    d = Decomposition.new fsm, [0], [1], qu, qv, g, :uv_generator => :Braindead, :qu_generator => :BlockTable, :qv_generator => :GraphColouring
-    d.uv_generator.should == :Braindead
-    d.qu_generator.should == :BlockTable
-    d.qv_generator.should == :GraphColouring
+    d = Decomposition.new fsm, [0], [1], qu, qv, g, :uv_class => UVGenerator::Braindead, :qu_class => QuGenerator::BlockTable, :qv_class => QvGenerator::GraphColouring
+    d.uv_class.should == UVGenerator::Braindead
+    d.qu_class.should == QuGenerator::BlockTable
+    d.qv_class.should == QvGenerator::GraphColouring
   end
 
 end end
