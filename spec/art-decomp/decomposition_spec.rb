@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe Decomposition do
 
   it 'should instantiate, compare and hash properly' do

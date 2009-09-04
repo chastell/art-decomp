@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe Blanket do
 
   it 'should be easily instantiable, properly comparable and usable as a Set element' do

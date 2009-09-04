@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe Graph do
 
   before do

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe FSM do
 
   context 'parsed from an example KISS file' do

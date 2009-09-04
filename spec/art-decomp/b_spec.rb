@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe B do
 
   context 'when representing ‘set bits’ concept' do

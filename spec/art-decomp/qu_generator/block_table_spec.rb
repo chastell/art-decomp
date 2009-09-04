@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module ArtDecomp describe QuGenerator::BlockTable do
 
   context 'when generating Qu blankets' do

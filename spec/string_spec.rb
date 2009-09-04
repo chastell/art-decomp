@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 describe String do
 
   it 'should provide an expansion of don’t-cares when representing boolean inputs' do
