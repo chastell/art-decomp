@@ -25,7 +25,7 @@ module ArtDecomp class Executable
     Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu].map(&:to_sym) - QuGenerator.constants).empty?
     Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv].map(&:to_sym) - QvGenerator.constants).empty?
 
-    Dir.mkdir opts[:outdir] rescue SystemCallError Trollop.die :outdir, 'output directory cannot be created'
+    Dir.mkdir opts[:outdir] rescue Trollop.die :outdir, 'output directory cannot be created'
 
     @dir   = opts[:outdir]
     @fsm   = FSM.from_kiss args.first
