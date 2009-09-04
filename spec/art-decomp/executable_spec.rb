@@ -116,4 +116,15 @@ module ArtDecomp describe Executable do
     Executable.new(args).run
   end
 
+  it 'should allow setting any of the generators to ‘all’' do
+    fsm = mock FSM
+    FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
+
+    decomposer = mock Decomposer, :decompositions => [].each
+    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[5,1]], :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
+
+    args = ['-a', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '-o', @dir, @fsm]
+    Executable.new(args).run
+  end
+
 end end
