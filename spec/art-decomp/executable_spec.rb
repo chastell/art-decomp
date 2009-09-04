@@ -34,12 +34,13 @@ module ArtDecomp describe Executable do
   end
 
   it 'should require that all architectures are parsable' do
-    lambda { Executable.new(@args + ['-a', 'a/b']) }.should raise_error SystemExit
-    stderr.should =~ /arch not in the form of inputs\/outputs/
+    args = ['-a', '5/1', 'a/b', '-o', @dir, @fsm]
+    lambda { Executable.new(args) }.should raise_error SystemExit
+    stderr.should =~ /archs not in the form of inputs\/outputs/
   end
 
   it 'should require output directory' do
-    lambda { Executable.new(['-a', '5/1', @fsm]) }.should raise_error SystemExit
+    lambda { Executable.new(['-a', '5/1', '--', @fsm]) }.should raise_error SystemExit
     stderr.should =~ /no output directory given/
   end
 
@@ -102,6 +103,17 @@ module ArtDecomp describe Executable do
     File.read(File.join @dir, '0.h').should == 'd0 H table'
     File.read(File.join @dir, '1.g').should == 'd1 G table'
     File.read(File.join @dir, '1.h').should == 'd1 H table'
+  end
+
+  it 'should pass all of the requested generators and architectures to the Decomposer' do
+    fsm = mock FSM
+    FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
+
+    decomposer = mock Decomposer, :decompositions => [].each
+    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[4,2], Arch[5,1]], :uv_gens => [UVGenerator::Braindead, UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
+
+    args = ['-a', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '-o', @dir, @fsm]
+    Executable.new(args).run
   end
 
 end end

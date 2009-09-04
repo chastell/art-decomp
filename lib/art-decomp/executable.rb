@@ -4,36 +4,36 @@ module ArtDecomp class Executable
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
-      opt :arch,   'Target architecture', :type => :string, :multi => true
-      opt :outdir, 'Output directory',    :type => :string
-      opt :uv,     'UV generator',        :default => 'Braindead'
-      opt :qu,     'Qu generator',        :default => 'BlockTable'
-      opt :qv,     'Qv generator',        :default => 'GraphColouring'
+      opt :archs,  'Target architecture(s)', :type => :strings
+      opt :outdir, 'Output directory',       :type => :string
+      opt :uv,     'UV generator(s)',        :default => ['Braindead']
+      opt :qu,     'Qu generator(s)',        :default => ['BlockTable']
+      opt :qv,     'Qv generator(s)',        :default => ['GraphColouring']
     end
 
     Trollop.die          'no FSM given'                      if     args.empty?
     Trollop.die          'FSM does not exist'                unless File.exists? args.first
-    Trollop.die          'no architecture given'             unless opts[:arch_given]
-    Trollop.die :arch,   'not in the form of inputs/outputs' unless opts[:arch].all? { |s| s =~ /^\d+\/\d+$/ }
+    Trollop.die          'no architecture given'             unless opts[:archs_given]
+    Trollop.die :archs,  'not in the form of inputs/outputs' unless opts[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
     Trollop.die :outdir, 'no output directory given'         unless opts[:outdir_given]
     Trollop.die :outdir, 'output directory exists'           if     File.exists? opts[:outdir]
-    Trollop.die :uv,     'no such UV generator'              unless UVGenerator.constants.include? opts[:uv].to_sym
-    Trollop.die :qu,     'no such Qu generator'              unless QuGenerator.constants.include? opts[:qu].to_sym
-    Trollop.die :qv,     'no such Qv generator'              unless QvGenerator.constants.include? opts[:qv].to_sym
+    Trollop.die :uv,     'no such UV generator'              unless (opts[:uv].map(&:to_sym) - UVGenerator.constants).empty?
+    Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu].map(&:to_sym) - QuGenerator.constants).empty?
+    Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv].map(&:to_sym) - QvGenerator.constants).empty?
 
     Dir.mkdir opts[:outdir] rescue SystemCallError Trollop.die :outdir, 'output directory cannot be created'
 
     @dir   = opts[:outdir]
     @fsm   = FSM.from_kiss args.first
-    @archs = opts[:arch].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
+    @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
 
-    @uv_gen = eval "UVGenerator::" + opts[:uv]
-    @qu_gen = eval "QuGenerator::" + opts[:qu]
-    @qv_gen = eval "QvGenerator::" + opts[:qv]
+    @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
+    @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
+    @qv_gens = opts[:qv].map { |gen| eval "QvGenerator::#{gen}" }
   end
 
   def run dump_tables = true
-    decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_gens => [@uv_gen], :qu_gens => [@qu_gen], :qv_gens => [@qv_gen]
+    decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     decs = []
     decomposer.decompositions.with_index do |dec, i|
       decs << dec
