@@ -36,6 +36,8 @@ module ArtDecomp class FSM
     ins.map { |i| Blanket.from_array @inputs[i] }.inject(:*)
   end
 
+  alias eql? ==
+
   def expand_x ins
     return self unless ins.any? { |i| @inputs[i].include? DontCare }
     FSM.from_kiss to_kiss.lines.map { |line| line.dc_expand(ins) }.flatten.sort.join

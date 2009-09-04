@@ -14,6 +14,8 @@ module ArtDecomp class Arch
     [@pins, @pons] == [other.pins, other.pons]
   end
 
+  alias eql? ==
+
   def hash
     @pins.hash ^ @pons.hash
   end

@@ -77,6 +77,7 @@ module ArtDecomp describe FSM do
       @lion.should_not  == FSM.from_kiss('spec/fixtures/opus')
       @lion.should      == FSM.from_kiss('spec/fixtures/lion')
       @lion.hash.should == FSM.from_kiss('spec/fixtures/lion').hash
+      @lion.should     eql FSM.from_kiss('spec/fixtures/lion')
     end
 
     it 'should expand selected input columns and return a new FSM instance' do

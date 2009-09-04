@@ -5,6 +5,7 @@ module ArtDecomp describe Arch do
     Arch[5,2].should_not == Arch[5,1]
     Arch[4,1].should_not == Arch[5,1]
     Arch[5,1].hash.should == Arch[5,1].hash
+    Arch[5,1].should eql Arch[5,1]
   end
 
 end end

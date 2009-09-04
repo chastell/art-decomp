@@ -48,6 +48,8 @@ module ArtDecomp class Blanket
     encs.size == 0 or encs.size == @ints.size ? [DontCare.to_s * width] : encs
   end
 
+  alias eql? ==
+
   def hash
     @ints.hash
   end

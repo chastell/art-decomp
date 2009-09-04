@@ -11,6 +11,8 @@ module ArtDecomp class Decomposition
     [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
+  alias eql? ==
+
   def f_kiss
     @fsm.to_kiss
   end
@@ -42,6 +44,10 @@ module ArtDecomp class Decomposition
     KISS.new(lines).formatted
   end
 
+  def hash
+    @fsm.hash ^ @u.hash ^ @v.hash ^ @qu.hash ^ @qv.hash ^ @g.hash
+  end
+
   def q_kiss
     lines = @fsm.beta_q.ints.map do |row|
       qu = @qu.encoding row
@@ -50,10 +56,6 @@ module ArtDecomp class Decomposition
       "#{qu} #{qv}  #{q}"
     end
     KISS.new(lines).formatted
-  end
-
-  def hash
-    @fsm.hash ^ @u.hash ^ @v.hash ^ @qu.hash ^ @qv.hash ^ @g.hash
   end
 
   def valid?

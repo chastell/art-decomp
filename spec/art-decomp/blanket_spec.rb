@@ -3,6 +3,7 @@ module ArtDecomp describe Blanket do
   it 'should be easily instantiable, properly comparable and usable as a Set element' do
     Blanket[B[], B[0], B[1,2]].should      == Blanket.new([B[1,2], B[0]])
     Blanket[B[], B[0], B[1,2]].hash.should == Blanket.new([B[1,2], B[0]]).hash
+    Blanket[B[], B[0], B[1,2]].should     eql Blanket.new([B[1,2], B[0]])
   end
 
   it 'should expose its internal ints variable and it should be immutable' do

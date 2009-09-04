@@ -9,6 +9,7 @@ module ArtDecomp describe Decomposition do
     dec.should_not  == Decomposition.new(fsm, v, u, qu, qv, g)
     dec.should_not  == Decomposition.new(fsm, u, v, qv, qu, g)
     dec.hash.should == Decomposition.new(fsm, u, v, qu, qv, g).hash
+    dec.should     eql Decomposition.new(fsm, u, v, qu, qv, g)
   end
 
   it 'should create its F, Q, G and H blocks’ KISS representations properly' do
