@@ -1,15 +1,14 @@
 module ArtDecomp describe Decomposer do
 
   it 'should instantiate itself and its components properly' do
-    fsm    = mock FSM
-    archs  = Set[Arch[5,1], Arch[4,2]]
-    uv_gen = mock 'UVGenerator class'
-    qu_gen = mock 'QuGenerator class'
-    qv_gen = mock 'QvGenerator class'
-    uv_gen.should_receive(:new).with fsm, archs
-    qu_gen.should_receive(:new).with no_args
-    qv_gen.should_receive(:new).with no_args
-    Decomposer.new :fsm => fsm, :archs => archs, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
+    fsm      = mock FSM
+    archs    = Set[Arch[5,1], Arch[4,2]]
+    uv1, uv2 = mock('UVGenerator class'), mock('UVGenerator class')
+    qu1, qu2 = mock('QuGenerator class'), mock('QuGenerator class')
+    qv1, qv2 = mock('QvGenerator class'), mock('QvGenerator class')
+    [uv1, uv2].each           { |gen| gen.should_receive(:new).with fsm, archs }
+    [qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
+    Decomposer.new :fsm => fsm, :archs => archs, :uv_gens => [uv1, uv2], :qu_gens => [qu1, qu2], :qv_gens => [qv1, qv2]
   end
 
   context 'given that the three generators are working properly' do
