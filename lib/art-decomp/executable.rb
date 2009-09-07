@@ -36,15 +36,13 @@ module ArtDecomp class Executable
     @qv_gens = opts[:qv].map { |gen| eval "QvGenerator::#{gen}" }
   end
 
-  def run dump_tables = true
+  def run dump_decs = true
     decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     decs = []
     decomposer.decompositions.with_index do |dec, i|
       decs << dec
-      File.write_data dec.g_kiss, File.join(@dir, "#{i}.g") if dump_tables
-      File.write_data dec.h_kiss, File.join(@dir, "#{i}.h") if dump_tables
+      File.dump_object dec, File.join(@dir, "#{i}.dec") if dump_decs
     end
-
     File.dump_object decs, File.join(@dir, 'decompositions')
   end
 

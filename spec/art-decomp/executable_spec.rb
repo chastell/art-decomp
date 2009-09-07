@@ -92,19 +92,12 @@ module ArtDecomp describe Executable do
     decs.should == [:d1, :d2, :d3]
   end
 
-  it 'should create files holding the decomposed G and H blocks' do
-    d0 = mock Decomposition, :g_kiss => 'd0 G table', :h_kiss => 'd0 H table'
-    d1 = mock Decomposition, :g_kiss => 'd1 G table', :h_kiss => 'd1 H table'
-    decomposer = mock Decomposer, :decompositions => [d0, d1].each
+  it 'should create files holding the resulting Decomposition objects' do
+    decomposer = mock Decomposer, :decompositions => [:dec0, :dec1].each
     Decomposer.should_receive(:new).and_return decomposer
-    Marshal.should_receive :dump
-
     Executable.new(@args).run
-
-    File.read(File.join @dir, '0.g').should == 'd0 G table'
-    File.read(File.join @dir, '0.h').should == 'd0 H table'
-    File.read(File.join @dir, '1.g').should == 'd1 G table'
-    File.read(File.join @dir, '1.h').should == 'd1 H table'
+    Marshal.load(File.read(File.join @dir, '0.dec')).should == :dec0
+    Marshal.load(File.read(File.join @dir, '1.dec')).should == :dec1
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer' do
