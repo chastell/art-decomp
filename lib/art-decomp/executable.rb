@@ -19,8 +19,8 @@ module ArtDecomp class Executable
     Trollop.die          'no FSM given'                      if     args.empty?
     Trollop.die          'FSM does not exist'                unless File.exists? args.first
     Trollop.die          'no architecture given'             unless opts[:archs_given]
+    Trollop.die          'no output directory given'         unless opts[:outdir_given]
     Trollop.die :archs,  'not in the form of inputs/outputs' unless opts[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
-    Trollop.die :outdir, 'no output directory given'         unless opts[:outdir_given]
     Trollop.die :outdir, 'output directory exists'           if     File.exists? opts[:outdir]
     Trollop.die :uv,     'no such UV generator'              unless (opts[:uv].map(&:to_sym) - UVGenerator.constants).empty?
     Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu].map(&:to_sym) - QuGenerator.constants).empty?
