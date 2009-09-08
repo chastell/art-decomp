@@ -5,6 +5,7 @@ module ArtDecomp class Executable
   def initialize args = ARGV
     opts = Trollop.options(args) do
       opt :archs,  'Target architecture(s)', :type => :strings
+      opt :depth,  'Depth of the process',   :default => 1
       opt :outdir, 'Output directory',       :type => :string
       opt :uv,     'UV generator(s)',        :default => ['Braindead']
       opt :qu,     'Qu generator(s)',        :default => ['BlockTable']
@@ -30,6 +31,7 @@ module ArtDecomp class Executable
     @dir   = opts[:outdir]
     @fsm   = FSM.from_kiss args.first
     @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
+    @depth = opts[:depth]
 
     @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
     @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
@@ -37,13 +39,32 @@ module ArtDecomp class Executable
   end
 
   def run dump_decs = true
-    decomposer = Decomposer.new :fsm => @fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
-    decs = []
-    decomposer.decompositions.with_index do |dec, i|
-      decs << dec
-      File.dump_object dec, File.join(@dir, "#{i}.dec") if dump_decs
+    dumps = Hash.new { |h, k| h[k] = [] }
+    decompositions(@fsm, @depth, @dir).each do |dec, dir, i|
+      dumps[dir] << dec
+      File.dump_object dec, "#{dir}/#{i}.dec" if dump_decs
     end
-    File.dump_object decs, File.join(@dir, 'decompositions')
+    dumps.each do |dir, decs|
+      File.dump_object decs, "#{dir}/decompositions"
+    end
+  end
+
+  private
+
+  def decompositions fsm, depth, dir
+    decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
+    Enumerator.new do |yielder|
+      decomposer.decompositions.with_index do |dec, i|
+        yielder.yield dec, dir, i
+        if depth > 1 and dec.decomposable?
+          in_dir = "#{dir}/#{i}"
+          Dir.mkdir in_dir
+          decompositions(FSM.from_kiss(dec.h_kiss), depth - 1, in_dir).each do |in_dec, in_dir, in_i|
+            yielder.yield in_dec, in_dir, in_i
+          end
+        end
+      end
+    end
   end
 
 end end
