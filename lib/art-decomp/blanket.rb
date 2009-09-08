@@ -59,6 +59,10 @@ module ArtDecomp class Blanket
     "Blanket[#{blocks.join ', '}]"
   end
 
+  def pins
+    @ints.size.log2_ceil
+  end
+
   def seps
     # FIXME: consider an algorithm with lesser complexity
     seps = Set[]

@@ -62,4 +62,16 @@ module ArtDecomp describe Blanket do
     blanket.encodings(B[1,2]).should   == ['00', '01']
   end
 
+  it 'should report how many physical pins it uses' do
+    Blanket[B[]].pins.should                                          == 0
+    Blanket[B[1]].pins.should                                         == 0
+    Blanket[B[1,2]].pins.should                                       == 0
+    Blanket[B[1],B[2]].pins.should                                    == 1
+    Blanket[B[1],B[2],B[3]].pins.should                               == 2
+    Blanket[B[1,2],B[3,4],B[5,6],B[7]].pins.should                    == 2
+    Blanket[B[1],B[2],B[3],B[4],B[5]].pins.should                     == 3
+    Blanket[B[1],B[2],B[3],B[4],B[5],B[6],B[7],B[8]].pins.should      == 3
+    Blanket[B[1],B[2],B[3],B[4],B[5],B[6],B[7],B[8],B[9]].pins.should == 4
+  end
+
 end end
