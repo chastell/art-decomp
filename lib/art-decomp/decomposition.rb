@@ -11,6 +11,10 @@ module ArtDecomp class Decomposition
     [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
+  def decomposable?
+    @qu.size > 2
+  end
+
   alias eql? ==
 
   def f_kiss

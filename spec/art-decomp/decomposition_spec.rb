@@ -63,4 +63,14 @@ module ArtDecomp describe Decomposition do
     d.qv_gen.should == QvGenerator::GraphColouring
   end
 
+  it 'should properly report whether it’s decomposable further' do
+    fsm = mock FSM
+    qv  = mock Blanket
+    g   = mock Blanket
+    qu1 = mock Blanket, :size => 2
+    qu2 = mock Blanket, :size => 3
+    Decomposition.new(fsm, [0], [1], qu1, qv, g).should_not be_decomposable
+    Decomposition.new(fsm, [0], [1], qu2, qv, g).should     be_decomposable
+  end
+
 end end
