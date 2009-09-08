@@ -62,6 +62,10 @@ module ArtDecomp class Decomposition
     KISS.new(lines).formatted
   end
 
+  def sensible?
+    @g.pins < @v.size + @qv.pins
+  end
+
   def valid?
     @g.seps.subset? (@fsm.beta_x(@v) * @qv).seps and @fsm.beta_f.seps.subset? (@fsm.beta_x(@u) * @qu * @g).seps
   end

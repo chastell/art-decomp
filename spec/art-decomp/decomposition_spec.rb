@@ -73,4 +73,13 @@ module ArtDecomp describe Decomposition do
     Decomposition.new(fsm, [0], [1], qu2, qv, g).should     be_decomposable
   end
 
+  it 'should properly report whether it’s sensible' do
+    fsm = mock FSM
+    qu = mock Blanket
+    qv = mock Blanket, :pins => 2
+    g  = mock Blanket, :pins => 3
+    Decomposition.new(fsm, [0,2], [1], qu, qv, g).should_not be_sensible
+    Decomposition.new(fsm, [0], [1,2], qu, qv, g).should     be_sensible
+  end
+
 end end
