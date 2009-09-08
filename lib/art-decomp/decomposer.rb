@@ -15,7 +15,8 @@ module ArtDecomp class Decomposer
             qu_gen.qu_blankets(fsm, u, v).each do |qu|
               @qv_gens.each do |qv_gen|
                 qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
-                  yielder.yield Decomposition.new fsm, u, v, qu, qv, g, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class
+                  dec = Decomposition.new fsm, u, v, qu, qv, g, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class
+                  yielder.yield dec if dec.sensible?
                 end
               end
             end

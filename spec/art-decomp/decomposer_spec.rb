@@ -30,13 +30,13 @@ module ArtDecomp describe Decomposer do
       fsm = mock FSM
 
       u_a, v_a = [0,1], [2] # for this U/V pair: two Qu generating one Qv/G pair each
-      qu_a1, qv_a1, g_a1 = mock(Blanket), mock(Blanket), mock(Blanket)
-      qu_a2, qv_a2, g_a2 = mock(Blanket), mock(Blanket), mock(Blanket)
+      qu_a1, qv_a1, g_a1 = mock(Blanket), mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
+      qu_a2, qv_a2, g_a2 = mock(Blanket), mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
 
       u_b, v_b = [0], [1,2] # for this U/V pair: one Qu generating two Qv/G pairs
       qu_b = mock Blanket
-      qv_bA, g_bA = mock(Blanket), mock(Blanket)
-      qv_bB, g_bB = mock(Blanket), mock(Blanket)
+      qv_bA, g_bA = mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
+      qv_bB, g_bB = mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
 
       uv_gen = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
       qu_gen = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, u_a, v_a] => [qu_a1, qu_a2],
@@ -53,6 +53,19 @@ module ArtDecomp describe Decomposer do
       results.sample.uv_gen.should == UVGenerator::Braindead
       results.sample.qu_gen.should == QuGenerator::BlockTable
       results.sample.qv_gen.should == QvGenerator::GraphColouring
+    end
+
+    it 'should yield only sensible decompositions' do
+      fsm = mock FSM
+      qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
+      uv_gen = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, [0], [1]]]})
+      qu_gen = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, [0], [1]] => [qu]})
+      qv_gen = mock QvGenerator::GraphColouring, :new => StubGenerator.new(QvGenerator::GraphColouring, {[fsm, [0], [1], qu] => [[qv, g1], [qv, g2]]})
+      dec1 = mock Decomposition, :sensible? => true
+      dec2 = mock Decomposition, :sensible? => false
+      Decomposition.should_receive(:new).exactly(2).times.and_return dec1, dec2
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
+      decomposer.decompositions.to_a.should == [dec1]
     end
 
   end
