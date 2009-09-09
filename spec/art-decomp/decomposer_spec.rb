@@ -27,16 +27,16 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
-      fsm = mock FSM
+      fsm = mock FSM, :beta_q => mock(Blanket, :size => 5)
 
       u_a, v_a = [0,1], [2] # for this U/V pair: two Qu generating one Qv/G pair each
-      qu_a1, qv_a1, g_a1 = mock(Blanket), mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
-      qu_a2, qv_a2, g_a2 = mock(Blanket), mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
+      qu_a1, qv_a1, g_a1 = mock(Blanket, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
+      qu_a2, qv_a2, g_a2 = mock(Blanket, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 
       u_b, v_b = [0], [1,2] # for this U/V pair: one Qu generating two Qv/G pairs
-      qu_b = mock Blanket
-      qv_bA, g_bA = mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
-      qv_bB, g_bB = mock(Blanket, :pins => 3), mock(Blanket, :pins => 2)
+      qu_b = mock Blanket, :size => 4
+      qv_bA, g_bA = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
+      qv_bB, g_bB = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 
       uv_gen = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
       qu_gen = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, u_a, v_a] => [qu_a1, qu_a2],

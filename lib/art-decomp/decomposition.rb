@@ -63,7 +63,7 @@ module ArtDecomp class Decomposition
   end
 
   def sensible?
-    @g.pins < @v.size + @qv.pins
+    @g.pins < @v.size + @qv.pins and (@qu.size < @fsm.beta_q.size or @qv.size < @fsm.beta_q.size)
   end
 
   def valid?
