@@ -56,7 +56,7 @@ module ArtDecomp class Executable
     Enumerator.new do |yielder|
       decomposer.decompositions.with_index do |dec, i|
         yielder.yield dec, dir, i
-        if depth > 1 and dec.decomposable?
+        if depth > 1 and dec.decomposable? and not dec.final? @archs
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
           decompositions(FSM.from_kiss(dec.h_kiss), depth - 1, in_dir).each do |in_dec, in_dir, in_i|
