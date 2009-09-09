@@ -83,4 +83,25 @@ module ArtDecomp describe Decomposition do
     Decomposition.new(fsm, [0], [1,2], qu, qu, g).should_not be_sensible
   end
 
+  it 'should properly report whether it’s final based on a Set of Archs' do
+    a51 = Set[Arch[5,1], Arch[4,2]]
+    a42 = Set[Arch[4,2]]
+    fsm = mock FSM
+    qu1 = mock Blanket, :pins => 1
+    qu2 = mock Blanket, :pins => 2
+    qv3 = mock Blanket, :pins => 3
+    qv4 = mock Blanket, :pins => 4
+    g3  = mock Blanket, :pins => 3
+    g4  = mock Blanket, :pins => 4
+    Decomposition.new(fsm, [0], [1],   qu1, qv3, g3).should     be_final a51
+    Decomposition.new(fsm, [0], [1],   qu1, qv3, g3).should_not be_final a42
+    Decomposition.new(fsm, [],  [1],   qu1, qv3, g3).should     be_final a42
+    Decomposition.new(fsm, [],  [1,2], qu1, qv3, g3).should_not be_final a42
+    Decomposition.new(fsm, [],  [1],   qu1, qv4, g3).should_not be_final a42
+    Decomposition.new(fsm, [0], [1,2], qu1, qv3, g3).should     be_final a51
+    Decomposition.new(fsm, [0,1], [2], qu1, qv3, g3).should_not be_final a51
+    Decomposition.new(fsm, [0], [1,2], qu2, qv3, g3).should_not be_final a51
+    Decomposition.new(fsm, [0], [1,2], qu1, qv3, g4).should_not be_final a51
+  end
+
 end end

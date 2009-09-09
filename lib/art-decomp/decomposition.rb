@@ -21,6 +21,11 @@ module ArtDecomp class Decomposition
     @fsm.to_kiss
   end
 
+  def final? archs
+    pins = archs.map(&:pins).max
+    @v.size + @qv.pins <= pins and @u.size + @qu.pins + @g.pins <= pins
+  end
+
   def g_kiss
     lines = (@fsm.beta_x(@v) * @qv).ints.map do |row|
       v  = @fsm.x_encoding @v, row
