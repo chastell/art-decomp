@@ -3,7 +3,7 @@ module ArtDecomp class UVGenerator::Braindead
   def initialize fsm, archs
     @fsm         = fsm
     @input_count = fsm.input_count
-    @max_v_size  = archs.map { |a| a.pins }.max
+    @max_v_size  = archs.map(&:pins).max
   end
 
   def uv_pairs
