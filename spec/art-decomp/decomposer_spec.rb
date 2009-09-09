@@ -56,15 +56,14 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'should yield only sensible decompositions' do
-      fsm = mock FSM
-      qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
-      uv_gen = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, [0], [1]]]})
-      qu_gen = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, [0], [1]] => [qu]})
-      qv_gen = mock QvGenerator::GraphColouring, :new => StubGenerator.new(QvGenerator::GraphColouring, {[fsm, [0], [1], qu] => [[qv, g1], [qv, g2]]})
-      dec1 = mock Decomposition, :sensible? => true
-      dec2 = mock Decomposition, :sensible? => false
+      fsm    = mock FSM
+      uv_gen = mock UVGenerator,   :uv_pairs => [[fsm, [0], [1]]]
+      qu_gen = mock QuGenerator,   :qu_blankets => [mock(Blanket)]
+      qv_gen = mock QvGenerator,   :blankets => [[mock(Blanket), mock(Blanket)], [mock(Blanket), mock(Blanket)]]
+      dec1   = mock Decomposition, :sensible? => true
+      dec2   = mock Decomposition, :sensible? => false
       Decomposition.should_receive(:new).exactly(2).times.and_return dec1, dec2
-      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
       decomposer.decompositions.to_a.should == [dec1]
     end
 
