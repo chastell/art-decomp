@@ -1,6 +1,6 @@
 module ArtDecomp class QuGenerator::BlockTable
 
-  def qu_blankets fsm, u, v
+  def blankets fsm, u, v
     Enumerator.new do |yielder|
       @seps   = fsm.beta_f.seps
       @rows   = fsm.beta_q.ints.dup

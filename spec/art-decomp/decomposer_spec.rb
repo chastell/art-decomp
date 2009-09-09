@@ -21,9 +21,8 @@ module ArtDecomp describe Decomposer do
       def elems *key, &block
         @sequences[key].each &block
       end
-      alias uv_pairs    elems
-      alias qu_blankets elems
-      alias blankets    elems
+      alias uv_pairs elems
+      alias blankets elems
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
@@ -57,9 +56,9 @@ module ArtDecomp describe Decomposer do
 
     it 'should yield only sensible decompositions' do
       fsm    = mock FSM
-      uv_gen = mock UVGenerator,   :uv_pairs => [[fsm, [0], [1]]]
-      qu_gen = mock QuGenerator,   :qu_blankets => [mock(Blanket)]
-      qv_gen = mock QvGenerator,   :blankets => [[mock(Blanket), mock(Blanket)], [mock(Blanket), mock(Blanket)]]
+      uv_gen = mock UVGenerator,   :uv_pairs  => [[fsm, [0], [1]]]
+      qu_gen = mock QuGenerator,   :blankets  => [mock(Blanket)]
+      qv_gen = mock QvGenerator,   :blankets  => [[mock(Blanket), mock(Blanket)], [mock(Blanket), mock(Blanket)]]
       dec1   = mock Decomposition, :sensible? => true
       dec2   = mock Decomposition, :sensible? => false
       Decomposition.should_receive(:new).exactly(2).times.and_return dec1, dec2

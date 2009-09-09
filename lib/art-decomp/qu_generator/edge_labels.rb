@@ -1,6 +1,6 @@
 module ArtDecomp class QuGenerator::EdgeLabels
 
-  def qu_blankets fsm, u, v
+  def blankets fsm, u, v
     Enumerator.new do |yielder|
       seps = fsm.beta_f.seps - fsm.beta_x(u).seps
       @graph = Graph.new fsm.beta_q, seps

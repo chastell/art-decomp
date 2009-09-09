@@ -8,7 +8,7 @@ module ArtDecomp describe QuGenerator::BlockTable do
       fsm   = mock FSM, :beta_f => @beta_f, :beta_q => @beta_q, :beta_x => @beta_x
       archs = Set[Arch[3,1]]
       bt    = QuGenerator::BlockTable.new
-      bt.qu_blankets(fsm, [0], [1]).to_a
+      bt.blankets(fsm, [0], [1]).to_a
     end
 
     it 'should fold Q blocks that match in the first go' do
