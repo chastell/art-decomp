@@ -11,6 +11,14 @@ module ArtDecomp class FSM
       state      << (st  == '*' ? DontCare : st.to_sym)
       next_state << (nxt == '*' ? DontCare : nxt.to_sym)
     end
+    # FIXME: the below hack makes state have all possible values
+    (next_state - state - [DontCare]).each do |missing_state|
+      i = state.index DontCare
+      state      << missing_state
+      next_state << next_state[i]
+      inputs     << inputs[i]
+      outputs    << outputs[i]
+    end
     new inputs.transpose, outputs.transpose, state, next_state
   end
 

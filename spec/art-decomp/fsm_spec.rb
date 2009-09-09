@@ -73,6 +73,7 @@ module ArtDecomp describe FSM do
 
     it 'should return the row(s) of a state matching next-state of given row(s)' do
       @opus.state_rows_of_next_state_of(B[20,21]).should == B[8,9,10,11,12,13,14]
+      @mark1.state_rows_of_next_state_of(B[2]).should    == B[22]
     end
 
     it 'should equal/not-equal other FSMs and hash properly' do
