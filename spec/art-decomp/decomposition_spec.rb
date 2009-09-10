@@ -73,14 +73,22 @@ module ArtDecomp describe Decomposition do
     Decomposition.new(fsm, [0], [1], qu2, qv, g).should     be_decomposable
   end
 
-  it 'should properly report whether it’s sensible, based on G block’s architecture and wether Qu or Qv are smaller than Q' do
+  it 'should properly report whether it’s sensible, based on the target Archs, G block’s architecture and wether Qu or Qv are smaller than Q' do
     fsm = mock FSM, :beta_q => mock(Blanket, :size => 5)
-    qu  = mock Blanket, :pins => 3, :size => 5
-    qv  = mock Blanket, :pins => 2, :size => 4
-    g   = mock Blanket, :pins => 3
-    Decomposition.new(fsm, [0,2], [1], qu, qv, g).should_not be_sensible
-    Decomposition.new(fsm, [0], [1,2], qu, qv, g).should     be_sensible
-    Decomposition.new(fsm, [0], [1,2], qu, qu, g).should_not be_sensible
+    qu2 = mock Blanket, :pins => 2, :size => 4
+    qu3 = mock Blanket, :pins => 3, :size => 5
+    qv2 = mock Blanket, :pins => 2, :size => 4
+    qv3 = mock Blanket, :pins => 3, :size => 5
+    g3  = mock Blanket, :pins => 3
+    g4  = mock Blanket, :pins => 4
+    Decomposition.new(fsm, [0], [1],   qu2, qv3, g3).should     be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [],    qu2, qv3, g3).should_not be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [1],   qu2, qv2, g3).should_not be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [1],   qu2, qv3, g4).should_not be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [1],   qu3, qv3, g3).should_not be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [1,2], qu3, qv2, g3).should     be_sensible Set[Arch[4,2]]
+    Decomposition.new(fsm, [0], [1,2], qu3, qv2, g3).should_not be_sensible Set[Arch[3,2]]
+    Decomposition.new(fsm, [0], [1],   qu2, qv3, g3).should     be_sensible Set[Arch[4,2]]
   end
 
   it 'should properly report whether it’s final based on a Set of Archs' do

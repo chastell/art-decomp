@@ -44,7 +44,7 @@ module ArtDecomp describe Decomposer do
                                                                                                          [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
                                                                                                          [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
-      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
+      decomposer = Decomposer.new :archs => Set[Arch[5,1]], :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
       results = decomposer.decompositions.to_a
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
