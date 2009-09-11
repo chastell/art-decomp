@@ -62,7 +62,7 @@ module ArtDecomp describe Decomposer do
       dec1   = mock Decomposition, :sensible? => true
       dec2   = mock Decomposition, :sensible? => false
       Decomposition.should_receive(:new).exactly(2).times.and_return dec1, dec2
-      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)], :archs => Set[Arch[4,1]]
       decomposer.decompositions.to_a.should == [dec1]
     end
 
