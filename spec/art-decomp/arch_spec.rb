@@ -8,4 +8,9 @@ module ArtDecomp describe Arch do
     Arch[5,1].should eql Arch[5,1]
   end
 
+  it 'should have a common String representation' do
+    Arch[5,1].to_s.should == '5/1'
+    Arch[4,2].to_s.should == '4/2'
+  end
+
 end end

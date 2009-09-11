@@ -20,4 +20,8 @@ module ArtDecomp class Arch
     @pins.hash ^ @pons.hash
   end
 
+  def to_s
+    "#{pins}/#{pons}"
+  end
+
 end end
