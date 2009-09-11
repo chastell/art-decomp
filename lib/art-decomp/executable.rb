@@ -6,6 +6,7 @@ module ArtDecomp class Executable
     opts = Trollop.options(args) do
       opt :archs,  'Target architecture(s)', :type => :strings
       opt :depth,  'Depth of the process',   :default => 1
+      opt :log,    'Logging target',         :type => :string
       opt :outdir, 'Output directory',       :type => :string
       opt :uv,     'UV generator(s)',        :default => ['Braindead']
       opt :qu,     'Qu generator(s)',        :default => ['BlockTable']
@@ -36,6 +37,11 @@ module ArtDecomp class Executable
     @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
     @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
     @qv_gens = opts[:qv].map { |gen| eval "QvGenerator::#{gen}" }
+
+    if opts[:log_given]
+      require_relative 'logging'
+      Logging.log = opts[:log] == '-' ? $stdout : opts[:log]
+    end
   end
 
   def run dump_decs = true

@@ -130,4 +130,11 @@ module ArtDecomp describe Executable do
     File.exists?("#{@dir}/0/0/0.dec").should be_false
   end
 
+  it 'should allow logging to the specified file/stream' do
+    log = Tempfile.new rand
+    Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
+    Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
+    File.read(log.path).should =~ /decomposing into 5\/1\+4\/2 archs/
+  end
+
 end end
