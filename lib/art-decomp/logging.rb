@@ -10,7 +10,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   def self.off
-    @@log.close
+    @@log = Logger.new '/dev/null'
     Decomposer.unadvise_all
   end
 
