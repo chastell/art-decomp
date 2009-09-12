@@ -18,4 +18,8 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
     @@log.info "decomposing into #{point.args.first[:archs].map(&:to_s).sort.reverse.join '+'} archs"
   end
 
+  before instances_of(QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }) => :blankets do |point|
+    @@log.info "U = #{point.args[1]}, V = #{point.args[2]}"
+  end
+
 end end
