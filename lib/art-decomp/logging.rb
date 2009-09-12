@@ -6,7 +6,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   def self.log= log
     @@log = Logger.new log
     @@log.formatter = proc { |sev, date, name, msg| "#{date} #{msg}\n" }
-    self.apply!
+    apply!
   end
 
   before Decomposer => :new do |point|
