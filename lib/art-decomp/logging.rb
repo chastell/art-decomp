@@ -15,7 +15,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   before Decomposer => :new do |point|
-    @@log.info "decomposing into #{point.args.first[:archs].map(&:to_s).sort.reverse.join '+'} archs"
+    @@log.info "decomposing a #{point.args.first[:fsm].stats} FSM into #{point.args.first[:archs].map(&:to_s).sort.reverse.join '+'} cells"
   end
 
   before instances_of(QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }) => :blankets do |point|

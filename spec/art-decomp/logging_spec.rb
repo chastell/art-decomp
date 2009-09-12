@@ -19,8 +19,8 @@ module ArtDecomp describe Logging do
   end
 
   it 'should log Decomposer initialisations' do
-    Decomposer.new :archs => Set[Arch[5,1], Arch[4,2]], :uv_gens => [], :qu_gens => [], :qv_gens => []
-    log.should =~ /^20..-..-.. ..:..:.. ....0 decomposing into 5\/1\+4\/2 archs$/
+    Decomposer.new :archs => Set[Arch[5,1], Arch[4,2]], :uv_gens => [], :qu_gens => [], :qv_gens => [], :fsm => mock(FSM, :stats => '4/2, 10s')
+    log.should =~ /^20..-..-.. ..:..:.. ....0 decomposing a 4\/2, 10s FSM into 5\/1\+4\/2 cells$/
   end
 
   it 'should log QuGenerators’ blankets calls' do
