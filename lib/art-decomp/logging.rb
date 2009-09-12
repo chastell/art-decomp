@@ -9,6 +9,11 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
     apply!
   end
 
+  def self.off
+    @@log.close
+    Decomposer.unadvise_all
+  end
+
   before Decomposer => :new do |point|
     @@log.info "decomposing into #{point.args.first[:archs].map(&:to_s).sort.reverse.join '+'} archs"
   end

@@ -8,7 +8,7 @@ module ArtDecomp describe Logging do
   end
 
   after do
-    Logging.log = '/dev/null'
+    Logging.off
   end
 
   def log

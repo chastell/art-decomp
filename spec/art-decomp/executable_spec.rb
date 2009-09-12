@@ -134,6 +134,7 @@ module ArtDecomp describe Executable do
     log = Tempfile.new rand
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
+    Logging.off
     File.read(log.path).should =~ /decomposing into 5\/1\+4\/2 archs/
   end
 
