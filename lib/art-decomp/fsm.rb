@@ -69,6 +69,10 @@ module ArtDecomp class FSM
     B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]
   end
 
+  def stats
+    "#{@inputs.size}/#{@outputs.size}, #{(@state.uniq - [DontCare]).size}s"
+  end
+
   def to_kiss
     st   = @state.map      { |e| e == DontCare ? '*' : e }
     nxt  = @next_state.map { |e| e == DontCare ? '*' : e }

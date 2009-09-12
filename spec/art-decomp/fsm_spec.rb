@@ -94,6 +94,14 @@ module ArtDecomp describe FSM do
       opus.expand_x([2]).should equal opus
     end
 
+    it 'should report its input/output/state counts' do
+      @fsm.stats.should   == '4/2, 10s'
+      @lion.stats.should  == '2/1, 4s'
+      @mark1.stats.should == '5/16, 15s'
+      @mc.stats.should    == '3/5, 4s'
+      @opus.stats.should  == '5/6, 10s'
+    end
+
   end
 
 end end
