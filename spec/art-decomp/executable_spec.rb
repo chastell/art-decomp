@@ -122,9 +122,12 @@ module ArtDecomp describe Executable do
     Executable.new(args).run
   end
 
-  it 'should decompose iteratively, down to a specified depth' do
+  it 'should decompose iteratively, down to a specified depth and expose it (along with the dir)' do
     args = ['-a', '3/1', '-d', '2', '-o', @dir, 'spec/fixtures/lion']
-    Executable.new(args).run
+    ex = Executable.new args
+    ex.depth.should == 2
+    ex.dir.should   == @dir
+    ex.run
     File.exists?("#{@dir}/0.dec").should     be_true
     File.exists?("#{@dir}/0/0.dec").should   be_true
     File.exists?("#{@dir}/0/0/0.dec").should be_false

@@ -2,6 +2,8 @@ require 'trollop'
 
 module ArtDecomp class Executable
 
+  attr_reader :depth, :dir
+
   def initialize args = ARGV
     opts = Trollop.options(args) do
       opt :archs,  'Target architecture(s)', :type => :strings
