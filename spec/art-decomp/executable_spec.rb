@@ -80,7 +80,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should dump the resulting decompositions into a file' do
-    fsm = mock FSM
+    fsm = mock FSM, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer
@@ -101,7 +101,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer' do
-    fsm = mock FSM
+    fsm = mock FSM, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
@@ -112,7 +112,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should allow setting any of the generators to ‘all’' do
-    fsm = mock FSM
+    fsm = mock FSM, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
@@ -139,7 +139,7 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
     Logging.off
-    File.read(log.path).should =~ /FSM 2\/1\/4s → 5\/1\+4\/2 cells/
+    File.read(log.path).should =~ /FSM 2\/1\/4s → 5\/1\+4\/2/
   end
 
 end end

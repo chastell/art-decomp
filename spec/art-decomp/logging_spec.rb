@@ -18,9 +18,11 @@ module ArtDecomp describe Logging do
     @log.read
   end
 
-  it 'should log Decomposer initialisations' do
-    Decomposer.new :archs => Set[Arch[5,1], Arch[4,2]], :uv_gens => [], :qu_gens => [], :qv_gens => [], :fsm => mock(FSM, :stats => '4/2/10s')
-    log.should =~ /^20..-..-.. ..:..:.. ....0 FSM 4\/2\/10s → 5\/1\+4\/2 cells$/
+  it 'should log Executable’s decompositions calls' do
+    Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
+    args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/lion']
+    Executable.new(args).run
+    log.should =~ /^20..-..-.. ..:..:.. ....0 FSM 2\/1\/4s → 5\/1\+4\/2 ()/
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
