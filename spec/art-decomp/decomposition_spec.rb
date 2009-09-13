@@ -66,7 +66,7 @@ module ArtDecomp describe Decomposition do
   context 'when assesing whether it’s usable in the future' do
 
     before do
-      @fsm = mock FSM, :beta_q => mock(Blanket, :size => 5)
+      @fsm = mock FSM, :beta_q => mock(Blanket, :size => 5), :output_count => 2
       @b   = mock Blanket
       @b1  = mock Blanket, :pins => 1, :size => 2
       @b2  = mock Blanket, :pins => 2, :size => 4
@@ -107,6 +107,13 @@ module ArtDecomp describe Decomposition do
       Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b2).g_cells(Set[Arch[4,2]]).should == 1
       Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b2).g_cells(Set[Arch[3,2]]).should be_nil
       Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b3).g_cells(Set[Arch[4,2]]).should == 2
+    end
+
+    it 'should properly report H cell count (if G fits the provided Archs)' do
+      Decomposition.new(@fsm, [0], [1,2], @b1, @b1, @b2).h_cells(Set[Arch[5,1]]).should == 4
+      Decomposition.new(@fsm, [0], [1,2], @b1, @b1, @b2).h_cells(Set[Arch[4,2]]).should == 2
+      Decomposition.new(@fsm, [0], [1,2], @b1, @b1, @b2).h_cells(Set[Arch[3,1]]).should be_nil
+      Decomposition.new(@fsm, [0], [1,2], @b1, @b2, @b2).h_cells(Set[Arch[4,2]]).should == 3
     end
 
   end

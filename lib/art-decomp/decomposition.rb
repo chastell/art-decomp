@@ -41,6 +41,12 @@ module ArtDecomp class Decomposition
     KISS.new(lines).formatted
   end
 
+  def h_cells archs
+    pons = archs.select { |a| a.pins >= @u.size + @qu.pins + @g.pins }.map(&:pons).max
+    outs = @fsm.output_count + @qu.pins + @qv.pins
+    (outs % pons).zero? ? outs / pons : outs / pons + 1 rescue nil
+  end
+
   def h_kiss
     lines = (@fsm.beta_x(@u) * @g * @qu).ints.map do |row|
       u   = @fsm.x_encoding @u, row
