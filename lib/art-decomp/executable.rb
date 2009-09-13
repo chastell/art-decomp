@@ -2,7 +2,7 @@ require 'trollop'
 
 module ArtDecomp class Executable
 
-  attr_reader :depth, :dir
+  attr_reader :archs, :depth, :dir
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
