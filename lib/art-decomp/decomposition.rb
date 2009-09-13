@@ -27,8 +27,7 @@ module ArtDecomp class Decomposition
   end
 
   def g_cells archs
-    pons = archs.select { |a| a.pins >= @v.size + @qv.pins }.map(&:pons).max
-    (@g.pins % pons).zero? ? @g.pins / pons : @g.pins / pons + 1 rescue nil
+    cell_count archs, @v.size + @qv.pins, @g.pins
   end
 
   def g_kiss
@@ -42,9 +41,7 @@ module ArtDecomp class Decomposition
   end
 
   def h_cells archs
-    pons = archs.select { |a| a.pins >= @u.size + @qu.pins + @g.pins }.map(&:pons).max
-    outs = @fsm.output_count + @qu.pins + @qv.pins
-    (outs % pons).zero? ? outs / pons : outs / pons + 1 rescue nil
+    cell_count archs, @u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins
   end
 
   def h_kiss
@@ -89,5 +86,12 @@ module ArtDecomp class Decomposition
   protected
 
   attr_reader :fsm, :u, :v, :qu, :qv, :g
+
+  private
+
+  def cell_count archs, inputs, outputs
+    pons = archs.select { |a| a.pins >= inputs }.map(&:pons).max
+    (outputs % pons).zero? ? outputs / pons : outputs / pons + 1 rescue nil
+  end
 
 end end
