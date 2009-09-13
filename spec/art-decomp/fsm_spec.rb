@@ -22,6 +22,12 @@ module ArtDecomp describe FSM do
       @mc.input_count.should   == 3
     end
 
+    it 'should properly report the number of outputs' do
+      @opus.output_count.should == 6
+      @lion.output_count.should == 1
+      @mc.output_count.should   == 5
+    end
+
     it 'should properly generate the Q Blanket' do
       @opus.beta_q.should == Blanket[B[0,1,2], B[0,3,4], B[0,5], B[0,6,7], B[0,8,9,10,11,12,13,14], B[0,15,16], B[0,17,18], B[0,19], B[0,20], B[0,21]]
       @lion.beta_q.should == Blanket[B[0,1,2], B[3,4,5], B[6,7,8], B[9,10]]

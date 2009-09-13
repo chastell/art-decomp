@@ -64,6 +64,10 @@ module ArtDecomp class FSM
     encoding @state, rows
   end
 
+  def output_count
+    @outputs.size
+  end
+
   def state_rows_of_next_state_of rows
     state = @next_state[rows.bits.first]
     B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]
