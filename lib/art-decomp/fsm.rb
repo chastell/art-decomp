@@ -70,7 +70,7 @@ module ArtDecomp class FSM
   end
 
   def stats
-    "#{@inputs.size}/#{@outputs.size}, #{(@state.uniq - [DontCare]).size}s"
+    "#{@inputs.size}/#{@outputs.size}/#{(@state.uniq - [DontCare]).size}s"
   end
 
   def to_kiss
