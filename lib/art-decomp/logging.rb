@@ -26,7 +26,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
     @@indent = point.object.depth - point.args[1]
     path     = point.args[2][point.object.dir.size+1..-1]
     archs    = point.object.archs.map(&:to_s).sort.reverse.join '+'
-    @@log.info '  ' * @@indent + "FSM #{point.args[0].stats} → #{archs} (#{path})"
+    @@log.info '  ' * @@indent + "FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.object.gens}"
   end
 
   before instances_of(UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }) => :uv_pairs do |point|

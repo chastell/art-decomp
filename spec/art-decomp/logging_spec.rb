@@ -22,7 +22,7 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ /^20..-..-.. ..:..:.. ....0 FSM 2\/1\/4s → 5\/1\+4\/2 ()/
+    log.should =~ /^20..-..-.. ..:..:.. ....0 FSM 2\/1\/4s → 5\/1\+4\/2 \(\) with Braindead, BlockTable, GraphColouring/
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
