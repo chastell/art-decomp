@@ -38,7 +38,8 @@ module ArtDecomp describe Logging do
     log.should =~ /U = \[1\], V = \[0\], Qu with BlockTable/
   end
 
-  it 'should log QvGenerators’ blankets calls' do
+  it 'should log QvGenerators’ blankets calls (on the DEBUG level)' do
+    Logging.level = Logger::DEBUG
     qv = QvGenerator::GraphColouring.new
     [mock(Blanket, :size => 8), mock(Blanket, :size => 4)].each do |qu|
       qv.blankets mock(FSM), [0], [1], qu
