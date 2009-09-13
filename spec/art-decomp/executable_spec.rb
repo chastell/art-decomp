@@ -135,7 +135,7 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
     Logging.off
-    File.read(log.path).should =~ /decomposing a 2\/1, 4s FSM into 5\/1\+4\/2 cells/
+    File.read(log.path).should =~ /FSM 2\/1\/4s → 5\/1\+4\/2 cells/
   end
 
 end end
