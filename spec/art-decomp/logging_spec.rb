@@ -22,13 +22,13 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ /^20..-..-.. ..:..:.. ....0 FSM 2\/1\/4s → 5\/1\+4\/2 \(\) with Braindead, BlockTable, GraphColouring/
+    log.should =~ rex('FSM 2/1/4s → 5/1+4/2 () with Braindead, BlockTable, GraphColouring')
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
     uv = UVGenerator::Braindead.new mock(FSM, :input_count => 2), Set[Arch[5,1]]
     uv.uv_pairs
-    log.should =~ /UV with Braindead/
+    log.should =~ rex('UV with Braindead')
   end
 
   it 'should log QuGenerators’ blankets calls' do
@@ -36,8 +36,8 @@ module ArtDecomp describe Logging do
     [[[0], [1]], [[1], [0]]].each do |u, v|
       qu.blankets mock(FSM), u, v
     end
-    log.should =~ /U = \[0\], V = \[1\], Qu with BlockTable/
-    log.should =~ /U = \[1\], V = \[0\], Qu with BlockTable/
+    log.should =~ rex('U = [0], V = [1], Qu with BlockTable')
+    log.should =~ rex('U = [1], V = [0], Qu with BlockTable')
   end
 
   it 'should log QvGenerators’ blankets calls (on the DEBUG level)' do
@@ -46,8 +46,8 @@ module ArtDecomp describe Logging do
     [mock(Blanket, :size => 8), mock(Blanket, :size => 4)].each do |qu|
       qv.blankets mock(FSM), [0], [1], qu
     end
-    log.should =~ /\|Qu\| = 8, Qv\+G with GraphColouring/
-    log.should =~ /\|Qu\| = 4, Qv\+G with GraphColouring/
+    log.should =~ rex('|Qu| = 8, Qv+G with GraphColouring')
+    log.should =~ rex('|Qu| = 4, Qv+G with GraphColouring')
   end
 
 end end

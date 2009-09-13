@@ -22,40 +22,40 @@ module ArtDecomp describe Executable do
 
   it 'should require an FSM' do
     lambda { Executable.new([]) }.should raise_error SystemExit
-    stderr.should =~ /no FSM given/
+    stderr.should =~ rex('no FSM given')
   end
 
   it 'should require that the FSM exists' do
     lambda { Executable.new(['bogus']) }.should raise_error SystemExit
-    stderr.should =~ /FSM does not exist/
+    stderr.should =~ rex('FSM does not exist')
   end
 
   it 'should require at least one target Arch' do
     lambda { Executable.new([@fsm]) }.should raise_error SystemExit
-    stderr.should =~ /no architecture given/
+    stderr.should =~ rex('no architecture given')
   end
 
   it 'should require that all architectures are parsable' do
     args = ['-a', '5/1', 'a/b', '-o', @dir, @fsm]
     lambda { Executable.new(args) }.should raise_error SystemExit
-    stderr.should =~ /archs not in the form of inputs\/outputs/
+    stderr.should =~ rex('archs not in the form of inputs/outputs')
   end
 
   it 'should require output directory' do
     lambda { Executable.new(['-a', '5/1', '--', @fsm]) }.should raise_error SystemExit
-    stderr.should =~ /no output directory given/
+    stderr.should =~ rex('no output directory given')
   end
 
   it 'should require that the output directory does not exist' do
     lambda { Executable.new(['-a', '5/1', '-o', Dir.tmpdir, @fsm]) }.should raise_error SystemExit
-    stderr.should =~ /output directory exists/
+    stderr.should =~ rex('output directory exists')
   end
 
   it 'should require that the output directory is creatable' do
     Dir.mkdir @dir, 0400
     subdir = File.join @dir, rand.to_s
     lambda { Executable.new(['-a', '5/1', '-o', subdir, @fsm]) }.should raise_error SystemExit
-    stderr.should =~ /output directory cannot be created/
+    stderr.should =~ rex('output directory cannot be created')
   end
 
   it 'should create the output directory' do
@@ -66,17 +66,17 @@ module ArtDecomp describe Executable do
 
   it 'should validate that the specified UV generator exists' do
     lambda { Executable.new(@args + ['--uv', 'bogus']) }.should raise_error SystemExit
-    stderr.should =~ /no such UV generator/
+    stderr.should =~ rex('no such UV generator')
   end
 
   it 'should validate that the specified Qu generator exists' do
     lambda { Executable.new(@args + ['--qu', 'bogus']) }.should raise_error SystemExit
-    stderr.should =~ /no such Qu generator/
+    stderr.should =~ rex('no such Qu generator')
   end
 
   it 'should validate that the specified Qv generator exists' do
     lambda { Executable.new(@args + ['--qv', 'bogus']) }.should raise_error SystemExit
-    stderr.should =~ /no such Qv generator/
+    stderr.should =~ rex('no such Qv generator')
   end
 
   it 'should dump the resulting decompositions into a file' do
@@ -141,7 +141,7 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
     Logging.off
-    File.read(log.path).should =~ /FSM 2\/1\/4s → 5\/1\+4\/2/
+    File.read(log.path).should =~ rex('FSM 2/1/4s → 5/1+4/2')
   end
 
 end end
