@@ -27,15 +27,15 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   before instances_of(UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }) => :uv_pairs do |point|
-    @@log.info "UV with #{point.object.class.to_s.split('::').last}"
+    @@log.info "  UV with #{point.object.class.to_s.split('::').last}"
   end
 
   before instances_of(QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }) => :blankets do |point|
-    @@log.info "U = #{point.args[1]}, V = #{point.args[2]}, Qu with #{point.object.class.to_s.split('::').last}"
+    @@log.info "    U = #{point.args[1]}, V = #{point.args[2]}, Qu with #{point.object.class.to_s.split('::').last}"
   end
 
   before instances_of(QvGenerator.constants.map { |c| eval("QvGenerator::#{c}") }) => :blankets do |point|
-    @@log.debug "|Qu| = #{point.args[3].size}, Qv+G with #{point.object.class.to_s.split('::').last}"
+    @@log.debug "      |Qu| = #{point.args[3].size}, Qv+G with #{point.object.class.to_s.split('::').last}"
   end
 
 end end
