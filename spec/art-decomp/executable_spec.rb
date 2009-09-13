@@ -100,7 +100,7 @@ module ArtDecomp describe Executable do
     Marshal.load(File.read(File.join @dir, '1.dec')).should == :dec1
   end
 
-  it 'should pass all of the requested generators and architectures to the Decomposer' do
+  it 'should pass all of the requested generators and architectures to the Decomposer, and report on what it’s using when asked' do
     fsm = mock FSM, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
@@ -108,7 +108,9 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[4,2], Arch[5,1]], :uv_gens => [UVGenerator::Braindead, UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
 
     args = ['-a', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '-o', @dir, @fsm]
-    Executable.new(args).run
+    ex = Executable.new args
+    ex.gens.should == 'Braindead+Braindead, BlockTable+EdgeLabels, GraphMerging+Bipainting'
+    ex.run
   end
 
   it 'should allow setting any of the generators to ‘all’' do

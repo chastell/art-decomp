@@ -46,6 +46,12 @@ module ArtDecomp class Executable
     end
   end
 
+  def gens
+    [@uv_gens, @qu_gens, @qv_gens].map do |gens|
+      gens.map { |gen| gen.to_s.split('::').last }.join '+'
+    end.join ', '
+  end
+
   def run dump_decs = true
     dumps = Hash.new { |h, k| h[k] = [] }
     decompositions(@fsm, @depth, @dir).each do |dec, dir, i|
