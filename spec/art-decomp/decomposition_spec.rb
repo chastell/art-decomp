@@ -102,6 +102,13 @@ module ArtDecomp describe Decomposition do
       Decomposition.new(@fsm, [0], [1,2], @b1, @b3, @b4).should_not be_final Set[Arch[5,1]]
     end
 
+    it 'should properly report G cell count (if G fits the provided Archs)' do
+      Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b2).g_cells(Set[Arch[5,1]]).should == 2
+      Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b2).g_cells(Set[Arch[4,2]]).should == 1
+      Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b2).g_cells(Set[Arch[3,2]]).should be_nil
+      Decomposition.new(@fsm, [0], [1,2], @b, @b2, @b3).g_cells(Set[Arch[4,2]]).should == 2
+    end
+
   end
 
 end end

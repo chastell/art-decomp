@@ -26,6 +26,11 @@ module ArtDecomp class Decomposition
     @v.size + @qv.pins <= pins and @u.size + @qu.pins + @g.pins <= pins
   end
 
+  def g_cells archs
+    pons = archs.select { |a| a.pins >= @v.size + @qv.pins }.map(&:pons).max
+    (@g.pins % pons).zero? ? @g.pins / pons : @g.pins / pons + 1 rescue nil
+  end
+
   def g_kiss
     lines = (@fsm.beta_x(@v) * @qv).ints.map do |row|
       v  = @fsm.x_encoding @v, row
