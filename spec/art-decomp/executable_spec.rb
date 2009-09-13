@@ -6,7 +6,7 @@ module ArtDecomp describe Executable do
     @orig_stderr = $stderr
     $stderr = StringIO.new
     @fsm = 'spec/fixtures/lion'
-    @dir = File.join Dir.tmpdir, rand.to_s
+    @dir = "#{Dir.tmpdir}/#{rand.to_s}"
     @args = ['-a', '5/1', '-o', @dir, @fsm]
   end
 
@@ -53,7 +53,7 @@ module ArtDecomp describe Executable do
 
   it 'should require that the output directory is creatable' do
     Dir.mkdir @dir, 0400
-    subdir = File.join @dir, rand.to_s
+    subdir = "#{@dir}/#{rand.to_s}"
     lambda { Executable.new(['-a', '5/1', '-o', subdir, @fsm]) }.should raise_error SystemExit
     stderr.should =~ rex('output directory cannot be created')
   end
@@ -88,7 +88,7 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
 
     Executable.new(@args).run false
-    decs = Marshal.load(File.read(File.join @dir, 'decompositions'))
+    decs = Marshal.load(File.read("#{@dir}/decompositions"))
     decs.should == [:d1, :d2, :d3]
   end
 
@@ -96,8 +96,8 @@ module ArtDecomp describe Executable do
     decomposer = mock Decomposer, :decompositions => [:dec0, :dec1].each
     Decomposer.should_receive(:new).and_return decomposer
     Executable.new(@args).run
-    Marshal.load(File.read(File.join @dir, '0.dec')).should == :dec0
-    Marshal.load(File.read(File.join @dir, '1.dec')).should == :dec1
+    Marshal.load(File.read("#{@dir}/0.dec")).should == :dec0
+    Marshal.load(File.read("#{@dir}/1.dec")).should == :dec1
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer, and report on what it’s using when asked' do
