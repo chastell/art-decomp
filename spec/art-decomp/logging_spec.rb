@@ -22,7 +22,8 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ rex('FSM 2/1/4s → 5/1+4/2 () with Braindead, BlockTable, GraphColouring')
+    log.should =~ rex('FSM 2/1/4s → 5/1+4/2 () with Braindead, BlockTable, GraphColouring – best so far: ')
+    log.should =~ rex('final best decomposition: ')
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
