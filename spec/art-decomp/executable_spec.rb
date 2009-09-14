@@ -91,12 +91,14 @@ module ArtDecomp describe Executable do
     decs.should == [dec, dec]
   end
 
-  it 'should create files holding the resulting Decomposition objects' do
+  it 'should create files holding the resulting Decomposition objects and keep track of the best decomposition' do
     dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [1], [0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-    decomposer = mock Decomposer, :decompositions => [dec0, dec1].each
-    Decomposer.should_receive(:new).and_return decomposer
-    Executable.new(@args).run
+    Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [dec0, dec1].each)
+    ex = Executable.new @args
+    ex.best.should be_nil
+    ex.run
+    ex.best.should == 3
     Marshal.load(File.read("#{@dir}/0.dec")).should == dec0
     Marshal.load(File.read("#{@dir}/1.dec")).should == dec1
   end

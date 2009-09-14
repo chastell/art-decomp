@@ -2,7 +2,7 @@ require 'trollop'
 
 module ArtDecomp class Executable
 
-  attr_reader :archs, :depth, :dir
+  attr_reader :archs, :best, :depth, :dir
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
@@ -53,8 +53,9 @@ module ArtDecomp class Executable
   end
 
   def run dump_decs = true
+    @best = nil
     dumps = Hash.new { |h, k| h[k] = [] }
-    decompositions(@fsm, @depth, @dir).each do |dec, dir, i|
+    decompositions(@fsm, @depth, @dir, 0).each do |dec, dir, i|
       dumps[dir] << dec
       File.dump_object dec, "#{dir}/#{i}.dec" if dump_decs
     end
@@ -65,15 +66,18 @@ module ArtDecomp class Executable
 
   private
 
-  def decompositions fsm, depth, dir
+  def decompositions fsm, depth, dir, cells
     decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     Enumerator.new do |yielder|
       decomposer.decompositions.with_index do |dec, i|
         yielder.yield dec, dir, i
-        if depth != 1 and dec.decomposable? and not dec.final? @archs
+        if dec.final? @archs
+          this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
+          @best = this if @best.nil? or this < @best
+        elsif depth != 1 and dec.decomposable? and (@best.nil? or cells < @best)
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
-          decompositions(FSM.from_kiss(dec.h_kiss), depth - 1, in_dir).each do |in_dec, in_dir, in_i|
+          decompositions(FSM.from_kiss(dec.h_kiss), depth - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|
             yielder.yield in_dec, in_dir, in_i
           end
         end
