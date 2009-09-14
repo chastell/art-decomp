@@ -80,24 +80,25 @@ module ArtDecomp describe Executable do
   end
 
   it 'should dump the resulting decompositions into a file' do
-    fsm = mock FSM, :stats => ''
-    FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
+    fsm = FSM.from_kiss 'spec/fixtures/lion'
+    dec = Decomposition.new fsm, [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
 
-    decomposer = mock Decomposer
-    decomposer.should_receive(:decompositions).and_return [:d1, :d2, :d3].each
+    decomposer = mock Decomposer, :decompositions => [dec, dec].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
 
     Executable.new(@args).run false
     decs = Marshal.load(File.read("#{@dir}/decompositions"))
-    decs.should == [:d1, :d2, :d3]
+    decs.should == [dec, dec]
   end
 
   it 'should create files holding the resulting Decomposition objects' do
-    decomposer = mock Decomposer, :decompositions => [:dec0, :dec1].each
+    dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [1], [0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    decomposer = mock Decomposer, :decompositions => [dec0, dec1].each
     Decomposer.should_receive(:new).and_return decomposer
     Executable.new(@args).run
-    Marshal.load(File.read("#{@dir}/0.dec")).should == :dec0
-    Marshal.load(File.read("#{@dir}/1.dec")).should == :dec1
+    Marshal.load(File.read("#{@dir}/0.dec")).should == dec0
+    Marshal.load(File.read("#{@dir}/1.dec")).should == dec1
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer, and report on what it’s using when asked' do
@@ -126,7 +127,6 @@ module ArtDecomp describe Executable do
 
   it 'should decompose iteratively, down to a specified depth and expose it (along with archs and dir)' do
     args = ['-a', '2/1', '-d', '2', '-o', @dir, 'spec/fixtures/lion']
-    # dec needs to be serialisable, sensible, decomposable and non-final
     dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.stub!(:new).and_return mock(Decomposer, :decompositions => [dec].each)
     ex = Executable.new args
