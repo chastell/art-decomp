@@ -26,14 +26,14 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
-      fsm = mock FSM, :beta_q => mock(Blanket, :size => 5)
+      fsm = mock FSM, :beta_q => mock(Blanket, :pins => 3, :size => 5), :input_count => 4
 
       u_a, v_a = [0,1], [2] # for this U/V pair: two Qu generating one Qv/G pair each
-      qu_a1, qv_a1, g_a1 = mock(Blanket, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
-      qu_a2, qv_a2, g_a2 = mock(Blanket, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
+      qu_a1, qv_a1, g_a1 = mock(Blanket, :pins => 2, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
+      qu_a2, qv_a2, g_a2 = mock(Blanket, :pins => 2, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 
       u_b, v_b = [0], [1,2] # for this U/V pair: one Qu generating two Qv/G pairs
-      qu_b = mock Blanket, :size => 4
+      qu_b = mock Blanket, :pins => 2, :size => 4
       qv_bA, g_bA = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
       qv_bB, g_bB = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 

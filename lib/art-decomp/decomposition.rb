@@ -76,7 +76,7 @@ module ArtDecomp class Decomposition
   end
 
   def sensible? archs
-    @v.size + @qv.pins <= archs.map(&:pins).max and @g.pins < @v.size + @qv.pins and (@qu.size < @fsm.beta_q.size or @qv.size < @fsm.beta_q.size)
+    @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
   end
 
   def valid?

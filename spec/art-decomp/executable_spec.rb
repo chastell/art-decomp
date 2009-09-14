@@ -125,9 +125,12 @@ module ArtDecomp describe Executable do
   end
 
   it 'should decompose iteratively, down to a specified depth and expose it (along with archs and dir)' do
-    args = ['-a', '3/1', '-d', '2', '-o', @dir, 'spec/fixtures/lion']
+    args = ['-a', '2/1', '-d', '2', '-o', @dir, 'spec/fixtures/lion']
+    # dec needs to be serialisable, sensible, decomposable and non-final
+    dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    Decomposer.stub!(:new).and_return mock(Decomposer, :decompositions => [dec].each)
     ex = Executable.new args
-    ex.archs.should == Set[Arch[3,1]]
+    ex.archs.should == Set[Arch[2,1]]
     ex.depth.should == 2
     ex.dir.should   == @dir
     ex.run

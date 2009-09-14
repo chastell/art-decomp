@@ -66,12 +66,12 @@ module ArtDecomp describe Decomposition do
   context 'when assesing whether it’s usable in the future' do
 
     before do
-      @fsm = mock FSM, :beta_q => mock(Blanket, :size => 5), :output_count => 2
+      @fsm = mock FSM, :beta_q => mock(Blanket, :pins => 3), :input_count => 3, :output_count => 2
       @b   = mock Blanket
       @b1  = mock Blanket, :pins => 1, :size => 2
       @b2  = mock Blanket, :pins => 2, :size => 4
-      @b3  = mock Blanket, :pins => 3, :size => 5
-      @b4  = mock Blanket, :pins => 4, :size => 9
+      @b3  = mock Blanket, :pins => 3
+      @b4  = mock Blanket, :pins => 4
     end
 
     it 'should properly report whether it’s decomposable further' do
@@ -79,15 +79,14 @@ module ArtDecomp describe Decomposition do
       Decomposition.new(@fsm, [0], [1], @b2, @b, @b).should     be_decomposable
     end
 
-    it 'should properly report whether it’s sensible, based on the target Archs, G block’s architecture and wether Qu or Qv are smaller than Q' do
-      Decomposition.new(@fsm, [0], [1],   @b2, @b3, @b3).should     be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [],    @b2, @b3, @b3).should_not be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [1],   @b2, @b2, @b3).should_not be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [1],   @b2, @b3, @b4).should_not be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [1],   @b3, @b3, @b3).should_not be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [1,2], @b3, @b2, @b3).should     be_sensible Set[Arch[4,2]]
-      Decomposition.new(@fsm, [0], [1,2], @b3, @b2, @b3).should_not be_sensible Set[Arch[3,2]]
-      Decomposition.new(@fsm, [0], [1],   @b2, @b3, @b3).should     be_sensible Set[Arch[4,2]]
+    it 'should properly report whether it’s sensible, based on the target Archs and G and H blocks’ architectures' do
+      Decomposition.new(@fsm, [0], [1,2],   @b2, @b2, @b2).should_not be_sensible Set[Arch[3,2]]
+      Decomposition.new(@fsm, [0], [1,2],   @b2, @b2, @b2).should     be_sensible Set[Arch[4,1]]
+      Decomposition.new(@fsm, [],  [0,1,2], @b2, @b2, @b2).should_not be_sensible Set[Arch[4,1]]
+      Decomposition.new(@fsm, [0], [1,2],   @b2, @b3, @b2).should_not be_sensible Set[Arch[4,1]]
+      Decomposition.new(@fsm, [0,1], [1,2], @b2, @b2, @b2).should_not be_sensible Set[Arch[4,1]]
+      Decomposition.new(@fsm, [0], [1,2],   @b3, @b2, @b2).should_not be_sensible Set[Arch[4,1]]
+      Decomposition.new(@fsm, [0], [1,2],   @b2, @b2, @b3).should_not be_sensible Set[Arch[4,1]]
     end
 
     it 'should properly report whether it’s final based on a Set of Archs' do
