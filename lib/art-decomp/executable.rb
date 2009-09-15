@@ -6,13 +6,13 @@ module ArtDecomp class Executable
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
-      opt :archs,  'Target architecture(s)', :type => :strings
-      opt :depth,  'Depth of the process',   :default => 1
-      opt :log,    'Logging target',         :type => :string
-      opt :outdir, 'Output directory',       :type => :string
-      opt :uv,     'UV generator(s)',        :default => ['Braindead']
-      opt :qu,     'Qu generator(s)',        :default => ['BlockTable']
-      opt :qv,     'Qv generator(s)',        :default => ['GraphColouring']
+      opt :archs,  'Target architecture(s)',                  :type => :strings
+      opt :depth,  'Depth of the process (0 for infinite)',   :default => 1
+      opt :log,    'Logging target',                          :type => :string
+      opt :outdir, 'Output directory',                        :type => :string
+      opt :uv,     'UV generator(s)',                         :default => ['Braindead']
+      opt :qu,     'Qu generator(s)',                         :default => ['BlockTable']
+      opt :qv,     'Qv generator(s)',                         :default => ['GraphColouring']
     end
 
     opts[:uv] = UVGenerator.constants if opts[:uv] == ['all']
