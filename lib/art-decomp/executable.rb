@@ -53,12 +53,12 @@ module ArtDecomp class Executable
   end
 
   def run dump_decs = true
-    @best = nil
+    @best = @fsm.fsm_cells(@archs)
     dumps = Hash.new { |h, k| h[k] = [] }
     decompositions(@fsm, @depth, @dir, 0).each do |dec, dir, i|
       dumps[dir] << dec
       File.dump_object dec, "#{dir}/#{i}.dec" if dump_decs
-    end
+    end unless @fsm.implementable_in?(@archs)
     dumps.each do |dir, decs|
       File.dump_object decs, "#{dir}/decompositions"
     end

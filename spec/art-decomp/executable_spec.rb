@@ -5,7 +5,7 @@ module ArtDecomp describe Executable do
   before do
     @orig_stderr = $stderr
     $stderr = StringIO.new
-    @fsm = 'spec/fixtures/lion'
+    @fsm = 'spec/fixtures/fsm'
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
     @args = ['-a', '5/1', '-o', @dir, @fsm]
   end
@@ -80,31 +80,30 @@ module ArtDecomp describe Executable do
   end
 
   it 'should dump the resulting decompositions into a file' do
-    fsm = FSM.from_kiss 'spec/fixtures/lion'
+    fsm = FSM.from_kiss 'spec/fixtures/fsm'
     dec = Decomposition.new fsm, [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
 
     decomposer = mock Decomposer, :decompositions => [dec, dec].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
 
     Executable.new(@args).run false
-    decs = Marshal.load(File.read("#{@dir}/decompositions"))
-    decs.should == [dec, dec]
+    Marshal.load(File.read("#{@dir}/decompositions")).should == [dec, dec]
   end
 
   it 'should create files holding the resulting Decomposition objects and keep track of the best decomposition' do
-    dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-    dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [1], [0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), [1], [0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [dec0, dec1].each)
     ex = Executable.new @args
     ex.best.should be_nil
     ex.run
-    ex.best.should == 3
+    ex.best.should == 4
     Marshal.load(File.read("#{@dir}/0.dec")).should == dec0
     Marshal.load(File.read("#{@dir}/1.dec")).should == dec1
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer, and report on what it’s using when asked' do
-    fsm = mock FSM, :fsm_cells => nil, :stats => ''
+    fsm = mock FSM, :fsm_cells => nil, :implementable_in? => false, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
@@ -117,7 +116,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should allow setting any of the generators to ‘all’' do
-    fsm = mock FSM, :fsm_cells => nil, :stats => ''
+    fsm = mock FSM, :fsm_cells => nil, :implementable_in? => false, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
@@ -146,7 +145,14 @@ module ArtDecomp describe Executable do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
     Logging.off
-    File.read(log.path).should =~ rex('FSM 2/1/4s → 5/1+4/2')
+    File.read(log.path).should =~ rex('FSM 4/2/10s → 5/1+4/2')
+  end
+
+  it 'should handle the s8 edge case with grace' do
+    log = Tempfile.new rand
+    Executable.new(['-a', '2/1', '-l', log.path, '-o', @dir, 'spec/fixtures/s8']).run
+    Logging.off
+    File.read(log.path).should =~ rex('final best decomposition: 0 cells')
   end
 
 end end
