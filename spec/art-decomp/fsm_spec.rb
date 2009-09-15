@@ -10,6 +10,7 @@ module ArtDecomp describe FSM do
       @mark1 = FSM.from_kiss 'spec/fixtures/mark1'
       @mc    = FSM.from_kiss 'spec/fixtures/mc'
       @opus  = FSM.from_kiss 'spec/fixtures/opus'
+      @s8    = FSM.from_kiss 'spec/fixtures/s8'
     end
 
     it 'should parse both KISS files and strings' do
@@ -112,6 +113,7 @@ module ArtDecomp describe FSM do
       @lion.should   be_implementable_in Set[Arch[4,2]]
       @mc.should_not be_implementable_in Set[Arch[4,2]]
       @mc.should     be_implementable_in Set[Arch[5,1]]
+      @s8.should     be_implementable_in Set[Arch[2,1]]
     end
 
     it 'should report the cell count for a given Set of Archs (if it’s implementable in it)' do
@@ -119,6 +121,9 @@ module ArtDecomp describe FSM do
       @lion.fsm_cells(Set[Arch[4,2]]).should == 2
       @mc.fsm_cells(Set[Arch[4,2]]).should be_nil
       @mc.fsm_cells(Set[Arch[5,1]]).should   == 7
+      @s8.fsm_cells(Set[Arch[2,1]]).should   == 0
+      @s8.fsm_cells(Set[Arch[3,2]]).should   == 0
+      @s8.fsm_cells(Set[Arch[4,1]]).should   == 0
     end
 
   end
