@@ -104,7 +104,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should pass all of the requested generators and architectures to the Decomposer, and report on what it’s using when asked' do
-    fsm = mock FSM, :stats => ''
+    fsm = mock FSM, :fsm_cells => nil, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
@@ -117,7 +117,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should allow setting any of the generators to ‘all’' do
-    fsm = mock FSM, :stats => ''
+    fsm = mock FSM, :fsm_cells => nil, :stats => ''
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
