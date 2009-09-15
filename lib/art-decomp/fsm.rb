@@ -51,6 +51,12 @@ module ArtDecomp class FSM
     FSM.from_kiss to_kiss.lines.map { |line| line.dc_expand(ins) }.flatten.sort.join
   end
 
+  def fsm_cells archs
+    pons = archs.select { |a| a.pins >= input_count + beta_q.pins }.map(&:pons).max
+    outputs = output_count + beta_q.pins
+    (outputs % pons).zero? ? outputs / pons : outputs / pons + 1 rescue nil
+  end
+
   def hash
     @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
   end

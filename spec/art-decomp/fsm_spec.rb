@@ -114,6 +114,13 @@ module ArtDecomp describe FSM do
       @mc.should     be_implementable_in Set[Arch[5,1]]
     end
 
+    it 'should report the cell count for a given Set of Archs (if it’s implementable in it)' do
+      @lion.fsm_cells(Set[Arch[4,1]]).should == 3
+      @lion.fsm_cells(Set[Arch[4,2]]).should == 2
+      @mc.fsm_cells(Set[Arch[4,2]]).should be_nil
+      @mc.fsm_cells(Set[Arch[5,1]]).should   == 7
+    end
+
   end
 
 end end
