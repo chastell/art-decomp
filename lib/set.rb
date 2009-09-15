@@ -2,7 +2,7 @@ class Set
 
   def hash
     map(&:hash).inject :^
-  end
+  end unless Set[2305860601668175887].hash == Set[2305860601668175887].hash
 
   def r_adm int
     # FIXME: consider an algorithm with lesser complexity
