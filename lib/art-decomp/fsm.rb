@@ -55,6 +55,10 @@ module ArtDecomp class FSM
     @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
   end
 
+  def implementable_in? archs
+    input_count + beta_q.pins <= archs.map(&:pins).max
+  end
+
   def input_count
     @inputs.size
   end

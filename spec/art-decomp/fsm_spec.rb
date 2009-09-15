@@ -108,6 +108,12 @@ module ArtDecomp describe FSM do
       @opus.stats.should  == '5/6/10s'
     end
 
+    it 'should report whether its directly implementable in a given Set of Archs' do
+      @lion.should   be_implementable_in Set[Arch[4,2]]
+      @mc.should_not be_implementable_in Set[Arch[4,2]]
+      @mc.should     be_implementable_in Set[Arch[5,1]]
+    end
+
   end
 
 end end
