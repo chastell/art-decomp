@@ -14,6 +14,11 @@ module ArtDecomp class Arch
     [@pins, @pons] == [other.pins, other.pons]
   end
 
+  def cells archs
+    pons = archs.select { |a| a.pins >= @pins }.map(&:pons).max
+    (@pons % pons).zero? ? @pons / pons : @pons / pons + 1 rescue nil
+  end
+
   alias eql? ==
 
   def hash
