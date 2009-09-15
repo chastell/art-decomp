@@ -53,9 +53,7 @@ module ArtDecomp class FSM
 
   def fsm_cells archs
     return 0 if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
-    pons = archs.select { |a| a.pins >= input_count + beta_q.pins }.map(&:pons).max
-    outputs = output_count + beta_q.pins
-    (outputs % pons).zero? ? outputs / pons : outputs / pons + 1 rescue nil
+    Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
   end
 
   def hash
