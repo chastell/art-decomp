@@ -27,7 +27,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   before instances_of(Executable) => :decompositions do |point|
-    @@indent = '  ' * (point.object.depth - point.args[1])
+    @@indent = '  ' * (point.object.iters - point.args[1])
     path     = point.args[2][point.object.dir.size+1..-1]
     archs    = point.object.archs.map(&:to_s).sort.reverse.join '+'
     @@log.info "#{@@indent}FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.object.gens} – best so far: #{point.object.best} cells"

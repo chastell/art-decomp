@@ -126,13 +126,13 @@ module ArtDecomp describe Executable do
     Executable.new(args).run
   end
 
-  it 'should decompose iteratively, down to a specified depth and expose it (along with archs and dir)' do
-    args = ['-a', '2/1', '-d', '2', '-o', @dir, 'spec/fixtures/lion']
+  it 'should decompose iteratively according to the number of iterations and expose this number (along with archs and dir)' do
+    args = ['-a', '2/1', '-i', '2', '-o', @dir, 'spec/fixtures/lion']
     dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.stub!(:new).and_return mock(Decomposer, :decompositions => [dec].each)
     ex = Executable.new args
     ex.archs.should == Set[Arch[2,1]]
-    ex.depth.should == 2
+    ex.iters.should == 2
     ex.dir.should   == @dir
     ex.run
     File.exists?("#{@dir}/0.dec").should     be_true

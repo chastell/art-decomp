@@ -2,12 +2,12 @@ require 'trollop'
 
 module ArtDecomp class Executable
 
-  attr_reader :archs, :best, :depth, :dir
+  attr_reader :archs, :best, :iters, :dir
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
       opt :archs,  'Target architecture(s)',                  :type => :strings
-      opt :depth,  'Depth of the process (0 for infinite)',   :default => 1
+      opt :iters,  'Number of iterations, 0 for infinite',    :default => 1
       opt :log,    'Logging target',                          :type => :string
       opt :outdir, 'Output directory',                        :type => :string
       opt :uv,     'UV generator(s)',                         :default => ['Braindead']
@@ -34,7 +34,7 @@ module ArtDecomp class Executable
     @dir   = opts[:outdir]
     @fsm   = FSM.from_kiss args.first
     @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
-    @depth = opts[:depth]
+    @iters = opts[:iters]
 
     @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
     @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
@@ -55,7 +55,7 @@ module ArtDecomp class Executable
   def run dump_decs = true
     @best = @fsm.fsm_cells(@archs)
     dumps = Hash.new { |h, k| h[k] = [] }
-    decompositions(@fsm, @depth, @dir, 0).each do |dec, dir, i|
+    decompositions(@fsm, @iters, @dir, 0).each do |dec, dir, i|
       dumps[dir] << dec
       File.dump_object dec, "#{dir}/#{i}.dec" if dump_decs
     end unless @fsm.implementable_in?(@archs)
@@ -66,7 +66,7 @@ module ArtDecomp class Executable
 
   private
 
-  def decompositions fsm, depth, dir, cells
+  def decompositions fsm, iters, dir, cells
     decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     Enumerator.new do |yielder|
       decomposer.decompositions.with_index do |dec, i|
@@ -74,10 +74,10 @@ module ArtDecomp class Executable
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
           @best = this if @best.nil? or this < @best
-        elsif depth != 1 and dec.decomposable? and (@best.nil? or cells < @best)
+        elsif iters != 1 and dec.decomposable? and (@best.nil? or cells < @best)
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
-          decompositions(FSM.from_kiss(dec.h_kiss), depth - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|
+          decompositions(FSM.from_kiss(dec.h_kiss), iters - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|
             yielder.yield in_dec, in_dir, in_i
           end
         end
