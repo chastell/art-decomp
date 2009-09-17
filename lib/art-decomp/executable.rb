@@ -7,6 +7,7 @@ module ArtDecomp class Executable
   def initialize args = ARGV
     opts = Trollop.options(args) do
       opt :archs,  'Target architecture(s)',                  :type => :strings
+      opt :debug,  'Log debug-level activities',              :default => false
       opt :iters,  'Number of iterations, 0 for infinite',    :default => 1
       opt :log,    'Logging target',                          :type => :string
       opt :outdir, 'Output directory',                        :type => :string
@@ -43,6 +44,7 @@ module ArtDecomp class Executable
     if opts[:log_given]
       require_relative 'logging'
       Logging.log = opts[:log] == '-' ? $stdout : opts[:log]
+      Logging.level = Logger::DEBUG if opts[:debug]
     end
   end
 

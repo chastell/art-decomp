@@ -143,7 +143,8 @@ module ArtDecomp describe Executable do
   it 'should allow logging to the specified file/stream' do
     log = Tempfile.new rand
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
-    Executable.new(['-a', '5/1', '4/2', '-l', log.path, '-o', @dir, @fsm]).run
+    Executable.new(['-a', '5/1', '4/2', '-d', '-l', log.path, '-o', @dir, @fsm]).run
+    Logging.level.should == Logger::DEBUG
     Logging.off
     File.read(log.path).should =~ rex('FSM 4/2/10s → 5/1+4/2')
   end

@@ -5,6 +5,10 @@ require 'logger'
 
 module ArtDecomp class Logging < Gazer::Aspect::Base
 
+  def self.level
+    @@log.level
+  end
+
   def self.level= level
     @@log.level = level
   end
