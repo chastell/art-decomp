@@ -54,15 +54,6 @@ module ArtDecomp describe Decomposition do
     Decomposition.new(fsm, [1,3], [0,2], qv, qv, g).should_not be_valid
   end
 
-  it 'should optionally hold the information on what generators were used to construct it' do
-    fsm = mock FSM
-    qu, qv, g = mock(Blanket), mock(Blanket), mock(Blanket)
-    d = Decomposition.new fsm, [0], [1], qu, qv, g, :uv_gen => UVGenerator::Braindead, :qu_gen => QuGenerator::BlockTable, :qv_gen => QvGenerator::GraphColouring
-    d.uv_gen.should == UVGenerator::Braindead
-    d.qu_gen.should == QuGenerator::BlockTable
-    d.qv_gen.should == QvGenerator::GraphColouring
-  end
-
   it 'should report whether it’s disjoint' do
     fsm = mock FSM
     b   = mock Blanket

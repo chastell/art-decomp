@@ -14,9 +14,8 @@ module ArtDecomp describe Decomposer do
   context 'given that the three generators are working properly' do
 
     class StubGenerator
-      attr_reader :class
-      def initialize klass, sequences
-        @class, @sequences = klass, sequences
+      def initialize sequences
+        @sequences = sequences
       end
       def elems *key, &block
         @sequences[key].each &block
@@ -37,21 +36,18 @@ module ArtDecomp describe Decomposer do
       qv_bA, g_bA = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
       qv_bB, g_bB = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 
-      uv_gen = mock UVGenerator::Braindead,      :new => StubGenerator.new(UVGenerator::Braindead,      {[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
-      qu_gen = mock QuGenerator::BlockTable,     :new => StubGenerator.new(QuGenerator::BlockTable,     {[fsm, u_a, v_a] => [qu_a1, qu_a2],
-                                                                                                         [fsm, u_b, v_b] => [qu_b]})
-      qv_gen = mock QvGenerator::GraphColouring, :new => StubGenerator.new(QvGenerator::GraphColouring, {[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
-                                                                                                         [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
-                                                                                                         [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
+      uv_gen = mock UVGenerator, :new => StubGenerator.new({[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
+      qu_gen = mock QuGenerator, :new => StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
+                                                            [fsm, u_b, v_b] => [qu_b]})
+      qv_gen = mock QvGenerator, :new => StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
+                                                            [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
+                                                            [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
       decomposer = Decomposer.new :archs => Set[Arch[5,1]], :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
       results = decomposer.decompositions.to_a
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
       results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
-      results.sample.uv_gen.should == UVGenerator::Braindead
-      results.sample.qu_gen.should == QuGenerator::BlockTable
-      results.sample.qv_gen.should == QvGenerator::GraphColouring
     end
 
     it 'should yield only sensible decompositions' do
