@@ -6,14 +6,15 @@ module ArtDecomp class Executable
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
-      opt :archs,  'Target architecture(s)',                  :type => :strings
-      opt :debug,  'Log debug-level activities',              :default => false
-      opt :iters,  'Number of iterations, 0 for infinite',    :default => 1
-      opt :log,    'Logging target',                          :type => :string
-      opt :outdir, 'Output directory',                        :type => :string
-      opt :uv,     'UV generator(s)',                         :default => ['Braindead']
-      opt :qu,     'Qu generator(s)',                         :default => ['BlockTable']
-      opt :qv,     'Qv generator(s)',                         :default => ['GraphColouring']
+      opt :archs,        'Target architecture(s)',               :type => :strings
+      opt :debug,        'Log debug-level activities',           :default => false
+      opt :iters,        'Number of iterations, 0 for infinite', :default => 1
+      opt :log,          'Logging target',                       :type => :string
+      opt :outdir,       'Output directory',                     :type => :string
+      opt :non_disjoint, 'Compute non-disjoint decompositions',  :default => false
+      opt :uv,           'UV generator(s)',                      :default => ['Braindead']
+      opt :qu,           'Qu generator(s)',                      :default => ['BlockTable']
+      opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
     end
 
     opts[:uv] = UVGenerator.constants if opts[:uv] == ['all']
@@ -36,6 +37,7 @@ module ArtDecomp class Executable
     @fsm   = FSM.from_kiss args.first
     @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
     @iters = opts[:iters]
+    @ndj   = opts[:non_disjoint]
 
     @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
     @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
@@ -71,7 +73,7 @@ module ArtDecomp class Executable
   def decompositions fsm, iters, dir, cells
     decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     Enumerator.new do |yielder|
-      decomposer.decompositions.with_index do |dec, i|
+      decomposer.decompositions(:non_disjoint => @ndj).with_index do |dec, i|
         yielder.yield dec, dir, i
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
