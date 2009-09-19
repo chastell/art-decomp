@@ -66,6 +66,21 @@ module ArtDecomp describe Decomposer do
       decomposer.decompositions.to_a.should == [dec1]
     end
 
+    it 'should skip re-computing elements it already computed once' do
+      qu1, qu2, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
+      fsm    = mock FSM
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0], [1]], [fsm, [0], [1]], [fsm, [1], [0]]]
+      qu_gen = mock QuGenerator, :blankets => [qu1, qu1, qu2]
+      qv_gen = mock QvGenerator, :blankets => [[qv, g1], [qv, g1], [qv, g2]]
+      dec    = mock Decomposition, :sensible? => true
+      Decomposition.should_receive(:new).exactly(8).times.and_return dec
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
+      decomposer.decompositions.to_a.size.should == 8
+      Decomposition.should_receive(:new).exactly(27).times.and_return dec
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
+      decomposer.decompositions(false).to_a.size.should == 27
+    end
+
   end
 
 end end
