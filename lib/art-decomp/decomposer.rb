@@ -8,31 +8,68 @@ module ArtDecomp class Decomposer
   end
 
   def decompositions opts = {}
-    seen = Set[]
+    @seen = Set[]
     Enumerator.new do |yielder|
       @uv_gens.each do |uv_gen|
         uv_gen.uv_pairs.each do |fsm, u, v|
-          unless seen.include? [fsm, u, v]
+          unless @seen.include? [fsm, u, v]
             @qu_gens.each do |qu_gen|
               qu_gen.blankets(fsm, u, v).each do |qu|
-                unless seen.include? [fsm, u, v, qu]
+                unless @seen.include? [fsm, u, v, qu]
                   @qv_gens.each do |qv_gen|
                     qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
-                      unless seen.include? [fsm, u, v, qu, qv, g]
+                      unless @seen.include? [fsm, u, v, qu, qv, g]
                         dec = Decomposition.new fsm, u, v, qu, qv, g, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class
-                        yielder.yield dec if dec.sensible? @archs
-                        seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
+                        if dec.sensible? @archs
+                          if opts[:non_disjoint]
+                            non_disjoint(fsm, u, v, qu, qv, g, uv_gen, qu_gen, qv_gen).each do |ndj|
+                              yielder.yield ndj
+                            end
+                          else
+                            yielder.yield dec
+                          end
+                        end
+                        @seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
                       end
                     end
                   end
-                  seen << [fsm, u, v, qu] unless opts[:keep_seen]
+                  @seen << [fsm, u, v, qu] unless opts[:keep_seen]
                 end
               end
             end
-            seen << [fsm, u, v] unless opts[:keep_seen]
+            @seen << [fsm, u, v] unless opts[:keep_seen]
           end
         end
       end
+    end
+  end
+
+  private
+
+  def non_disjoint fsm, u_dj, v, qu, qv_dj, g_dj, uv_gen, qu_gen, qv_gen
+    Enumerator.new do |yielder|
+      found = false
+      (v - u_dj).each do |v_input|
+        u = u_dj + [v_input]
+        unless @seen.include? [fsm, u, v, qu]
+          @qv_gens.each do |qv_gen|
+            qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
+              unless @seen.include? [fsm, u, v, qu, qv, g]
+                dec = Decomposition.new fsm, u, v, qu, qv, g, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class
+                if dec.sensible? @archs and g.pins < g_dj.pins
+                  found = true
+                  non_disjoint(fsm, u, v, qu, qv, g, uv_gen, qu_gen, qv_gen).each do |ndj|
+                    yielder.yield ndj
+                  end
+                end
+                @seen << [fsm, u, v, qu, qv, g]
+              end
+            end
+          end
+          @seen << [fsm, u, v, qu]
+        end
+      end
+      yielder.yield Decomposition.new fsm, u_dj, v, qu, qv_dj, g_dj, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class unless found
     end
   end
 
