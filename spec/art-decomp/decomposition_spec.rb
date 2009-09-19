@@ -63,6 +63,14 @@ module ArtDecomp describe Decomposition do
     d.qv_gen.should == QvGenerator::GraphColouring
   end
 
+  it 'should report whether it’s disjoint' do
+    fsm = mock FSM
+    b   = mock Blanket
+    Decomposition.new(fsm, [0],   [1], b, b, b).should     be_disjoint
+    Decomposition.new(fsm, [0,1], [1], b, b, b).should_not be_disjoint
+    Decomposition.new(fsm, [1], [0,1], b, b, b).should_not be_disjoint
+  end
+
   context 'when assesing whether it’s usable in the future' do
 
     before do

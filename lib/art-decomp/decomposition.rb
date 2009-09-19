@@ -15,6 +15,10 @@ module ArtDecomp class Decomposition
     @qu.size > 2
   end
 
+  def disjoint?
+    (@u & @v).empty?
+  end
+
   alias eql? ==
 
   def f_kiss
