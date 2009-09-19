@@ -7,7 +7,7 @@ module ArtDecomp class Decomposer
     @qv_gens = params[:qv_gens].map(&:new)
   end
 
-  def decompositions skip_seen = true
+  def decompositions opts = {}
     seen = {}
     Enumerator.new do |yielder|
       @uv_gens.each do |uv_gen|
@@ -21,15 +21,15 @@ module ArtDecomp class Decomposer
                       unless seen[[fsm, u, v, qu, qv, g]]
                         dec = Decomposition.new fsm, u, v, qu, qv, g, :uv_gen => uv_gen.class, :qu_gen => qu_gen.class, :qv_gen => qv_gen.class
                         yielder.yield dec if dec.sensible? @archs
-                        seen[[fsm, u, v, qu, qv, g]] = true if skip_seen
+                        seen[[fsm, u, v, qu, qv, g]] = true unless opts[:keep_seen]
                       end
                     end
                   end
-                  seen[[fsm, u, v, qu]] = true if skip_seen
+                  seen[[fsm, u, v, qu]] = true unless opts[:keep_seen]
                 end
               end
             end
-            seen[[fsm, u, v]] = true if skip_seen
+            seen[[fsm, u, v]] = true unless opts[:keep_seen]
           end
         end
       end
