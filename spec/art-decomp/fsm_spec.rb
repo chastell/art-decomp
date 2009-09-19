@@ -102,11 +102,11 @@ module ArtDecomp describe FSM do
     end
 
     it 'should report its input/output/state counts' do
-      @fsm.stats.should   == '4/2/10s'
-      @lion.stats.should  == '2/1/4s'
-      @mark1.stats.should == '5/16/15s'
-      @mc.stats.should    == '3/5/4s'
-      @opus.stats.should  == '5/6/10s'
+      @fsm.stats.should   == '4/2+10s'
+      @lion.stats.should  == '2/1+4s'
+      @mark1.stats.should == '5/16+15s'
+      @mc.stats.should    == '3/5+4s'
+      @opus.stats.should  == '5/6+10s'
     end
 
     it 'should report whether its directly implementable in a given Set of Archs' do
