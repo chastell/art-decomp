@@ -48,7 +48,6 @@ module ArtDecomp class Decomposer
 
   def non_disjoint fsm, u_dj, v, qu, qv_dj, g_dj
     Enumerator.new do |yielder|
-      found = false
       (v - u_dj).each do |v_input|
         u = u_dj + [v_input]
         unless @seen.include? [fsm, u, v, qu]
@@ -57,7 +56,6 @@ module ArtDecomp class Decomposer
               unless @seen.include? [fsm, u, v, qu, qv, g]
                 dec = Decomposition.new fsm, u, v, qu, qv, g
                 if dec.sensible? @archs and g.pins < g_dj.pins
-                  found = true
                   non_disjoint(fsm, u, v, qu, qv, g).each do |ndj|
                     yielder.yield ndj
                   end
@@ -69,7 +67,7 @@ module ArtDecomp class Decomposer
           @seen << [fsm, u, v, qu]
         end
       end
-      yielder.yield Decomposition.new fsm, u_dj, v, qu, qv_dj, g_dj unless found
+      yielder.yield Decomposition.new fsm, u_dj, v, qu, qv_dj, g_dj
     end
   end
 
