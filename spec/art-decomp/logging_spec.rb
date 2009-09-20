@@ -5,12 +5,14 @@ require_relative '../../lib/art-decomp/logging'
 module ArtDecomp describe Logging do
 
   before do
+    @dir = "#{Dir.tmpdir}/#{rand.to_s}"
     @log = StringIO.new
     Logging.log = @log
   end
 
   after do
     Logging.off
+    FileUtils.rmtree @dir if Dir.exists? @dir
   end
 
   def log
@@ -19,14 +21,14 @@ module ArtDecomp describe Logging do
   end
 
   it 'should log Executable’s decompositions calls on simple cases' do
-    args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/lion']
+    args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
     Executable.new(args).run
     log.should =~ rex('final best decomposition: 2')
   end
 
   it 'should log Executable’s decompositions calls on typical cases' do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
-    args = ['-a', '5/1', '4/2', '-o', "#{Dir.tmpdir}/#{rand.to_s}", 'spec/fixtures/fsm']
+    args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
     log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with Braindead, BlockTable, GraphColouring – best so far: ')
     log.should =~ rex('final best decomposition: ')
