@@ -11,6 +11,7 @@ module ArtDecomp describe FSM do
       @mc    = FSM.from_kiss 'spec/fixtures/mc'
       @opus  = FSM.from_kiss 'spec/fixtures/opus'
       @s8    = FSM.from_kiss 'spec/fixtures/s8'
+      @s420  = FSM.from_kiss 'spec/fixtures/s420'
     end
 
     it 'should parse both KISS files and strings' do
@@ -126,13 +127,14 @@ module ArtDecomp describe FSM do
       @s8.fsm_cells(Set[Arch[4,1]]).should   == 0
     end
 
-    it 'should report its input relevance' do
+    it 'should report its input relevance, and drop irrelevant inputs' do
       @fsm.input_relevance.should   == [2, 1, 3, 0, nil, nil, nil, nil]
       @lion.input_relevance.should  == [0, nil, nil, 1]
       @mark1.input_relevance.should == [nil, nil, nil, nil, 0, 3, 2, 4, 1]
       @mc.input_relevance.should    == [nil, nil, 2, 1, 0]
       @opus.input_relevance.should  == [nil, nil, nil, nil, 2, 3, 4, 0, 1]
       @s8.input_relevance.should    == [3, 2, 1, 0, nil, nil, nil]
+      @s420.input_relevance.should  == [1, 0, 18, nil, nil, nil, nil, nil, 17, 16, 15, 14, 13]
     end
 
   end
