@@ -1,3 +1,5 @@
+require 'backports/1.9' if RUBY_VERSION < '1.9'
+
 module ArtDecomp
 
   DontCare = :-
