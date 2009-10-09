@@ -81,7 +81,7 @@ module ArtDecomp class Decomposition
   end
 
   def valid?
-    @g.seps.subset? (@fsm.beta_x(@v) * @qv).seps and @fsm.beta_f.seps.subset? (@fsm.beta_x(@u) * @qu * @g).seps
+    @g.seps.subset?((@fsm.beta_x(@v) * @qv).seps) and @fsm.beta_f.seps.subset?((@fsm.beta_x(@u) * @qu * @g).seps)
   end
 
   protected
