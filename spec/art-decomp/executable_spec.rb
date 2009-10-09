@@ -120,7 +120,7 @@ module ArtDecomp describe Executable do
     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
     decomposer = mock Decomposer, :decompositions => [].each
-    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[5,1]], :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
+    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[5,1]], :uv_gens => [UVGenerator::Braindead, UVGenerator::Relevance], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
 
     args = ['-a', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '-o', @dir, @fsm]
     Executable.new(args).run
