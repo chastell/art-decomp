@@ -19,7 +19,7 @@ module ArtDecomp class KISS
     while a and b and i
       @lines.delete a
       @lines.delete b
-      @lines << a[0...i] + DontCare + a[i+1..-1]
+      @lines << a[0...i] + DontCare.to_s + a[i+1..-1]
       a, b, i = find_matching
     end
     @lines.sort!
@@ -27,7 +27,7 @@ module ArtDecomp class KISS
 
   def drop_overlapping
     @lines.reject! do |line|
-      @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare, '.'}\s") }
+      @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare.to_s, '.'}\s") }
     end
   end
 
