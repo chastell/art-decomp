@@ -69,6 +69,13 @@ module ArtDecomp class FSM
     @inputs.size
   end
 
+  def input_relevance
+    seps = beta_f.seps
+    perpin = (beta_q.seps & seps).size.to_f / beta_q.pins
+    more, less = (0...input_count).map { |i| [(beta_x([i]).seps & seps).size, i] }.sort.reverse.partition { |rel, i| rel > perpin }
+    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
+  end
+
   def q_encoding rows
     # FIXME: consider tr DontCare, '*'
     encoding @state, rows

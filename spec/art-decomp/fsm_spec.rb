@@ -126,6 +126,15 @@ module ArtDecomp describe FSM do
       @s8.fsm_cells(Set[Arch[4,1]]).should   == 0
     end
 
+    it 'should report its input relevance' do
+      @fsm.input_relevance.should   == [2, 1, 3, 0, nil, nil, nil, nil]
+      @lion.input_relevance.should  == [0, nil, nil, 1]
+      @mark1.input_relevance.should == [nil, nil, nil, nil, 0, 3, 2, 4, 1]
+      @mc.input_relevance.should    == [nil, nil, 2, 1, 0]
+      @opus.input_relevance.should  == [nil, nil, nil, nil, 2, 3, 4, 0, 1]
+      @s8.input_relevance.should    == [3, 2, 1, 0, nil, nil, nil]
+    end
+
   end
 
 end end
