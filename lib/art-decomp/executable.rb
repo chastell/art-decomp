@@ -27,9 +27,9 @@ module ArtDecomp class Executable
     Trollop.die          'no output directory given'         unless opts[:outdir_given]
     Trollop.die :archs,  'not in the form of inputs/outputs' unless opts[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
     Trollop.die :outdir, 'output directory exists'           if     File.exists? opts[:outdir]
-    Trollop.die :uv,     'no such UV generator'              unless (opts[:uv].map(&:to_sym) - UVGenerator.constants).empty?
-    Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu].map(&:to_sym) - QuGenerator.constants).empty?
-    Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv].map(&:to_sym) - QvGenerator.constants).empty?
+    Trollop.die :uv,     'no such UV generator'              unless (opts[:uv] - UVGenerator.constants.map(&:to_s)).empty?
+    Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu] - QuGenerator.constants.map(&:to_s)).empty?
+    Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv] - QvGenerator.constants.map(&:to_s)).empty?
 
     Dir.mkdir opts[:outdir] rescue Trollop.die :outdir, 'output directory cannot be created'
 
