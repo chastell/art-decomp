@@ -17,9 +17,9 @@ module ArtDecomp class Executable
       opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
     end
 
-    opts[:uv] = UVGenerator.constants if opts[:uv] == ['all']
-    opts[:qu] = QuGenerator.constants if opts[:qu] == ['all']
-    opts[:qv] = QvGenerator.constants if opts[:qv] == ['all']
+    opts[:uv] = UVGenerator.constants.sort if opts[:uv] == ['all']
+    opts[:qu] = QuGenerator.constants.sort if opts[:qu] == ['all']
+    opts[:qv] = QvGenerator.constants.sort if opts[:qv] == ['all']
 
     Trollop.die          'no FSM given'                      if     args.empty?
     Trollop.die          'FSM does not exist'                unless File.exists? args.first
