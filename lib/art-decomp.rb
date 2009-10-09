@@ -1,6 +1,15 @@
 if RUBY_VERSION < '1.9'
   require 'backports/1.9'
 
+  class Array
+    def keys
+      map(&:first)
+    end
+    def values
+      map(&:last)
+    end
+  end
+
   def Dir.exists? dir
     File.exists? dir and File.directory? dir
   end
