@@ -42,7 +42,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   before instances_of(QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }) => :blankets do |point|
-    @@log.info "#{@@indent}    U = #{point.args[1]}, V = #{point.args[2]}, Qu with #{point.object.class.to_s.split('::').last}"
+    @@log.info "#{@@indent}    U = #{point.args[1].inspect}, V = #{point.args[2].inspect}, Qu with #{point.object.class.to_s.split('::').last}"
   end
 
   before instances_of(QvGenerator.constants.map { |c| eval("QvGenerator::#{c}") }) => :blankets do |point|
