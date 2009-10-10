@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
+require 'rubygems'      if RUBY_VERSION < '1.9'
+require 'backports/1.9' if RUBY_VERSION < '1.9'
+
 require_relative '../lib/art-decomp'
 
 input_limit = ARGV.first.to_i.zero? ? 0 : ARGV.shift.to_i
