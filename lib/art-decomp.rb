@@ -1,4 +1,5 @@
 if RUBY_VERSION < '1.9'
+
   require 'backports/1.9'
 
   class Array
@@ -13,7 +14,10 @@ if RUBY_VERSION < '1.9'
   def Dir.exists? dir
     File.exists? dir and File.directory? dir
   end
+
 end
+
+
 
 module ArtDecomp
 
