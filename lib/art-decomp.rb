@@ -38,11 +38,12 @@ end
 
 require 'set'
 
-require_relative 'enumerable'
-require_relative 'file'
-require_relative 'integer'
-require_relative 'set'
-require_relative 'string'
+require_relative 'core/enumerable'
+require_relative 'core/file'
+require_relative 'core/integer'
+require_relative 'core/set'
+require_relative 'core/string'
+
 require_relative 'art-decomp/arch'
 require_relative 'art-decomp/b'
 require_relative 'art-decomp/bipainter'
