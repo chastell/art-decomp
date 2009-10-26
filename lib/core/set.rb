@@ -1,9 +1,5 @@
 class Set
 
-  def hash
-    map(&:hash).inject :^
-  end
-
   def r_adm int
     # FIXME: consider an algorithm with lesser complexity
     seps = select { |sep| int & sep == sep }
