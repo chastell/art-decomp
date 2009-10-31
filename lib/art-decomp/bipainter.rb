@@ -17,7 +17,7 @@ module ArtDecomp class Bipainter
     g_blocks  = Hash.new 0
     @qv_colours.each { |vertex, colour| qv_blocks[colour] |= vertex }
     @g_colours.each  { |vertex, colour| g_blocks[colour]  |= vertex }
-    return [Blanket.new(qv_blocks.values), Blanket.new(g_blocks.values)]
+    [Blanket.new(qv_blocks.values), Blanket.new(g_blocks.values)]
   end
 
   private
