@@ -20,7 +20,7 @@ module ArtDecomp class Graph
 
   def blanket_from_colouring
     colours = {}
-    @vertices.sort_by { |vert| -degree(vert) }.each do |vertex|
+    @vertices.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
       forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
       # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a

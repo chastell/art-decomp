@@ -17,7 +17,7 @@ module ArtDecomp describe QvGenerator::GraphColouring do
 
       pairs = gc.blankets(fsm, [0], [1], beta_qu).to_a
       pairs.size.should  == 2
-      pairs.first.should == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
+      pairs.first.should == [Blanket[B[1,2], B[3,4], B[5,6]], Blanket[B[1,5], B[2,3], B[4,6]]]
       pairs.last.should  == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
 
       pairs.each do |beta_qv, beta_g|
