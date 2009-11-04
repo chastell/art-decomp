@@ -12,7 +12,7 @@ module ArtDecomp class Executable
       opt :log,          'Logging target',                       :type => :string
       opt :outdir,       'Output directory',                     :type => :string
       opt :non_disjoint, 'Compute non-disjoint decompositions',  :default => false
-      opt :uv,           'UV generator(s)',                      :default => ['Braindead']
+      opt :uv,           'UV generator(s)',                      :default => ['Relevance']
       opt :qu,           'Qu generator(s)',                      :default => ['BlockTable']
       opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
     end

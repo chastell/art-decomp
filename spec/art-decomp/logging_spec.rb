@@ -30,7 +30,7 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with Braindead, BlockTable, GraphColouring – best so far: ')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with Relevance, BlockTable, GraphColouring – best so far: ')
     log.should =~ rex('final best decomposition: ')
   end
 

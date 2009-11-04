@@ -84,7 +84,7 @@ module ArtDecomp describe Executable do
     dec = Decomposition.new fsm, [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
 
     decomposer = mock Decomposer, :decompositions => [dec, dec].each
-    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
+    Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Relevance], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
 
     Executable.new(@args).run false
     Marshal.load(File.read("#{@dir}/decompositions")).should == [dec, dec]
