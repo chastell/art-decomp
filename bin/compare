@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+require_relative '../lib/art-decomp'
+
+input_limit = ARGV.first.to_i.zero? ? 0 : ARGV.shift.to_i
+
+ARGV.each do |fsm_file|
+  fsm = ArtDecomp::FSM.from_kiss fsm_file
+  seps = fsm.beta_f.seps
+  input_seps = (0...fsm.input_count).map { |i| fsm.beta_x([i]).seps & seps }
+
+  puts
+  puts fsm_file
+  puts "X seps: #{input_seps.map(&:size).inspect}"
+
+  (0...input_seps.size).pairs.to_a.each do |a, b|
+    puts "#{a} ⊂ #{b}" if input_seps[a].proper_subset?   input_seps[b]
+    puts "#{a} = #{b}" if input_seps[a] ==               input_seps[b]
+    puts "#{a} ⊃ #{b}" if input_seps[a].proper_superset? input_seps[b]
+  end
+end
