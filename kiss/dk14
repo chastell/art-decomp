@@ -1,7 +1,6 @@
-
-.i 3 
-.o 5 
-.p 56 
+.i 3
+.o 5
+.p 56
 .s 7
 000 state_1 state_3 00010
 000 state_2 state_1 01001

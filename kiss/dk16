@@ -1,7 +1,6 @@
-
-.i 2 
-.o 3 
-.p 108 
+.i 2
+.o 3
+.p 108
 .s 27
 00 state_1 state_3 001
 00 state_2 state_1 001

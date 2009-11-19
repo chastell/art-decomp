@@ -1,7 +1,6 @@
-
-.i 3 
-.o 5 
-.p 32 
+.i 3
+.o 5
+.p 32
 .s 4
 000 state1 state1 00101
 000 state2 state2 10010

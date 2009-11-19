@@ -1,7 +1,6 @@
-
-.i 1 
-.o 2 
-.p 14 
+.i 1
+.o 2
+.p 14
 .s 7
 0 START state6 00
 0 state2 state5 00
