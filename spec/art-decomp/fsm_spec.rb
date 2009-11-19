@@ -18,6 +18,10 @@ module ArtDecomp describe FSM do
       @mc.should == FSM.from_kiss(File.read 'spec/fixtures/mc')
     end
 
+    it 'should handle edge cases, like KISS files with arbitrary next-states' do
+      lambda { FSM.from_kiss 'spec/fixtures/ex5' }.should_not raise_error
+    end
+
     it 'should properly report the number of inputs' do
       @opus.input_count.should == 5
       @lion.input_count.should == 2
