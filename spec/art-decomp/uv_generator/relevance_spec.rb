@@ -8,17 +8,38 @@ module ArtDecomp describe UVGenerator::Relevance do
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Relevance.new fsm, archs
       uvs = uv_gen.uv_pairs.to_a
-      uvs.size.should  == 42
-      uvs[0].should    == [fsm, [0,1,2], [3,4,5]]
-      uvs[1].should    == [fsm, [0,1,2,3], [4,5]]
-      uvs[2].should    == [fsm, [0,1,2,4], [3,5]]
-      uvs[3].should    == [fsm, [0,1,2,5], [3,4]]
-      uvs[4].should    == [fsm, [0,1,2,3,4], [5]]
-      uvs[5].should    == [fsm, [0,1,2,3,5], [4]]
-      uvs[6].should    == [fsm, [0,1,2,4,5], [3]]
-      uvs[7].should    == [fsm, [0,1,2,3,4,5], []]
-      uvs[8].should    == [fsm, [0,1,3], [2,4,5]]
-      uvs.last.should  == [fsm, [3,4,5], [0,1,2]]
+      uvs.size.should == 42
+      uvs[0].should   == [fsm, [0,1,2], [3,4,5]]
+      uvs[1].should   == [fsm, [0,1,2,3], [4,5]]
+      uvs[2].should   == [fsm, [0,1,2,4], [3,5]]
+      uvs[3].should   == [fsm, [0,1,2,5], [3,4]]
+      uvs[4].should   == [fsm, [0,1,2,3,4], [5]]
+      uvs[5].should   == [fsm, [0,1,2,3,5], [4]]
+      uvs[6].should   == [fsm, [0,1,2,4,5], [3]]
+      uvs[7].should   == [fsm, [0,1,2,3,4,5], []]
+      uvs[8].should   == [fsm, [0,1,3], [2,4,5]]
+      uvs.last.should == [fsm, [3,4,5], [0,1,2]]
+    end
+
+    it 'should consider all architecture widths when generating the UV sets' do
+      fsm = mock FSM, :input_count => 6, :input_relevance => [0, 1, 2, nil, nil, nil, 3, 4, 5]
+      fsm.stub!(:expand_x).and_return fsm
+      archs = Set[Arch[3,1], Arch[2,1]]
+      uv_gen = UVGenerator::Relevance.new fsm, archs
+      uvs = uv_gen.uv_pairs.to_a
+      uvs.size.should == 42
+      uvs[0].should   == [fsm, [0,1,2,3], [4,5]]
+      uvs[1].should   == [fsm, [0,1,2,4], [3,5]]
+      uvs[2].should   == [fsm, [0,1,2,5], [3,4]]
+      uvs[3].should   == [fsm, [0,1,2], [3,4,5]]
+      uvs[4].should   == [fsm, [0,1,2,3,4], [5]]
+      uvs[5].should   == [fsm, [0,1,2,3,5], [4]]
+      uvs[6].should   == [fsm, [0,1,2,4,5], [3]]
+      uvs[7].should   == [fsm, [0,1,2,3,4,5], []]
+      uvs[8].should   == [fsm, [0,1,3,4], [2,5]]
+      uvs[9].should   == [fsm, [0,1,3,5], [2,4]]
+      uvs[10].should  == [fsm, [0,1,3], [2,4,5]]
+      uvs.last.should == [fsm, [3,4,5], [0,1,2]]
     end
 
     it 'should yield V-expanded FSMs' do

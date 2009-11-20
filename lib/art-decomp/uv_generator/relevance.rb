@@ -1,9 +1,9 @@
 module ArtDecomp class UVGenerator::Relevance
 
   def initialize fsm, archs
-    @fsm        = fsm
-    @relevance  = fsm.input_relevance.reverse
-    @max_v_size = archs.map(&:pins).max
+    @fsm         = fsm
+    @relevance   = fsm.input_relevance.reverse
+    @max_v_sizes = archs.map(&:pins).to_set
   end
 
   def uv_pairs
@@ -11,7 +11,7 @@ module ArtDecomp class UVGenerator::Relevance
     Enumerator.new do |yielder|
       (0...2**@relevance.size).each do |vector|
         bits = vector.bits
-        next unless bits.size == @max_v_size
+        next unless @max_v_sizes.include? bits.size
         v = @relevance.values_at(*bits).compact.sort
         u = (@relevance - v).compact.sort
         yielder.yield @fsm.expand_x(v), u, v unless @cache.include? v
