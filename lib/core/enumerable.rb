@@ -1,7 +1,7 @@
 module Enumerable
 
   def self.all_combinations source
-    result_count = source.map(&:size).inject(:*)
+    result_count = source.map(&:size).inject :*
     group_count = 1
     result = []
     source.each do |elems|

@@ -4,10 +4,10 @@ if RUBY_VERSION < '1.9'
 
   class Array
     def keys
-      map(&:first)
+      map &:first
     end
     def values
-      map(&:last)
+      map &:last
     end
   end
 
