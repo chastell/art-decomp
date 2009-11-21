@@ -7,7 +7,7 @@ module ArtDecomp describe Executable do
     $stderr = StringIO.new
     @fsm = 'spec/fixtures/fsm'
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
-    @args = ['-a', '5/1', '-o', @dir, @fsm]
+    @args = ['--archs', '5/1', '--outdir', @dir, @fsm]
   end
 
   after do
@@ -36,25 +36,25 @@ module ArtDecomp describe Executable do
   end
 
   it 'should require that all architectures are parsable' do
-    args = ['-a', '5/1', 'a/b', '-o', @dir, @fsm]
+    args = ['--archs', '5/1', 'a/b', '--outdir', @dir, @fsm]
     lambda { Executable.new(args) }.should raise_error SystemExit
     stderr.should =~ rex('archs not in the form of inputs/outputs')
   end
 
   it 'should require output directory' do
-    lambda { Executable.new(['-a', '5/1', '--', @fsm]) }.should raise_error SystemExit
+    lambda { Executable.new(['--archs', '5/1', '--', @fsm]) }.should raise_error SystemExit
     stderr.should =~ rex('no output directory given')
   end
 
   it 'should require that the output directory does not exist' do
-    lambda { Executable.new(['-a', '5/1', '-o', Dir.tmpdir, @fsm]) }.should raise_error SystemExit
+    lambda { Executable.new(['--archs', '5/1', '--outdir', Dir.tmpdir, @fsm]) }.should raise_error SystemExit
     stderr.should =~ rex('output directory exists')
   end
 
   it 'should require that the output directory is creatable' do
     Dir.mkdir @dir, 0400
     subdir = "#{@dir}/#{rand.to_s}"
-    lambda { Executable.new(['-a', '5/1', '-o', subdir, @fsm]) }.should raise_error SystemExit
+    lambda { Executable.new(['--archs', '5/1', '--outdir', subdir, @fsm]) }.should raise_error SystemExit
     stderr.should =~ rex('output directory cannot be created')
   end
 
@@ -109,7 +109,7 @@ module ArtDecomp describe Executable do
     decomposer = mock Decomposer, :decompositions => [].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[4,2], Arch[5,1]], :uv_gens => [UVGenerator::Braindead, UVGenerator::Braindead], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
 
-    args = ['-a', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '-o', @dir, @fsm]
+    args = ['--archs', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
     ex = Executable.new args
     ex.gens.should == 'Braindead+Braindead, BlockTable+EdgeLabels, GraphMerging+Bipainting'
     ex.run
@@ -122,12 +122,12 @@ module ArtDecomp describe Executable do
     decomposer = mock Decomposer, :decompositions => [].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => Set[Arch[5,1]], :uv_gens => [UVGenerator::Braindead, UVGenerator::Relevance], :qu_gens => [QuGenerator::BlockTable, QuGenerator::EdgeLabels], :qv_gens => [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
 
-    args = ['-a', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '-o', @dir, @fsm]
+    args = ['--archs', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '--outdir', @dir, @fsm]
     Executable.new(args).run
   end
 
   it 'should decompose iteratively according to the number of iterations and expose this number (along with archs and dir)' do
-    args = ['-a', '2/1', '-i', '2', '-o', @dir, 'spec/fixtures/lion']
+    args = ['--archs', '2/1', '--iters', '2', '--outdir', @dir, 'spec/fixtures/lion']
     dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.stub!(:new).and_return mock(Decomposer, :decompositions => [dec].each)
     ex = Executable.new args
@@ -143,7 +143,7 @@ module ArtDecomp describe Executable do
   it 'should allow logging to the specified file/stream' do
     log = Tempfile.new rand
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
-    Executable.new(['-a', '5/1', '4/2', '-d', '-l', log.path, '-o', @dir, @fsm]).run
+    Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run
     Logging.level.should == Logger::DEBUG
     Logging.off
     File.read(log.path).should =~ rex('FSM 4/2+10s → 5/1+4/2')
@@ -151,7 +151,7 @@ module ArtDecomp describe Executable do
 
   it 'should handle the s8 edge case with grace' do
     log = Tempfile.new rand
-    Executable.new(['-a', '2/1', '-l', log.path, '-o', @dir, 'spec/fixtures/s8']).run
+    Executable.new(['--archs', '2/1', '--log', log.path, '--outdir', @dir, 'spec/fixtures/s8']).run
     Logging.off
     File.read(log.path).should =~ rex('final best decomposition: 0 cells')
   end
