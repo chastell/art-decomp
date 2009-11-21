@@ -33,11 +33,11 @@ module ArtDecomp class Executable
 
     Dir.mkdir opts[:outdir] rescue Trollop.die :outdir, 'output directory cannot be created'
 
-    @dir   = opts[:outdir]
-    @fsm   = FSM.from_kiss args.first
-    @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
-    @iters = opts[:iters]
-    @ndj   = opts[:non_disjoint]
+    @dir          = opts[:outdir]
+    @fsm          = FSM.from_kiss args.first
+    @archs        = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
+    @iters        = opts[:iters]
+    @non_disjoint = opts[:non_disjoint]
 
     @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
     @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
@@ -73,7 +73,7 @@ module ArtDecomp class Executable
   def decompositions fsm, iters, dir, cells
     decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
     Enumerator.new do |yielder|
-      decomposer.decompositions(:non_disjoint => @ndj).with_index do |dec, i|
+      decomposer.decompositions(:non_disjoint => @non_disjoint).with_index do |dec, i|
         yielder.yield dec, dir, i
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
