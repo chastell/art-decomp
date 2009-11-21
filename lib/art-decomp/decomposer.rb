@@ -22,7 +22,7 @@ module ArtDecomp class Decomposer
                         dec = Decomposition.new fsm, u, v, qu, qv, g
                         if dec.sensible? @archs
                           if opts[:non_disjoint]
-                            non_disjoint(fsm, u, v, qu, qv, g).each do |ndj|
+                            non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
                               yielder.yield ndj
                             end
                           else
@@ -46,7 +46,7 @@ module ArtDecomp class Decomposer
 
   private
 
-  def non_disjoint fsm, u_dj, v, qu, qv_dj, g_dj
+  def non_disjoint fsm, u_dj, v, qu, qv_dj, g_dj, opts
     Enumerator.new do |yielder|
       (v - u_dj).each do |v_input|
         u = u_dj + [v_input]
@@ -56,15 +56,15 @@ module ArtDecomp class Decomposer
               unless @seen.include? [fsm, u, v, qu, qv, g]
                 dec = Decomposition.new fsm, u, v, qu, qv, g
                 if dec.sensible? @archs and g.pins < g_dj.pins
-                  non_disjoint(fsm, u, v, qu, qv, g).each do |ndj|
+                  non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
                     yielder.yield ndj
                   end
                 end
-                @seen << [fsm, u, v, qu, qv, g]
+                @seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
               end
             end
           end
-          @seen << [fsm, u, v, qu]
+          @seen << [fsm, u, v, qu] unless opts[:keep_seen]
         end
       end
       yielder.yield Decomposition.new fsm, u_dj, v, qu, qv_dj, g_dj
