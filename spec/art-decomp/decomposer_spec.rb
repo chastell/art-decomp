@@ -77,16 +77,28 @@ module ArtDecomp describe Decomposer do
       decomposer.decompositions(:keep_seen => true).to_a.size.should == 27
     end
 
-    it 'should compute non-disjoint decompositions (if told to)' do
+    it 'should compute shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
       qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, :pins => 1), mock(Blanket, :pins => 2)
       fsm    = mock FSM
-      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0], [1]]]
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0,1], [2,3]]]
       qu_gen = mock QuGenerator, :blankets => [qu]
-      qv_gen = mock QvGenerator, :blankets => [[qv, g1], [qv, g2]]
+      qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
       dec    = mock Decomposition, :sensible? => true
-      Decomposition.should_receive(:new).exactly(6).times.and_return dec
+      Decomposition.should_receive(:new).exactly(8).times.and_return dec
       decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
-      decs = decomposer.decompositions(:non_disjoint => true).to_a
+      decomposer.decompositions(:non_disjoint => true).to_a
+    end
+
+    it 'should compute deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
+      qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, :pins => 1), mock(Blanket, :pins => 2)
+      fsm    = mock FSM
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0,1], [2,3]]]
+      qu_gen = mock QuGenerator, :blankets => [qu]
+      qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
+      dec    = mock Decomposition, :sensible? => true
+      Decomposition.should_receive(:new).exactly(14).times.and_return dec
+      decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
+      decomposer.decompositions(:non_disjoint => true, :deep_ndj => true).to_a
     end
 
   end

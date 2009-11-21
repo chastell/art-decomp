@@ -56,8 +56,12 @@ module ArtDecomp class Decomposer
               unless @seen.include? [fsm, u, v, qu, qv, g]
                 dec = Decomposition.new fsm, u, v, qu, qv, g
                 if dec.sensible? @archs and g.pins < g_dj.pins
-                  non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
-                    yielder.yield ndj
+                  if opts[:deep_ndj]
+                    non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
+                      yielder.yield ndj
+                    end
+                  else
+                    yielder.yield dec
                   end
                 end
                 @seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
