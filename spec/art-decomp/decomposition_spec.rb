@@ -31,7 +31,7 @@ module ArtDecomp describe Decomposition do
     qu  = Blanket[B[0,1,11,14,15,16,17,18,19,20,30,33,34,35,36,37], B[2,5,7,14,21,24,26,33], B[3,4,10,13,14,22,23,29,32,33], B[6,8,9,12,14,25,27,28,31,33]]
     qv  = Blanket[B[0,2,6,8,10,13,14,15,19,21,25,27,29,32,33,34], B[1,3,4,5,7,9,12,14,20,22,23,24,26,28,31,33], B[11,14,16,17,18,30,33,35,36,37]]
     g   = Blanket[B[0,2,6,8,10,13,14,15,19,21,25,27,29,32,33,34], B[1,3,4,5,7,9,12,14,20,22,23,24,26,28,31,33], B[11,14,16,17,18], B[30,33,35,36,37]]
-    decomposition = Decomposition.new fsm.expand_x([0]), Set[1,2,3,4], Set[0], qu, qv, g
+    decomposition = Decomposition.new fsm.expand_x(Set[0]), Set[1,2,3,4], Set[0], qu, qv, g
     decomposition.h_kiss.should == File.read('spec/fixtures/opus.amb.h')
   end
 

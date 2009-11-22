@@ -47,9 +47,9 @@ module ArtDecomp describe FSM do
     end
 
     it 'should properly generate selected inputs Blankets' do
-      @mc.beta_x([0]).should   == Blanket[B[0,1,3,4,6,7,8,9], B[1,2,3,4,5,7,8,9]]
-      @mc.beta_x([1,2]).should == Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9], B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
-      @mc.beta_x([]).should    == Blanket[B[0,1,2,3,4,5,6,7,8,9]]
+      @mc.beta_x(Set[0]).should   == Blanket[B[0,1,3,4,6,7,8,9], B[1,2,3,4,5,7,8,9]]
+      @mc.beta_x(Set[1,2]).should == Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9], B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
+      @mc.beta_x(Set[]).should    == Blanket[B[0,1,2,3,4,5,6,7,8,9]]
     end
 
     it 'should properly generate its KISS representation' do
@@ -59,11 +59,11 @@ module ArtDecomp describe FSM do
     end
 
     it 'should return given inputs’ encoding for the given row(s)' do
-      @opus.x_encoding([2], B[0]).should   == '1'
-      @opus.x_encoding([0], B[0]).should   == '-'
-      @opus.x_encoding([0], B[7,8]).should == '0'
-      lambda { @opus.x_encoding [0], B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 8,9')
-      @opus.x_encoding([0,2], B[0]).should == '-1'
+      @opus.x_encoding(Set[2], B[0]).should   == '1'
+      @opus.x_encoding(Set[0], B[0]).should   == '-'
+      @opus.x_encoding(Set[0], B[7,8]).should == '0'
+      lambda { @opus.x_encoding Set[0], B[8,9] }.should raise_error(AmbiguousEncodingQuery, 'ambiguous encoding query: block 8,9')
+      @opus.x_encoding(Set[0,2], B[0]).should == '-1'
     end
 
     it 'should return output encoding for the given row(s)' do
@@ -96,14 +96,14 @@ module ArtDecomp describe FSM do
     end
 
     it 'should expand selected input columns and return a new FSM instance' do
-      @lion.expand_x([0,1]).should    == FSM.from_kiss('spec/fixtures/lion.exp')
-      @fsm.expand_x([0,1,2,3]).should == FSM.from_kiss('spec/fixtures/fsm.exp')
-      @fsm.expand_x([0,3]).should     == FSM.from_kiss('spec/fixtures/fsm.partially-exp')
+      @lion.expand_x(Set[0,1]).should    == FSM.from_kiss('spec/fixtures/lion.exp')
+      @fsm.expand_x(Set[0,1,2,3]).should == FSM.from_kiss('spec/fixtures/fsm.exp')
+      @fsm.expand_x(Set[0,3]).should     == FSM.from_kiss('spec/fixtures/fsm.partially-exp')
     end
 
     it 'should return self if asked to expand columns lacking don’t-cares' do
       opus = FSM.from_kiss 'spec/fixtures/opus.to_kiss'
-      opus.expand_x([2]).should equal opus
+      opus.expand_x(Set[2]).should equal opus
     end
 
     it 'should report its input/output/state counts' do
