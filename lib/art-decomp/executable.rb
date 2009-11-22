@@ -10,7 +10,7 @@ module ArtDecomp class Executable
       opt :outdir,       'Output directory',                     :type => :string
       opt :iters,        'Number of iterations, 0 for infinite', :default => 1
       opt :uv,           'UV generator(s)',                      :default => ['Relevance']
-      opt :qu,           'Qu generator(s)',                      :default => ['BlockTable']
+      opt :qu,           'Qu generator(s)',                      :default => ['EdgeLabels']
       opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
       opt :non_disjoint, 'Compute non-disjoint decompositions',  :default => false
       opt :deep_ndj,     'Compute deep non-dj decompositions',   :default => false
