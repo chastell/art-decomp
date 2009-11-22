@@ -20,5 +20,5 @@ ARGV.each do |fsm_file|
   puts "βq sep: #{rel_q}"
   puts "βq.pin: #{fsm.beta_q.pins}"
   puts "perpin: #{rel_q.to_f / fsm.beta_q.pins}"
-  puts "X seps: #{(0...fsm.input_count).map { |i| (fsm.beta_x([i]).seps & seps).size }.sort.reverse.inspect}"
+  puts "X seps: #{(0...fsm.input_count).map { |i| (fsm.beta_x(Set[i]).seps & seps).size }.sort.reverse.inspect}"
 end

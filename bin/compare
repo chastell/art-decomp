@@ -8,7 +8,7 @@ input_limit = ARGV.first.to_i.zero? ? 0 : ARGV.shift.to_i
 ARGV.each do |fsm_file|
   fsm = ArtDecomp::FSM.from_kiss fsm_file
   seps = fsm.beta_f.seps
-  input_seps = (0...fsm.input_count).map { |i| fsm.beta_x([i]).seps & seps }
+  input_seps = (0...fsm.input_count).map { |i| fsm.beta_x(Set[i]).seps & seps }
 
   puts
   puts fsm_file
