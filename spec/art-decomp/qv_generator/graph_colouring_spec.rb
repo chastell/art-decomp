@@ -10,12 +10,12 @@ module ArtDecomp describe QvGenerator::GraphColouring do
       beta_qu = Blanket[]
 
       fsm = mock FSM, :beta_f => beta_f, :beta_q => beta_q
-      fsm.should_receive(:beta_x).with([0]).and_return beta_u
-      fsm.should_receive(:beta_x).with([1]).and_return beta_v
+      fsm.should_receive(:beta_x).with(Set[0]).and_return beta_u
+      fsm.should_receive(:beta_x).with(Set[1]).and_return beta_v
       archs = Set[Arch[3,1]]
       gc = QvGenerator::GraphColouring.new
 
-      pairs = gc.blankets(fsm, [0], [1], beta_qu).to_a
+      pairs = gc.blankets(fsm, Set[0], Set[1], beta_qu).to_a
       pairs.size.should  == 2
       pairs.first.should == [Blanket[B[1,2], B[3,4], B[5,6]], Blanket[B[1,5], B[2,3], B[4,6]]]
       pairs.last.should  == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]

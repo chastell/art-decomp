@@ -52,7 +52,7 @@ module ArtDecomp describe Decomposer do
 
     it 'should yield only sensible decompositions' do
       fsm    = mock FSM
-      uv_gen = mock UVGenerator,   :uv_pairs  => [[fsm, [0], [1]]]
+      uv_gen = mock UVGenerator,   :uv_pairs  => [[fsm, Set[0], Set[1]]]
       qu_gen = mock QuGenerator,   :blankets  => [mock(Blanket)]
       qv_gen = mock QvGenerator,   :blankets  => [[mock(Blanket), mock(Blanket)], [mock(Blanket), mock(Blanket)]]
       dec1   = mock Decomposition, :sensible? => true
@@ -65,7 +65,7 @@ module ArtDecomp describe Decomposer do
     it 'should skip re-computing elements it already computed once (unless told not to)' do
       qu1, qu2, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
       fsm    = mock FSM
-      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0], [1]], [fsm, [0], [1]], [fsm, [1], [0]]]
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, Set[0], Set[1]], [fsm, Set[0], Set[1]], [fsm, Set[1], Set[0]]]
       qu_gen = mock QuGenerator, :blankets => [qu1, qu1, qu2]
       qv_gen = mock QvGenerator, :blankets => [[qv, g1], [qv, g1], [qv, g2]]
       dec    = mock Decomposition, :sensible? => true
@@ -80,7 +80,7 @@ module ArtDecomp describe Decomposer do
     it 'should compute shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
       qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, :pins => 1), mock(Blanket, :pins => 2)
       fsm    = mock FSM
-      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0,1], [2,3]]]
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, Set[0,1], Set[2,3]]]
       qu_gen = mock QuGenerator, :blankets => [qu]
       qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
       dec    = mock Decomposition, :sensible? => true
@@ -92,11 +92,11 @@ module ArtDecomp describe Decomposer do
     it 'should compute deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
       qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, :pins => 1), mock(Blanket, :pins => 2)
       fsm    = mock FSM
-      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, [0,1], [2,3]]]
+      uv_gen = mock UVGenerator, :uv_pairs => [[fsm, Set[0,1], Set[2,3]]]
       qu_gen = mock QuGenerator, :blankets => [qu]
       qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
       dec    = mock Decomposition, :sensible? => true
-      Decomposition.should_receive(:new).exactly(14).times.and_return dec
+      Decomposition.should_receive(:new).exactly(12).times.and_return dec
       decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
       decomposer.decompositions(:non_disjoint => true, :deep_ndj => true).to_a
     end

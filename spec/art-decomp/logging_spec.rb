@@ -42,7 +42,7 @@ module ArtDecomp describe Logging do
 
   it 'should log QuGenerators’ blankets calls' do
     qu = QuGenerator::BlockTable.new
-    [[[0], [1]], [[1], [0]]].each do |u, v|
+    [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets mock(FSM), u, v
     end
     log.should =~ rex('U = [0], V = [1], Qu with BlockTable')
@@ -53,7 +53,7 @@ module ArtDecomp describe Logging do
     Logging.level = Logger::DEBUG
     qv = QvGenerator::GraphColouring.new
     [mock(Blanket, :size => 8), mock(Blanket, :size => 4)].each do |qu|
-      qv.blankets mock(FSM), [0], [1], qu
+      qv.blankets mock(FSM), Set[0], Set[1], qu
     end
     log.should =~ rex('|Qu| = 8, Qv+G with GraphColouring')
     log.should =~ rex('|Qu| = 4, Qv+G with GraphColouring')
