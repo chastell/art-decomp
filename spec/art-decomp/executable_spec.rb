@@ -81,7 +81,7 @@ module ArtDecomp describe Executable do
 
   it 'should dump the resulting decompositions into a file' do
     fsm = FSM.from_kiss 'spec/fixtures/fsm'
-    dec = Decomposition.new fsm, [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec = Decomposition.new fsm, Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
 
     decomposer = mock Decomposer, :decompositions => [dec, dec].each
     Decomposer.should_receive(:new).with(:fsm => fsm, :archs => an_instance_of(Set), :uv_gens => [UVGenerator::Relevance], :qu_gens => [QuGenerator::BlockTable], :qv_gens => [QvGenerator::GraphColouring]).and_return decomposer
@@ -91,8 +91,8 @@ module ArtDecomp describe Executable do
   end
 
   it 'should create files holding the resulting Decomposition objects and keep track of the best decomposition' do
-    dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-    dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), [1], [0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), Set[1], Set[0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [dec0, dec1].each)
     ex = Executable.new @args
     ex.best.should be_nil
@@ -128,7 +128,7 @@ module ArtDecomp describe Executable do
 
   it 'should decompose iteratively according to the number of iterations and expose this number (along with archs and dir)' do
     args = ['--archs', '2/1', '--iters', '2', '--outdir', @dir, 'spec/fixtures/lion']
-    dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), [0], [1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+    dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
     Decomposer.stub!(:new).and_return mock(Decomposer, :decompositions => [dec].each)
     ex = Executable.new args
     ex.archs.should == Set[Arch[2,1]]

@@ -10,7 +10,7 @@ module ArtDecomp class UVGenerator::Braindead
     Enumerator.new do |yielder|
       inputs = (0...@input_count).to_a
       (0...2**@input_count).each do |vector|
-        u, v = [], []
+        u, v = Set[], Set[]
         @input_count.times do |bit|
           (vector[bit].zero? ? u : v) << inputs[bit]
         end

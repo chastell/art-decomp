@@ -9,16 +9,16 @@ module ArtDecomp describe UVGenerator::Relevance do
       uv_gen = UVGenerator::Relevance.new fsm, archs
       uvs = uv_gen.uv_pairs.to_a
       uvs.size.should == 42
-      uvs[0].should   == [fsm, [0,1,2], [3,4,5]]
-      uvs[1].should   == [fsm, [0,1,2,3], [4,5]]
-      uvs[2].should   == [fsm, [0,1,2,4], [3,5]]
-      uvs[3].should   == [fsm, [0,1,2,5], [3,4]]
-      uvs[4].should   == [fsm, [0,1,2,3,4], [5]]
-      uvs[5].should   == [fsm, [0,1,2,3,5], [4]]
-      uvs[6].should   == [fsm, [0,1,2,4,5], [3]]
-      uvs[7].should   == [fsm, [0,1,2,3,4,5], []]
-      uvs[8].should   == [fsm, [0,1,3], [2,4,5]]
-      uvs.last.should == [fsm, [3,4,5], [0,1,2]]
+      uvs[0].should   == [fsm, Set[0,1,2], Set[3,4,5]]
+      uvs[1].should   == [fsm, Set[0,1,2,3], Set[4,5]]
+      uvs[2].should   == [fsm, Set[0,1,2,4], Set[3,5]]
+      uvs[3].should   == [fsm, Set[0,1,2,5], Set[3,4]]
+      uvs[4].should   == [fsm, Set[0,1,2,3,4], Set[5]]
+      uvs[5].should   == [fsm, Set[0,1,2,3,5], Set[4]]
+      uvs[6].should   == [fsm, Set[0,1,2,4,5], Set[3]]
+      uvs[7].should   == [fsm, Set[0,1,2,3,4,5], Set[]]
+      uvs[8].should   == [fsm, Set[0,1,3], Set[2,4,5]]
+      uvs.last.should == [fsm, Set[3,4,5], Set[0,1,2]]
     end
 
     it 'should consider all architecture widths when generating the UV sets' do
@@ -28,18 +28,18 @@ module ArtDecomp describe UVGenerator::Relevance do
       uv_gen = UVGenerator::Relevance.new fsm, archs
       uvs = uv_gen.uv_pairs.to_a
       uvs.size.should == 42
-      uvs[0].should   == [fsm, [0,1,2,3], [4,5]]
-      uvs[1].should   == [fsm, [0,1,2,4], [3,5]]
-      uvs[2].should   == [fsm, [0,1,2,5], [3,4]]
-      uvs[3].should   == [fsm, [0,1,2], [3,4,5]]
-      uvs[4].should   == [fsm, [0,1,2,3,4], [5]]
-      uvs[5].should   == [fsm, [0,1,2,3,5], [4]]
-      uvs[6].should   == [fsm, [0,1,2,4,5], [3]]
-      uvs[7].should   == [fsm, [0,1,2,3,4,5], []]
-      uvs[8].should   == [fsm, [0,1,3,4], [2,5]]
-      uvs[9].should   == [fsm, [0,1,3,5], [2,4]]
-      uvs[10].should  == [fsm, [0,1,3], [2,4,5]]
-      uvs.last.should == [fsm, [3,4,5], [0,1,2]]
+      uvs[0].should   == [fsm, Set[0,1,2,3], Set[4,5]]
+      uvs[1].should   == [fsm, Set[0,1,2,4], Set[3,5]]
+      uvs[2].should   == [fsm, Set[0,1,2,5], Set[3,4]]
+      uvs[3].should   == [fsm, Set[0,1,2], Set[3,4,5]]
+      uvs[4].should   == [fsm, Set[0,1,2,3,4], Set[5]]
+      uvs[5].should   == [fsm, Set[0,1,2,3,5], Set[4]]
+      uvs[6].should   == [fsm, Set[0,1,2,4,5], Set[3]]
+      uvs[7].should   == [fsm, Set[0,1,2,3,4,5], Set[]]
+      uvs[8].should   == [fsm, Set[0,1,3,4], Set[2,5]]
+      uvs[9].should   == [fsm, Set[0,1,3,5], Set[2,4]]
+      uvs[10].should  == [fsm, Set[0,1,3], Set[2,4,5]]
+      uvs.last.should == [fsm, Set[3,4,5], Set[0,1,2]]
     end
 
     it 'should yield V-expanded FSMs' do
@@ -49,10 +49,10 @@ module ArtDecomp describe UVGenerator::Relevance do
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Relevance.new fsm, archs
       uv_gen.uv_pairs.to_a.should == [
-        [fsm0, [0,1], []],
-        [fsm1, [1],   [0]],
-        [fsm2, [0],   [1]],
-        [fsm3, [],    [0,1]],
+        [fsm0, Set[0,1], Set[]],
+        [fsm1, Set[1],   Set[0]],
+        [fsm2, Set[0],   Set[1]],
+        [fsm3, Set[],    Set[0,1]],
       ]
     end
 

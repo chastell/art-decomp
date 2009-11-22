@@ -9,9 +9,9 @@ module ArtDecomp describe UVGenerator::Braindead do
       uv_gen = UVGenerator::Braindead.new fsm, archs
       uvs = uv_gen.uv_pairs.to_a
       uvs.size.should  == 15
-      uvs.first.should == [fsm, [0,1,2,3], []]
-      uvs[7].should    == [fsm, [3], [0,1,2]]
-      uvs.last.should  == [fsm, [0], [1,2,3]]
+      uvs.first.should == [fsm, Set[0,1,2,3], Set[]]
+      uvs[7].should    == [fsm, Set[3], Set[0,1,2]]
+      uvs.last.should  == [fsm, Set[0], Set[1,2,3]]
     end
 
     it 'should yield V-expanded FSMs' do
@@ -21,10 +21,10 @@ module ArtDecomp describe UVGenerator::Braindead do
       archs = Set[Arch[3,1]]
       uv_gen = UVGenerator::Braindead.new fsm, archs
       uv_gen.uv_pairs.to_a.should == [
-        [fsm0, [0,1], []],
-        [fsm1, [1],   [0]],
-        [fsm2, [0],   [1]],
-        [fsm3, [],    [0,1]],
+        [fsm0, Set[0,1], Set[]],
+        [fsm1, Set[1],   Set[0]],
+        [fsm2, Set[0],   Set[1]],
+        [fsm3, Set[],    Set[0,1]],
       ]
     end
 

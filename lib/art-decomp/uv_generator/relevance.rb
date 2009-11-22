@@ -12,8 +12,8 @@ module ArtDecomp class UVGenerator::Relevance
       (0...2**@relevance.size).each do |vector|
         bits = vector.bits
         next unless @max_v_sizes.include? bits.size
-        v = @relevance.values_at(*bits).compact.sort
-        u = (@relevance - v).compact.sort
+        v = @relevance.values_at(*bits).compact.to_set
+        u = (@relevance - v.to_a).compact.to_set
         yielder.yield @fsm.expand_x(v), u, v unless @cache.include? v
         @cache << v
       end
