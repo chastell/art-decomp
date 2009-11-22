@@ -1,6 +1,6 @@
 class String
 
-  def dc_expand columns = (0...size)
+  def dc_expand columns = 0...size
     return [self] unless include? ArtDecomp::DontCare.to_s
     offsets = columns.sort
     i = index ArtDecomp::DontCare.to_s, offsets.shift until columns.include? i or offsets.empty?
