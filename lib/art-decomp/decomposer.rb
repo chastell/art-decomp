@@ -25,9 +25,8 @@ module ArtDecomp class Decomposer
                             non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
                               yielder.yield ndj
                             end
-                          else
-                            yielder.yield dec
                           end
+                          yielder.yield dec
                         end
                         @seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
                       end
@@ -60,9 +59,8 @@ module ArtDecomp class Decomposer
                     non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
                       yielder.yield ndj
                     end
-                  else
-                    yielder.yield dec
                   end
+                  yielder.yield dec
                 end
                 @seen << [fsm, u, v, qu, qv, g] unless opts[:keep_seen]
               end
@@ -71,7 +69,6 @@ module ArtDecomp class Decomposer
           @seen << [fsm, u, v, qu] unless opts[:keep_seen]
         end
       end
-      yielder.yield Decomposition.new fsm, u_dj, v, qu, qv_dj, g_dj
     end
   end
 

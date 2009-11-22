@@ -84,9 +84,9 @@ module ArtDecomp describe Decomposer do
       qu_gen = mock QuGenerator, :blankets => [qu]
       qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
       dec    = mock Decomposition, :sensible? => true
-      Decomposition.should_receive(:new).exactly(8).times.and_return dec
+      Decomposition.should_receive(:new).exactly(6).times.and_return dec
       decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
-      decomposer.decompositions(:non_disjoint => true).to_a
+      decomposer.decompositions(:non_disjoint => true).to_a.size.should == 4
     end
 
     it 'should compute deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
@@ -96,9 +96,9 @@ module ArtDecomp describe Decomposer do
       qu_gen = mock QuGenerator, :blankets => [qu]
       qv_gen = mock QvGenerator, :blankets => [[qv, g2], [qv, g1]]
       dec    = mock Decomposition, :sensible? => true
-      Decomposition.should_receive(:new).exactly(12).times.and_return dec
+      Decomposition.should_receive(:new).exactly(8).times.and_return dec
       decomposer = Decomposer.new :fsm => fsm, :uv_gens => [mock('UVG', :new => uv_gen)], :qu_gens => [mock('QuG', :new => qu_gen)], :qv_gens => [mock('QvG', :new => qv_gen)]
-      decomposer.decompositions(:non_disjoint => true, :deep_ndj => true).to_a
+      decomposer.decompositions(:non_disjoint => true, :deep_ndj => true).to_a.size.should == 4
     end
 
   end
