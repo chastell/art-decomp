@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'spec/rake/spectask'
 
 Spec::Rake::SpecTask.new :cov do |t|
@@ -19,4 +21,15 @@ namespace :spec do
       t.spec_opts  = ['--options', 'spec/spec.opts']
     end
   end
+end
+
+require 'jeweler'
+
+Jeweler::Tasks.new do |gem|
+  gem.authors  = ['Piotr Szotkowski']
+  gem.email    = 'p.szotkowski@tele.pw.edu.pl'
+  gem.homepage = 'http://github.com/chastell/art-decomp'
+  gem.name     = 'art-decomp'
+  gem.summary  = 'art décomp: an FSM → FPGA decomposer'
+  gem.files.exclude 'kiss/**/*'
 end
