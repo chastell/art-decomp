@@ -41,5 +41,6 @@ Jeweler::Tasks.new do |gem|
   gem.add_development_dependency 'jeweler'
   gem.add_development_dependency 'rcov'
   gem.add_development_dependency 'rspec'
-
 end
+
+Jeweler::GemcutterTasks.new
