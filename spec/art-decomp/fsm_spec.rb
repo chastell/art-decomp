@@ -63,6 +63,7 @@ module ArtDecomp describe FSM do
       @opus.to_kiss.should == File.read('spec/fixtures/opus.to_kiss')
       @lion.to_kiss.should == File.read('spec/fixtures/lion.to_kiss')
       @mc.to_kiss.should   == File.read('spec/fixtures/mc.to_kiss')
+      @tt.to_kiss.should   == File.read('spec/fixtures/truth_table')
     end
 
     it 'should return given inputs’ encoding for the given row(s)' do
