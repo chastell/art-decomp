@@ -12,6 +12,7 @@ module ArtDecomp describe FSM do
       @mc    = FSM.from_kiss 'spec/fixtures/mc'
       @opus  = FSM.from_kiss 'spec/fixtures/opus'
       @s8    = FSM.from_kiss 'spec/fixtures/s8'
+      @tt    = FSM.from_kiss 'spec/fixtures/truth_table'
     end
 
     it 'should parse both KISS files and strings' do
@@ -20,6 +21,12 @@ module ArtDecomp describe FSM do
 
     it 'should handle edge cases, like KISS files with arbitrary next-states' do
       lambda { FSM.from_kiss 'spec/fixtures/ex5' }.should_not raise_error
+    end
+
+    it 'should handle truth table files by faking a don’t-care state column' do
+      @tt.input_count.should  == 4
+      @tt.output_count.should == 2
+      @tt.beta_q.should       == Blanket[B[0,1,2,3]]
     end
 
     it 'should properly report the number of inputs' do

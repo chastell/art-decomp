@@ -4,8 +4,11 @@ module ArtDecomp class FSM
     kiss = File.read kiss unless kiss.index "\n"
     inputs, outputs, state, next_state = [], [], [], []
     kiss.lines do |line|
-      next unless line =~ /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/
-      ins, st, nxt, outs = line.split
+      case line
+      when /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/ then ins, st, nxt, outs = *line.split
+      when /^\s*[01-]+\s+[01-]+\s*$/             then ins, outs, st, nxt = *line.split, DontCare, DontCare
+      else next
+      end
       inputs     << ins.split(//).map(&:to_sym)
       outputs    << outs.split(//).map(&:to_sym)
       state      << (st  == '*' ? DontCare : st.to_sym)
