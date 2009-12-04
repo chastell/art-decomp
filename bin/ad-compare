@@ -17,7 +17,10 @@ ARGV.each do |fsm_file|
   puts fsm_file
   puts "X seps: #{input_seps.map(&:size).inspect}"
 
+  input_seps.each_with_index { |a, i| puts "#{i} insignificant" if a.empty? }
+
   (0...input_seps.size).pairs.to_a.each do |a, b|
+    next if input_seps[a].empty? or input_seps[b].empty?
     puts "#{a} ⊂ #{b}" if input_seps[a].proper_subset?   input_seps[b]
     puts "#{a} = #{b}" if input_seps[a] ==               input_seps[b]
     puts "#{a} ⊃ #{b}" if input_seps[a].proper_superset? input_seps[b]
