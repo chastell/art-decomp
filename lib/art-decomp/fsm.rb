@@ -100,11 +100,8 @@ module ArtDecomp class FSM
     st   = @state.map      { |e| e == DontCare ? '*' : e }
     nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
     div  = Array.new @state.size, ' '
-    if @state.uniq == [DontCare] and @next_state.uniq == [DontCare]
-      cols = @inputs + [div] + @outputs
-    else
-      cols = @inputs + [div, st, div, nxt, div] + @outputs
-    end
+    mid  = truth_table? ? [div] : [div, st, div, nxt, div]
+    cols = @inputs + mid + @outputs
     KISS.new(cols.transpose.map(&:join)).formatted
   end
 
