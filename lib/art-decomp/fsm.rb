@@ -108,6 +108,10 @@ module ArtDecomp class FSM
     KISS.new(cols.transpose.map(&:join)).formatted
   end
 
+  def truth_table?
+    @state.uniq == [DontCare] and @next_state.uniq == [DontCare]
+  end
+
   def x_encoding ins, rows
     ins.map { |i| encoding @inputs[i], rows }.join
   end
