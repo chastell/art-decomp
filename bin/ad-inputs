@@ -8,6 +8,8 @@ require_relative '../lib/art-decomp'
 
 input_limit = ARGV.first.to_i.zero? ? 0 : ARGV.shift.to_i
 
+$stdout.sync = true
+
 ARGV.each do |fsm_file|
   fsm = ArtDecomp::FSM.from_kiss fsm_file
   next if fsm.input_count < input_limit
