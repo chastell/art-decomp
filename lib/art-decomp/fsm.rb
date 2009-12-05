@@ -46,6 +46,11 @@ module ArtDecomp class FSM
     ins.map { |i| Blanket.from_array @inputs[i] }.inject :*
   end
 
+  def beta_y ins
+    return Blanket[B[*0...@state.size]] if ins.empty?
+    ins.map { |i| Blanket.from_array @outputs[i] }.inject :*
+  end
+
   alias eql? ==
 
   def expand_x ins

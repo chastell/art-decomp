@@ -59,6 +59,12 @@ module ArtDecomp describe FSM do
       @mc.beta_x(Set[]).should    == Blanket[B[0,1,2,3,4,5,6,7,8,9]]
     end
 
+    it 'should properly generate selected output Blankets' do
+      @mc.beta_y(Set[4]).should   == Blanket[B[0,1,2,3,4,5,6,7], B[8,9]]
+      @mc.beta_y(Set[2,3]).should == Blanket[B[0,1,2], B[3,4], B[5,6,7,8,9]]
+      @mc.beta_y(Set[]).should    == Blanket[B[0,1,2,3,4,5,6,7,8,9]]
+    end
+
     it 'should properly generate its KISS representation' do
       @opus.to_kiss.should == File.read('spec/fixtures/opus.to_kiss')
       @lion.to_kiss.should == File.read('spec/fixtures/lion.to_kiss')
