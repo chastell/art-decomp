@@ -12,6 +12,7 @@ module ArtDecomp class Executable
       opt :uv,           'UV generator(s)',                      :default => ['Relevance']
       opt :qu,           'Qu generator(s)',                      :default => ['EdgeLabels']
       opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
+      opt :binary,       'Compute binary decompositions',        :default => false
       opt :non_disjoint, 'Compute non-disjoint decompositions',  :default => false
       opt :deep_ndj,     'Compute deep non-dj decompositions',   :default => false
       opt :log,          'Logging target',                       :type => :string
@@ -38,6 +39,7 @@ module ArtDecomp class Executable
     @fsm          = FSM.from_kiss args.first
     @archs        = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
     @iters        = opts[:iters]
+    @binary       = opts[:binary]
     @non_disjoint = opts[:non_disjoint]
     @deep_ndj     = opts[:deep_ndj]
 
@@ -80,7 +82,7 @@ module ArtDecomp class Executable
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
           @best = this if @best.nil? or this < @best
-        elsif iters != 1 and dec.symbolic? and (@best.nil? or cells < @best)
+        elsif iters != 1 and (@binary or dec.symbolic?) and (@best.nil? or cells < @best)
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
           decompositions(FSM.from_kiss(dec.h_kiss), iters - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|

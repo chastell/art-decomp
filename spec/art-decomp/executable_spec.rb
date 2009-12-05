@@ -156,6 +156,6 @@ module ArtDecomp describe Executable do
     File.read(log.path).should =~ rex('final best decomposition: 0 cells')
   end
 
-  # FIXME: add specs for --non-disjoint and --deep-ndj
+  # FIXME: add specs for --binary, --non-disjoint and --deep-ndj
 
 end end
