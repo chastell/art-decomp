@@ -66,8 +66,7 @@ module ArtDecomp class FSM
   end
 
   def implementable_in? archs
-    return true if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
-    input_count + beta_q.pins <= archs.map(&:pins).max
+    not fsm_cells(archs).nil?
   end
 
   def input_count
