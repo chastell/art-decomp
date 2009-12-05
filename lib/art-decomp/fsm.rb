@@ -106,7 +106,7 @@ module ArtDecomp class FSM
   end
 
   def truth_table?
-    @state.uniq == [DontCare] and @next_state.uniq == [DontCare]
+    @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
   end
 
   def x_encoding ins, rows
