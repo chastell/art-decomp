@@ -147,6 +147,7 @@ module ArtDecomp describe FSM do
       @mc.input_relevance.should    == [nil, nil, 2, 1, 0]
       @opus.input_relevance.should  == [nil, nil, nil, nil, 2, 3, 4, 0, 1]
       @s8.input_relevance.should    == [3, 2, 1, 0, nil, nil, nil]
+      @tt.input_relevance.should    == [1, 3, 2]
     end
 
     it 'should report whether it’s a truth table or a full-blown FSM' do
