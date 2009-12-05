@@ -73,9 +73,9 @@ module ArtDecomp describe Decomposition do
       @b4  = mock Blanket, :pins => 4
     end
 
-    it 'should properly report whether it’s decomposable further' do
-      Decomposition.new(@fsm, Set[0], Set[1], @b1, @b, @b).should_not be_decomposable
-      Decomposition.new(@fsm, Set[0], Set[1], @b2, @b, @b).should     be_decomposable
+    it 'should report whether the resulting H block is an FSM' do
+      Decomposition.new(@fsm, Set[0], Set[1], @b1, @b, @b).should_not be_symbolic
+      Decomposition.new(@fsm, Set[0], Set[1], @b2, @b, @b).should     be_symbolic
     end
 
     it 'should properly report whether it’s sensible, based on the target Archs and G and H blocks’ architectures' do

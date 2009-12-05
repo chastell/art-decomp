@@ -8,10 +8,6 @@ module ArtDecomp class Decomposition
     [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
-  def decomposable?
-    @qu.size > 2
-  end
-
   def disjoint?
     (@u & @v).empty?
   end
@@ -78,6 +74,10 @@ module ArtDecomp class Decomposition
 
   def sensible? archs
     @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
+  end
+
+  def symbolic?
+    @qu.size > 2
   end
 
   def valid?

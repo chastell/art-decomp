@@ -80,7 +80,7 @@ module ArtDecomp class Executable
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
           @best = this if @best.nil? or this < @best
-        elsif iters != 1 and dec.decomposable? and (@best.nil? or cells < @best)
+        elsif iters != 1 and dec.symbolic? and (@best.nil? or cells < @best)
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
           decompositions(FSM.from_kiss(dec.h_kiss), iters - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|
