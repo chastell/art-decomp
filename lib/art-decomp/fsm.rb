@@ -42,13 +42,11 @@ module ArtDecomp class FSM
   end
 
   def beta_x ins
-    return Blanket[B[*0...@state.size]] if ins.empty?
-    ins.map { |i| Blanket.from_array @inputs[i] }.inject :*
+    beta @inputs, ins
   end
 
   def beta_y ins
-    return Blanket[B[*0...@state.size]] if ins.empty?
-    ins.map { |i| Blanket.from_array @outputs[i] }.inject :*
+    beta @outputs, ins
   end
 
   alias eql? ==
@@ -127,6 +125,11 @@ module ArtDecomp class FSM
   attr_reader :inputs, :outputs, :state, :next_state
 
   private
+
+  def beta column, ins
+    return Blanket[B[*0...@state.size]] if ins.empty?
+    ins.map { |i| Blanket.from_array column[i] }.inject :*
+  end
 
   def encoding column, rows
     encs = rows.bits.map { |row| column[row] }.uniq - [DontCare]
