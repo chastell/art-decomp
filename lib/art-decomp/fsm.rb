@@ -41,6 +41,10 @@ module ArtDecomp class FSM
     Blanket.from_array @state
   end
 
+  def beta_qp
+    Blanket.from_array @next_state
+  end
+
   def beta_x ins
     beta @inputs, ins
   end
