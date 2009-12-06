@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+require_relative '../lib/art-decomp'
+
+$stdout.sync = true
+
+ARGV.each do |fsm_file|
+  fsm = ArtDecomp::FSM.from_kiss fsm_file
+  puts "#{fsm_file}: #{fsm.stats}"
+
+  f_seps = fsm.beta_f.seps
+  i_seps = Hash[(0...fsm.input_count).map { |i| [i, fsm.beta_x(Set[i]).seps & f_seps] }]
+  i_seps['Q'] = fsm.beta_q.seps & f_seps
+  o_seps = Hash[(0...fsm.output_count).map { |o| [o, fsm.beta_y(Set[o]).seps] }]
+  o_seps['Q’'] = fsm.beta_qp.seps
+
+  puts "relevant separation counts: #{i_seps.values.map(&:size).inspect}"
+  puts "relevant state separations per pin: #{i_seps['Q'].size.to_f / fsm.beta_q.pins}"
+  puts "unnecessary inputs: #{i_seps.select { |i, sep| sep.empty? }.keys.sort}"
+
+  i_seps.pairs.each do |(a, sep_a), (b, sep_b)|
+    next if sep_a.empty? or sep_b.empty?
+    puts "input inclusion: #{a} ⊂ #{b}" if sep_a.proper_subset?   sep_b
+    puts "input inclusion: #{a} = #{b}" if sep_a ==               sep_b
+    puts "input inclusion: #{a} ⊃ #{b}" if sep_a.proper_superset? sep_b
+  end
+
+  o_seps.each do |o, o_sep|
+    required = Set[]
+    o_sep.each do |separation|
+      required << i_seps.select { |i, s| s.include? separation }.keys.to_set
+    end
+    required.delete_if do |this|
+      required.any? { |other| this != other and this.superset? other }
+    end
+    puts "sufficient for o#{o}: #{required.map(&:to_a)}"
+  end
+
+  puts
+
+end
