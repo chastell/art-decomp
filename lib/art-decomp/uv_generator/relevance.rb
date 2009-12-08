@@ -1,4 +1,4 @@
-module ArtDecomp class UVGenerator::Relevance
+module ArtDecomp class UVGenerator::GeneralRelevance
 
   def initialize fsm, archs
     @fsm         = fsm
