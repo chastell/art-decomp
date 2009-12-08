@@ -15,8 +15,12 @@ ARGV.each do |fsm_file|
   o_seps = Hash[(0...fsm.output_count).map { |o| [o, fsm.beta_y(Set[o]).seps] }]
   o_seps['Q’'] = fsm.beta_qp.seps
 
-  puts "relevant separation counts: #{i_seps.values.map(&:size).inspect}"
-  puts "relevant state separations per pin: #{i_seps['Q'].size.to_f / fsm.beta_q.pins}"
+  u_i_seps = i_seps.map { |i, seps| seps.reject { |s| i_seps.any? { |o, os| o != i and o != 'Q' and os.include? s } } }
+
+  puts "relevant separation counts: #{i_seps.values.map &:size}"
+  puts "unique relevant sep counts: #{u_i_seps.map &:size}"
+  puts "relevant state separations per pin: #{i_seps['Q'].size.to_f   / fsm.beta_q.pins}"
+  puts "unique relevant state seps per pin: #{u_i_seps.last.size.to_f / fsm.beta_q.pins}"
   puts "unnecessary inputs: #{i_seps.select { |i, sep| sep.empty? }.keys.sort}"
 
   i_seps.pairs.each do |(a, sep_a), (b, sep_b)|
