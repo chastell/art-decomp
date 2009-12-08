@@ -19,6 +19,8 @@ ARGV.each do |fsm_file|
 
   puts "relevant separation counts: #{i_seps.values.map &:size}"
   puts "unique relevant sep counts: #{u_i_seps.map &:size}"
+  puts "relevant separation counts by input: #{i_seps.values.map(&:size).each.with_index.sort.reverse.map &:last}"
+  puts "unique relevant sep counts by input: #{u_i_seps.map(&:size).each.with_index.sort.reverse.map &:last}"
   puts "relevant state separations per pin: #{i_seps['Q'].size.to_f   / fsm.beta_q.pins}"
   puts "unique relevant state seps per pin: #{u_i_seps.last.size.to_f / fsm.beta_q.pins}"
   puts "unnecessary inputs: #{i_seps.select { |i, sep| sep.empty? }.keys.sort}"
