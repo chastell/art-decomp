@@ -1,9 +1,9 @@
 module ArtDecomp class QuGenerator::EdgeLabels
 
   def blankets fsm, u, v
+    seps   = fsm.beta_f.seps - fsm.beta_x(u).seps
+    @graph = Graph.new fsm.beta_q, seps
     Enumerator.new do |yielder|
-      seps = fsm.beta_f.seps - fsm.beta_x(u).seps
-      @graph = Graph.new fsm.beta_q, seps
       initial_merge
       yielder.yield Blanket.new @graph.vertices
       while @graph.vertices.size > 1

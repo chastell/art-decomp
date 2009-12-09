@@ -1,10 +1,10 @@
 module ArtDecomp class QvGenerator::GraphMerging
 
   def blankets fsm, u, v, beta_qu
+    beta_u   = fsm.beta_x u
+    beta_v   = fsm.beta_x v
+    qv_graph = Graph.new fsm.beta_q, fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps
     Enumerator.new do |yielder|
-      beta_u = fsm.beta_x u
-      beta_v = fsm.beta_x v
-      qv_graph = Graph.new fsm.beta_q, fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps
       loop do
         beta_qv = Blanket.new qv_graph.vertices
         g_graph = Graph.new beta_qv * beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps

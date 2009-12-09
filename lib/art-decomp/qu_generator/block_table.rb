@@ -1,11 +1,11 @@
 module ArtDecomp class QuGenerator::BlockTable
 
   def blankets fsm, u, v
+    @seps   = fsm.beta_f.seps
+    @rows   = fsm.beta_q.ints.dup
+    @cols   = fsm.beta_x(u).ints
+    @r_adms = {}
     Enumerator.new do |yielder|
-      @seps   = fsm.beta_f.seps
-      @rows   = fsm.beta_q.ints.dup
-      @cols   = fsm.beta_x(u).ints
-      @r_adms = {}
       fold_matching!
       yielder.yield Blanket.new @rows
       while @rows.size > 1
