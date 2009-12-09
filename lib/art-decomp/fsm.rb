@@ -65,6 +65,13 @@ module ArtDecomp class FSM
     Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
   end
 
+  def general_relevance
+    seps = beta_f.seps
+    perpin = (beta_q.seps & seps).size.to_f / beta_q.pins
+    more, less = (0...input_count).map { |i| [(beta_x(Set[i]).seps & seps).size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
+    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
+  end
+
   def hash
     @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
   end
@@ -75,13 +82,6 @@ module ArtDecomp class FSM
 
   def input_count
     @inputs.size
-  end
-
-  def input_relevance
-    seps = beta_f.seps
-    perpin = (beta_q.seps & seps).size.to_f / beta_q.pins
-    more, less = (0...input_count).map { |i| [(beta_x(Set[i]).seps & seps).size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
-    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
   end
 
   def q_encoding rows

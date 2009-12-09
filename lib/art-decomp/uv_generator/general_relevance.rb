@@ -2,7 +2,7 @@ module ArtDecomp class UVGenerator::GeneralRelevance
 
   def initialize fsm, archs
     @fsm         = fsm
-    @relevance   = fsm.input_relevance.reverse
+    @relevance   = fsm.general_relevance.reverse
     @max_v_sizes = archs.map(&:pins).to_set
   end
 
