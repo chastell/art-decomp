@@ -35,8 +35,8 @@ module ArtDecomp describe Logging do
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
-    uv = UVGenerator::Braindead.new mock(FSM, :input_count => 2), Set[Arch[5,1]]
-    uv.uv_pairs
+    uv = UVGenerator::Braindead.new
+    uv.uv_pairs mock(FSM, :input_count => 2), Set[Arch[5,1]]
     log.should =~ rex('UV with Braindead')
   end
 

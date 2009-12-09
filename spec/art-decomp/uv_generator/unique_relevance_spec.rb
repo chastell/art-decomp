@@ -6,8 +6,8 @@ module ArtDecomp describe UVGenerator::UniqueRelevance do
       fsm = mock FSM, :input_count => 6, :unique_relevance => [0, 1, 2, nil, nil, nil, 3, 4, 5]
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1]]
-      uv_gen = UVGenerator::UniqueRelevance.new fsm, archs
-      uvs = uv_gen.uv_pairs.to_a
+      uv_gen = UVGenerator::UniqueRelevance.new
+      uvs = uv_gen.uv_pairs(fsm, archs).to_a
       uvs.size.should == 42
       uvs[0].should   == [fsm, Set[0,1,2], Set[3,4,5]]
       uvs[1].should   == [fsm, Set[0,1,2,3], Set[4,5]]
@@ -25,8 +25,8 @@ module ArtDecomp describe UVGenerator::UniqueRelevance do
       fsm = mock FSM, :input_count => 6, :unique_relevance => [0, 1, 2, nil, nil, nil, 3, 4, 5]
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1], Arch[2,1]]
-      uv_gen = UVGenerator::UniqueRelevance.new fsm, archs
-      uvs = uv_gen.uv_pairs.to_a
+      uv_gen = UVGenerator::UniqueRelevance.new
+      uvs = uv_gen.uv_pairs(fsm, archs).to_a
       uvs.size.should == 42
       uvs[0].should   == [fsm, Set[0,1,2,3], Set[4,5]]
       uvs[1].should   == [fsm, Set[0,1,2,4], Set[3,5]]
@@ -47,8 +47,8 @@ module ArtDecomp describe UVGenerator::UniqueRelevance do
       fsm0, fsm1, fsm2, fsm3 = mock(FSM), mock(FSM), mock(FSM), mock(FSM)
       fsm.should_receive(:expand_x).exactly(4).times.and_return(fsm0, fsm1, fsm2, fsm3)
       archs = Set[Arch[3,1]]
-      uv_gen = UVGenerator::UniqueRelevance.new fsm, archs
-      uv_gen.uv_pairs.to_a.should == [
+      uv_gen = UVGenerator::UniqueRelevance.new
+      uv_gen.uv_pairs(fsm, archs).to_a.should == [
         [fsm0, Set[0,1], Set[]],
         [fsm1, Set[1],   Set[0]],
         [fsm2, Set[0],   Set[1]],

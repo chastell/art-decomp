@@ -1,12 +1,9 @@
 module ArtDecomp class UVGenerator::UniqueRelevance
 
-  def initialize fsm, archs
+  def uv_pairs fsm, archs
     @fsm         = fsm
     @relevance   = fsm.unique_relevance.reverse
     @max_v_sizes = archs.map(&:pins).to_set
-  end
-
-  def uv_pairs
     @cache = Set[]
     Enumerator.new do |yielder|
       (0...2**@relevance.size).each do |vector|

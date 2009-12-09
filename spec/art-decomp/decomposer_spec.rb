@@ -6,8 +6,7 @@ module ArtDecomp describe Decomposer do
     uv1, uv2 = mock('UVGenerator class'), mock('UVGenerator class')
     qu1, qu2 = mock('QuGenerator class'), mock('QuGenerator class')
     qv1, qv2 = mock('QvGenerator class'), mock('QvGenerator class')
-    [uv1, uv2].each           { |gen| gen.should_receive(:new).with fsm, archs }
-    [qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
+    [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
     Decomposer.new :fsm => fsm, :archs => archs, :uv_gens => [uv1, uv2], :qu_gens => [qu1, qu2], :qv_gens => [qv1, qv2]
   end
 
@@ -26,6 +25,7 @@ module ArtDecomp describe Decomposer do
 
     it 'should poll the generators and yield the resulting decompositions one by one' do
       fsm = mock FSM, :beta_q => mock(Blanket, :pins => 3, :size => 5), :input_count => 4
+      archs = Set[Arch[5,1]]
 
       u_a, v_a = Set[0,1], Set[2] # for this U/V pair: two Qu generating one Qv/G pair each
       qu_a1, qv_a1, g_a1 = mock(Blanket, :pins => 2, :size => 4), mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
@@ -36,14 +36,14 @@ module ArtDecomp describe Decomposer do
       qv_bA, g_bA = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
       qv_bB, g_bB = mock(Blanket, :pins => 3, :size => 5), mock(Blanket, :pins => 2)
 
-      uv_gen = mock UVGenerator, :new => StubGenerator.new({[] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
+      uv_gen = mock UVGenerator, :new => StubGenerator.new({[fsm, archs] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
       qu_gen = mock QuGenerator, :new => StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
                                                             [fsm, u_b, v_b] => [qu_b]})
       qv_gen = mock QvGenerator, :new => StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
                                                             [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
                                                             [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
-      decomposer = Decomposer.new :archs => Set[Arch[5,1]], :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
+      decomposer = Decomposer.new :archs => archs, :fsm => fsm, :uv_gens => [uv_gen], :qu_gens => [qu_gen], :qv_gens => [qv_gen]
       results = decomposer.decompositions.to_a
       results.size.should  == 4
       results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
