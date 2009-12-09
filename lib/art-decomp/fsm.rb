@@ -146,12 +146,12 @@ module ArtDecomp class FSM
 
   def relevance unique
     f_seps = beta_f.seps
-    i_seps = (0...input_count).map { |i| beta_x(Set[i]).seps & f_seps }
+    i_seps = Hash[(0...input_count).map { |i| [i, beta_x(Set[i]).seps & f_seps] }]
     q_seps = beta_q.seps & f_seps
-    q_seps -= i_seps.inject :+ if unique
+    q_seps -= i_seps.values.inject :+ if unique
     perpin = q_seps.size.to_f / beta_q.pins
-    i_seps = i_seps.map.with_index { |seps, i| seps - i_seps[0...i].inject(Set[], :+) - i_seps[i+1...i_seps.size].inject(Set[], :+) } if unique
-    more, less = i_seps.map.with_index { |seps, i| [seps.size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
+    i_seps = Hash[i_seps.map { |i, seps| [i, seps - i_seps.reject { |o,| o == i }.values.inject(Set[], :+)] }] if unique
+    more, less = i_seps.map { |i, seps| [seps.size, i] }.sort.reverse.reject { |rel,| rel.zero? }.partition { |rel,| rel > perpin }
     more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
   end
 
