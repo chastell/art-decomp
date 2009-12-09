@@ -6,6 +6,7 @@ module ArtDecomp describe Logging do
 
   before do
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
+    @fsm = mock FSM, :beta_f => Blanket[], :beta_q => Blanket[], :beta_x => Blanket[]
     @log = StringIO.new
     Logging.log = @log
   end
@@ -43,7 +44,7 @@ module ArtDecomp describe Logging do
   it 'should log QuGenerators’ blankets calls' do
     qu = QuGenerator::BlockTable.new
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
-      qu.blankets mock(FSM), u, v
+      qu.blankets @fsm, u, v
     end
     log.should =~ rex('U = [0], V = [1], Qu with BlockTable')
     log.should =~ rex('U = [1], V = [0], Qu with BlockTable')
@@ -53,7 +54,7 @@ module ArtDecomp describe Logging do
     Logging.level = Logger::DEBUG
     qv = QvGenerator::GraphColouring.new
     [mock(Blanket, :size => 8), mock(Blanket, :size => 4)].each do |qu|
-      qv.blankets mock(FSM), Set[0], Set[1], qu
+      qv.blankets @fsm, Set[0], Set[1], qu
     end
     log.should =~ rex('|Qu| = 8, Qv+G with GraphColouring')
     log.should =~ rex('|Qu| = 4, Qv+G with GraphColouring')
