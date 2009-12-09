@@ -66,10 +66,7 @@ module ArtDecomp class FSM
   end
 
   def general_relevance
-    seps = beta_f.seps
-    perpin = (beta_q.seps & seps).size.to_f / beta_q.pins
-    more, less = (0...input_count).map { |i| [(beta_x(Set[i]).seps & seps).size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
-    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
+    relevance false
   end
 
   def hash
@@ -116,12 +113,7 @@ module ArtDecomp class FSM
   end
 
   def unique_relevance
-    f_seps = beta_f.seps
-    i_seps = (0...input_count).map { |i| beta_x(Set[i]).seps & f_seps }
-    perpin = (beta_q.seps & f_seps - i_seps.inject(Set[], :+)).size.to_f / beta_q.pins
-    i_seps = i_seps.map.with_index { |seps, i| seps - i_seps[0...i].inject(Set[], :+) - i_seps[i+1...i_seps.size].inject(Set[], :+) }
-    more, less = i_seps.map.with_index { |seps, i| [seps.size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
-    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
+    relevance true
   end
 
   def x_encoding ins, rows
@@ -150,6 +142,17 @@ module ArtDecomp class FSM
     when 1 then encs.first.to_s
     else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{rows.bits.join ','}"
     end
+  end
+
+  def relevance unique
+    f_seps = beta_f.seps
+    i_seps = (0...input_count).map { |i| beta_x(Set[i]).seps & f_seps }
+    q_seps = beta_q.seps & f_seps
+    q_seps -= i_seps.inject :+ if unique
+    perpin = q_seps.size.to_f / beta_q.pins
+    i_seps = i_seps.map.with_index { |seps, i| seps - i_seps[0...i].inject(Set[], :+) - i_seps[i+1...i_seps.size].inject(Set[], :+) } if unique
+    more, less = i_seps.map.with_index { |seps, i| [seps.size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
+    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
   end
 
 end end
