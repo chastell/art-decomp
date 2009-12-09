@@ -115,6 +115,15 @@ module ArtDecomp class FSM
     @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
   end
 
+  def unique_relevance
+    f_seps = beta_f.seps
+    i_seps = (0...input_count).map { |i| beta_x(Set[i]).seps & f_seps }
+    perpin = (beta_q.seps & f_seps - i_seps.inject(Set[], :+)).size.to_f / beta_q.pins
+    i_seps = i_seps.map.with_index { |seps, i| seps - i_seps[0...i].inject(Set[], :+) - i_seps[i+1...i_seps.size].inject(Set[], :+) }
+    more, less = i_seps.map.with_index { |seps, i| [seps.size, i] }.sort.reverse.reject { |rel, i| rel.zero? }.partition { |rel, i| rel > perpin }
+    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
+  end
+
   def x_encoding ins, rows
     ins.map { |i| encoding @inputs[i], rows }.join
   end

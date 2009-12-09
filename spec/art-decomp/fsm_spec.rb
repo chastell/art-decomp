@@ -162,6 +162,17 @@ module ArtDecomp describe FSM do
       @tt.general_relevance.should    == [1, 3, 2]
     end
 
+    it 'should report its unique input relevance, and drop irrelevant inputs' do
+      @ex4.unique_relevance.should   == [nil, nil, nil, nil, 2, 1, 5, 4, 3]
+      @fsm.unique_relevance.should   == [2, 1, 0, 3, nil, nil, nil, nil]
+      @lion.unique_relevance.should  == [0, nil, nil, 1]
+      @mark1.unique_relevance.should == [nil, nil, nil, nil, 0, 3, 2, 4, 1]
+      @mc.unique_relevance.should    == [nil, nil, 2, 1, 0]
+      @opus.unique_relevance.should  == [2, nil, nil, nil, nil, 3, 4, 1, 0]
+      @s8.unique_relevance.should    == [nil, nil, nil]
+      @tt.unique_relevance.should    == [1, 3, 2]
+    end
+
     it 'should report whether it’s a truth table or a full-blown FSM' do
       @tt.should      be_truth_table
       @fsm.should_not be_truth_table
