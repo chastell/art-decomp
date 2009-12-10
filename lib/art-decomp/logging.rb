@@ -19,6 +19,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
     @@log.formatter = proc { |sev, date, name, msg| "#{date} #{msg}\n" }
     @@indent = ''
     apply!
+    @@start = Time.now
   end
 
   def self.off
@@ -27,7 +28,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   after instances_of(Executable) => :run do |point|
-    @@log.info "final best decomposition: #{point.object.best} cells"
+    @@log.info "final best decomposition: #{point.object.best} cells; done in #{(Time.now - @@start).to_i}s"
   end
 
   before instances_of(Executable) => :decompositions do |point|

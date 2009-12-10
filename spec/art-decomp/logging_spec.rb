@@ -24,7 +24,7 @@ module ArtDecomp describe Logging do
   it 'should log Executable’s decompositions calls on simple cases' do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ rex('final best decomposition: 2')
+    log.should =~ rex('final best decomposition: 2 cells; done in 0s')
   end
 
   it 'should log Executable’s decompositions calls on typical cases' do
