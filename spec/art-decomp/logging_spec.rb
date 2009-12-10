@@ -30,9 +30,19 @@ module ArtDecomp describe Logging do
   it 'should log Executable’s decompositions calls on typical cases' do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
+    ex = Executable.new(args)
+    ex.stub!(:best).and_return 69
+    ex.run
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with GeneralRelevance, EdgeLabels, GraphColouring – best so far: 69 cells')
+    log.should =~ rex('final best decomposition: 69 cells; done in 0s')
+  end
+
+  it 'should log Executable’s decompositions calls on problematic cases' do
+    Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
+    args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with GeneralRelevance, EdgeLabels, GraphColouring – best so far: ')
-    log.should =~ rex('final best decomposition: ')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with GeneralRelevance, EdgeLabels, GraphColouring – no decomposition so far')
+    log.should =~ rex('no final decomposition; done in 0s')
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do

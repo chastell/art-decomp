@@ -28,14 +28,14 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
   end
 
   after instances_of(Executable) => :run do |point|
-    @@log.info "final best decomposition: #{point.object.best} cells; done in #{(Time.now - @@start).to_i}s"
+    @@log.info "#{point.object.best ? "final best decomposition: #{point.object.best} cells" : 'no final decomposition'}; done in #{(Time.now - @@start).to_i}s"
   end
 
   before instances_of(Executable) => :decompositions do |point|
     @@indent = '  ' * (point.object.iters - point.args[1])
     path     = point.args[2][point.object.dir.size+1..-1]
     archs    = point.object.archs.map(&:to_s).sort.reverse.join '+'
-    @@log.info "#{@@indent}FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.object.gens} – best so far: #{point.object.best} cells"
+    @@log.info "#{@@indent}FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.object.gens} – #{point.object.best ? "best so far: #{point.object.best} cells" : 'no decomposition so far'}"
   end
 
   before instances_of(UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }) => :uv_pairs do |point|
