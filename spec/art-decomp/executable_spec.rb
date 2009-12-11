@@ -3,7 +3,6 @@
 module ArtDecomp describe Executable do
 
   before do
-    @orig_stderr = $stderr
     $stderr = StringIO.new
     @fsm = 'spec/fixtures/fsm'
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
@@ -11,7 +10,7 @@ module ArtDecomp describe Executable do
   end
 
   after do
-    $stderr = @orig_stderr
+    $stderr = STDERR
     FileUtils.rmtree @dir if Dir.exists? @dir
   end
 
