@@ -29,7 +29,7 @@ module ArtDecomp class Logging < Gazer::Aspect::Base
 
   after instances_of(Executable) => :run do |point|
     secs = (Time.now - @@start).to_i
-    @@log.info "#{point.object.best ? "final best decomposition: #{point.object.best} cells" : 'no final decomposition'}; done in #{secs}s (#{secs / 60 / 60}h#{secs / 60 % 60}m#{secs % 60}s)"
+    @@log.info "#{point.object.best ? "final best decomposition: #{point.object.best} cells" : 'no final decomposition'}; done in #{secs}s (#{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s)"
   end
 
   before instances_of(Executable) => :decompositions do |point|
