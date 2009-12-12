@@ -5,12 +5,9 @@ module ArtDecomp class Graph
   def initialize blanket, seps
     @vertices = blanket.ints.dup
     @vertices.delete_if { |this| @vertices.any? { |other| other != this and other & this == this } }
-    @edges    = Set[]
-    seps.each do |sep|
-      @vertices.pairs.each do |a, b|
-        @edges << Set[a,b] unless (a & sep).zero? or (b & sep).zero? or (a | b) & sep != sep
-      end
-    end
+    @edges = @vertices.pairs.reject do |a, b|
+      seps.all? { |sep| (a & sep).zero? or (b & sep).zero? or (a | b) & sep != sep }
+    end.map(&:to_set).to_set
   end
 
   def adjacent *vertices
