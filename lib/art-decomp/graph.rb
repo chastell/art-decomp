@@ -6,7 +6,7 @@ module ArtDecomp class Graph
     @vertices = blanket.ints.dup
     @vertices.delete_if { |this| @vertices.any? { |other| other != this and other & this == this } }
     @edges = @vertices.pairs.reject do |a, b|
-      seps.all? { |sep| (a & sep).zero? or (b & sep).zero? or (a | b) & sep != sep }
+      seps.all? { |s| a&s == b&s or a&s == 0 or b&s == 0 or a&s == s or b&s == s }
     end.map(&:to_set).to_set
   end
 

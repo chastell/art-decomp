@@ -66,4 +66,9 @@ module ArtDecomp describe Graph do
     @graph.adjacent(B[5,6], B[7]).should == Set[B[3,4], B[8,9]]
   end
 
+  it 'should only create the necessary edges' do
+    blanket = Blanket[B[1,2,3], B[1,2,4], B[1,5], B[2,6]]
+    Graph.new(blanket, Set[Sep[1,2]]).edges.should == Set[Set[B[1,5], B[2,6]]]
+  end
+
 end end
