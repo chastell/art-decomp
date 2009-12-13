@@ -5,8 +5,9 @@ module ArtDecomp class Graph
   def initialize blanket, seps
     @vertices = blanket.ints.dup
     @vertices.delete_if { |this| @vertices.any? { |other| other != this and other & this == this } }
+    relevant = Hash[@vertices.map { |v| [v, seps.select { |s| v&s != 0 and v&s != s }.to_set] }]
     @edges = @vertices.pairs.select do |a, b|
-      seps.any? { |s| a&s != b&s and a&s != 0 and b&s != 0 and a&s != s and b&s != s }
+      (relevant[a] & relevant[b]).any? { |s| a&s != b&s }
     end.map(&:to_set).to_set
   end
 
