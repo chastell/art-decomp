@@ -33,7 +33,7 @@ module ArtDecomp describe Logging do
     ex = Executable.new(args)
     ex.stub!(:best).and_return 69
     ex.run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with GeneralRelevance, EdgeLabels, GraphColouring – best so far: 69 cells')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring – best so far: 69 cells')
     log.should =~ rex('final best decomposition: 69 cells; done in 0s (0h 0m 0s)')
   end
 
@@ -41,7 +41,7 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with GeneralRelevance, EdgeLabels, GraphColouring – no decomposition so far')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring – no decomposition so far')
     log.should =~ rex('no final decomposition; done in 0s (0h 0m 0s)')
   end
 
