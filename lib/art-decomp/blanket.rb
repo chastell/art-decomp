@@ -64,15 +64,9 @@ module ArtDecomp class Blanket
   end
 
   def seps
-    # FIXME: consider an algorithm with lesser complexity
-    seps = Set[]
-    singles = 0
-    @ints.pairs.each { |int1, int2| singles |= int1 ^ int2 }
-    singles.bits.pairs.each do |elem1, elem2|
-      sep = Sep[elem1, elem2]
-      seps << sep unless @ints.any? { |int| int & sep == sep }
-    end
-    seps
+    potential = @ints.inject(0, :|).bits.pairs.map { |a, b| Sep[a,b] }
+    not_separate = @ints.map{ |i| i.bits.pairs.map { |a, b| Sep[a,b] } }.flatten
+    (potential - not_separate).to_set
   end
 
   def size
