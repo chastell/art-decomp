@@ -6,4 +6,8 @@ require 'backports/1.9' if RUBY_VERSION < '1.9'
 require_relative '../lib/art-decomp'
 
 $stdout.sync = true
-p Marshal.load(File.open ARGV.first).all? { |d| print '.'; d.valid? }
+
+ARGV.each do |file|
+  print file
+  puts Marshal.load(File.open file).all? { |d| print '.'; d.valid? }
+end
