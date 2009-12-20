@@ -11,10 +11,4 @@ describe Enumerable do
     array.pairs
   end
 
-  it 'should have a method to get all possible combinations of the passed elements' do
-    source = [[:a,:b], [:c], [:d,:e,:f]]
-    Enumerable.all_combinations(source).should == [[:a,:c,:d], [:a,:c,:e], [:a,:c,:f],
-                                                   [:b,:c,:d], [:b,:c,:e], [:b,:c,:f]]
-  end
-
 end
