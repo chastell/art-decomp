@@ -33,7 +33,7 @@ module ArtDecomp class Graph
   end
 
   def complete?
-    2 * edges.size == @edges.keys.size * (@edges.keys.size - 1)
+    @edges.values.map(&:size).inject(:+) == @edges.keys.size * (@edges.keys.size - 1)
   end
 
   def degree vertex
