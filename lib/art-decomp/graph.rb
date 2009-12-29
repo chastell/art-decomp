@@ -20,7 +20,7 @@ module ArtDecomp class Graph
 
   def blanket_from_colouring
     colours = {}
-    vertices.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
+    @edges.keys.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
       forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
       # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a
@@ -33,7 +33,7 @@ module ArtDecomp class Graph
   end
 
   def complete?
-    2 * edges.size == vertices.size * (vertices.size - 1)
+    2 * edges.size == @edges.keys.size * (@edges.keys.size - 1)
   end
 
   def degree vertex
@@ -45,9 +45,9 @@ module ArtDecomp class Graph
   end
 
   def merge_by_edge_labels!
-    return self if vertices.size == 1
-    pins = vertices.size.log2_ceil
-    until vertices.size.log2_ceil < pins
+    return self if @edges.keys.size == 1
+    pins = @edges.keys.size.log2_ceil
+    until @edges.keys.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
       a, b = *edges.sort_by { |edge| yield *edge }.first
       merge! a, b
@@ -56,9 +56,9 @@ module ArtDecomp class Graph
   end
 
   def merge_by_vertex_degrees!
-    pins = vertices.size.log2_ceil
-    until vertices.size.log2_ceil < pins or complete?
-      a, b = *vertices.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not edges.include? Set[v1, v2] }
+    pins = @edges.keys.size.log2_ceil
+    until @edges.keys.size.log2_ceil < pins or complete?
+      a, b = *@edges.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not edges.include? Set[v1, v2] }
       merge! a, b
     end
     self
