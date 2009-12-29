@@ -58,7 +58,7 @@ module ArtDecomp class Graph
   def merge_by_vertex_degrees!
     pins = @edges.keys.size.log2_ceil
     until @edges.keys.size.log2_ceil < pins or complete?
-      a, b = *@edges.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not edges.include? Set[v1, v2] }
+      a, b = *@edges.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not @edges[v1].include? v2 }
       merge! a, b
     end
     self
