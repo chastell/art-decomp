@@ -32,7 +32,7 @@ module ArtDecomp class Graph
   end
 
   def complete?
-    @edges.values.map(&:size).inject(:+) == @edges.keys.size * (@edges.keys.size - 1)
+    @edges.values.map(&:size).inject(:+) == @edges.size * (@edges.size - 1)
   end
 
   def degree vertex
@@ -44,9 +44,9 @@ module ArtDecomp class Graph
   end
 
   def merge_by_edge_labels!
-    return self if @edges.keys.size == 1
-    pins = @edges.keys.size.log2_ceil
-    until @edges.keys.size.log2_ceil < pins
+    return self if @edges.size == 1
+    pins = @edges.size.log2_ceil
+    until @edges.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
       a, b = *edges.sort_by { |edge| yield *edge }.first
       merge! a, b
@@ -55,8 +55,8 @@ module ArtDecomp class Graph
   end
 
   def merge_by_vertex_degrees!
-    pins = @edges.keys.size.log2_ceil
-    until @edges.keys.size.log2_ceil < pins or complete?
+    pins = @edges.size.log2_ceil
+    until @edges.size.log2_ceil < pins or complete?
       a, b = *@edges.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not @edges[v1].include? v2 }
       merge! a, b
     end
