@@ -34,7 +34,7 @@ Jeweler::Tasks.new do |gem|
 
   gem.files.exclude 'kiss/**/*'
 
-  gem.add_dependency 'teejayvanslyke-gazer'
+  gem.add_dependency 'rcapture'
   gem.add_dependency 'trollop'
 
   gem.add_development_dependency 'diff-lcs'
