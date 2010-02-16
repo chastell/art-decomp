@@ -38,14 +38,14 @@ class << self
     UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }.each do |uv_gen|
       uv_gen.class_eval { include RCapture::Interceptable }
       uv_gen.capture_pre :methods => :uv_pairs do |point|
-        @log.info "UV with #{point.sender.class.to_s.split('::').last}"
+        @log.debug "UV with #{point.sender.class.to_s.split('::').last}"
       end
     end
 
     QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }.each do |qu_gen|
       qu_gen.class_eval { include RCapture::Interceptable }
       qu_gen.capture_pre :methods => :blankets do |point|
-        @log.info "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
+        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
       end
     end
   end

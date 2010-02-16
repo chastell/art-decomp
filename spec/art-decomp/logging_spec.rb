@@ -9,6 +9,7 @@ module ArtDecomp describe Logging do
     @fsm = mock FSM, :beta_f => Blanket[], :beta_q => Blanket[], :beta_x => Blanket[]
     @log = StringIO.new
     Logging.log = @log
+    Logging.level = Logger::INFO
   end
 
   after do
@@ -45,13 +46,15 @@ module ArtDecomp describe Logging do
     log.should =~ rex('took 0h 0m 0s')
   end
 
-  it 'should log UVGenerators’ uv_pairs calls' do
+  it 'should log UVGenerators’ uv_pairs calls (if debug-level logging enabled)' do
+    Logging.level = Logger::DEBUG
     uv = UVGenerator::Braindead.new
     uv.uv_pairs mock(FSM, :input_count => 2), Set[Arch[5,1]]
     log.should =~ rex('UV with Braindead')
   end
 
-  it 'should log QuGenerators’ blankets calls' do
+  it 'should log QuGenerators’ blankets calls (if debug-level logging enabled)' do
+    Logging.level = Logger::DEBUG
     qu = QuGenerator::BlockTable.new
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets @fsm, u, v
