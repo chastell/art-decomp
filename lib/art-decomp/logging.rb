@@ -20,7 +20,17 @@ class << self
     @log = Logger.new log
     @log.level = Logger::INFO
     @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{(@best.nil? ? '' : @best.to_s + 'c').rjust 4} ·#{(@path.nil? ? '' : '/' + @path).ljust 10} #{msg}\n" }
+    add_logging
+  end
 
+  def off
+    # FIXME: if methods can be uncaptured, do that and close @log
+    @log = Logger.new '/dev/null'
+  end
+
+  private
+
+  def add_logging
     Executable.class_eval { include RCapture::Interceptable }
 
     Executable.capture_post :methods => :run do |point|
@@ -48,11 +58,6 @@ class << self
         @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
       end
     end
-  end
-
-  def off
-    # FIXME: if methods can be uncaptured, do that and close @log
-    @log = Logger.new '/dev/null'
   end
 
 end
