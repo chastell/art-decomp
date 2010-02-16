@@ -24,7 +24,7 @@ class << self
     Executable.class_eval { include RCapture::Interceptable }
 
     Executable.capture_post :methods => :run do |point|
-      secs = (Time.now - @start).to_i
+      secs = (Time.now - @start).ceil
       @best = point.sender.best
       @log.info "took #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
     end

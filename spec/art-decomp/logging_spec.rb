@@ -25,7 +25,7 @@ module ArtDecomp describe Logging do
   it 'should log Executable’s decompositions calls on simple cases' do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ rex('took 0h 0m 0s')
+    log.should =~ rex('took 0h 0m 1s')
   end
 
   it 'should log Executable’s decompositions calls on typical cases' do
@@ -35,7 +35,7 @@ module ArtDecomp describe Logging do
     ex.stub!(:best).and_return 69
     ex.run
     log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
-    log.should =~ rex('took 0h 0m 0s')
+    log.should =~ rex('took 0h 0m 1s')
   end
 
   it 'should log Executable’s decompositions calls on problematic cases' do
@@ -43,7 +43,7 @@ module ArtDecomp describe Logging do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
     log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
-    log.should =~ rex('took 0h 0m 0s')
+    log.should =~ rex('took 0h 0m 1s')
   end
 
   it 'should log UVGenerators’ uv_pairs calls (if debug-level logging enabled)' do
