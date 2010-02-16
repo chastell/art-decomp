@@ -35,14 +35,14 @@ class << self
       @log.info "#{point.args[0].stats} with #{point.sender.gens}"
     end
 
-    UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }.each do |uv_gen|
+    UVGenerator.constants.map { |c| UVGenerator.const_get c }.each do |uv_gen|
       uv_gen.class_eval { include RCapture::Interceptable }
       uv_gen.capture_pre :methods => :uv_pairs do |point|
         @log.debug "UV with #{point.sender.class.to_s.split('::').last}"
       end
     end
 
-    QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }.each do |qu_gen|
+    QuGenerator.constants.map { |c| QuGenerator.const_get c }.each do |qu_gen|
       qu_gen.class_eval { include RCapture::Interceptable }
       qu_gen.capture_pre :methods => :blankets do |point|
         @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
