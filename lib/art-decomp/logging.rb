@@ -5,15 +5,17 @@ require 'rcapture'
 
 module ArtDecomp class Logging
 
-  def self.level
+class << self
+
+  def level
     @@log.level
   end
 
-  def self.level= level
+  def level= level
     @@log.level = level
   end
 
-  def self.log= log
+  def log= log
     @@start = Time.now
     @@log = Logger.new log
     @@log.level = Logger::INFO
@@ -54,9 +56,11 @@ module ArtDecomp class Logging
     end
   end
 
-  def self.off
+  def off
     # FIXME: if methods can be uncaptured, do that and close @@log
     @@log = Logger.new '/dev/null'
   end
+
+end
 
 end end
