@@ -18,16 +18,7 @@ module ArtDecomp class Logging
     @@log = Logger.new log
     @@log.level = Logger::INFO
     @@log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @@start).ceil.to_s.rjust 6}s #{msg}\n" }
-    apply!
-  end
 
-  def self.off
-    # FIXME: if methods can be uncaptured, do that and close @@log
-    @@log = Logger.new '/dev/null'
-  end
-
-
-  def self.apply!
     Executable.class_eval { include RCapture::Interceptable }
 
     Executable.capture_post :methods => :run do |point|
@@ -61,6 +52,11 @@ module ArtDecomp class Logging
         @@log.debug "      |Qu| = #{point.args[3].size}, Qv+G with #{point.sender.class.to_s.split('::').last}"
       end
     end
+  end
+
+  def self.off
+    # FIXME: if methods can be uncaptured, do that and close @@log
+    @@log = Logger.new '/dev/null'
   end
 
 end end
