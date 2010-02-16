@@ -47,13 +47,6 @@ class << self
         @log.info "    U = #{point.args[1].sort.inspect}, V = #{point.args[2].sort.inspect}, Qu with #{point.sender.class.to_s.split('::').last}"
       end
     end
-
-    QvGenerator.constants.map { |c| eval("QvGenerator::#{c}") }.each do |qv_gen|
-      qv_gen.class_eval { include RCapture::Interceptable }
-      qv_gen.capture_pre :methods => :blankets do |point|
-        @log.debug "      |Qu| = #{point.args[3].size}, Qv+G with #{point.sender.class.to_s.split('::').last}"
-      end
-    end
   end
 
   def off
