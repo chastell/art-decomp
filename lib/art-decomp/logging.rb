@@ -19,7 +19,7 @@ class << self
     @start = Time.now
     @log = Logger.new log
     @log.level = Logger::INFO
-    @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{@best.to_s.rjust 3}c #{msg}\n" }
+    @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{(@best.nil? ? '' : "#{@best}c").rjust 4} #{msg}\n" }
 
     Executable.class_eval { include RCapture::Interceptable }
 
