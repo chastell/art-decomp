@@ -25,7 +25,7 @@ class << self
 
     Executable.capture_post :methods => :run do |point|
       secs = (Time.now - @start).to_i
-      @log.info "#{point.sender.best ? "final best decomposition: #{point.sender.best} cells" : 'no final decomposition'}; done in #{secs}s (#{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s)"
+      @log.info "best: #{point.sender.best}c, took: #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
     end
 
     Executable.capture_pre :methods => :decompositions do |point|
