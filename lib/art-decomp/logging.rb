@@ -19,19 +19,21 @@ class << self
     @start = Time.now
     @log = Logger.new log
     @log.level = Logger::INFO
-    @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{msg}\n" }
+    @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{@best.to_s.rjust 3}c #{msg}\n" }
 
     Executable.class_eval { include RCapture::Interceptable }
 
     Executable.capture_post :methods => :run do |point|
       secs = (Time.now - @start).to_i
-      @log.info "best: #{point.sender.best}c, took: #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
+      @best = point.sender.best
+      @log.info "took #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
     end
 
     Executable.capture_pre :methods => :decompositions do |point|
+      @best = point.sender.best
       path     = point.args[2][point.sender.dir.size+1..-1]
       archs    = point.sender.archs.map(&:to_s).sort.reverse.join '+'
-      @log.info "FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.sender.gens} – #{point.sender.best ? "best so far: #{point.sender.best} cells" : 'no decomposition so far'}"
+      @log.info "FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.sender.gens}}"
     end
 
     UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }.each do |uv_gen|

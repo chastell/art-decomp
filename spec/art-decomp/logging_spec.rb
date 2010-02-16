@@ -24,7 +24,7 @@ module ArtDecomp describe Logging do
   it 'should log Executable’s decompositions calls on simple cases' do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ rex('best: 2c, took: 0h 0m 0s')
+    log.should =~ rex('took 0h 0m 0s')
   end
 
   it 'should log Executable’s decompositions calls on typical cases' do
@@ -33,16 +33,16 @@ module ArtDecomp describe Logging do
     ex = Executable.new(args)
     ex.stub!(:best).and_return 69
     ex.run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring – best so far: 69 cells')
-    log.should =~ rex('best: 69c, took: 0h 0m 0s')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ rex('took 0h 0m 0s')
   end
 
   it 'should log Executable’s decompositions calls on problematic cases' do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring – no decomposition so far')
-    log.should =~ rex('best: c, took: 0h 0m 0s')
+    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ rex('took 0h 0m 0s')
   end
 
   it 'should log UVGenerators’ uv_pairs calls' do
