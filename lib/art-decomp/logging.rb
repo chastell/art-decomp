@@ -18,7 +18,6 @@ module ArtDecomp class Logging
     @@log = Logger.new log
     @@log.level = Logger::INFO
     @@log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @@start).ceil.to_s.rjust 6}s #{msg}\n" }
-    @@indent = ''
     apply!
   end
 
@@ -37,30 +36,29 @@ module ArtDecomp class Logging
     end
 
     Executable.capture_pre :methods => :decompositions do |point|
-      @@indent = '  ' * (point.sender.iters - point.args[1])
       path     = point.args[2][point.sender.dir.size+1..-1]
       archs    = point.sender.archs.map(&:to_s).sort.reverse.join '+'
-      @@log.info "#{@@indent}FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.sender.gens} – #{point.sender.best ? "best so far: #{point.sender.best} cells" : 'no decomposition so far'}"
+      @@log.info "FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.sender.gens} – #{point.sender.best ? "best so far: #{point.sender.best} cells" : 'no decomposition so far'}"
     end
 
     UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }.each do |uv_gen|
       uv_gen.class_eval { include RCapture::Interceptable }
       uv_gen.capture_pre :methods => :uv_pairs do |point|
-        @@log.info "#{@@indent}  UV with #{point.sender.class.to_s.split('::').last}"
+        @@log.info "  UV with #{point.sender.class.to_s.split('::').last}"
       end
     end
 
     QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }.each do |qu_gen|
       qu_gen.class_eval { include RCapture::Interceptable }
       qu_gen.capture_pre :methods => :blankets do |point|
-        @@log.info "#{@@indent}    U = #{point.args[1].sort.inspect}, V = #{point.args[2].sort.inspect}, Qu with #{point.sender.class.to_s.split('::').last}"
+        @@log.info "    U = #{point.args[1].sort.inspect}, V = #{point.args[2].sort.inspect}, Qu with #{point.sender.class.to_s.split('::').last}"
       end
     end
 
     QvGenerator.constants.map { |c| eval("QvGenerator::#{c}") }.each do |qv_gen|
       qv_gen.class_eval { include RCapture::Interceptable }
       qv_gen.capture_pre :methods => :blankets do |point|
-        @@log.debug "#{@@indent}      |Qu| = #{point.args[3].size}, Qv+G with #{point.sender.class.to_s.split('::').last}"
+        @@log.debug "      |Qu| = #{point.args[3].size}, Qv+G with #{point.sender.class.to_s.split('::').last}"
       end
     end
   end
