@@ -14,12 +14,12 @@ module ArtDecomp class Logging
   end
 
   def self.log= log
+    @@start = Time.now
     @@log = Logger.new log
     @@log.level = Logger::INFO
-    @@log.formatter = proc { |sev, date, name, msg| "#{date} #{msg}\n" }
+    @@log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @@start).ceil.to_s.rjust 6}s #{msg}\n" }
     @@indent = ''
     apply!
-    @@start = Time.now
   end
 
   def self.off
