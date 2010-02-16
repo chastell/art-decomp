@@ -145,7 +145,7 @@ module ArtDecomp describe Executable do
     Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run
     Logging.level.should == Logger::DEBUG
     Logging.off
-    File.read(log.path).should =~ rex('FSM 4/2+10s → 5/1+4/2')
+    File.read(log.path).should =~ rex('4/2+10s')
   end
 
   it 'should handle the s8 edge case with grace' do

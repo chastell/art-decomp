@@ -33,7 +33,7 @@ module ArtDecomp describe Logging do
     ex = Executable.new(args)
     ex.stub!(:best).and_return 69
     ex.run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
     log.should =~ rex('took 0h 0m 0s')
   end
 
@@ -41,7 +41,7 @@ module ArtDecomp describe Logging do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('FSM 4/2+10s → 5/1+4/2 () with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
     log.should =~ rex('took 0h 0m 0s')
   end
 
@@ -56,8 +56,8 @@ module ArtDecomp describe Logging do
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets @fsm, u, v
     end
-    log.should =~ rex('U = [0], V = [1], Qu with BlockTable')
-    log.should =~ rex('U = [1], V = [0], Qu with BlockTable')
+    log.should =~ rex('0          1          with BlockTable')
+    log.should =~ rex('1          0          with BlockTable')
   end
 
 end end
