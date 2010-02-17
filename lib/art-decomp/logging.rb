@@ -19,7 +19,13 @@ class << self
     @start = Time.now
     @log = Logger.new log
     @log.level = Logger::INFO
-    @log.formatter = proc { |sev, date, name, msg| "#{(Time.now - @start).ceil.to_s.rjust 6}s #{(@best.nil? ? '' : @best.to_s + 'c').rjust 4} ·#{(@path.nil? ? '' : '/' + @path).ljust 10} #{msg}\n" }
+    @log.formatter = proc do |sev, date, name, msg|
+      secs = (Time.now - @start).ceil
+      time = "#{secs / 60 / 60}h#{(secs / 60 % 60).to_s.rjust 2}m#{(secs % 60).to_s.rjust 2}s"
+      best = @best.nil? ? '' : @best.to_s + 'c'
+      path = @path.nil? ? '' : '/' + @path
+      "#{time.rjust 10} #{best.rjust 4}  ·#{path.ljust 10} #{msg}\n"
+    end
     add_logging
   end
 
@@ -56,8 +62,7 @@ class << self
 
     Executable.capture_post :methods => :run do |point|
       @best = point.sender.best
-      secs  = (Time.now - @start).ceil
-      @log.info "took #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
+      @log.info "took #{(Time.now - @start).ceil}s"
     end
   end
 
