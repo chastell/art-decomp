@@ -31,13 +31,10 @@ class << self
   private
 
   def add_logging
-    Executable.class_eval { include RCapture::Interceptable }
+    uv_gens = UVGenerator.constants.map { |c| UVGenerator.const_get c }
+    qu_gens = QuGenerator.constants.map { |c| QuGenerator.const_get c }
 
-    Executable.capture_post :methods => :run do |point|
-      secs = (Time.now - @start).ceil
-      @best = point.sender.best
-      @log.info "took #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
-    end
+    (uv_gens + qu_gens + [Executable]).each { |c| c.class_eval { include RCapture::Interceptable } }
 
     Executable.capture_pre :methods => :decompositions do |point|
       @best = point.sender.best
@@ -45,18 +42,22 @@ class << self
       @log.info "#{point.args[0].stats} with #{point.sender.gens}"
     end
 
-    UVGenerator.constants.map { |c| UVGenerator.const_get c }.each do |uv_gen|
-      uv_gen.class_eval { include RCapture::Interceptable }
+    uv_gens.each do |uv_gen|
       uv_gen.capture_pre :methods => :uv_pairs do |point|
         @log.debug "UV with #{point.sender.class.to_s.split('::').last}"
       end
     end
 
-    QuGenerator.constants.map { |c| QuGenerator.const_get c }.each do |qu_gen|
-      qu_gen.class_eval { include RCapture::Interceptable }
+    qu_gens.each do |qu_gen|
       qu_gen.capture_pre :methods => :blankets do |point|
         @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
       end
+    end
+
+    Executable.capture_post :methods => :run do |point|
+      @best = point.sender.best
+      secs  = (Time.now - @start).ceil
+      @log.info "took #{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s"
     end
   end
 
