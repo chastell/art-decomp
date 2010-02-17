@@ -44,13 +44,13 @@ class << self
 
     uv_gens.each do |uv_gen|
       uv_gen.capture_pre :methods => :uv_pairs do |point|
-        @log.debug "UV with #{point.sender.class.to_s.split('::').last}"
+        @uv_gen = uv_gen.to_s.split('::').last
       end
     end
 
     qu_gens.each do |qu_gen|
       qu_gen.capture_pre :methods => :blankets do |point|
-        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} with #{point.sender.class.to_s.split('::').last}"
+        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} via #{@uv_gen} with #{qu_gen.to_s.split('::').last}"
       end
     end
 
