@@ -1,7 +1,7 @@
 module ArtDecomp class Bipainter
 
   def initialize beta_q, beta_v, seps
-    raise 'non-disjoint beta_v' if beta_v.ints.pairs.any? { |a, b| a & b != 0 }
+    raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
     @beta_v = beta_v
     @qv_colours = {}
     @g_colours  = {}
