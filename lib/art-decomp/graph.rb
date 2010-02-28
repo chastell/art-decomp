@@ -3,23 +3,23 @@ module ArtDecomp class Graph
   def initialize blanket, seps
     vertices = blanket.ints.dup
     vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
-    @edges = Hash[vertices.map { |vertex| [vertex, Set[]] }]
+    @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
     relevant = Hash[vertices.map { |v| [v, seps.select { |s| v&s != 0 and v&s != s }.to_set] }]
     vertices.pairs.each do |a, b|
       if (relevant[a] & relevant[b]).any? { |s| a&s != b&s }
-        @edges[a] << b
-        @edges[b] << a
+        @neighbours[a] << b
+        @neighbours[b] << a
       end
     end
   end
 
   def adjacent *vertices
-    vertices.map { |vertex| @edges[vertex] }.inject(:|) - vertices
+    vertices.map { |vertex| @neighbours[vertex] }.inject(:|) - vertices
   end
 
   def blanket_from_colouring
     colours = {}
-    @edges.keys.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
+    @neighbours.keys.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
       forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
       # FIXME: consider selecting colours on the least-popular-first basis
       colour = :a
@@ -32,21 +32,21 @@ module ArtDecomp class Graph
   end
 
   def complete?
-    @edges.values.map(&:size).inject(:+) == @edges.size * (@edges.size - 1)
+    @neighbours.values.map(&:size).inject(:+) == @neighbours.size * (@neighbours.size - 1)
   end
 
   def degree vertex
-    @edges[vertex].size
+    @neighbours[vertex].size
   end
 
   def edges
-    @edges.map { |v, adjacents| adjacents.map { |adj| Set[v, adj] } }.flatten.to_set
+    @neighbours.map { |v, adjacents| adjacents.map { |adj| Set[v, adj] } }.flatten.to_set
   end
 
   def merge_by_edge_labels!
-    return self if @edges.size == 1
-    pins = @edges.size.log2_ceil
-    until @edges.size.log2_ceil < pins
+    return self if @neighbours.size == 1
+    pins = @neighbours.size.log2_ceil
+    until @neighbours.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
       a, b = *edges.sort_by { |edge| yield *edge }.first
       merge! a, b
@@ -55,9 +55,9 @@ module ArtDecomp class Graph
   end
 
   def merge_by_vertex_degrees!
-    pins = @edges.size.log2_ceil
-    until @edges.size.log2_ceil < pins or complete?
-      a, b = *@edges.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not @edges[v1].include? v2 }
+    pins = @neighbours.size.log2_ceil
+    until @neighbours.size.log2_ceil < pins or complete?
+      a, b = *@neighbours.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not @neighbours[v1].include? v2 }
       merge! a, b
     end
     self
@@ -69,7 +69,7 @@ module ArtDecomp class Graph
   end
 
   def vertices
-    @edges.keys.to_set
+    @neighbours.keys.to_set
   end
 
   private
@@ -77,10 +77,10 @@ module ArtDecomp class Graph
   def merge! a, b
     new = a | b
     adjs = adjacent(a) | adjacent(b)
-    adjs.each { |adj| @edges[adj] << new }
-    @edges[new] = adjs
-    @edges.delete(a).each { |adj| @edges[adj].delete a } unless a == new
-    @edges.delete(b).each { |adj| @edges[adj].delete b } unless b == new
+    adjs.each { |adj| @neighbours[adj] << new }
+    @neighbours[new] = adjs
+    @neighbours.delete(a).each { |adj| @neighbours[adj].delete a } unless a == new
+    @neighbours.delete(b).each { |adj| @neighbours[adj].delete b } unless b == new
   end
 
 end end
