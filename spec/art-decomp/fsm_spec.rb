@@ -178,6 +178,10 @@ module ArtDecomp describe FSM do
       @fsm.should_not be_truth_table
     end
 
+    it 'should properly generate its VHDL representation' do
+      @fsm.to_vhdl('fsm').should == File.read('spec/fixtures/fsm.vhd')
+    end
+
   end
 
 end end

@@ -108,6 +108,47 @@ module ArtDecomp class FSM
     KISS.new(cols.transpose.map(&:join)).formatted
   end
 
+  # FIXME: move the template somewhere else?
+  def to_vhdl name
+    structure = Hash.new { |state, input| state[input] = {} }
+    @state.each_index do |row|
+      structure[@state[row]][@inputs.transpose[row].join] = {:next_state => @next_state[row], :output => @outputs.transpose[row].join}
+    end
+    when_lines = structure.map do |state, transitions|
+      ["      when #{state} =>",
+      transitions.map.with_index do |(input, results), i|
+        "        #{'els' if i > 0}if input = \"#{input.tr '-', 'X'}\" then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
+      end,
+      '        end if;']
+    end
+    <<-VHDL
+library ieee;
+use ieee.std_logic_1164.all;
+entity #{name} is
+  port(
+    clock:  in  std_logic;
+    reset:  in  std_logic;
+    input:  in  std_logic_vector(#{@inputs.size - 1} downto 0);
+    output: out std_logic_vector(#{@outputs.size - 1} downto 0);
+  );
+end #{name};
+architecture behaviour of #{name} is
+  type state is (#{@state.uniq.join ', '});
+  signal current_state, next_state: state;
+begin
+  process(clock, reset) begin
+    if clock'event and clock = '1' then current_state <= next_state;
+    end if;
+  end process;
+  process(input, current_state) begin
+    case current_state is
+#{when_lines.join "\n"}
+    end case;
+  end process;
+end behaviour;
+    VHDL
+  end
+
   def truth_table?
     @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
   end
