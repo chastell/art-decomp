@@ -19,27 +19,27 @@ begin
   process(input, current_state) begin
     case current_state is
       when init0 =>
-        if input = "XX00" then next_state <= init1; output <= "00";
+        if input = "--00" then next_state <= init1; output <= "00";
         end if;
       when init1 =>
         if input = "0100" then next_state <= init1; output <= "00";
-        elsif input = "XX1X" then next_state <= init2; output <= "10";
+        elsif input = "--1-" then next_state <= init2; output <= "10";
         end if;
       when init2 =>
-        if input = "1X10" then next_state <= init4; output <= "10";
+        if input = "1-10" then next_state <= init4; output <= "10";
         end if;
       when init4 =>
-        if input = "X111" then next_state <= init4; output <= "10";
-        elsif input = "XX01" then next_state <= IOwait; output <= "01";
+        if input = "-111" then next_state <= init4; output <= "10";
+        elsif input = "--01" then next_state <= IOwait; output <= "01";
         end if;
       when IOwait =>
-        if input = "000X" then next_state <= IOwait; output <= "01";
-        elsif input = "100X" then next_state <= init1; output <= "01";
+        if input = "000-" then next_state <= IOwait; output <= "01";
+        elsif input = "100-" then next_state <= init1; output <= "01";
         elsif input = "0110" then next_state <= read0; output <= "00";
         elsif input = "1100" then next_state <= write0; output <= "11";
         elsif input = "0111" then next_state <= RMACK; output <= "11";
         elsif input = "1101" then next_state <= WMACK; output <= "00";
-        elsif input = "X01X" then next_state <= init2; output <= "01";
+        elsif input = "-01-" then next_state <= init2; output <= "01";
         end if;
       when RMACK =>
         if input = "0010" then next_state <= RMACK; output <= "11";
