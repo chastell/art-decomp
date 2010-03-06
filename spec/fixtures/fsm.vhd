@@ -5,7 +5,7 @@ entity fsm is
     clock:  in  std_logic;
     reset:  in  std_logic;
     input:  in  std_logic_vector(3 downto 0);
-    output: out std_logic_vector(1 downto 0);
+    output: out std_logic_vector(1 downto 0)
   );
 end fsm;
 architecture behaviour of fsm is

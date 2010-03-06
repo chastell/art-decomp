@@ -129,7 +129,7 @@ entity #{name} is
     clock:  in  std_logic;
     reset:  in  std_logic;
     input:  in  std_logic_vector(#{@inputs.size - 1} downto 0);
-    output: out std_logic_vector(#{@outputs.size - 1} downto 0);
+    output: out std_logic_vector(#{@outputs.size - 1} downto 0)
   );
 end #{name};
 architecture behaviour of #{name} is
