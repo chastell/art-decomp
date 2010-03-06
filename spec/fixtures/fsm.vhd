@@ -14,7 +14,7 @@ architecture behaviour of fsm is
   signal current_state, next_state: state;
 begin
   process(clock, reset) begin
-    if clock'event and clock = '1' then current_state <= next_state;
+    if rising_edge(clock) then current_state <= next_state;
     end if;
   end process;
   process(input, current_state) begin
