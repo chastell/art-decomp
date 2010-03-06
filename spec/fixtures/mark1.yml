@@ -1,0 +1,86 @@
+--- 
+:-: 
+  0----: 
+    :next_state: :state1
+    :output: -11---1-00------
+:state1: 
+  1----: 
+    :next_state: :state3
+    :output: -11---1-00------
+:state2: 
+  1----: 
+    :next_state: :state0
+    :output: -11---1-00------
+:state3: 
+  1----: 
+    :next_state: :state4
+    :output: 101---1-01------
+:state4: 
+  1-111: 
+    :next_state: :state13
+    :output: -11---1-00------
+  1-110: 
+    :next_state: :state10
+    :output: -11---1-00------
+  1-10-: 
+    :next_state: :state9
+    :output: -11---1-00------
+  1-011: 
+    :next_state: :state8
+    :output: -11---1-00------
+  1-010: 
+    :next_state: :state7
+    :output: -11---1-00------
+  1-001: 
+    :next_state: :state6
+    :output: -11---1-00------
+  1-000: 
+    :next_state: :state5
+    :output: -11---1-00------
+:state5: 
+  1----: 
+    :next_state: :state14
+    :output: 0011--1-00------
+:state6: 
+  1----: 
+    :next_state: :state14
+    :output: 00100-0-00000011
+:state7: 
+  1----: 
+    :next_state: :state14
+    :output: 001---1100------
+:state8: 
+  1----: 
+    :next_state: :state14
+    :output: 010---1-00------
+:state9: 
+  1----: 
+    :next_state: :state14
+    :output: 001---1010000101
+:state10: 
+  1----: 
+    :next_state: :state11
+    :output: -11---1-00100000
+:state11: 
+  10---: 
+    :next_state: :state13
+    :output: -11---1-00------
+  11---: 
+    :next_state: :state12
+    :output: -11---1-00------
+:state12: 
+  1----: 
+    :next_state: :state13
+    :output: -110110-00------
+:state13: 
+  1----: 
+    :next_state: :state14
+    :output: -11---1-00------
+:state14: 
+  1----: 
+    :next_state: :state3
+    :output: -110110-00------
+:state0: 
+  0----: 
+    :next_state: :state1
+    :output: -11---1-00------

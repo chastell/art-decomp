@@ -37,6 +37,7 @@ end
 
 
 require 'set'
+require 'yaml'
 
 require_relative 'core/enumerable'
 require_relative 'core/file'

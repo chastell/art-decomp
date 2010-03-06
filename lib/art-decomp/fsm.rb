@@ -99,6 +99,14 @@ module ArtDecomp class FSM
     "#{@inputs.size}/#{@outputs.size}+#{(@state.uniq - [DontCare]).size}s"
   end
 
+  def structure
+    structure = Hash.new { |state, input| state[input] = {} }
+    @state.each_index do |row|
+      structure[@state[row]][@inputs.transpose[row].join] = {:next_state => @next_state[row], :output => @outputs.transpose[row].join}
+    end
+    structure
+  end
+
   def to_kiss
     st   = @state.map      { |e| e == DontCare ? '*' : e }
     nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
@@ -110,10 +118,7 @@ module ArtDecomp class FSM
 
   # FIXME: move the template somewhere else?
   def to_vhdl name
-    structure = Hash.new { |state, input| state[input] = {} }
-    @state.each_index do |row|
-      structure[@state[row]][@inputs.transpose[row].join] = {:next_state => @next_state[row], :output => @outputs.transpose[row].join}
-    end
+    structure = self.structure
     logic = structure[DontCare].map do |input, results|
       [
         "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
