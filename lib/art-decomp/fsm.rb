@@ -114,13 +114,24 @@ module ArtDecomp class FSM
     @state.each_index do |row|
       structure[@state[row]][@inputs.transpose[row].join] = {:next_state => @next_state[row], :output => @outputs.transpose[row].join}
     end
-    when_lines = structure.map do |state, transitions|
-      ["      when #{state} =>",
-      transitions.map.with_index do |(input, results), i|
-        "        #{'els' if i > 0}if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
-      end,
-      '        end if;']
+    logic = structure[DontCare].map do |input, results|
+      [
+        "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
+        '    end if;',
+      ]
     end
+    structure.delete DontCare
+    logic << '    case current_state is'
+    logic += structure.map do |state, transitions|
+      [
+        "      when #{state} =>",
+        transitions.map.with_index do |(input, results), i|
+          "        #{'els' if i > 0}if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
+        end,
+        '        end if;',
+      ]
+    end
+    logic << '    end case;'
     <<-VHDL
 library ieee;
 use ieee.numeric_std.all;
@@ -134,7 +145,7 @@ entity #{name} is
   );
 end #{name};
 architecture behaviour of #{name} is
-  type state is (#{@state.uniq.join ', '});
+  type state is (#{structure.keys.join ', '});
   signal current_state, next_state: state;
 begin
   process(clock, reset) begin
@@ -142,9 +153,7 @@ begin
     end if;
   end process;
   process(input, current_state) begin
-    case current_state is
-#{when_lines.join "\n"}
-    end case;
+#{logic.join "\n"}
   end process;
 end behaviour;
     VHDL
