@@ -1,4 +1,5 @@
 library ieee;
+use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
 entity fsm is
   port(
@@ -19,44 +20,44 @@ begin
   process(input, current_state) begin
     case current_state is
       when init0 =>
-        if input = "--00" then next_state <= init1; output <= "00";
+        if std_match(input, "--00") then next_state <= init1; output <= "00";
         end if;
       when init1 =>
-        if input = "0100" then next_state <= init1; output <= "00";
-        elsif input = "--1-" then next_state <= init2; output <= "10";
+        if std_match(input, "0100") then next_state <= init1; output <= "00";
+        elsif std_match(input, "--1-") then next_state <= init2; output <= "10";
         end if;
       when init2 =>
-        if input = "1-10" then next_state <= init4; output <= "10";
+        if std_match(input, "1-10") then next_state <= init4; output <= "10";
         end if;
       when init4 =>
-        if input = "-111" then next_state <= init4; output <= "10";
-        elsif input = "--01" then next_state <= IOwait; output <= "01";
+        if std_match(input, "-111") then next_state <= init4; output <= "10";
+        elsif std_match(input, "--01") then next_state <= IOwait; output <= "01";
         end if;
       when IOwait =>
-        if input = "000-" then next_state <= IOwait; output <= "01";
-        elsif input = "100-" then next_state <= init1; output <= "01";
-        elsif input = "0110" then next_state <= read0; output <= "00";
-        elsif input = "1100" then next_state <= write0; output <= "11";
-        elsif input = "0111" then next_state <= RMACK; output <= "11";
-        elsif input = "1101" then next_state <= WMACK; output <= "00";
-        elsif input = "-01-" then next_state <= init2; output <= "01";
+        if std_match(input, "000-") then next_state <= IOwait; output <= "01";
+        elsif std_match(input, "100-") then next_state <= init1; output <= "01";
+        elsif std_match(input, "0110") then next_state <= read0; output <= "00";
+        elsif std_match(input, "1100") then next_state <= write0; output <= "11";
+        elsif std_match(input, "0111") then next_state <= RMACK; output <= "11";
+        elsif std_match(input, "1101") then next_state <= WMACK; output <= "00";
+        elsif std_match(input, "-01-") then next_state <= init2; output <= "01";
         end if;
       when RMACK =>
-        if input = "0010" then next_state <= RMACK; output <= "11";
-        elsif input = "0111" then next_state <= read0; output <= "00";
+        if std_match(input, "0010") then next_state <= RMACK; output <= "11";
+        elsif std_match(input, "0111") then next_state <= read0; output <= "00";
         end if;
       when WMACK =>
-        if input = "1100" then next_state <= WMACK; output <= "00";
-        elsif input = "1001" then next_state <= write0; output <= "01";
+        if std_match(input, "1100") then next_state <= WMACK; output <= "00";
+        elsif std_match(input, "1001") then next_state <= write0; output <= "01";
         end if;
       when read0 =>
-        if input = "0001" then next_state <= read1; output <= "11";
+        if std_match(input, "0001") then next_state <= read1; output <= "11";
         end if;
       when read1 =>
-        if input = "0010" then next_state <= IOwait; output <= "01";
+        if std_match(input, "0010") then next_state <= IOwait; output <= "01";
         end if;
       when write0 =>
-        if input = "0100" then next_state <= IOwait; output <= "01";
+        if std_match(input, "0100") then next_state <= IOwait; output <= "01";
         end if;
     end case;
   end process;

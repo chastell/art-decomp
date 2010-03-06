@@ -117,12 +117,13 @@ module ArtDecomp class FSM
     when_lines = structure.map do |state, transitions|
       ["      when #{state} =>",
       transitions.map.with_index do |(input, results), i|
-        "        #{'els' if i > 0}if input = \"#{input}\" then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
+        "        #{'els' if i > 0}if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
       end,
       '        end if;']
     end
     <<-VHDL
 library ieee;
+use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
 entity #{name} is
   port(
