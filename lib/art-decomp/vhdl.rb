@@ -1,19 +1,20 @@
 module ArtDecomp class VHDL
 
-  def initialize structure
-    @structure = structure
+  def initialize fsm
+    @fsm = fsm
   end
 
   def vhdl name
-    logic = @structure[DontCare].map do |input, results|
+    structure = @fsm.structure
+    logic = structure[DontCare].map do |input, results|
       [
         "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
         '    end if;',
       ]
     end
-    @structure.delete DontCare
+    structure.delete DontCare
     logic << '    case current_state is'
-    logic += @structure.map do |state, transitions|
+    logic += structure.map do |state, transitions|
       [
         "      when #{state} =>",
         transitions.map.with_index do |(input, results), i|
@@ -31,12 +32,12 @@ entity #{name} is
   port(
     clock:  in  std_logic;
     reset:  in  std_logic;
-    input:  in  std_logic_vector(#{@structure.first.last.first.first.size - 1} downto 0);
-    output: out std_logic_vector(#{@structure.first.last.first.last[:output].size - 1} downto 0)
+    input:  in  std_logic_vector(#{structure.first.last.first.first.size - 1} downto 0);
+    output: out std_logic_vector(#{structure.first.last.first.last[:output].size - 1} downto 0)
   );
 end #{name};
 architecture behaviour of #{name} is
-  type state is (#{@structure.keys.join ', '});
+  type state is (#{structure.keys.join ', '});
   signal current_state, next_state: state;
 begin
   process(clock, reset) begin

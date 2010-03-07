@@ -117,7 +117,7 @@ module ArtDecomp class FSM
   end
 
   def to_vhdl name
-    VHDL.new(structure).vhdl name
+    VHDL.new(self).vhdl name
   end
 
   def truth_table?
