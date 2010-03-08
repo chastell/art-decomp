@@ -212,6 +212,7 @@ module ArtDecomp describe FSM do
     it 'should properly generate the (encoded) VHDL' do
       @one_hot.to_vhdl('mark1_hot').should == File.read('spec/fixtures/mark1_hot.vhd')
       @nova.to_vhdl('mark1_nov').should    == File.read('spec/fixtures/mark1_nov.vhd')
+      @jedi.to_vhdl('mark1_jed').should    == File.read('spec/fixtures/mark1_jed.vhd')
     end
 
   end
