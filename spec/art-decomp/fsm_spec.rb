@@ -23,6 +23,10 @@ module ArtDecomp describe FSM do
       lambda { FSM.from_kiss 'spec/fixtures/ex5' }.should_not raise_error
     end
 
+    it 'should ignore KISS lines with don’t-care next states and outputs' do
+      FSM.from_kiss('spec/fixtures/kirkman').beta_q.ints.map(&:bits).flatten.max.should == 366
+    end
+
     it 'should handle truth table files by faking a don’t-care state column' do
       @tt.input_count.should  == 4
       @tt.output_count.should == 2

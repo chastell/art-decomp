@@ -14,7 +14,7 @@ module ArtDecomp class FSM
       when /^\.end_kiss$/                        then break
       else next
       end
-      next if nxt == DontCare and outs =~ /^-*$/
+      next if [DontCare, '*'].include? nxt and outs =~ /^-*$/
       if line =~ /^[01-]+\s+[01-]+$/ and not codes.empty?
         size = codes.values.first.size
         st   = ins[-size..-1] == '-' * size ? DontCare : codes.invert[ins[-size..-1].to_sym]
