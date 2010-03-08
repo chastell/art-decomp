@@ -189,4 +189,20 @@ module ArtDecomp describe FSM do
 
   end
 
+  context 'parsed from an encoded KISS file' do
+
+    before do
+      @one_hot = FSM.from_kiss 'spec/fixtures/mark1.hot'
+    end
+
+    it 'should properly create the FSM' do
+      @one_hot.should == FSM.from_kiss('spec/fixtures/mark1')
+    end
+
+    it 'should properly find codes in an one-hot file' do
+      @one_hot.codes.should == {:state1 => :'100000000000000', :state3 => :'010000000000000', :state2 => :'001000000000000', :state0 => :'000100000000000', :state4 => :'000010000000000', :state13 => :'000001000000000', :state10 => :'000000100000000', :state9 => :'000000010000000', :state8 => :'000000001000000', :state7 => :'000000000100000', :state6 => :'000000000010000', :state5 => :'000000000001000', :state14 => :'000000000000100', :state11 => :'000000000000010', :state12 => :'000000000000001'}
+    end
+
+  end
+
 end end

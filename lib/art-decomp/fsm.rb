@@ -1,5 +1,7 @@
 module ArtDecomp class FSM
 
+  attr_reader :codes
+
   def self.from_kiss kiss
     kiss = File.read kiss unless kiss.index "\n"
     inputs, outputs, state, next_state = [], [], [], []
@@ -22,11 +24,12 @@ module ArtDecomp class FSM
       inputs     << inputs[i]
       outputs    << outputs[i]
     end if state.index DontCare
-    new inputs.transpose, outputs.transpose, state, next_state
+    codes = Hash[kiss.lines.grep(/^\.code/).map(&:split).map { |_, state, code| [state.to_sym, code.to_sym] }]
+    new inputs.transpose, outputs.transpose, state, next_state, codes
   end
 
-  def initialize inputs, outputs, state, next_state
-    @inputs, @outputs, @state, @next_state = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze
+  def initialize inputs, outputs, state, next_state, codes = {}
+    @inputs, @outputs, @state, @next_state, @codes = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze, codes.freeze
   end
 
   def == other
