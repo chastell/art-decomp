@@ -9,6 +9,10 @@ module ArtDecomp describe VHDL do
       VHDL.new(FSM.from_kiss 'spec/fixtures/mark1').vhdl('mark1').should == File.read('spec/fixtures/mark1.vhd')
     end
 
+    it 'should generate encoded VHDL if the FSM is encoded' do
+      VHDL.new(FSM.from_kiss 'spec/fixtures/mark1.hot').vhdl('mark1_hot').should == File.read('spec/fixtures/mark1_hot.vhd')
+    end
+
   end
 
 end end

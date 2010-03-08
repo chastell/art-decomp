@@ -24,6 +24,15 @@ module ArtDecomp class VHDL
       ]
     end
     logic << '    end case;'
+    if @fsm.codes.empty?
+      states = [
+        "  type state is (#{structure.keys.join ', '});",
+        '  signal current_state, next_state: state;',
+      ]
+    else
+      states = @fsm.codes.map { |state, code| "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";" }
+      states << "  signal current_state, next_state: std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"
+    end
     <<-VHDL
 library ieee;
 use ieee.numeric_std.all;
@@ -37,8 +46,7 @@ entity #{name} is
   );
 end #{name};
 architecture behaviour of #{name} is
-  type state is (#{structure.keys.join ', '});
-  signal current_state, next_state: state;
+#{states.join "\n"}
 begin
   process(clock, reset) begin
     if rising_edge(clock) then current_state <= next_state;
