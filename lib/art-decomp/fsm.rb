@@ -25,7 +25,7 @@ module ArtDecomp class FSM
       inputs     << inputs[i]
       outputs    << outputs[i]
     end if state.index DontCare
-    codes = Hash[kiss.lines.grep(/^\.code/).map(&:split).map { |_, state, code| [state.to_sym, code.to_sym] }]
+    codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, state, code| [state.to_sym, code.to_sym] }]
     new inputs.transpose, outputs.transpose, state, next_state, codes
   end
 
