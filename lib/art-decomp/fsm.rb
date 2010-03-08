@@ -9,6 +9,7 @@ module ArtDecomp class FSM
       case line
       when /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/ then ins, st, nxt, outs = *line.split
       when /^\s*[01-]+\s+[01-]+\s*$/             then st, nxt, ins, outs = DontCare, DontCare, *line.split
+      when /^\.end_kiss$/                        then break
       else next
       end
       inputs     << ins.split(//).map(&:to_sym)
