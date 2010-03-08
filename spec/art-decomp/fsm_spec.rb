@@ -194,6 +194,7 @@ module ArtDecomp describe FSM do
     before do
       @one_hot = FSM.from_kiss 'spec/fixtures/mark1.hot'
       @nova    = FSM.from_kiss 'spec/fixtures/mark1.nov'
+      @jedi    = FSM.from_kiss 'spec/fixtures/mark1.jed'
     end
 
     it 'should properly create the FSM' do
@@ -204,6 +205,7 @@ module ArtDecomp describe FSM do
     it 'should properly find codes in an one-hot file' do
       @one_hot.codes.should == {:state1 => :'100000000000000', :state3 => :'010000000000000', :state2 => :'001000000000000', :state0 => :'000100000000000', :state4 => :'000010000000000', :state13 => :'000001000000000', :state10 => :'000000100000000', :state9 => :'000000010000000', :state8 => :'000000001000000', :state7 => :'000000000100000', :state6 => :'000000000010000', :state5 => :'000000000001000', :state14 => :'000000000000100', :state11 => :'000000000000010', :state12 => :'000000000000001'}
       @nova.codes.should    == {:state1 => :'0100', :state2 => :'1000', :state3 => :'1011', :state4 => :'1100', :state5 => :'0001', :state6 => :'0011', :state7 => :'0000', :state8 => :'0010', :state9 => :'1101', :state10 => :'1010', :state11 => :'0111', :state12 => :'1001', :state13 => :'0101', :state14 => :'0110', :state0 => :'1110'}
+      @jedi.codes.should    == {:state1 => :'0001', :state3 => :'1111', :state2 => :'0011', :state0 => :'1101', :state4 => :'1001', :state13 => :'1010', :state10 => :'1000', :state9 => :'1100', :state8 => :'0010', :state7 => :'0000', :state6 => :'0110', :state5 => :'0100', :state14 => :'1110', :state11 => :'0111', :state12 => :'1011'}
     end
 
     it 'should properly generate the (encoded) VHDL' do
