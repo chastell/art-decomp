@@ -5,12 +5,22 @@ module ArtDecomp class FSM
   def self.from_kiss kiss
     kiss = File.read kiss unless kiss.index "\n"
     inputs, outputs, state, next_state = [], [], [], []
+    codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, state, code| [state.to_sym, code.to_sym] }]
+    codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map { |_, state, code| [state[7..-1].to_sym, code.to_sym] }] if codes.empty?
     kiss.lines do |line|
       case line
       when /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/ then ins, st, nxt, outs = *line.split
       when /^\s*[01-]+\s+[01-]+\s*$/             then st, nxt, ins, outs = DontCare, DontCare, *line.split
       when /^\.end_kiss$/                        then break
       else next
+      end
+      next if nxt == DontCare and outs =~ /^-*$/
+      if line =~ /^[01-]+\s+[01-]+$/ and not codes.empty?
+        size = codes.values.first.size
+        st   = ins[-size..-1] == '-' * size ? DontCare : codes.invert[ins[-size..-1].to_sym]
+        nxt  = outs[0...size] == '-' * size ? DontCare : codes.invert[outs[0...size].to_sym]
+        ins  = ins[0...-size]
+        outs = outs[size..-1]
       end
       inputs     << ins.split(//).map(&:to_sym)
       outputs    << outs.split(//).map(&:to_sym)
@@ -25,8 +35,6 @@ module ArtDecomp class FSM
       inputs     << inputs[i]
       outputs    << outputs[i]
     end if state.index DontCare
-    codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, state, code| [state.to_sym, code.to_sym] }]
-    codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map { |_, state, code| [state[7..-1].to_sym, code.to_sym] }] if codes.empty?
     new inputs.transpose, outputs.transpose, state, next_state, codes
   end
 

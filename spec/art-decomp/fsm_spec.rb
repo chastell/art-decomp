@@ -200,6 +200,7 @@ module ArtDecomp describe FSM do
     it 'should properly create the FSM' do
       @one_hot.should == FSM.from_kiss('spec/fixtures/mark1')
       @nova.should    == FSM.from_kiss('spec/fixtures/mark1')
+      @jedi.should    == FSM.from_kiss('spec/fixtures/mark1')
     end
 
     it 'should properly find codes in an one-hot file' do
