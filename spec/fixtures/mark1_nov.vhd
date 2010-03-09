@@ -4,7 +4,6 @@ use ieee.std_logic_1164.all;
 entity mark1_nov is
   port(
     clock:  in  std_logic;
-    reset:  in  std_logic;
     input:  in  std_logic_vector(4 downto 0);
     output: out std_logic_vector(15 downto 0)
   );
@@ -27,7 +26,7 @@ architecture behaviour of mark1_nov is
   constant state0: std_logic_vector(3 downto 0) := "1110";
   signal current_state, next_state: std_logic_vector(3 downto 0);
 begin
-  process(clock, reset) begin
+  process(clock) begin
     if rising_edge(clock) then current_state <= next_state;
     end if;
   end process;

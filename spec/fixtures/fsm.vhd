@@ -4,7 +4,6 @@ use ieee.std_logic_1164.all;
 entity fsm is
   port(
     clock:  in  std_logic;
-    reset:  in  std_logic;
     input:  in  std_logic_vector(3 downto 0);
     output: out std_logic_vector(1 downto 0)
   );
@@ -13,7 +12,7 @@ architecture behaviour of fsm is
   type state is (init0, init1, init2, init4, IOwait, RMACK, WMACK, read0, read1, write0);
   signal current_state, next_state: state;
 begin
-  process(clock, reset) begin
+  process(clock) begin
     if rising_edge(clock) then current_state <= next_state;
     end if;
   end process;

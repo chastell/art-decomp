@@ -40,7 +40,6 @@ use ieee.std_logic_1164.all;
 entity #{name} is
   port(
     clock:  in  std_logic;
-    reset:  in  std_logic;
     input:  in  std_logic_vector(#{structure.first.last.first.first.size - 1} downto 0);
     output: out std_logic_vector(#{structure.first.last.first.last[:output].size - 1} downto 0)
   );
@@ -48,7 +47,7 @@ end #{name};
 architecture behaviour of #{name} is
 #{states.join "\n"}
 begin
-  process(clock, reset) begin
+  process(clock) begin
     if rising_edge(clock) then current_state <= next_state;
     end if;
   end process;
