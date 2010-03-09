@@ -52,6 +52,7 @@ begin
     end if;
   end process;
   process(input, current_state) begin
+    output <= "#{'-' * structure.first.last.first.last[:output].size}";
 #{logic.join "\n"}
   end process;
 end behaviour;
