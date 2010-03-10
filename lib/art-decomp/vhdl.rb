@@ -9,7 +9,7 @@ module ArtDecomp class VHDL
     logic = structure[DontCare].map do |input, results|
       [
         "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
-        '    end if;',
+        '    else',
       ]
     end
     structure.delete DontCare
@@ -24,6 +24,7 @@ module ArtDecomp class VHDL
       ]
     end
     logic << '    end case;'
+    logic << '    end if;' if logic.flatten.include? '    else'
     if @fsm.codes.empty?
       states = [
         "  type state is (#{structure.keys.join ', '});",

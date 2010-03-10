@@ -33,7 +33,7 @@ begin
   process(input, current_state) begin
     next_state <= "---------------"; output <= "----------------";
     if std_match(input, "0----") then next_state <= state1; output <= "-11---1-00------";
-    end if;
+    else
     case current_state is
       when state1 =>
         if std_match(input, "1----") then next_state <= state3; output <= "-11---1-00------";
@@ -88,5 +88,6 @@ begin
         if std_match(input, "0----") then next_state <= state1; output <= "-11---1-00------";
         end if;
     end case;
+    end if;
   end process;
 end behaviour;
