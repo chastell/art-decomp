@@ -17,7 +17,7 @@ begin
     end if;
   end process;
   process(input, current_state) begin
-    output <= "----------------";
+    next_state <= state1; output <= "----------------";
     if std_match(input, "0----") then next_state <= state1; output <= "-11---1-00------";
     end if;
     case current_state is

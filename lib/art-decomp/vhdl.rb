@@ -29,9 +29,11 @@ module ArtDecomp class VHDL
         "  type state is (#{structure.keys.join ', '});",
         '  signal current_state, next_state: state;',
       ]
+      default_state = structure.keys.first
     else
       states = @fsm.codes.map { |state, code| "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";" }
       states << "  signal current_state, next_state: std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"
+      default_state = "\"#{'-' * @fsm.codes.values.first.size}\""
     end
     <<-VHDL
 library ieee;
@@ -52,7 +54,7 @@ begin
     end if;
   end process;
   process(input, current_state) begin
-    output <= "#{'-' * structure.first.last.first.last[:output].size}";
+    next_state <= #{default_state}; output <= "#{'-' * structure.first.last.first.last[:output].size}";
 #{logic.join "\n"}
   end process;
 end behaviour;

@@ -17,7 +17,7 @@ begin
     end if;
   end process;
   process(input, current_state) begin
-    output <= "--";
+    next_state <= init0; output <= "--";
     case current_state is
       when init0 =>
         if std_match(input, "--00") then next_state <= init1; output <= "00";
