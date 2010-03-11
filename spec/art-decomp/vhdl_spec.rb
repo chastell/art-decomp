@@ -13,6 +13,10 @@ module ArtDecomp describe VHDL do
       VHDL.new(FSM.from_kiss 'spec/fixtures/mark1.hot').vhdl('mark1_hot').should == File.read('spec/fixtures/mark1_hot.vhd')
     end
 
+    it 'should rename digit-only states' do
+      VHDL.new(FSM.from_kiss 'spec/fixtures/ex4.hot').vhdl('ex4_hot').should == File.read('spec/fixtures/ex4_hot.vhd')
+    end
+
   end
 
 end end

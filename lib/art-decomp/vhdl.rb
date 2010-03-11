@@ -7,6 +7,7 @@ module ArtDecomp class VHDL
   def vhdl name
     structure = @fsm.structure
     logic = structure[DontCare].map do |input, results|
+      results[:next_state] = "s#{results[:next_state]}".to_sym if results[:next_state] =~ /^\d+$/
       [
         "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
         '    else',
@@ -15,9 +16,11 @@ module ArtDecomp class VHDL
     structure.delete DontCare
     logic << '    case current_state is'
     logic += structure.map do |state, transitions|
+      state = "s#{state}".to_sym if state =~ /^\d+$/
       [
         "      when #{state} =>",
         transitions.map.with_index do |(input, results), i|
+          results[:next_state] = "s#{results[:next_state]}".to_sym if results[:next_state] =~ /^\d+$/
           "        #{'els' if i > 0}if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";"
         end,
         '        end if;',
@@ -33,7 +36,10 @@ module ArtDecomp class VHDL
       ]
       default_state = structure.keys.first
     else
-      states = @fsm.codes.map { |state, code| "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";" }
+      states = @fsm.codes.map do |state, code|
+        state = "s#{state}".to_sym if state =~ /^\d+$/
+        "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";"
+      end
       states << "  signal current_state, next_state: std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"
       default_state = "\"#{'-' * @fsm.codes.values.first.size}\""
     end
