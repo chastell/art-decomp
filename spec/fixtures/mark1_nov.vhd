@@ -87,6 +87,7 @@ begin
       when state0 =>
         if std_match(input, "0----") then next_state <= state1; output <= "-11---1-00------";
         end if;
+      when others => next_state <= "----"; output <= "----------------";
     end case;
     end if;
   end process;

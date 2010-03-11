@@ -23,6 +23,7 @@ module ArtDecomp class VHDL
         '        end if;',
       ]
     end
+    logic << "      when others => next_state <= \"#{'-' * @fsm.codes.values.first.size}\"; output <= \"#{'-' * structure.first.last.first.last[:output].size}\";" unless @fsm.codes.empty?
     logic << '    end case;'
     logic << '    end if;' if logic.flatten.include? '    else'
     if @fsm.codes.empty?
