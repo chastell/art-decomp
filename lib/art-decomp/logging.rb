@@ -1,54 +1,71 @@
 # encoding: UTF-8
 
-require 'gazer'
 require 'logger'
+require 'rcapture'
 
-module ArtDecomp class Logging < Gazer::Aspect::Base
+module ArtDecomp class Logging
 
-  def self.level
-    @@log.level
+class << self
+
+  def level
+    @log.level
   end
 
-  def self.level= level
-    @@log.level = level
+  def level= level
+    @log.level = level
   end
 
-  def self.log= log
-    @@log = Logger.new log
-    @@log.level = Logger::INFO
-    @@log.formatter = proc { |sev, date, name, msg| "#{date} #{msg}\n" }
-    @@indent = ''
-    apply!
-    @@start = Time.now
+  def log= log
+    @start = Time.now
+    @log = Logger.new log
+    @log.level = Logger::INFO
+    @log.formatter = proc do |sev, date, name, msg|
+      secs = (Time.now - @start).ceil
+      time = "#{secs / 60 / 60}h#{(secs / 60 % 60).to_s.rjust 2}m#{(secs % 60).to_s.rjust 2}s"
+      best = @best.nil? ? '' : @best.to_s + 'c'
+      path = @path.nil? ? '' : '/' + @path
+      "#{time.rjust 10} #{best.rjust 4}  ·#{path.ljust 10} #{msg}\n"
+    end
+    add_logging
   end
 
-  def self.off
-    # FIXME: if instances can be unadvised, do that and close @@log
-    @@log = Logger.new '/dev/null'
+  def off
+    # FIXME: if methods can be uncaptured, do that and close @log
+    @log = Logger.new '/dev/null'
   end
 
-  after instances_of(Executable) => :run do |point|
-    secs = (Time.now - @@start).to_i
-    @@log.info "#{point.object.best ? "final best decomposition: #{point.object.best} cells" : 'no final decomposition'}; done in #{secs}s (#{secs / 60 / 60}h #{secs / 60 % 60}m #{secs % 60}s)"
+  private
+
+  def add_logging
+    uv_gens = UVGenerator.constants.map { |c| UVGenerator.const_get c }
+    qu_gens = QuGenerator.constants.map { |c| QuGenerator.const_get c }
+
+    (uv_gens + qu_gens + [Executable]).each { |c| c.class_eval { include RCapture::Interceptable } }
+
+    Executable.capture_pre :methods => :decompositions do |point|
+      @best = point.sender.best
+      @path = point.args[2][point.sender.dir.size+1..-1]
+      @log.info "#{point.args[0].stats} with #{point.sender.gens}"
+    end
+
+    uv_gens.each do |uv_gen|
+      uv_gen.capture_pre :methods => :uv_pairs do |point|
+        @uv_gen = uv_gen.to_s.split('::').last
+      end
+    end
+
+    qu_gens.each do |qu_gen|
+      qu_gen.capture_pre :methods => :blankets do |point|
+        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} via #{@uv_gen} with #{qu_gen.to_s.split('::').last}"
+      end
+    end
+
+    Executable.capture_post :methods => :run do |point|
+      @best = point.sender.best
+      @log.info "took #{(Time.now - @start).ceil}s"
+    end
   end
 
-  before instances_of(Executable) => :decompositions do |point|
-    @@indent = '  ' * (point.object.iters - point.args[1])
-    path     = point.args[2][point.object.dir.size+1..-1]
-    archs    = point.object.archs.map(&:to_s).sort.reverse.join '+'
-    @@log.info "#{@@indent}FSM #{point.args[0].stats} → #{archs} (#{path}) with #{point.object.gens} – #{point.object.best ? "best so far: #{point.object.best} cells" : 'no decomposition so far'}"
-  end
-
-  before instances_of(UVGenerator.constants.map { |c| eval("UVGenerator::#{c}") }) => :uv_pairs do |point|
-    @@log.info "#{@@indent}  UV with #{point.object.class.to_s.split('::').last}"
-  end
-
-  before instances_of(QuGenerator.constants.map { |c| eval("QuGenerator::#{c}") }) => :blankets do |point|
-    @@log.info "#{@@indent}    U = #{point.args[1].sort.inspect}, V = #{point.args[2].sort.inspect}, Qu with #{point.object.class.to_s.split('::').last}"
-  end
-
-  before instances_of(QvGenerator.constants.map { |c| eval("QvGenerator::#{c}") }) => :blankets do |point|
-    @@log.debug "#{@@indent}      |Qu| = #{point.args[3].size}, Qv+G with #{point.object.class.to_s.split('::').last}"
-  end
+end
 
 end end

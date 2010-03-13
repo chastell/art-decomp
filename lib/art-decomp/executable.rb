@@ -43,9 +43,9 @@ module ArtDecomp class Executable
     @non_disjoint = opts[:non_disjoint]
     @deep_ndj     = opts[:deep_ndj]
 
-    @uv_gens = opts[:uv].map { |gen| eval "UVGenerator::#{gen}" }
-    @qu_gens = opts[:qu].map { |gen| eval "QuGenerator::#{gen}" }
-    @qv_gens = opts[:qv].map { |gen| eval "QvGenerator::#{gen}" }
+    @uv_gens = opts[:uv].map { |gen| UVGenerator.const_get gen }
+    @qu_gens = opts[:qu].map { |gen| QuGenerator.const_get gen }
+    @qv_gens = opts[:qv].map { |gen| QvGenerator.const_get gen }
 
     if opts[:log_given]
       require_relative 'logging'

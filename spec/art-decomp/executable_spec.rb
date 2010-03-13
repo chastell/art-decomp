@@ -145,14 +145,14 @@ module ArtDecomp describe Executable do
     Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run
     Logging.level.should == Logger::DEBUG
     Logging.off
-    File.read(log.path).should =~ rex('FSM 4/2+10s → 5/1+4/2')
+    File.read(log.path).should =~ rex('4/2+10s')
   end
 
   it 'should handle the s8 edge case with grace' do
     log = Tempfile.new rand
     Executable.new(['--archs', '2/1', '--log', log.path, '--outdir', @dir, 'spec/fixtures/s8']).run
     Logging.off
-    File.read(log.path).should =~ rex('final best decomposition: 0 cells')
+    File.read(log.path).should =~ rex(' 0c')
   end
 
   # FIXME: add specs for --binary, --non-disjoint and --deep-ndj
