@@ -140,7 +140,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should allow logging to the specified file/stream' do
-    log = Tempfile.new rand
+    log = Tempfile.new rand.to_s
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run
     Logging.level.should == Logger::DEBUG
@@ -149,7 +149,7 @@ module ArtDecomp describe Executable do
   end
 
   it 'should handle the s8 edge case with grace' do
-    log = Tempfile.new rand
+    log = Tempfile.new rand.to_s
     Executable.new(['--archs', '2/1', '--log', log.path, '--outdir', @dir, 'spec/fixtures/s8']).run
     Logging.off
     File.read(log.path).should =~ rex(' 0c')
