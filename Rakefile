@@ -22,25 +22,3 @@ namespace :spec do
     end
   end
 end
-
-require 'jeweler'
-
-Jeweler::Tasks.new do |gem|
-  gem.authors  = ['Piotr Szotkowski']
-  gem.email    = 'p.szotkowski@tele.pw.edu.pl'
-  gem.homepage = 'http://github.com/chastell/art-decomp'
-  gem.name     = 'art-decomp'
-  gem.summary  = 'art décomp: an FSM → FPGA decomposer'
-
-  gem.files.exclude 'kiss/**/*'
-
-  gem.add_dependency 'rcapture'
-  gem.add_dependency 'trollop'
-
-  gem.add_development_dependency 'diff-lcs'
-  gem.add_development_dependency 'jeweler'
-  gem.add_development_dependency 'rcov'
-  gem.add_development_dependency 'rspec'
-end
-
-Jeweler::GemcutterTasks.new
