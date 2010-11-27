@@ -2,8 +2,12 @@
 
 describe Set do
 
-  it 'should side-step a MRI bug with Set#hash' do
-    Set[2305860601668175887].hash.should == Set[2305860601668175887].hash
+  describe '#hash' do
+
+    it 'doesn’t exibit a MRI bug (fixed in r22308)' do
+      Set[2305860601668175887].hash.should == Set[2305860601668175887].hash
+    end
+
   end
 
   context 'of Separations' do
