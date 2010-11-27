@@ -11,7 +11,7 @@ module ArtDecomp class Arch
   end
 
   def == other
-    [@pins, @pons] == [other.pins, other.pons]
+    @pins == other.pins and @pons == other.pons
   end
 
   def cells archs
