@@ -1,10 +1,8 @@
-# encoding: UTF-8
-
 module ArtDecomp describe B do
 
-  context 'when representing ‘set bits’ concept' do
+  context '.[]' do
 
-    it 'should provide proper representation (also across the Fixnum/Bignum boundary)' do
+    it 'constructs an Integer with the given bits set' do
       B[].should     == 0b0
       B[0].should    == 0b1
       B[5,8].should  == 0b100100000
@@ -13,7 +11,11 @@ module ArtDecomp describe B do
       B[1,69].should == 2**69 + 0b10
     end
 
-    it 'should uniformly work inside Sets (also across the Fixnum/Bignum boundary)' do
+  end
+
+  context '#hash' do
+
+    it 'hashes uniformly' do
       B[].hash.should     == 0b0.hash
       B[0].hash.should    == 0b1.hash
       B[5,8].hash.should  == 0b100100000.hash
