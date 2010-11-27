@@ -1,8 +1,12 @@
 module ArtDecomp describe Sep do
 
-  it 'should be an Integer with bits representing the separated values' do
-    Sep[1,2].should  == 0b110
-    Sep[0,69].should == 2**69 + 0b1
+  context '.[]' do
+
+    it 'constructs an Integer with set bits representing the separation' do
+      Sep[1,2].should  == 0b110
+      Sep[0,69].should == 2**69 + 0b1
+    end
+
   end
 
   it 'should be usable as a Set element' do
