@@ -12,9 +12,13 @@ describe Integer do
 
   end
 
-  it 'should return ceil of base-2 logarithm' do
-    (0..9).map(&:log2_ceil).should == [0,0,1,2,2,3,3,3,3,4]
-    (2**69).log2_ceil.should == 69
+  context '#log2_ceil' do
+
+    it 'returns ceil of base-two logarithm from self' do
+      (0..9).map(&:log2_ceil).should == [0,0,1,2,2,3,3,3,3,4]
+      (2**69).log2_ceil.should == 69
+    end
+
   end
 
 end
