@@ -1,2 +1,4 @@
 --colour
---require ./spec/spec_helper
+--require tempfile
+--require tmpdir
+--require ./lib/art-decomp

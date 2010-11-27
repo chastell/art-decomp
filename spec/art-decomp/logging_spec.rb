@@ -25,7 +25,7 @@ module ArtDecomp describe Logging do
   it 'should log Executable’s decompositions calls on simple cases' do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
     Executable.new(args).run
-    log.should =~ rex('took 1s')
+    log.should =~ /took 1s/
   end
 
   it 'should log Executable’s decompositions calls on typical cases' do
@@ -34,16 +34,16 @@ module ArtDecomp describe Logging do
     ex = Executable.new(args)
     ex.stub!(:best).and_return 69
     ex.run
-    log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
-    log.should =~ rex('took 1s')
+    log.should =~ Regexp.new(Regexp.escape '4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ /took 1s/
   end
 
   it 'should log Executable’s decompositions calls on problematic cases' do
     Decomposer.should_receive(:new).and_return mock(Decomposer, :decompositions => [].each)
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     Executable.new(args).run
-    log.should =~ rex('4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
-    log.should =~ rex('took 1s')
+    log.should =~ Regexp.new(Regexp.escape '4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring')
+    log.should =~ /took 1s/
   end
 
   it 'should log QuGenerators’ blankets calls (if debug-level logging enabled)' do
@@ -52,8 +52,8 @@ module ArtDecomp describe Logging do
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets @fsm, u, v
     end
-    log.should =~ rex('0          1          via  with BlockTable')
-    log.should =~ rex('1          0          via  with BlockTable')
+    log.should =~ /0          1          via  with BlockTable/
+    log.should =~ /1          0          via  with BlockTable/
   end
 
 end end
