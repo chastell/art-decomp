@@ -10,11 +10,11 @@ describe Set do
 
   end
 
-  context 'of Separations' do
+  context '#r_adm' do
 
     B, Sep = ArtDecomp::B, ArtDecomp::Sep
 
-    it 'should provide a given block’s r-admissibility' do
+    it 'returns the given block’s r-admissibility' do
       b = B[1,2,3,4]
       Set[Sep[1,5]].r_adm(b).should == 0
       Set[Sep[1,4]].r_adm(b).should == 1
