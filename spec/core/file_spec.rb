@@ -1,9 +1,13 @@
 describe File do
 
-  it 'should be able to marshal an object to a given file' do
-    file = Tempfile.new rand.to_s
-    File.dump_object [:answer, 42, 'Deep Thought'], file.path
-    Marshal.load(File.read(file.path)).should == [:answer, 42, 'Deep Thought']
+  context '.dump_object' do
+
+    it 'marshals the given object to a file at the given file' do
+      file = Tempfile.new 'File.dump_object'
+      File.dump_object [:answer, 42, 'Deep Thought'], file.path
+      Marshal.load(File.read(file.path)).should == [:answer, 42, 'Deep Thought']
+    end
+
   end
 
   it 'should be able to dump arbitrary data to a given file' do
