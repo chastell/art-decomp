@@ -34,9 +34,13 @@ module ArtDecomp describe Arch do
 
   end
 
-  it 'should have a common String representation' do
-    Arch[5,1].to_s.should == '5/1'
-    Arch[4,2].to_s.should == '4/2'
+  context '#to_s' do
+
+    it 'has an I/O String representation' do
+      Arch[5,1].to_s.should == '5/1'
+      Arch[4,2].to_s.should == '4/2'
+    end
+
   end
 
   it 'should report how many cells of given Archs it requires' do
