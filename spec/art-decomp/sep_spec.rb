@@ -9,9 +9,13 @@ module ArtDecomp describe Sep do
 
   end
 
-  it 'should be usable as a Set element' do
-    Sep[1,2].hash.should  == 0b110.hash
-    Sep[0,69].hash.should == (2**69 + 0b1).hash
+  context '#hash' do
+
+    it 'hashes uniformly' do
+      Sep[1,2].hash.should  == 0b110.hash
+      Sep[0,69].hash.should == (2**69 + 0b1).hash
+    end
+
   end
 
 end end
