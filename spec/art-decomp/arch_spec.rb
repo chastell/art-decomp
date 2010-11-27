@@ -18,6 +18,17 @@ module ArtDecomp describe Arch do
 
   end
 
+  context '#cells' do
+
+    it 'reports how many cells of the given Archs it requires' do
+      Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).should == 2
+      Arch[4,3].cells(Set[Arch[5,1]]).should            == 3
+      Arch[5,3].cells(Set[Arch[4,3]]).should be_nil
+      Arch[5,3].cells(Set[Arch[5,2]]).should            == 2
+    end
+
+  end
+
   context '#eql?' do
 
     it 'compares I/O counts' do
@@ -41,13 +52,6 @@ module ArtDecomp describe Arch do
       Arch[4,2].to_s.should == '4/2'
     end
 
-  end
-
-  it 'should report how many cells of given Archs it requires' do
-    Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).should == 2
-    Arch[4,3].cells(Set[Arch[5,1]]).should            == 3
-    Arch[5,3].cells(Set[Arch[4,3]]).should be_nil
-    Arch[5,3].cells(Set[Arch[5,2]]).should            == 2
   end
 
 end end
