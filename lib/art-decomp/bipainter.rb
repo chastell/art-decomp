@@ -26,10 +26,10 @@ module ArtDecomp class Bipainter
     @g_forbidden.default  = nil
     @qv_forbidden.default = nil
     @backup = {
-      :g_colours    => Marshal.dump(@g_colours),
-      :g_forbidden  => Marshal.dump(@g_forbidden),
-      :qv_colours   => Marshal.dump(@qv_colours),
-      :qv_forbidden => Marshal.dump(@qv_forbidden),
+      g_colours:    Marshal.dump(@g_colours),
+      g_forbidden:  Marshal.dump(@g_forbidden),
+      qv_colours:   Marshal.dump(@qv_colours),
+      qv_forbidden: Marshal.dump(@qv_forbidden),
     }
     @g_forbidden.default_proc  = proc { |h, k| h[k] = Set[] }
     @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
