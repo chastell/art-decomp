@@ -1,15 +1,15 @@
 module ArtDecomp describe QvGenerator::GraphColouring do
 
-  context 'when generating G and Qv blankets' do
+  context '#blankets' do
 
-    it 'should use graph colouring of the proper incompatibility graphs' do
-      beta_f  = mock Blanket, :seps => Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]
+    it 'uses graph colouring of the proper incompatibility graphs' do
+      beta_f  = mock Blanket, seps: Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]
       beta_q  = Blanket[B[1,2], B[3,4], B[5,6]]
       beta_u  = Blanket[]
       beta_v  = Blanket[B[1,3,5], B[2,4,6]]
       beta_qu = Blanket[]
 
-      fsm = mock FSM, :beta_f => beta_f, :beta_q => beta_q
+      fsm = mock FSM, beta_f: beta_f, beta_q: beta_q
       fsm.should_receive(:beta_x).with(Set[0]).and_return beta_u
       fsm.should_receive(:beta_x).with(Set[1]).and_return beta_v
       archs = Set[Arch[3,1]]
