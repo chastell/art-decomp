@@ -1,9 +1,9 @@
 module ArtDecomp describe UVRelevanceGenerator do
 
-  context 'given a certain FSM and a Set of Archs' do
+  context '#uv_pairs' do
 
-    it 'should yield U and V combinations in a relevance-based order' do
-      fsm = mock FSM, :input_count => 6, :common_relevance => [0, 1, 2, nil, nil, nil, 3, 4, 5]
+    it 'yields U and V combinations in a relevance-based order' do
+      fsm = mock FSM, input_count: 6, common_relevance: [0, 1, 2, nil, nil, nil, 3, 4, 5]
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1]]
       uv_gen = UVRelevanceGenerator.new
@@ -21,8 +21,8 @@ module ArtDecomp describe UVRelevanceGenerator do
       uvs.last.should == [fsm, Set[3,4,5], Set[0,1,2]]
     end
 
-    it 'should consider all architecture widths when generating the UV sets' do
-      fsm = mock FSM, :input_count => 6, :common_relevance => [0, 1, 2, nil, nil, nil, 3, 4, 5]
+    it 'considers all architecture widths when generating the UV sets' do
+      fsm = mock FSM, input_count: 6, common_relevance: [0, 1, 2, nil, nil, nil, 3, 4, 5]
       fsm.stub!(:expand_x).and_return fsm
       archs = Set[Arch[3,1], Arch[2,1]]
       uv_gen = UVRelevanceGenerator.new
@@ -42,8 +42,8 @@ module ArtDecomp describe UVRelevanceGenerator do
       uvs.last.should == [fsm, Set[3,4,5], Set[0,1,2]]
     end
 
-    it 'should yield V-expanded FSMs' do
-      fsm = mock FSM, :input_count => 2, :common_relevance => [1, 0, nil, nil, nil]
+    it 'yields V-expanded FSMs' do
+      fsm = mock FSM, input_count: 2, common_relevance: [1, 0, nil, nil, nil]
       fsm0, fsm1, fsm2, fsm3 = mock(FSM), mock(FSM), mock(FSM), mock(FSM)
       fsm.should_receive(:expand_x).exactly(4).times.and_return(fsm0, fsm1, fsm2, fsm3)
       archs = Set[Arch[3,1]]
