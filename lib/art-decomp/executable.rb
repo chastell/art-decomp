@@ -6,17 +6,17 @@ module ArtDecomp class Executable
 
   def initialize args = ARGV
     opts = Trollop.options(args) do
-      opt :archs,        'Target architecture(s)',               :type => :strings
-      opt :outdir,       'Output directory',                     :type => :string
-      opt :iters,        'Number of iterations, 0 for infinite', :default => 1
-      opt :uv,           'UV generator(s)',                      :default => ['UniqueRelevance']
-      opt :qu,           'Qu generator(s)',                      :default => ['EdgeLabels']
-      opt :qv,           'Qv generator(s)',                      :default => ['GraphColouring']
-      opt :binary,       'Compute binary decompositions',        :default => false
-      opt :non_disjoint, 'Compute non-disjoint decompositions',  :default => false
-      opt :deep_ndj,     'Compute deep non-dj decompositions',   :default => false
-      opt :log,          'Logging target',                       :type => :string
-      opt :debug,        'Log debug-level activities',           :default => false
+      opt :archs,        'Target architecture(s)',               type: :strings
+      opt :outdir,       'Output directory',                     type: :string
+      opt :iters,        'Number of iterations, 0 for infinite', default: 1
+      opt :uv,           'UV generator(s)',                      default: ['UniqueRelevance']
+      opt :qu,           'Qu generator(s)',                      default: ['EdgeLabels']
+      opt :qv,           'Qv generator(s)',                      default: ['GraphColouring']
+      opt :binary,       'Compute binary decompositions',        default: false
+      opt :non_disjoint, 'Compute non-disjoint decompositions',  default: false
+      opt :deep_ndj,     'Compute deep non-dj decompositions',   default: false
+      opt :log,          'Logging target',                       type: :string
+      opt :debug,        'Log debug-level activities',           default: false
     end
 
     opts[:uv] = UVGenerator.constants.map(&:to_s).sort if opts[:uv] == ['all']
@@ -75,9 +75,9 @@ module ArtDecomp class Executable
   private
 
   def decompositions fsm, iters, dir, cells
-    decomposer = Decomposer.new :fsm => fsm, :archs => @archs, :uv_gens => @uv_gens, :qu_gens => @qu_gens, :qv_gens => @qv_gens
+    decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
     Enumerator.new do |yielder|
-      decomposer.decompositions(:non_disjoint => @non_disjoint, :deep_ndj => @deep_ndj).with_index do |dec, i|
+      decomposer.decompositions(non_disjoint: @non_disjoint, deep_ndj: @deep_ndj).with_index do |dec, i|
         yielder.yield dec, dir, i
         if dec.final? @archs
           this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
