@@ -1,6 +1,6 @@
 module ArtDecomp describe UVGenerator::Braindead do
 
-  context '#uv_pairs' do
+  describe '#uv_pairs' do
 
     it 'yields all non-insane U and V combinations' do
       fsm = mock FSM, input_count: 4

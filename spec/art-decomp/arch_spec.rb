@@ -1,6 +1,6 @@
 module ArtDecomp describe Arch do
 
-  context '.[]' do
+  describe '.[]' do
 
     it 'instantiates Arch Array-style' do
       Arch[5,1].should == Arch.new(5, 1)
@@ -8,7 +8,7 @@ module ArtDecomp describe Arch do
 
   end
 
-  context '#==' do
+  describe '#==' do
 
     it 'compares I/O counts' do
       Arch[5,1].should     == Arch[5,1]
@@ -18,7 +18,7 @@ module ArtDecomp describe Arch do
 
   end
 
-  context '#cells' do
+  describe '#cells' do
 
     it 'reports how many cells of the given Archs it requires' do
       Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).should == 2
@@ -29,7 +29,7 @@ module ArtDecomp describe Arch do
 
   end
 
-  context '#eql?' do
+  describe '#eql?' do
 
     it 'compares I/O counts' do
       Arch[5,1].should eql Arch[5,1]
@@ -37,7 +37,7 @@ module ArtDecomp describe Arch do
 
   end
 
-  context '#hash' do
+  describe '#hash' do
 
     it 'is I/O-count-based' do
       Arch[5,1].hash.should == Arch[5,1].hash
@@ -45,7 +45,7 @@ module ArtDecomp describe Arch do
 
   end
 
-  context '#to_s' do
+  describe '#to_s' do
 
     it 'has an I/O String representation' do
       Arch[5,1].to_s.should == '5/1'

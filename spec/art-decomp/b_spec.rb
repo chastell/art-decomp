@@ -1,6 +1,6 @@
 module ArtDecomp describe B do
 
-  context '.[]' do
+  describe '.[]' do
 
     it 'constructs an Integer with the given bits set' do
       B[].should     == 0b0
@@ -13,7 +13,7 @@ module ArtDecomp describe B do
 
   end
 
-  context '#hash' do
+  describe '#hash' do
 
     it 'hashes uniformly' do
       B[].hash.should     == 0b0.hash

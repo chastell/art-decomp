@@ -1,6 +1,6 @@
 module ArtDecomp describe KISS do
 
-  context '#formatted' do
+  describe '#formatted' do
 
     it 'sorts entries' do
       kiss = KISS.new ['1 1', '0 0']

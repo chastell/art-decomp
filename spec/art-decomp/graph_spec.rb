@@ -8,7 +8,7 @@ module ArtDecomp describe Graph do
     @graph  = Graph.new blanket, seps
   end
 
-  context '.new' do
+  describe '.new' do
 
     it 'drops vertices covered by other vertices upon initialisation' do
       Graph.new(Blanket[B[1,2], B[2]], Set[]).vertices.should == Set[B[1,2]]
@@ -21,7 +21,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#adjacent' do
+  describe '#adjacent' do
 
     it 'returns the given vertex’s adjacent vertices' do
       @graph.adjacent(B[3,4]).should == Set[B[5,6]]
@@ -31,7 +31,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#blanket_from_colouring' do
+  describe '#blanket_from_colouring' do
 
     it 'returns the proper Blanket obtained by colouring the vertices' do
       blanket = @graph.blanket_from_colouring
@@ -41,7 +41,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#complete?' do
+  describe '#complete?' do
 
     it 'reports whether it’s complete' do
       complete = Graph.new Blanket[B[1], B[2], B[3]], Set[Sep[1,2], Sep[1,3], Sep[2,3]]
@@ -51,7 +51,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#degree' do
+  describe '#degree' do
 
     it 'returns vertex degrees' do
       degrees = {B[1,2] => 0, B[3,4] => 1, B[5,6] => 3, B[7] => 2, B[8,9] => 2}
@@ -60,7 +60,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#edges' do
+  describe '#edges' do
 
     it 'returns the Graph’s edges' do
       @graph.edges.should == Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]], Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
@@ -68,7 +68,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#merge_by_edge_labels!' do
+  describe '#merge_by_edge_labels!' do
 
     it 'merges based on edge weights and returns self' do
       b1234 = Blanket[B[1], B[2], B[3], B[4]]
@@ -83,7 +83,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#merge_by_vertex_degrees!' do
+  describe '#merge_by_vertex_degrees!' do
 
     it 'merges based on vertex degrees and returns self' do
       graph = Graph.new Blanket[B[1], B[2], B[3], B[4], B[5], B[6]], Set[Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
@@ -95,7 +95,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#merge_until_complete!' do
+  describe '#merge_until_complete!' do
 
     it 'merges until it’s complete and returns self' do
       @graph.merge_until_complete!.should be_a(Graph)
@@ -106,7 +106,7 @@ module ArtDecomp describe Graph do
 
   end
 
-  context '#vertices' do
+  describe '#vertices' do
 
     it 'returns the Graph’s vertices' do
       @graph.vertices.should == Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]

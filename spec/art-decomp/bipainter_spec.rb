@@ -1,6 +1,6 @@
 module ArtDecomp describe Bipainter do
 
-  context '#blankets' do
+  describe '#blankets' do
 
     it 'returns the Qv and G Blankets based on the provided Q and V Blankets and a Set of Seps' do
       beta_q = Blanket[B[1,2], B[3,4], B[5,6]]

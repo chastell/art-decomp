@@ -1,6 +1,6 @@
 module ArtDecomp describe UVRelevanceGenerator do
 
-  context '#uv_pairs' do
+  describe '#uv_pairs' do
 
     it 'yields U and V combinations in a relevance-based order' do
       fsm = mock FSM, input_count: 6, common_relevance: [0, 1, 2, nil, nil, nil, 3, 4, 5]

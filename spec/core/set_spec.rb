@@ -10,7 +10,7 @@ describe Set do
 
   end
 
-  context '#r_adm' do
+  describe '#r_adm' do
 
     B, Sep = ArtDecomp::B, ArtDecomp::Sep
 

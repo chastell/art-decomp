@@ -1,6 +1,6 @@
 module ArtDecomp describe QuGenerator::EdgeLabels do
 
-  context '#blankets' do
+  describe '#blankets' do
 
     def qus
       fsm   = mock FSM, beta_f: @beta_f, beta_q: @beta_q, beta_x: @beta_x

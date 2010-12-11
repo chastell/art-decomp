@@ -1,6 +1,6 @@
 describe File do
 
-  context '.dump_object' do
+  describe '.dump_object' do
 
     it 'marshals the given object to a file at the given file' do
       file = Tempfile.new 'File.dump_object'

@@ -1,6 +1,6 @@
 module ArtDecomp describe VHDL do
 
-  context '#vhdl' do
+  describe '#vhdl' do
 
     it 'generates the VHDL representation of the underlying FSM' do
       VHDL.new(FSM.from_kiss 'spec/fixtures/fsm').vhdl('fsm').should     == File.read('spec/fixtures/fsm.vhd')

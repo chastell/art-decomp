@@ -1,6 +1,6 @@
 module ArtDecomp describe QvGenerator::GraphColouring do
 
-  context '#blankets' do
+  describe '#blankets' do
 
     it 'uses graph colouring of the proper incompatibility graphs' do
       beta_f  = mock Blanket, seps: Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]

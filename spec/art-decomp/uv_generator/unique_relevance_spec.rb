@@ -2,7 +2,7 @@
 
 module ArtDecomp describe UVGenerator::UniqueRelevance do
 
-  context '#uv_pairs' do
+  describe '#uv_pairs' do
 
     it 'calls UVRelevanceGenerator’s uv_pairs method with proper args' do
       fsm = mock FSM

@@ -1,6 +1,6 @@
 describe Enumerable do
 
-  context '#pairs' do
+  describe '#pairs' do
 
     it 'provides an Enumerator for consecutive element pairs' do
       set = Set[1,2,3,4]

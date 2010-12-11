@@ -2,7 +2,7 @@
 
 describe String do
 
-  context '#dc_expand' do
+  describe '#dc_expand' do
 
     it 'expands don’t-cares when representing boolean inputs' do
       '0'.dc_expand.should   == ['0']

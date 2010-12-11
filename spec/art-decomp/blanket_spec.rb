@@ -2,7 +2,7 @@
 
 module ArtDecomp describe Blanket do
 
-  context '.[]' do
+  describe '.[]' do
 
     it 'instantiates Blanket Array-style' do
       Blanket[B[], B[0], B[1,2]].should == Blanket.new([B[1,2], B[0]])
@@ -10,7 +10,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '.from_array' do
+  describe '.from_array' do
 
     it 'returns a Blanket created from an Array' do
       blanket = Blanket.from_array [:b, DontCare, :a, :c, :b, :a, :c]
@@ -19,7 +19,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#*' do
+  describe '#*' do
 
     it 'returns the multiplication of self and another Blanket' do
       b1 = Blanket[B[1,2,3], B[4,5,6]]
@@ -29,7 +29,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#encoding' do
+  describe '#encoding' do
 
     it 'returns the Blanket’s ‘natural’ encoding, based on the provided subblock' do
       blanket = Blanket[B[0,1,2], B[1,2,3], B[2,3,4]]
@@ -42,7 +42,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#encodings' do
+  describe '#encodings' do
 
     it 'returns the Blanket’s ‘natural’ encodings in an Array' do
       blanket = Blanket[B[0,1,2], B[1,2,3], B[2,3,4]]
@@ -55,7 +55,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#eql?' do
+  describe '#eql?' do
 
     it 'allows Blankets to be used as Set elements' do
     Blanket[B[], B[0], B[1,2]].should eql Blanket.new([B[1,2], B[0]])
@@ -63,7 +63,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#hash' do
+  describe '#hash' do
 
     it 'allows Blankets to be used as Set elements' do
       Blanket[B[], B[0], B[1,2]].hash.should == Blanket.new([B[1,2], B[0]]).hash
@@ -71,7 +71,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#inspect' do
+  describe '#inspect' do
 
     it 'returns a self-instanting form' do
       Blanket[B[]].inspect.should == 'Blanket[]'
@@ -80,7 +80,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#ints' do
+  describe '#ints' do
 
     it 'exposes its internal, immutable ints variable' do
       Blanket[B[1,2], B[3,4]].ints.should == Set[B[3,4], B[1,2]]
@@ -89,7 +89,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#pins' do
+  describe '#pins' do
 
     it 'returns the number of required physical pins' do
       Blanket[B[]].pins.should                                          == 0
@@ -105,7 +105,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#seps' do
+  describe '#seps' do
 
     it 'returns the provided/required separations' do
       Blanket[].seps.should                   == Set[]
@@ -117,7 +117,7 @@ module ArtDecomp describe Blanket do
 
   end
 
-  context '#size' do
+  describe '#size' do
 
     it 'returns the Blanket’s size' do
       Blanket[].size.should                   == 0
