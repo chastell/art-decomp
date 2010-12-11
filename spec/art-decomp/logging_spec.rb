@@ -4,25 +4,25 @@ require_relative '../../lib/art-decomp/logging'
 
 module ArtDecomp describe Logging do
 
-  before do
-    @dir = "#{Dir.tmpdir}/#{rand.to_s}"
-    @fsm = mock FSM, beta_f: Blanket[], beta_q: Blanket[], beta_x: Blanket[]
-    @log = StringIO.new
-    Logging.log = @log
-    Logging.level = Logger::INFO
-  end
-
-  after do
-    Logging.off
-    FileUtils.rmtree @dir if Dir.exists? @dir
-  end
-
-  def log
-    @log.rewind
-    @log.read
-  end
-
   context 'when logging is enabled' do
+
+    before do
+      @dir = "#{Dir.tmpdir}/#{rand.to_s}"
+      @fsm = mock FSM, beta_f: Blanket[], beta_q: Blanket[], beta_x: Blanket[]
+      @log = StringIO.new
+      Logging.log = @log
+      Logging.level = Logger::INFO
+    end
+
+    after do
+      Logging.off
+      FileUtils.rmtree @dir if Dir.exists? @dir
+    end
+
+    def log
+      @log.rewind
+      @log.read
+    end
 
     it 'logs Executable’s decompositions calls on simple cases' do
       args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
