@@ -1,16 +1,20 @@
 module ArtDecomp describe Decomposer do
 
-  it 'should instantiate itself and its components properly' do
-    fsm      = mock FSM
-    archs    = Set[Arch[5,1], Arch[4,2]]
-    uv1, uv2 = mock('UVGenerator class'), mock('UVGenerator class')
-    qu1, qu2 = mock('QuGenerator class'), mock('QuGenerator class')
-    qv1, qv2 = mock('QvGenerator class'), mock('QvGenerator class')
-    [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
-    Decomposer.new fsm: fsm, archs: archs, uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
+  describe '.new' do
+
+    it 'instantiates the generators' do
+      fsm      = mock FSM
+      archs    = Set[Arch[5,1], Arch[4,2]]
+      uv1, uv2 = mock('UVGenerator class'), mock('UVGenerator class')
+      qu1, qu2 = mock('QuGenerator class'), mock('QuGenerator class')
+      qv1, qv2 = mock('QvGenerator class'), mock('QvGenerator class')
+      [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
+      Decomposer.new fsm: fsm, archs: archs, uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
+    end
+
   end
 
-  context 'given that the three generators are working properly' do
+  describe '#decompositions' do
 
     class StubGenerator
       def initialize sequences
@@ -23,7 +27,7 @@ module ArtDecomp describe Decomposer do
       alias blankets elems
     end
 
-    it 'should poll the generators and yield the resulting decompositions one by one' do
+    it 'polls the generators and yields the resulting decompositions one by one' do
       fsm = mock FSM, beta_q: mock(Blanket, pins: 3, size: 5), input_count: 4
       archs = Set[Arch[5,1]]
 
@@ -50,7 +54,7 @@ module ArtDecomp describe Decomposer do
       results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
     end
 
-    it 'should yield only sensible decompositions' do
+    it 'yields only sensible decompositions' do
       fsm    = mock FSM
       uv_gen = mock UVGenerator,   uv_pairs:  [[fsm, Set[0], Set[1]]]
       qu_gen = mock QuGenerator,   blankets:  [mock(Blanket)]
@@ -62,7 +66,7 @@ module ArtDecomp describe Decomposer do
       decomposer.decompositions.to_a.should == [dec1]
     end
 
-    it 'should skip re-computing elements it already computed once (unless told not to)' do
+    it 'skips re-computing elements it already computed once (unless told not to)' do
       qu1, qu2, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
       fsm    = mock FSM
       uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0], Set[1]], [fsm, Set[0], Set[1]], [fsm, Set[1], Set[0]]]
@@ -77,7 +81,7 @@ module ArtDecomp describe Decomposer do
       decomposer.decompositions(keep_seen: true).to_a.size.should == 27
     end
 
-    it 'should compute shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
+    it 'computes shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
       qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, pins: 1), mock(Blanket, pins: 2)
       fsm    = mock FSM
       uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0,1], Set[2,3]]]
@@ -89,7 +93,7 @@ module ArtDecomp describe Decomposer do
       decomposer.decompositions(non_disjoint: true).to_a.size.should == 4
     end
 
-    it 'should compute deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
+    it 'computes deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
       qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, pins: 1), mock(Blanket, pins: 2)
       fsm    = mock FSM
       uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0,1], Set[2,3]]]
