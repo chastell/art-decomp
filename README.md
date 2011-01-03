@@ -7,4 +7,4 @@ This library implements the method and algorithms described in the PhD thesis _S
 
 ---
 
-© MMIX-MMX Piotr Szotkowski <p.szotkowski@tele.pw.edu.pl>, licensed under AGPL 3 (see LICENCE)
+© MMIX-MMXI Piotr Szotkowski <p.szotkowski@tele.pw.edu.pl>, licensed under AGPL 3 (see LICENCE)
