@@ -1,20 +1,3 @@
-module ArtDecomp
-
-  DontCare = :-
-
-  module QuGenerator
-  end
-
-  module QvGenerator
-  end
-
-  module UVGenerator
-  end
-
-end
-
-
-
 require 'set'
 require 'yaml'
 
@@ -24,25 +7,41 @@ require_relative 'core/integer'
 require_relative 'core/set'
 require_relative 'core/string'
 
-require_relative 'art-decomp/arch'
-require_relative 'art-decomp/b'
-require_relative 'art-decomp/bipainter'
-require_relative 'art-decomp/blanket'
-require_relative 'art-decomp/decomposer'
-require_relative 'art-decomp/decomposition'
 require_relative 'art-decomp/exceptions'
-require_relative 'art-decomp/executable'
-require_relative 'art-decomp/fsm'
-require_relative 'art-decomp/graph'
-require_relative 'art-decomp/kiss'
-require_relative 'art-decomp/qu_generator/block_table'
-require_relative 'art-decomp/qu_generator/edge_labels'
-require_relative 'art-decomp/qv_generator/bipainting'
-require_relative 'art-decomp/qv_generator/graph_colouring'
-require_relative 'art-decomp/qv_generator/graph_merging'
-require_relative 'art-decomp/sep'
-require_relative 'art-decomp/uv_relevance_generator'
-require_relative 'art-decomp/uv_generator/braindead'
-require_relative 'art-decomp/uv_generator/general_relevance'
-require_relative 'art-decomp/uv_generator/unique_relevance'
-require_relative 'art-decomp/vhdl'
+
+module ArtDecomp
+
+  DontCare = :-
+
+  autoload :Arch,                 'art-decomp/arch'
+  autoload :B,                    'art-decomp/b'
+  autoload :Bipainter,            'art-decomp/bipainter'
+  autoload :Blanket,              'art-decomp/blanket'
+  autoload :Decomposer,           'art-decomp/decomposer'
+  autoload :Decomposition,        'art-decomp/decomposition'
+  autoload :Executable,           'art-decomp/executable'
+  autoload :FSM,                  'art-decomp/fsm'
+  autoload :Graph,                'art-decomp/graph'
+  autoload :KISS,                 'art-decomp/kiss'
+  autoload :Sep,                  'art-decomp/sep'
+  autoload :UVRelevanceGenerator, 'art-decomp/uv_relevance_generator'
+  autoload :VHDL,                 'art-decomp/vhdl'
+
+  module QuGenerator
+    autoload :BlockTable, 'art-decomp/qu_generator/block_table'
+    autoload :EdgeLabels, 'art-decomp/qu_generator/edge_labels'
+  end
+
+  module QvGenerator
+    autoload :Bipainting,     'art-decomp/qv_generator/bipainting'
+    autoload :GraphColouring, 'art-decomp/qv_generator/graph_colouring'
+    autoload :GraphMerging,   'art-decomp/qv_generator/graph_merging'
+  end
+
+  module UVGenerator
+    autoload :Braindead,        'art-decomp/uv_generator/braindead'
+    autoload :GeneralRelevance, 'art-decomp/uv_generator/general_relevance'
+    autoload :UniqueRelevance,  'art-decomp/uv_generator/unique_relevance'
+  end
+
+end
