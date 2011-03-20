@@ -60,9 +60,9 @@ module ArtDecomp describe Executable do
     end
 
     it 'creates the output directory' do
-      Dir.exists?(@dir).should be_false
+      Pathname(@dir).should_not exist
       Executable.new @args
-      Dir.exists?(@dir).should be_true
+      Pathname(@dir).should exist
     end
 
     it 'validates that the specified UV generator exists' do
@@ -143,9 +143,9 @@ module ArtDecomp describe Executable do
       dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
       Decomposer.stub!(:new).and_return mock(Decomposer, decompositions: [dec].each)
       Executable.new(args).run
-      File.exists?("#{@dir}/0.dec").should     be_true
-      File.exists?("#{@dir}/0/0.dec").should   be_true
-      File.exists?("#{@dir}/0/0/0.dec").should be_false
+      Pathname("#{@dir}/0.dec").should exist
+      Pathname("#{@dir}/0/0.dec").should exist
+      Pathname("#{@dir}/0/0/0.dec").should_not exist
     end
 
     it 'handles the s8 edge case with grace' do
