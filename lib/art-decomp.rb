@@ -7,25 +7,25 @@ require_relative 'core/integer'
 require_relative 'core/set'
 require_relative 'core/string'
 
-require_relative 'art-decomp/exceptions'
-
 module ArtDecomp
 
   DontCare = :-
 
-  autoload :Arch,                 'art-decomp/arch'
-  autoload :B,                    'art-decomp/b'
-  autoload :Bipainter,            'art-decomp/bipainter'
-  autoload :Blanket,              'art-decomp/blanket'
-  autoload :Decomposer,           'art-decomp/decomposer'
-  autoload :Decomposition,        'art-decomp/decomposition'
-  autoload :Executable,           'art-decomp/executable'
-  autoload :FSM,                  'art-decomp/fsm'
-  autoload :Graph,                'art-decomp/graph'
-  autoload :KISS,                 'art-decomp/kiss'
-  autoload :Sep,                  'art-decomp/sep'
-  autoload :UVRelevanceGenerator, 'art-decomp/uv_relevance_generator'
-  autoload :VHDL,                 'art-decomp/vhdl'
+  autoload :AmbiguousEncodingQuery, 'art-decomp/ambiguous_encoding_query'
+  autoload :Arch,                   'art-decomp/arch'
+  autoload :B,                      'art-decomp/b'
+  autoload :Bipainter,              'art-decomp/bipainter'
+  autoload :Blanket,                'art-decomp/blanket'
+  autoload :Decomposer,             'art-decomp/decomposer'
+  autoload :Decomposition,          'art-decomp/decomposition'
+  autoload :Executable,             'art-decomp/executable'
+  autoload :FSM,                    'art-decomp/fsm'
+  autoload :Graph,                  'art-decomp/graph'
+  autoload :KISS,                   'art-decomp/kiss'
+  autoload :PaintingError,          'art-decomp/painting_error'
+  autoload :Sep,                    'art-decomp/sep'
+  autoload :UVRelevanceGenerator,   'art-decomp/uv_relevance_generator'
+  autoload :VHDL,                   'art-decomp/vhdl'
 
   module QuGenerator
     autoload :BlockTable, 'art-decomp/qu_generator/block_table'
