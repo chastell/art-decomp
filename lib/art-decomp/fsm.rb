@@ -9,8 +9,8 @@ module ArtDecomp class FSM
     codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map { |_, state, code| [state[7..-1].to_sym, code.to_sym] }] if codes.empty?
     kiss.lines do |line|
       case line
-      when /^\s*[01-]+\s+\S+\s+\S+\s+[01-]+\s*$/ then ins, st, nxt, outs = *line.split
-      when /^\s*[01-]+\s+[01-]+\s*$/             then st, nxt, ins, outs = DontCare, DontCare, *line.split
+      when /^\s*[\d-]+\s+\S+\s+\S+\s+[\d-]+\s*$/ then ins, st, nxt, outs = *line.split
+      when /^\s*[\d-]+\s+[\d-]+\s*$/             then st, nxt, ins, outs = DontCare, DontCare, *line.split
       when /^\.end_kiss$/                        then break
       else next
       end
