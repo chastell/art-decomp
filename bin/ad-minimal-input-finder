@@ -9,5 +9,10 @@ f_seps = fsm.beta_f.seps
 i_seps = Array.new(fsm.input_count)  { |i| fsm.beta_x(Set[i]).seps & f_seps }
 o_seps = Array.new(fsm.output_count) { |o| fsm.beta_y(Set[o]).seps          }
 
+u_seps = i_seps.map.with_index { |seps, i| seps - i_seps.select.with_index { |_, o| o != i }.inject(:+) }
+
 puts "useful separations: #{i_seps.map &:size}"
 puts "unnecessary inputs: #{(0...fsm.input_count).select { |i| i_seps[i].empty? }}"
+puts
+puts "unique separations: #{u_seps.map &:size}"
+puts "required inputs:    #{(0...fsm.input_count).reject { |i| u_seps[i].empty? }}"
