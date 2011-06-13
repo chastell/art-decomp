@@ -14,3 +14,26 @@ puts
 puts "unique separations: #{u_seps.values.map &:size}"
 puts "required inputs:    #{u_seps.reject { |_, seps| seps.empty? }.keys}"
 puts
+
+i_seps.delete_if { |_, seps| seps.empty? }
+
+combs = Set[]
+
+total = (1...i_seps.keys.size).map do |size|
+  n = i_seps.keys.size
+  k = size
+  (1..n).inject(:*) / ((1..(n-k)).inject(:*) * (1..k).inject(:*))
+end.inject(:+)
+
+count = 0
+
+(1...i_seps.keys.size).each do |size|
+  i_seps.keys.combination(size).each do |comb|
+    print "\r#{(count += 1).to_s.rjust total.to_s.size}/#{total} #{(count * 100 / total).to_s.rjust 3}%"
+    comb = comb.to_set
+    next if combs.any? { |c| c.subset? comb }
+    combs << comb if i_seps.select { |i, _| comb.include? i }.values.inject(:+).superset? f_seps
+  end
+end
+
+puts "\rminimal input sets: #{combs.size}"
