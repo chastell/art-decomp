@@ -37,3 +37,5 @@ count = 0
 end
 
 puts "\rminimal input sets: #{combs.size}"
+
+combs.each { |comb| p comb }
