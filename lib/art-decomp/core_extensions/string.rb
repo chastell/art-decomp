@@ -1,4 +1,4 @@
-class String
+module ArtDecomp module CoreExtensions::String
 
   def dc_expand columns = 0...size
     return [self] unless include? ArtDecomp::DontCare.to_s
@@ -10,4 +10,4 @@ class String
     [zero.dc_expand(columns), one.dc_expand(columns)].flatten
   end
 
-end
+end end

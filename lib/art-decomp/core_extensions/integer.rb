@@ -1,4 +1,4 @@
-class Integer
+module ArtDecomp module CoreExtensions::Integer
 
   # FIXME: consider right-shifting self and counting ones
   def bits
@@ -10,4 +10,4 @@ class Integer
     (self - 1).to_s(2).size
   end
 
-end
+end end

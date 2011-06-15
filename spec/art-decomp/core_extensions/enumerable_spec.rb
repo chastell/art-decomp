@@ -1,4 +1,4 @@
-describe Enumerable do
+module ArtDecomp describe CoreExtensions::Enumerable do
 
   describe '#pairs' do
 
@@ -16,4 +16,4 @@ describe Enumerable do
 
   end
 
-end
+end end

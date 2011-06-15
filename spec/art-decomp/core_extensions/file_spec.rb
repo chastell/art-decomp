@@ -1,4 +1,4 @@
-describe File do
+module ArtDecomp describe CoreExtensions::File do
 
   describe '.dump_object' do
 
@@ -10,4 +10,4 @@ describe File do
 
   end
 
-end
+end end

@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-describe Set do
+module ArtDecomp describe CoreExtensions::Set do
 
   describe '#hash' do
 
@@ -11,8 +11,6 @@ describe Set do
   end
 
   describe '#r_adm' do
-
-    B, Sep = ArtDecomp::B, ArtDecomp::Sep
 
     it 'returns the given block’s r-admissibility' do
       b = B[1,2,3,4]
@@ -27,4 +25,4 @@ describe Set do
 
   end
 
-end
+end end

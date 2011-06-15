@@ -1,4 +1,4 @@
-class Set
+module ArtDecomp module CoreExtensions::Set
 
   def r_adm int
     # FIXME: consider an algorithm with lesser complexity
@@ -13,4 +13,4 @@ class Set
     subblocks.size.log2_ceil
   end
 
-end
+end end

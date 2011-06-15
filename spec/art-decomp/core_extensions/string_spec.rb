@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-describe String do
+module ArtDecomp describe CoreExtensions::String do
 
   describe '#dc_expand' do
 
@@ -18,4 +18,4 @@ describe String do
 
   end
 
-end
+end end

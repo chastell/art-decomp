@@ -1,12 +1,6 @@
 require 'set'
 require 'yaml'
 
-require_relative 'core/enumerable'
-require_relative 'core/file'
-require_relative 'core/integer'
-require_relative 'core/set'
-require_relative 'core/string'
-
 module ArtDecomp
 
   DontCare = :-
@@ -27,6 +21,14 @@ module ArtDecomp
   autoload :UVRelevanceGenerator,   'art-decomp/uv_relevance_generator'
   autoload :VHDL,                   'art-decomp/vhdl'
 
+  module CoreExtensions
+    autoload :Enumerable, 'art-decomp/core_extensions/enumerable'
+    autoload :File,       'art-decomp/core_extensions/file'
+    autoload :Integer,    'art-decomp/core_extensions/integer'
+    autoload :Set,        'art-decomp/core_extensions/set'
+    autoload :String,     'art-decomp/core_extensions/string'
+  end
+
   module QuGenerator
     autoload :BlockTable, 'art-decomp/qu_generator/block_table'
     autoload :EdgeLabels, 'art-decomp/qu_generator/edge_labels'
@@ -44,4 +46,25 @@ module ArtDecomp
     autoload :UniqueRelevance,  'art-decomp/uv_generator/unique_relevance'
   end
 
+end
+
+class Array
+  include ArtDecomp::CoreExtensions::Enumerable
+end
+
+class File
+  extend ArtDecomp::CoreExtensions::File::ClassMethods
+end
+
+class Integer
+  include ArtDecomp::CoreExtensions::Integer
+end
+
+class Set
+  include ArtDecomp::CoreExtensions::Enumerable
+  include ArtDecomp::CoreExtensions::Set
+end
+
+class String
+  include ArtDecomp::CoreExtensions::String
 end

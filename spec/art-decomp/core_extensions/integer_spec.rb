@@ -1,4 +1,4 @@
-describe Integer do
+module ArtDecomp describe CoreExtensions::Integer do
 
   describe '#bits' do
 
@@ -21,4 +21,4 @@ describe Integer do
 
   end
 
-end
+end end
