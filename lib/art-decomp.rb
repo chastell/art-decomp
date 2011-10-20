@@ -1,5 +1,3 @@
-$LOAD_PATH << File.dirname(__FILE__)
-
 require 'set'
 require 'yaml'
 
@@ -7,48 +5,45 @@ module ArtDecomp
 
   DontCare = :-
 
-  autoload :AmbiguousEncodingQuery, 'art-decomp/ambiguous_encoding_query'
-  autoload :Arch,                   'art-decomp/arch'
-  autoload :B,                      'art-decomp/b'
-  autoload :Bipainter,              'art-decomp/bipainter'
-  autoload :Blanket,                'art-decomp/blanket'
-  autoload :Decomposer,             'art-decomp/decomposer'
-  autoload :Decomposition,          'art-decomp/decomposition'
-  autoload :Executable,             'art-decomp/executable'
-  autoload :FSM,                    'art-decomp/fsm'
-  autoload :Graph,                  'art-decomp/graph'
-  autoload :KISS,                   'art-decomp/kiss'
-  autoload :PaintingError,          'art-decomp/painting_error'
-  autoload :Sep,                    'art-decomp/sep'
-  autoload :UVRelevanceGenerator,   'art-decomp/uv_relevance_generator'
-  autoload :VHDL,                   'art-decomp/vhdl'
-
-  module CoreExtensions
-    autoload :Enumerable, 'art-decomp/core_extensions/enumerable'
-    autoload :File,       'art-decomp/core_extensions/file'
-    autoload :Integer,    'art-decomp/core_extensions/integer'
-    autoload :Set,        'art-decomp/core_extensions/set'
-    autoload :String,     'art-decomp/core_extensions/string'
-  end
-
-  module QuGenerator
-    autoload :BlockTable, 'art-decomp/qu_generator/block_table'
-    autoload :EdgeLabels, 'art-decomp/qu_generator/edge_labels'
-  end
-
-  module QvGenerator
-    autoload :Bipainting,     'art-decomp/qv_generator/bipainting'
-    autoload :GraphColouring, 'art-decomp/qv_generator/graph_colouring'
-    autoload :GraphMerging,   'art-decomp/qv_generator/graph_merging'
-  end
-
-  module UVGenerator
-    autoload :Braindead,        'art-decomp/uv_generator/braindead'
-    autoload :GeneralRelevance, 'art-decomp/uv_generator/general_relevance'
-    autoload :UniqueRelevance,  'art-decomp/uv_generator/unique_relevance'
-  end
+  module CoreExtensions; end
+  module QuGenerator;    end
+  module QvGenerator;    end
+  module UVGenerator;    end
 
 end
+
+require_relative 'art-decomp/ambiguous_encoding_query'
+require_relative 'art-decomp/arch'
+require_relative 'art-decomp/b'
+require_relative 'art-decomp/bipainter'
+require_relative 'art-decomp/blanket'
+require_relative 'art-decomp/decomposer'
+require_relative 'art-decomp/decomposition'
+require_relative 'art-decomp/executable'
+require_relative 'art-decomp/fsm'
+require_relative 'art-decomp/graph'
+require_relative 'art-decomp/kiss'
+require_relative 'art-decomp/painting_error'
+require_relative 'art-decomp/sep'
+require_relative 'art-decomp/uv_relevance_generator'
+require_relative 'art-decomp/vhdl'
+
+require_relative 'art-decomp/core_extensions/enumerable'
+require_relative 'art-decomp/core_extensions/file'
+require_relative 'art-decomp/core_extensions/integer'
+require_relative 'art-decomp/core_extensions/set'
+require_relative 'art-decomp/core_extensions/string'
+
+require_relative 'art-decomp/qu_generator/block_table'
+require_relative 'art-decomp/qu_generator/edge_labels'
+
+require_relative 'art-decomp/qv_generator/bipainting'
+require_relative 'art-decomp/qv_generator/graph_colouring'
+require_relative 'art-decomp/qv_generator/graph_merging'
+
+require_relative 'art-decomp/uv_generator/braindead'
+require_relative 'art-decomp/uv_generator/general_relevance'
+require_relative 'art-decomp/uv_generator/unique_relevance'
 
 class Array
   include ArtDecomp::CoreExtensions::Enumerable
