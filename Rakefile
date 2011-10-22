@@ -19,4 +19,4 @@ task :console do
   IRB.start
 end
 
-task default: :spec
+task default: :test
