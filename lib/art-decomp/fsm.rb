@@ -70,7 +70,7 @@ module ArtDecomp class FSM
 
   def expand_x ins
     return self unless ins.any? { |i| @inputs[i].include? DontCare }
-    FSM.from_kiss to_kiss.lines.map { |line| line.dc_expand(ins) }.flatten.sort.join
+    FSM.from_kiss to_kiss.lines.map { |line| line.extend(CoreExtensions::String).dc_expand(ins) }.flatten.sort.join
   end
 
   def fsm_cells archs

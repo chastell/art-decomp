@@ -61,7 +61,3 @@ class Set
   include ArtDecomp::CoreExtensions::Enumerable
   include ArtDecomp::CoreExtensions::Set
 end
-
-class String
-  include ArtDecomp::CoreExtensions::String
-end

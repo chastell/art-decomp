@@ -7,7 +7,7 @@ module ArtDecomp module CoreExtensions::String
     return [self] unless columns.include? i
     zero,    one    = dup, dup
     zero[i], one[i] = '0', '1'
-    [zero.dc_expand(columns), one.dc_expand(columns)].flatten
+    [zero.extend(CoreExtensions::String).dc_expand(columns), one.extend(CoreExtensions::String).dc_expand(columns)].flatten
   end
 
 end end
