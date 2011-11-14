@@ -9,6 +9,7 @@ module ArtDecomp class Decomposer
   end
 
   def decompositions opts = {}
+    dec_class = opts.fetch :dec_class, Decomposition
     @seen = Set[]
     Enumerator.new do |yielder|
       @uv_gens.each do |uv_gen|
@@ -20,7 +21,7 @@ module ArtDecomp class Decomposer
                   @qv_gens.each do |qv_gen|
                     qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
                       unless @seen.include? [fsm, u, v, qu, qv, g]
-                        dec = Decomposition.new fsm, u, v, qu, qv, g
+                        dec = dec_class.new fsm, u, v, qu, qv, g
                         if dec.sensible? @archs
                           if opts[:non_disjoint]
                             non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
