@@ -48,6 +48,7 @@ module ArtDecomp class Decomposer
   private
 
   def non_disjoint fsm, u_dj, v, qu, qv_dj, g_dj, opts
+    dec_class = opts.fetch :dec_class, Decomposition
     Enumerator.new do |yielder|
       (v - u_dj).each do |v_input|
         u = u_dj + [v_input]
@@ -55,7 +56,7 @@ module ArtDecomp class Decomposer
           @qv_gens.each do |qv_gen|
             qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
               unless @seen.include? [fsm, u, v, qu, qv, g]
-                dec = Decomposition.new fsm, u, v, qu, qv, g
+                dec = dec_class.new fsm, u, v, qu, qv, g
                 if dec.sensible? @archs and g.pins < g_dj.pins
                   if opts[:deep_ndj]
                     non_disjoint(fsm, u, v, qu, qv, g, opts).each do |ndj|
