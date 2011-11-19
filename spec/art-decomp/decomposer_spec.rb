@@ -1,110 +1,138 @@
+require_relative '../spec_helper'
+
 module ArtDecomp describe Decomposer do
-
   describe '.new' do
-
     it 'instantiates the generators' do
-      fsm      = mock FSM
-      archs    = Set[Arch[5,1], Arch[4,2]]
-      uv1, uv2 = mock('UVGenerator class'), mock('UVGenerator class')
-      qu1, qu2 = mock('QuGenerator class'), mock('QuGenerator class')
-      qv1, qv2 = mock('QvGenerator class'), mock('QvGenerator class')
-      [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.should_receive(:new).with no_args }
-      Decomposer.new fsm: fsm, archs: archs, uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
+      uv1, uv2 = MiniTest::Mock.new, MiniTest::Mock.new
+      qu1, qu2 = MiniTest::Mock.new, MiniTest::Mock.new
+      qv1, qv2 = MiniTest::Mock.new, MiniTest::Mock.new
+      [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.expect :new, nil }
+      Decomposer.new uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
+      [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.verify }
     end
-
   end
 
   describe '#decompositions' do
-
     class StubGenerator
-      def initialize sequences
-        @sequences = sequences
-      end
-      def elems *key, &block
-        @sequences[key].each &block
-      end
-      alias uv_pairs elems
-      alias blankets elems
+      def initialize sequences;  @sequences = sequences;      end
+      def blankets *key, &block; @sequences[key].each &block; end
+      def uv_pairs *key, &block; @sequences[key].each &block; end
     end
 
     it 'polls the generators and yields the resulting decompositions one by one' do
-      fsm = mock FSM, beta_q: mock(Blanket, pins: 3, size: 5), input_count: 4
+      fsm   = FSM.from_kiss 'spec/fixtures/fsm'
       archs = Set[Arch[5,1]]
 
       u_a, v_a = Set[0,1], Set[2] # for this U/V pair: two Qu generating one Qv/G pair each
-      qu_a1, qv_a1, g_a1 = mock(Blanket, pins: 2, size: 4), mock(Blanket, pins: 3, size: 5), mock(Blanket, pins: 2)
-      qu_a2, qv_a2, g_a2 = mock(Blanket, pins: 2, size: 4), mock(Blanket, pins: 3, size: 5), mock(Blanket, pins: 2)
+      qu_a1 = Object.new; def qu_a1.pins; 2; end; def qu_a1.size; 4; end
+      qv_a1 = Object.new; def qv_a1.pins; 3; end; def qv_a1.size; 5; end
+      g_a1  = Object.new; def g_a1.pins;  2; end
+      qu_a2 = Object.new; def qu_a2.pins; 2; end; def qu_a2.size; 4; end
+      qv_a2 = Object.new; def qv_a2.pins; 3; end; def qv_a2.size; 5; end
+      g_a2  = Object.new; def g_a2.pins;  2; end
 
       u_b, v_b = Set[0], Set[1,2] # for this U/V pair: one Qu generating two Qv/G pairs
-      qu_b = mock Blanket, pins: 2, size: 4
-      qv_bA, g_bA = mock(Blanket, pins: 3, size: 5), mock(Blanket, pins: 2)
-      qv_bB, g_bB = mock(Blanket, pins: 3, size: 5), mock(Blanket, pins: 2)
+      qu_b  = Object.new; def qu_b.pins;  2; end; def qu_b.size;  4; end
+      qv_bA = Object.new; def qv_bA.pins; 3; end; def qv_bA.size; 5; end
+      g_bA  = Object.new; def g_bA.pins;  2; end
+      qv_bB = Object.new; def qv_bB.pins; 3; end; def qv_bB.size; 5; end
+      g_bB  = Object.new; def g_bB.pins;  2; end
 
-      uv_gen = mock UVGenerator, new: StubGenerator.new({[fsm, archs] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
-      qu_gen = mock QuGenerator, new: StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
-                                                         [fsm, u_b, v_b] => [qu_b]})
-      qv_gen = mock QvGenerator, new: StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
-                                                         [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
-                                                         [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
+      uv_gen = MiniTest::Mock.new
+      uv_gen.expect :new, StubGenerator.new({[fsm, archs] => [[fsm, u_a, v_a], [fsm, u_b, v_b]]})
+      qu_gen = MiniTest::Mock.new
+      qu_gen.expect :new, StubGenerator.new({[fsm, u_a, v_a] => [qu_a1, qu_a2],
+                                             [fsm, u_b, v_b] => [qu_b]})
+      qv_gen = MiniTest::Mock.new
+      qv_gen.expect :new, StubGenerator.new({[fsm, u_a, v_a, qu_a1] => [[qv_a1, g_a1]],
+                                             [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
+                                             [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
       decomposer = Decomposer.new archs: archs, fsm: fsm, uv_gens: [uv_gen], qu_gens: [qu_gen], qv_gens: [qv_gen]
       results = decomposer.decompositions.to_a
-      results.size.should  == 4
-      results.first.should == Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
-      results.last.should  == Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
+      results.size.must_equal  4
+      results.first.must_equal Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
+      results.last.must_equal  Decomposition.new(fsm, u_b, v_b, qu_b,  qv_bB, g_bB)
     end
 
     it 'yields only sensible decompositions' do
-      fsm    = mock FSM
-      uv_gen = mock UVGenerator,   uv_pairs:  [[fsm, Set[0], Set[1]]]
-      qu_gen = mock QuGenerator,   blankets:  [mock(Blanket)]
-      qv_gen = mock QvGenerator,   blankets:  [[mock(Blanket), mock(Blanket)], [mock(Blanket), mock(Blanket)]]
-      dec1   = mock Decomposition, sensible?: true
-      dec2   = mock Decomposition, sensible?: false
-      Decomposition.should_receive(:new).exactly(2).times.and_return dec1, dec2
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [mock('UVG', new: uv_gen)], qu_gens: [mock('QuG', new: qu_gen)], qv_gens: [mock('QvG', new: qv_gen)]
-      decomposer.decompositions.to_a.should == [dec1]
+      fsm    = FSM.from_kiss 'spec/fixtures/fsm'
+      uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0], Set[1]]], [FSM, Set]
+      qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [Blanket.new([])], [FSM, Set, Set]
+      qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[Blanket.new([]), Blanket.new([])], [Blanket.new([]), Blanket.new([])]], [FSM, Set, Set, Object]
+      class FakeDecomposition
+        def self.new *_
+          pos = MiniTest::Mock.new; pos.expect :sensible?, true,  [Set]
+          neg = MiniTest::Mock.new; neg.expect :sensible?, false, [Set]
+          @decs ||= [pos, neg]
+          @decs.shift
+        end
+      end
+      uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
+      qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
+      qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
+      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 1
     end
 
     it 'skips re-computing elements it already computed once (unless told not to)' do
-      qu1, qu2, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket), mock(Blanket)
-      fsm    = mock FSM
-      uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0], Set[1]], [fsm, Set[0], Set[1]], [fsm, Set[1], Set[0]]]
-      qu_gen = mock QuGenerator, blankets: [qu1, qu1, qu2]
-      qv_gen = mock QvGenerator, blankets: [[qv, g1], [qv, g1], [qv, g2]]
-      dec    = mock Decomposition, sensible?: true
-      Decomposition.should_receive(:new).exactly(8).times.and_return dec
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [mock('UVG', new: uv_gen)], qu_gens: [mock('QuG', new: qu_gen)], qv_gens: [mock('QvG', new: qv_gen)]
-      decomposer.decompositions.to_a.size.should == 8
-      Decomposition.should_receive(:new).exactly(27).times.and_return dec
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [mock('UVG', new: uv_gen)], qu_gens: [mock('QuG', new: qu_gen)], qv_gens: [mock('QvG', new: qv_gen)]
-      decomposer.decompositions(keep_seen: true).to_a.size.should == 27
+      qu1, qu2, qv, g1, g2 = Object.new, Object.new, Object.new, Object.new, Object.new
+      fsm    = FSM.from_kiss 'spec/fixtures/fsm'
+      uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0], Set[1]], [fsm, Set[0], Set[1]], [fsm, Set[1], Set[0]]], [FSM, Set]
+      qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu1, qu1, qu2], [FSM, Set, Set]
+      qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g1], [qv, g1], [qv, g2]], [FSM, Set, Set, Object]
+      class FakeDecomposition
+        def self.new *_
+          MiniTest::Mock.new.expect :sensible?, true, [Set]
+        end
+      end
+      uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
+      qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
+      qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
+      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 8
+      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer.decompositions(dec_class: FakeDecomposition, keep_seen: true).to_a.size.must_equal 27
     end
 
     it 'computes shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
-      qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, pins: 1), mock(Blanket, pins: 2)
-      fsm    = mock FSM
-      uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0,1], Set[2,3]]]
-      qu_gen = mock QuGenerator, blankets: [qu]
-      qv_gen = mock QvGenerator, blankets: [[qv, g2], [qv, g1]]
-      dec    = mock Decomposition, sensible?: true
-      Decomposition.should_receive(:new).exactly(6).times.and_return dec
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [mock('UVG', new: uv_gen)], qu_gens: [mock('QuG', new: qu_gen)], qv_gens: [mock('QvG', new: qv_gen)]
-      decomposer.decompositions(non_disjoint: true).to_a.size.should == 4
+      qu, qv, g1, g2 = Object.new, Object.new, Object.new, Object.new
+      def g1.pins; 1; end
+      def g2.pins; 2; end
+      fsm    = Object.new
+      uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0,1], Set[2,3]]], [FSM, Set]
+      qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu], [FSM, Set, Set]
+      qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g2], [qv, g1]], [FSM, Set, Set, Object]
+      class FakeDecomposition
+        def self.new *_
+          MiniTest::Mock.new.expect :sensible?, true, [Set]
+        end
+      end
+      uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
+      qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
+      qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
+      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true).to_a.size.must_equal 4
     end
 
     it 'computes deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
-      qu, qv, g1, g2 = mock(Blanket), mock(Blanket), mock(Blanket, pins: 1), mock(Blanket, pins: 2)
-      fsm    = mock FSM
-      uv_gen = mock UVGenerator, uv_pairs: [[fsm, Set[0,1], Set[2,3]]]
-      qu_gen = mock QuGenerator, blankets: [qu]
-      qv_gen = mock QvGenerator, blankets: [[qv, g2], [qv, g1]]
-      dec    = mock Decomposition, sensible?: true
-      Decomposition.should_receive(:new).exactly(8).times.and_return dec
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [mock('UVG', new: uv_gen)], qu_gens: [mock('QuG', new: qu_gen)], qv_gens: [mock('QvG', new: qv_gen)]
-      decomposer.decompositions(non_disjoint: true, deep_ndj: true).to_a.size.should == 4
+      qu, qv, g1, g2 = Object.new, Object.new, Object.new, Object.new
+      def g1.pins; 1; end
+      def g2.pins; 2; end
+      fsm    = Object.new
+      uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0,1], Set[2,3]]], [FSM, Set]
+      qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu], [FSM, Set, Set]
+      qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g2], [qv, g1]], [FSM, Set, Set, Object]
+      class FakeDecomposition
+        def self.new *_
+          MiniTest::Mock.new.expect :sensible?, true, [Set]
+        end
+      end
+      uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
+      qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
+      qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
+      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true, deep_ndj: true).to_a.size.must_equal 4
     end
-
   end
-
 end end

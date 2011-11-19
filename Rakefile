@@ -2,13 +2,9 @@
 
 require 'rake/testtask'
 
-Rake::TestTask.new do |task|
-  task.test_files = FileList['test/**/*_spec.rb']
+Rake::TestTask.new :spec do |task|
+  task.test_files = FileList['spec/**/*_spec.rb']
 end
-
-require 'rspec/core/rake_task'
-
-RSpec::Core::RakeTask.new :spec
 
 desc 'Run art décomp console'
 task :console do
@@ -19,4 +15,4 @@ task :console do
   IRB.start
 end
 
-task default: :test
+task default: :spec

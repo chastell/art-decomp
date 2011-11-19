@@ -1,10 +1,12 @@
+require_relative '../spec_helper'
+
 module ArtDecomp describe Sep do
 
   describe '.[]' do
 
     it 'constructs an Integer with set bits representing the separation' do
-      Sep[1,2].should  == 0b110
-      Sep[0,69].should == 2**69 + 0b1
+      Sep[1,2].must_equal  0b110
+      Sep[0,69].must_equal 2**69 + 0b1
     end
 
   end
@@ -12,8 +14,8 @@ module ArtDecomp describe Sep do
   describe '#hash' do
 
     it 'hashes uniformly' do
-      Sep[1,2].hash.should  == 0b110.hash
-      Sep[0,69].hash.should == (2**69 + 0b1).hash
+      Sep[1,2].hash.must_equal  0b110.hash
+      Sep[0,69].hash.must_equal (2**69 + 0b1).hash
     end
 
   end

@@ -1,5 +1,7 @@
 # encoding: UTF-8
 
+require_relative '../spec_helper'
+
 module ArtDecomp describe Graph do
 
   before do
@@ -11,12 +13,12 @@ module ArtDecomp describe Graph do
   describe '.new' do
 
     it 'drops vertices covered by other vertices upon initialisation' do
-      Graph.new(Blanket[B[1,2], B[2]], Set[]).vertices.should == Set[B[1,2]]
+      Graph.new(Blanket[B[1,2], B[2]], Set[]).vertices.must_equal Set[B[1,2]]
     end
 
     it 'creates only the necessary edges' do
       blanket = Blanket[B[1,2,3], B[1,2,4], B[1,5], B[2,6]]
-      Graph.new(blanket, Set[Sep[1,2]]).edges.should == Set[Set[B[1,5], B[2,6]]]
+      Graph.new(blanket, Set[Sep[1,2]]).edges.must_equal Set[Set[B[1,5], B[2,6]]]
     end
 
   end
@@ -24,9 +26,9 @@ module ArtDecomp describe Graph do
   describe '#adjacent' do
 
     it 'returns the given vertex’s adjacent vertices' do
-      @graph.adjacent(B[3,4]).should == Set[B[5,6]]
-      @graph.adjacent(B[1,2]).should == Set[]
-      @graph.adjacent(B[5,6], B[7]).should == Set[B[3,4], B[8,9]]
+      @graph.adjacent(B[3,4]).must_equal Set[B[5,6]]
+      @graph.adjacent(B[1,2]).must_equal Set[]
+      @graph.adjacent(B[5,6], B[7]).must_equal Set[B[3,4], B[8,9]]
     end
 
   end
@@ -35,8 +37,8 @@ module ArtDecomp describe Graph do
 
     it 'returns the proper Blanket obtained by colouring the vertices' do
       blanket = @graph.blanket_from_colouring
-      blanket.size.should == 3
-      blanket.ints.should include(B[1,2,5,6])
+      blanket.size.must_equal 3
+      assert blanket.ints.include? B[1,2,5,6]
     end
 
   end
@@ -45,8 +47,8 @@ module ArtDecomp describe Graph do
 
     it 'reports whether it’s complete' do
       complete = Graph.new Blanket[B[1], B[2], B[3]], Set[Sep[1,2], Sep[1,3], Sep[2,3]]
-      complete.should   be_complete
-      @graph.should_not be_complete
+      assert complete.complete?
+      refute @graph.complete?
     end
 
   end
@@ -55,7 +57,7 @@ module ArtDecomp describe Graph do
 
     it 'returns vertex degrees' do
       degrees = {B[1,2] => 0, B[3,4] => 1, B[5,6] => 3, B[7] => 2, B[8,9] => 2}
-      degrees.each { |vert, deg| @graph.degree(vert).should == deg }
+      degrees.each { |vert, deg| @graph.degree(vert).must_equal deg }
     end
 
   end
@@ -63,7 +65,7 @@ module ArtDecomp describe Graph do
   describe '#edges' do
 
     it 'returns the Graph’s edges' do
-      @graph.edges.should == Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]], Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
+      @graph.edges.must_equal Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]], Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
     end
 
   end
@@ -73,12 +75,12 @@ module ArtDecomp describe Graph do
     it 'merges based on edge weights and returns self' do
       b1234 = Blanket[B[1], B[2], B[3], B[4]]
       graph = Graph.new b1234, b1234.seps
-      graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
-      graph.vertices.should == Set[B[1,2,3], B[4]]
-      graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
-      graph.vertices.should == Set[B[1,2,3,4]]
-      graph.merge_by_edge_labels! { |a, b| a | b }.should be_a(Graph)
-      graph.vertices.should == Set[B[1,2,3,4]]
+      assert graph.merge_by_edge_labels! { |a, b| a | b }.is_a? Graph
+      graph.vertices.must_equal Set[B[1,2,3], B[4]]
+      assert graph.merge_by_edge_labels! { |a, b| a | b }.is_a? Graph
+      graph.vertices.must_equal Set[B[1,2,3,4]]
+      assert graph.merge_by_edge_labels! { |a, b| a | b }.is_a? Graph
+      graph.vertices.must_equal Set[B[1,2,3,4]]
     end
 
   end
@@ -87,10 +89,10 @@ module ArtDecomp describe Graph do
 
     it 'merges based on vertex degrees and returns self' do
       graph = Graph.new Blanket[B[1], B[2], B[3], B[4], B[5], B[6]], Set[Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
-      graph.merge_by_vertex_degrees!.should be_a(Graph)
-      graph.vertices.should == Set[B[1,2,4], B[3], B[5], B[6]]
-      graph.merge_by_vertex_degrees!.should be_a(Graph)
-      graph.vertices.size.should == 3
+      assert graph.merge_by_vertex_degrees!.is_a? Graph
+      graph.vertices.must_equal Set[B[1,2,4], B[3], B[5], B[6]]
+      assert graph.merge_by_vertex_degrees!.is_a? Graph
+      graph.vertices.size.must_equal 3
     end
 
   end
@@ -98,10 +100,10 @@ module ArtDecomp describe Graph do
   describe '#merge_until_complete!' do
 
     it 'merges until it’s complete and returns self' do
-      @graph.merge_until_complete!.should be_a(Graph)
-      @graph.vertices.size.should == 3
-      @graph.vertices.should include(B[1,2,5,6])
-      @graph.should be_complete
+      assert @graph.merge_until_complete!.is_a? Graph
+      @graph.vertices.size.must_equal 3
+      assert @graph.vertices.include? B[1,2,5,6]
+      assert @graph.complete?
     end
 
   end
@@ -109,7 +111,7 @@ module ArtDecomp describe Graph do
   describe '#vertices' do
 
     it 'returns the Graph’s vertices' do
-      @graph.vertices.should == Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
+      @graph.vertices.must_equal Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
     end
 
   end

@@ -1,3 +1,5 @@
+require_relative '../spec_helper'
+
 module ArtDecomp describe Bipainter do
 
   describe '#blankets' do
@@ -8,11 +10,11 @@ module ArtDecomp describe Bipainter do
       seps   = Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]
 
       bipainter = Bipainter.new beta_q, beta_v, seps
-      bipainter.blankets.should == [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
+      bipainter.blankets.must_equal [Blanket[B[1,2], B[3,4,5,6]], Blanket[B[1], B[2,3,5], B[4,6]]]
     end
 
     it 'raises a RuntimeError on non-disjoint beta_v' do
-      lambda { Bipainter.new Blanket[], Blanket[B[0,1], B[0,2]], Set[] }.should raise_error(RuntimeError, 'non-disjoint beta_v')
+      -> { Bipainter.new Blanket[], Blanket[B[0,1], B[0,2]], Set[] }.must_raise RuntimeError
     end
 
   end

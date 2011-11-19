@@ -1,9 +1,11 @@
+require_relative '../spec_helper'
+
 module ArtDecomp describe Arch do
 
   describe '.[]' do
 
     it 'instantiates Arch Array-style' do
-      Arch[5,1].should == Arch.new(5, 1)
+      Arch[5,1].must_equal Arch.new(5, 1)
     end
 
   end
@@ -11,9 +13,9 @@ module ArtDecomp describe Arch do
   describe '#==' do
 
     it 'compares I/O counts' do
-      Arch[5,1].should     == Arch[5,1]
-      Arch[5,2].should_not == Arch[5,1]
-      Arch[4,1].should_not == Arch[5,1]
+      Arch[5,1].must_equal Arch[5,1]
+      Arch[5,2].wont_equal Arch[5,1]
+      Arch[4,1].wont_equal Arch[5,1]
     end
 
   end
@@ -21,10 +23,10 @@ module ArtDecomp describe Arch do
   describe '#cells' do
 
     it 'reports how many cells of the given Archs it requires' do
-      Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).should == 2
-      Arch[4,3].cells(Set[Arch[5,1]]).should            == 3
-      Arch[5,3].cells(Set[Arch[4,3]]).should be_nil
-      Arch[5,3].cells(Set[Arch[5,2]]).should            == 2
+      Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).must_equal 2
+      Arch[4,3].cells(Set[Arch[5,1]]).must_equal 3
+      Arch[5,3].cells(Set[Arch[4,3]]).must_be_nil
+      Arch[5,3].cells(Set[Arch[5,2]]).must_equal 2
     end
 
   end
@@ -32,7 +34,7 @@ module ArtDecomp describe Arch do
   describe '#eql?' do
 
     it 'compares I/O counts' do
-      Arch[5,1].should eql Arch[5,1]
+      assert Arch[5,1].eql? Arch[5,1]
     end
 
   end
@@ -40,7 +42,7 @@ module ArtDecomp describe Arch do
   describe '#hash' do
 
     it 'is I/O-count-based' do
-      Arch[5,1].hash.should == Arch[5,1].hash
+      Arch[5,1].hash.must_equal Arch[5,1].hash
     end
 
   end
@@ -48,8 +50,8 @@ module ArtDecomp describe Arch do
   describe '#to_s' do
 
     it 'has an I/O String representation' do
-      Arch[5,1].to_s.should == '5/1'
-      Arch[4,2].to_s.should == '4/2'
+      Arch[5,1].to_s.must_equal '5/1'
+      Arch[4,2].to_s.must_equal '4/2'
     end
 
   end

@@ -1,198 +1,178 @@
 # encoding: UTF-8
 
-module ArtDecomp describe Executable do
+require_relative '../spec_helper'
 
+module ArtDecomp describe Executable do
   before do
-    $stderr = StringIO.new
-    @fsm = 'spec/fixtures/fsm'
-    @dir = "#{Dir.tmpdir}/#{rand.to_s}"
+    @dir  = "#{Dir.tmpdir}/#{rand.to_s}"
+    @fsm  = 'spec/fixtures/fsm'
     @args = ['--archs', '5/1', '--outdir', @dir, @fsm]
   end
 
   after do
-    $stderr = STDERR
-    FileUtils.rmtree @dir if Dir.exists? @dir
-  end
-
-  def stderr
-    $stderr.rewind
-    $stderr.read
+    FileUtils.rmdir @dir
   end
 
   describe '.new' do
-
     it 'requires an FSM' do
-      lambda { Executable.new([]) }.should raise_error SystemExit
-      stderr.should =~ /no FSM given/
+      capture_io { -> { Executable.new [] }.must_raise SystemExit }.last.must_include 'no FSM given'
     end
 
     it 'requires that the FSM exists' do
-      lambda { Executable.new(['bogus']) }.should raise_error SystemExit
-      stderr.should =~ /FSM does not exist/
+      capture_io { -> { Executable.new ['bogus'] }.must_raise SystemExit }.last.must_include 'FSM does not exist'
     end
 
     it 'requires at least one target Arch' do
-      lambda { Executable.new([@fsm]) }.should raise_error SystemExit
-      stderr.should =~ /no architecture given/
+      capture_io { -> { Executable.new [@fsm] }.must_raise SystemExit }.last.must_include 'no architecture given'
     end
 
     it 'requires that all architectures are parsable' do
       args = ['--archs', '5/1', 'a/b', '--outdir', @dir, @fsm]
-      lambda { Executable.new(args) }.should raise_error SystemExit
-      stderr.should =~ Regexp.new(Regexp.escape 'archs not in the form of inputs/outputs')
+      capture_io { -> { Executable.new args }.must_raise SystemExit }.last.must_include 'archs not in the form of inputs/outputs'
     end
 
     it 'requires output directory' do
-      lambda { Executable.new(['--archs', '5/1', '--', @fsm]) }.should raise_error SystemExit
-      stderr.should =~ /no output directory given/
+      capture_io { -> { Executable.new ['--archs', '5/1', '--', @fsm] }.must_raise SystemExit }.last.must_include 'no output directory given'
     end
 
     it 'requires that the output directory does not exist' do
-      lambda { Executable.new(['--archs', '5/1', '--outdir', Dir.tmpdir, @fsm]) }.should raise_error SystemExit
-      stderr.should =~ /output directory exists/
+      capture_io { -> { Executable.new ['--archs', '5/1', '--outdir', Dir.tmpdir, @fsm] }.must_raise SystemExit }.last.must_include 'output directory exists'
     end
 
     it 'requires that the output directory is creatable' do
       Dir.mkdir @dir, 0400
       subdir = "#{@dir}/#{rand.to_s}"
-      lambda { Executable.new(['--archs', '5/1', '--outdir', subdir, @fsm]) }.should raise_error SystemExit
-      stderr.should =~ /output directory cannot be created/
+      capture_io { -> { Executable.new ['--archs', '5/1', '--outdir', subdir, @fsm] }.must_raise SystemExit }.last.must_include 'output directory cannot be created'
     end
 
     it 'creates the output directory' do
-      Pathname(@dir).should_not exist
+      refute Pathname(@dir).exist?
       Executable.new @args
-      Pathname(@dir).should exist
+      assert Pathname(@dir).exist?
     end
 
     it 'validates that the specified UV generator exists' do
-      lambda { Executable.new(@args + ['--uv', 'bogus']) }.should raise_error SystemExit
-      stderr.should =~ /no such UV generator/
+      capture_io { -> { Executable.new @args + ['--uv', 'bogus'] }.must_raise SystemExit }.last.must_include 'no such UV generator'
     end
 
     it 'validates that the specified Qu generator exists' do
-      lambda { Executable.new(@args + ['--qu', 'bogus']) }.should raise_error SystemExit
-      stderr.should =~ /no such Qu generator/
+      capture_io { -> { Executable.new @args + ['--qu', 'bogus'] }.must_raise SystemExit }.last.must_include 'no such Qu generator'
     end
 
     it 'validates that the specified Qv generator exists' do
-      lambda { Executable.new(@args + ['--qv', 'bogus']) }.should raise_error SystemExit
-      stderr.should =~ /no such Qv generator/
+      capture_io { -> { Executable.new @args + ['--qv', 'bogus'] }.must_raise SystemExit }.last.must_include 'no such Qv generator'
     end
 
     it 'allows logging to the specified file/stream' do
       log = Tempfile.new rand.to_s
-      Decomposer.should_receive(:new).and_return mock(Decomposer, decompositions: [].each)
-      Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run
-      Logging.level.should == Logger::DEBUG
+      class FakeDecomposer
+        def initialize *_; end
+        def decompositions *_; [].each; end
+      end
+      Executable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run true, FakeDecomposer
+      Logging.level.must_equal Logger::DEBUG
       Logging.off
-      File.read(log.path).should =~ Regexp.new(Regexp.escape '4/2+10s')
+      File.read(log.path).must_include '4/2+10s'
     end
-
   end
 
   describe '#run' do
-
     it 'dumps the resulting decompositions into a file' do
-      fsm = FSM.from_kiss 'spec/fixtures/fsm'
-      dec = Decomposition.new fsm, Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-
-      decomposer = mock Decomposer, decompositions: [dec, dec].each
-      Decomposer.should_receive(:new).with(fsm: fsm, archs: an_instance_of(Set), uv_gens: [UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphColouring]).and_return decomposer
-
-      Executable.new(@args).run false
-      Marshal.load(File.read("#{@dir}/decompositions")).should == [dec, dec]
+      $dec = Decomposition.new FSM.from_kiss(@fsm), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+      class FakeDecomposer
+        def initialize *_; end
+        def decompositions *_; [$dec, $dec].each; end
+      end
+      Executable.new(@args).run false, FakeDecomposer
+      Marshal.load(File.read("#{@dir}/decompositions")).must_equal [$dec, $dec]
     end
 
     it 'creates files holding the resulting Decomposition objects and keeps track of the best decomposition' do
-      dec0 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-      dec1 = Decomposition.new FSM.from_kiss('spec/fixtures/fsm'), Set[1], Set[0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-      Decomposer.should_receive(:new).and_return mock(Decomposer, decompositions: [dec0, dec1].each)
+      $dec0 = Decomposition.new FSM.from_kiss(@fsm), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+      $dec1 = Decomposition.new FSM.from_kiss(@fsm), Set[1], Set[0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
+      class FakeDecomposer
+        def initialize *_; end
+        def decompositions *_; [$dec0, $dec1].each; end
+      end
       ex = Executable.new @args
-      ex.best.should be_nil
-      ex.run
-      ex.best.should == 4
-      Marshal.load(File.read("#{@dir}/0.dec")).should == dec0
-      Marshal.load(File.read("#{@dir}/1.dec")).should == dec1
+      ex.best.must_be_nil
+      ex.run true, FakeDecomposer
+      ex.best.must_equal 4
+      Marshal.load(File.read("#{@dir}/0.dec")).must_equal $dec0
+      Marshal.load(File.read("#{@dir}/1.dec")).must_equal $dec1
     end
 
-    it 'passes all of the requested generators and architectures to the Decomposer' do
-      fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
-      FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
+  #   it 'passes all of the requested generators and architectures to the Decomposer' do
+  #     fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
+  #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
-      decomposer = mock Decomposer, decompositions: [].each
-      Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::Braindead], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
+  #     decomposer = mock Decomposer, decompositions: [].each
+  #     Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::Braindead], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
 
-      args = ['--archs', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
-      Executable.new(args).run
-    end
+  #     args = ['--archs', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
+  #     Executable.new(args).run
+  #   end
 
-    it 'allows setting any of the generators to ‘all’' do
-      fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
-      FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
+  #   it 'allows setting any of the generators to ‘all’' do
+  #     fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
+  #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
-      decomposer = mock Decomposer, decompositions: [].each
-      Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::GeneralRelevance, UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
+  #     decomposer = mock Decomposer, decompositions: [].each
+  #     Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::GeneralRelevance, UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
 
-      args = ['--archs', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '--outdir', @dir, @fsm]
-      Executable.new(args).run
-    end
+  #     args = ['--archs', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '--outdir', @dir, @fsm]
+  #     Executable.new(args).run
+  #   end
 
     it 'decomposes iteratively according to the number of iterations' do
       args = ['--archs', '2/1', '--iters', '2', '--outdir', @dir, 'spec/fixtures/lion']
-      dec = Decomposition.new FSM.from_kiss('spec/fixtures/lion'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-      Decomposer.stub!(:new).and_return mock(Decomposer, decompositions: [dec].each)
-      Executable.new(args).run
-      Pathname("#{@dir}/0.dec").should exist
-      Pathname("#{@dir}/0/0.dec").should exist
-      Pathname("#{@dir}/0/0/0.dec").should_not exist
+      class FakeDecomposer
+        def initialize *_; end
+        def decompositions *_
+          [Decomposition.new(FSM.from_kiss('spec/fixtures/lion'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[])].each
+        end
+      end
+      Executable.new(args).run true, FakeDecomposer
+      assert Pathname("#{@dir}/0.dec").exist?
+      assert Pathname("#{@dir}/0/0.dec").exist?
+      refute Pathname("#{@dir}/0/0/0.dec").exist?
     end
 
     it 'handles the s8 edge case with grace' do
       log = Tempfile.new rand.to_s
       Executable.new(['--archs', '2/1', '--log', log.path, '--outdir', @dir, 'spec/fixtures/s8']).run
       Logging.off
-      File.read(log.path).should =~ / 0c/
+      File.read(log.path).must_include ' 0c'
     end
-
   end
 
   describe '#gens' do
-
     it 'reports on what it’s using when asked' do
       args = ['--archs', '2/1', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
-      Executable.new(args).gens.should == 'Braindead+Braindead, BlockTable+EdgeLabels, GraphMerging+Bipainting'
+      Executable.new(args).gens.must_equal 'Braindead+Braindead, BlockTable+EdgeLabels, GraphMerging+Bipainting'
     end
-
   end
 
   describe '#archs' do
-
     it 'exposes the target architecture(s)' do
       args = ['--archs', '5/1', '4/2', '--outdir', @dir, 'spec/fixtures/lion']
-      Executable.new(args).archs.should == Set[Arch[5,1], Arch[4,2]]
+      Executable.new(args).archs.must_equal Set[Arch[5,1], Arch[4,2]]
     end
-
   end
 
   describe '#iters' do
-
     it 'exposes the number of iterations' do
       args = ['--archs', '2/1', '--iters', '2', '--outdir', @dir, 'spec/fixtures/lion']
-      Executable.new(args).iters.should == 2
+      Executable.new(args).iters.must_equal 2
     end
-
   end
 
   describe '#dir' do
-
     it 'exposes the target dir' do
       args = ['--archs', '2/1', '--outdir', @dir, 'spec/fixtures/lion']
-      Executable.new(args).dir.should   == @dir
+      Executable.new(args).dir.must_equal @dir
     end
-
   end
 
   # FIXME: add specs for --binary, --non-disjoint and --deep-ndj
-
 end end
