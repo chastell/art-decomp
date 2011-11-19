@@ -60,10 +60,10 @@ module ArtDecomp class Executable
     end.join ', '
   end
 
-  def run dump_decs = true
+  def run dump_decs = true, decomposer_class = Decomposer
     @best = @fsm.fsm_cells @archs
     dumps = Hash.new { |h, k| h[k] = [] }
-    decompositions(@fsm, @iters, @dir, 0).each do |dec, dir, i|
+    decompositions(@fsm, @iters, @dir, 0, decomposer_class).each do |dec, dir, i|
       dumps[dir] << dec
       File.dump_object dec, "#{dir}/#{i}.dec" if dump_decs
     end unless @fsm.implementable_in? @archs
@@ -74,8 +74,8 @@ module ArtDecomp class Executable
 
   private
 
-  def decompositions fsm, iters, dir, cells
-    decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
+  def decompositions fsm, iters, dir, cells, decomposer_class
+    decomposer = decomposer_class.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
     Enumerator.new do |yielder|
       decomposer.decompositions(non_disjoint: @non_disjoint, deep_ndj: @deep_ndj).with_index do |dec, i|
         yielder.yield dec, dir, i
@@ -85,7 +85,7 @@ module ArtDecomp class Executable
         elsif iters != 1 and (@binary or dec.symbolic?) and (@best.nil? or cells < @best)
           in_dir = "#{dir}/#{i}"
           Dir.mkdir in_dir
-          decompositions(FSM.from_kiss(dec.h_kiss), iters - 1, in_dir, cells + dec.g_cells(@archs)).each do |in_dec, in_dir, in_i|
+          decompositions(FSM.from_kiss(dec.h_kiss), iters - 1, in_dir, cells + dec.g_cells(@archs), decomposer_class).each do |in_dec, in_dir, in_i|
             yielder.yield in_dec, in_dir, in_i
           end
         end
