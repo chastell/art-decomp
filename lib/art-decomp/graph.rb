@@ -1,6 +1,6 @@
 module ArtDecomp class Graph
   def initialize blanket, seps
-    vertices = blanket.ints.dup
+    vertices = blanket.ints.dup.extend CoreExtensions::Enumerable
     vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
     @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
     relevant = Hash[vertices.map { |v| [v, seps.select { |s| v & s != 0 and v & s != s }.to_set] }]

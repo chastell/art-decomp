@@ -52,6 +52,5 @@ class Integer
 end
 
 class Set
-  include ArtDecomp::CoreExtensions::Enumerable
   include ArtDecomp::CoreExtensions::Set
 end
