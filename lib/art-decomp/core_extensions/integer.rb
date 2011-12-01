@@ -1,6 +1,6 @@
 module ArtDecomp module CoreExtensions::Integer
   def bits
-    (0...to_s(2).size).select { |bit| self[bit] == 1 }
+    (0...to_s(2).size).select { |bit| self[bit] == 1 }.extend CoreExtensions::Enumerable
   end
 
   def log2_ceil

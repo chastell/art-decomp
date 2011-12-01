@@ -1,6 +1,6 @@
 module ArtDecomp class KISS
   def initialize lines
-    @lines = lines
+    @lines = lines.extend CoreExtensions::Enumerable
   end
 
   def formatted

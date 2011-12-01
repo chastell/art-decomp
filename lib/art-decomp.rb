@@ -43,10 +43,6 @@ require_relative 'art-decomp/uv_generator/braindead'
 require_relative 'art-decomp/uv_generator/general_relevance'
 require_relative 'art-decomp/uv_generator/unique_relevance'
 
-class Array
-  include ArtDecomp::CoreExtensions::Enumerable
-end
-
 class File
   extend ArtDecomp::CoreExtensions::File::ClassMethods
 end
