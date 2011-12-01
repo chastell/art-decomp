@@ -1,9 +1,8 @@
 module ArtDecomp class Arch
-
   attr_reader :pins, :pons
 
-  def self.[] pins, pons
-    new pins, pons
+  class << self
+    alias [] new
   end
 
   def initialize pins, pons
@@ -16,7 +15,8 @@ module ArtDecomp class Arch
 
   def cells archs
     pons = archs.select { |a| a.pins >= @pins }.map(&:pons).max
-    (@pons % pons).zero? ? @pons / pons : @pons / pons + 1 rescue nil
+    return nil unless pons
+    (@pons % pons).zero? ? @pons / pons : @pons / pons + 1
   end
 
   alias eql? ==
@@ -28,5 +28,4 @@ module ArtDecomp class Arch
   def to_s
     "#{pins}/#{pons}"
   end
-
 end end

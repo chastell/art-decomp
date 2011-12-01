@@ -1,5 +1,4 @@
 module ArtDecomp class QuGenerator::BlockTable
-
   def blankets fsm, u, v
     @seps   = fsm.beta_f.seps
     @rows   = fsm.beta_q.ints.dup
@@ -38,5 +37,4 @@ module ArtDecomp class QuGenerator::BlockTable
       @rows.add a|b
     end
   end
-
 end end
