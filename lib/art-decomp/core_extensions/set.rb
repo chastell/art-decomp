@@ -1,7 +1,5 @@
 module ArtDecomp module CoreExtensions::Set
-
   def r_adm int
-    # FIXME: consider an algorithm with lesser complexity
     seps = select { |sep| int & sep == sep }
     subblocks = Set[]
     int.bits.each do |elem|
@@ -12,5 +10,4 @@ module ArtDecomp module CoreExtensions::Set
     end
     subblocks.size.log2_ceil
   end
-
 end end
