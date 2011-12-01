@@ -1,6 +1,5 @@
 module ArtDecomp class Decomposition
-
-  def initialize fsm, u, v, qu, qv, g, opts = {}
+  def initialize fsm, u, v, qu, qv, g
     @fsm, @u, @v, @qu, @qv, @g = fsm, u, v, qu, qv, g
   end
 
@@ -87,5 +86,4 @@ module ArtDecomp class Decomposition
   protected
 
   attr_reader :fsm, :u, :v, :qu, :qv, :g
-
 end end
