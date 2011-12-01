@@ -1,5 +1,4 @@
 module ArtDecomp class Blanket
-
   attr_reader :ints
 
   def self.[] *ints
@@ -8,13 +7,11 @@ module ArtDecomp class Blanket
 
   def self.from_array array
     ints = Hash.new 0
-    array.each_with_index do |enc, i|
-      ints[enc] |= 1 << i
-    end
-    ints.each_key do |key|
-      ints[key] |= ints[DontCare]
-    end unless ints[DontCare].zero?
+    array.each.with_index { |enc, i| ints[enc] |= 1 << i }
+
+    ints.each_key { |enc| ints[enc] |= ints[DontCare] }
     ints.delete DontCare unless ints.size <= 1
+
     new ints.values
   end
 
@@ -38,7 +35,8 @@ module ArtDecomp class Blanket
 
   def encoding bits
     encs = encodings bits
-    encs.size == 1 ? encs.first : raise(AmbiguousEncodingQuery, "ambiguous encoding query: block #{bits.bits.join ','}")
+    raise AmbiguousEncodingQuery unless encs.size == 1
+    encs.first
   end
 
   def encodings bits
@@ -55,8 +53,7 @@ module ArtDecomp class Blanket
   end
 
   def inspect
-    blocks = @ints.map(&:bits).sort.map { |bl| "B[#{bl.join ','}]" }
-    "Blanket[#{blocks.join ', '}]"
+    "Blanket[#{@ints.map(&:bits).sort.map { |bl| "B[#{bl.join ','}]" }.join ', '}]"
   end
 
   def pins
@@ -72,5 +69,4 @@ module ArtDecomp class Blanket
   def size
     @ints.size
   end
-
 end end
