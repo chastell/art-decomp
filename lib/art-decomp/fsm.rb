@@ -1,5 +1,4 @@
 module ArtDecomp class FSM
-
   attr_reader :codes
 
   def self.from_kiss kiss
@@ -94,13 +93,13 @@ module ArtDecomp class FSM
     @inputs.size
   end
 
+  def output_count
+    @outputs.size
+  end
+
   def q_encoding rows
     # FIXME: consider tr DontCare, '*'
     encoding @state, rows
-  end
-
-  def output_count
-    @outputs.size
   end
 
   def state_rows_of_next_state_of rows
@@ -179,5 +178,4 @@ module ArtDecomp class FSM
     more, less = i_seps.map { |i, seps| [seps.size, i] }.sort.reverse.reject { |rel,| rel.zero? }.partition { |rel,| rel > perpin }
     more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
   end
-
 end end
