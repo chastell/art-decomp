@@ -1,12 +1,11 @@
 module ArtDecomp class Graph
-
   def initialize blanket, seps
     vertices = blanket.ints.dup
     vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
     @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
-    relevant = Hash[vertices.map { |v| [v, seps.select { |s| v&s != 0 and v&s != s }.to_set] }]
+    relevant = Hash[vertices.map { |v| [v, seps.select { |s| v & s != 0 and v & s != s }.to_set] }]
     vertices.pairs.each do |a, b|
-      if (relevant[a] & relevant[b]).any? { |s| a&s != b&s }
+      if (relevant[a] & relevant[b]).any? { |s| a & s != b & s }
         @neighbours[a] << b
         @neighbours[b] << a
       end
@@ -82,5 +81,4 @@ module ArtDecomp class Graph
     @neighbours.delete(a).each { |adj| @neighbours[adj].delete a } unless a == new
     @neighbours.delete(b).each { |adj| @neighbours[adj].delete b } unless b == new
   end
-
 end end
