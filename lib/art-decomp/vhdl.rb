@@ -1,5 +1,4 @@
 module ArtDecomp class VHDL
-
   def initialize fsm
     @fsm = fsm
   end
@@ -68,5 +67,4 @@ begin
 end behaviour;
     VHDL
   end
-
 end end
