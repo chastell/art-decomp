@@ -1,17 +1,18 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe UVRelevanceGenerator do
+  let :fsm do
+    fsm = MiniTest::Mock.new
+    fsm.expect :input_count, 6
+    fsm.expect :send, [0, 1, 2, nil, nil, nil, 3, 4, 5], [:common_relevance]
+    fsm.expect :expand_x, fsm, [Set]
+  end
 
   describe '#uv_pairs' do
-
     it 'yields U and V combinations in a relevance-based order' do
-      fsm = MiniTest::Mock.new
-      fsm.expect :input_count,      6
-      fsm.expect :send,             [0, 1, 2, nil, nil, nil, 3, 4, 5], [:common_relevance]
-      fsm.expect :expand_x,         fsm,                               [Set]
-      archs = Set[Arch[3,1]]
-      uv_gen = UVRelevanceGenerator.new
-      uvs = uv_gen.uv_pairs(fsm, archs, :common_relevance).to_a
+      uvg = UVRelevanceGenerator.new
+      uvs = uvg.uv_pairs(fsm, Set[Arch[3,1]], :common_relevance).to_a
+
       uvs.size.must_equal 42
       uvs[0].must_equal   [fsm, Set[0,1,2], Set[3,4,5]]
       uvs[1].must_equal   [fsm, Set[0,1,2,3], Set[4,5]]
@@ -26,13 +27,9 @@ module ArtDecomp describe UVRelevanceGenerator do
     end
 
     it 'considers all architecture widths when generating the UV sets' do
-      fsm = MiniTest::Mock.new
-      fsm.expect :input_count, 6
-      fsm.expect :send,        [0, 1, 2, nil, nil, nil, 3, 4, 5], [:common_relevance]
-      fsm.expect :expand_x,    fsm,                               [Set]
-      archs = Set[Arch[3,1], Arch[2,1]]
-      uv_gen = UVRelevanceGenerator.new
-      uvs = uv_gen.uv_pairs(fsm, archs, :common_relevance).to_a
+      uvg = UVRelevanceGenerator.new
+      uvs = uvg.uv_pairs(fsm, Set[Arch[3,1], Arch[2,1]], :common_relevance).to_a
+
       uvs.size.must_equal 42
       uvs[0].must_equal   [fsm, Set[0,1,2,3], Set[4,5]]
       uvs[1].must_equal   [fsm, Set[0,1,2,4], Set[3,5]]
@@ -52,27 +49,31 @@ module ArtDecomp describe UVRelevanceGenerator do
       fsm = MiniTest::Mock.new
       fsm.expect :input_count, 2
       fsm.expect :send, [1, 0, nil, nil, nil], [:common_relevance]
-      fsm0, fsm1, fsm2, fsm3 = MiniTest::Mock.new, MiniTest::Mock.new, MiniTest::Mock.new, MiniTest::Mock.new
+
+      fsm0 = MiniTest::Mock.new
+      fsm1 = MiniTest::Mock.new
+      fsm2 = MiniTest::Mock.new
+      fsm3 = MiniTest::Mock.new
       fsm.expect :expand_x, fsm0, [Set[]]
       fsm.expect :expand_x, fsm1, [Set[0]]
       fsm.expect :expand_x, fsm2, [Set[1]]
       fsm.expect :expand_x, fsm3, [Set[0,1]]
 
+      # FIXME: switch to saner approach once Mock supports multiple same-method expects
       fsm0.expect :==, true, [MiniTest::Mock]
       fsm1.expect :==, true, [MiniTest::Mock]
       fsm2.expect :==, true, [MiniTest::Mock]
       fsm3.expect :==, true, [MiniTest::Mock]
 
-      archs = Set[Arch[3,1]]
-      uv_gen = UVRelevanceGenerator.new
-      uv_gen.uv_pairs(fsm, archs, :common_relevance).to_a.must_equal [
+      uvg = UVRelevanceGenerator.new
+      uvs = uvg.uv_pairs(fsm, Set[Arch[3,1]], :common_relevance).to_a
+
+      uvs.must_equal [
         [fsm0, Set[0,1], Set[]],
         [fsm1, Set[1],   Set[0]],
         [fsm2, Set[0],   Set[1]],
         [fsm3, Set[],    Set[0,1]],
       ]
     end
-
   end
-
 end end

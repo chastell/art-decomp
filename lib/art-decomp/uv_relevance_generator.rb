@@ -1,5 +1,4 @@
 module ArtDecomp class UVRelevanceGenerator
-
   def uv_pairs fsm, archs, method
     relevance   = fsm.send(method).reverse
     max_v_sizes = archs.map(&:pins).to_set
@@ -15,5 +14,4 @@ module ArtDecomp class UVRelevanceGenerator
       end
     end
   end
-
 end end
