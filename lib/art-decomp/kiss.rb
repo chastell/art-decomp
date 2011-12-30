@@ -1,5 +1,4 @@
 module ArtDecomp class KISS
-
   def initialize lines
     @lines = lines
   end
@@ -41,5 +40,4 @@ module ArtDecomp class KISS
     end
     nil
   end
-
 end end
