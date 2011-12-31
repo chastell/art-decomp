@@ -1,5 +1,4 @@
 module ArtDecomp class Bipainter
-
   def initialize beta_q, beta_v, seps
     raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
     @beta_v = beta_v
@@ -138,5 +137,4 @@ module ArtDecomp class Bipainter
     elsif @g_colours[v2] then colour_g! v1, @g_colours[v2]
     end
   end
-
 end end
