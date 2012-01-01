@@ -2,14 +2,12 @@ require 'set'
 require 'yaml'
 
 module ArtDecomp
-
   DontCare = :-
 
   module CoreExtensions; end
   module QuGenerator;    end
   module QvGenerator;    end
   module UVGenerator;    end
-
 end
 
 require_relative 'art-decomp/ambiguous_encoding_query'
