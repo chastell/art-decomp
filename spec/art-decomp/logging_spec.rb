@@ -4,6 +4,11 @@ require_relative '../spec_helper'
 require_relative '../../lib/art-decomp/logging'
 
 module ArtDecomp describe Logging do
+  class FakeDecomposer
+    def initialize *; end
+    def decompositions *; [].each; end
+  end
+
   before do
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
     @log = StringIO.new
@@ -28,10 +33,6 @@ module ArtDecomp describe Logging do
   end
 
   it 'logs Executable’s decompositions calls on typical cases' do
-    class FakeDecomposer
-      def initialize *_; end
-      def decompositions *; [].each; end
-    end
     ex = Executable.new ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     def ex.best; 69; end
     ex.run true, FakeDecomposer
@@ -40,10 +41,6 @@ module ArtDecomp describe Logging do
   end
 
   it 'logs Executable’s decompositions calls on problematic cases' do
-    class FakeDecomposer
-      def initialize *_; end
-      def decompositions *; [].each; end
-    end
     Executable.new(['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']).run true, FakeDecomposer
     log.must_include '4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring'
     log.must_include 'took 1s'

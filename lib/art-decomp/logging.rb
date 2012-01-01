@@ -5,17 +5,15 @@ require 'rcapture'
 
 module ArtDecomp class Logging
 
-class << self
-
-  def level
+  def self.level
     @log.level
   end
 
-  def level= level
+  def self.level= level
     @log.level = level
   end
 
-  def log= log
+  def self.log= log
     @start = Time.now
     @log = Logger.new log
     @log.level = Logger::INFO
@@ -29,14 +27,14 @@ class << self
     add_logging
   end
 
-  def off
+  def self.off
     # FIXME: if methods can be uncaptured, do that and close @log
     @log = Logger.new '/dev/null'
   end
 
   private
 
-  def add_logging
+  def self.add_logging
     uv_gens = UVGenerator.constants.map { |c| UVGenerator.const_get c }
     qu_gens = QuGenerator.constants.map { |c| QuGenerator.const_get c }
 
@@ -65,7 +63,4 @@ class << self
       @log.info "took #{(Time.now - @start).ceil}s"
     end
   end
-
-end
-
 end end
