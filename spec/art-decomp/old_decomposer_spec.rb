@@ -1,13 +1,13 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Decomposer do
+module ArtDecomp describe OldDecomposer do
   describe '.new' do
     it 'instantiates the generators' do
       uv1, uv2 = MiniTest::Mock.new, MiniTest::Mock.new
       qu1, qu2 = MiniTest::Mock.new, MiniTest::Mock.new
       qv1, qv2 = MiniTest::Mock.new, MiniTest::Mock.new
       [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.expect :new, nil }
-      Decomposer.new uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
+      OldDecomposer.new uv_gens: [uv1, uv2], qu_gens: [qu1, qu2], qv_gens: [qv1, qv2]
       [uv1, uv2, qu1, qu2, qv1, qv2].each { |gen| gen.verify }
     end
   end
@@ -48,7 +48,7 @@ module ArtDecomp describe Decomposer do
                                              [fsm, u_a, v_a, qu_a2] => [[qv_a2, g_a2]],
                                              [fsm, u_b, v_b, qu_b]  => [[qv_bA, g_bA], [qv_bB, g_bB]]})
 
-      decomposer = Decomposer.new archs: archs, fsm: fsm, uv_gens: [uv_gen], qu_gens: [qu_gen], qv_gens: [qv_gen]
+      decomposer = OldDecomposer.new archs: archs, fsm: fsm, uv_gens: [uv_gen], qu_gens: [qu_gen], qv_gens: [qv_gen]
       results = decomposer.decompositions.to_a
       results.size.must_equal  4
       results.first.must_equal Decomposition.new(fsm, u_a, v_a, qu_a1, qv_a1, g_a1)
@@ -71,7 +71,7 @@ module ArtDecomp describe Decomposer do
       uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer = OldDecomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
       decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 1
     end
 
@@ -89,9 +89,9 @@ module ArtDecomp describe Decomposer do
       uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer = OldDecomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
       decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 8
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer = OldDecomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
       decomposer.decompositions(dec_class: FakeDecomposition, keep_seen: true).to_a.size.must_equal 27
     end
 
@@ -111,7 +111,7 @@ module ArtDecomp describe Decomposer do
       uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer = OldDecomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
       decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true).to_a.size.must_equal 4
     end
 
@@ -131,7 +131,7 @@ module ArtDecomp describe Decomposer do
       uv_gens = MiniTest::Mock.new; uv_gens.expect :new, uv_gen
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
-      decomposer = Decomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
+      decomposer = OldDecomposer.new fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
       decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true, deep_ndj: true).to_a.size.must_equal 4
     end
   end

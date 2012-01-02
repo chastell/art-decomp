@@ -1,4 +1,4 @@
-module ArtDecomp class Decomposer
+module ArtDecomp class OldDecomposer
 
   def initialize params
     @archs   = params[:archs]

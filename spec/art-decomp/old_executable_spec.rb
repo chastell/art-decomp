@@ -102,12 +102,12 @@ module ArtDecomp describe OldExecutable do
       Marshal.load(File.read("#{@dir}/1.dec")).must_equal $dec1
     end
 
-  #   it 'passes all of the requested generators and architectures to the Decomposer' do
+  #   it 'passes all of the requested generators and architectures to the OldDecomposer' do
   #     fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
   #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
-  #     decomposer = mock Decomposer, decompositions: [].each
-  #     Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::Braindead], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
+  #     decomposer = mock OldDecomposer, decompositions: [].each
+  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::Braindead], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
 
   #     args = ['--archs', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
   #     OldExecutable.new(args).run
@@ -117,8 +117,8 @@ module ArtDecomp describe OldExecutable do
   #     fsm = mock FSM, fsm_cells: nil, implementable_in?: false, stats: ''
   #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
-  #     decomposer = mock Decomposer, decompositions: [].each
-  #     Decomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::GeneralRelevance, UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
+  #     decomposer = mock OldDecomposer, decompositions: [].each
+  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::GeneralRelevance, UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
 
   #     args = ['--archs', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '--outdir', @dir, @fsm]
   #     OldExecutable.new(args).run

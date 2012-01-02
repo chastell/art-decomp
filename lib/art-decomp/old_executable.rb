@@ -60,7 +60,7 @@ module ArtDecomp class OldExecutable
     end.join ', '
   end
 
-  def run dump_decs = true, decomposer_class = Decomposer
+  def run dump_decs = true, decomposer_class = OldDecomposer
     @best = @fsm.fsm_cells @archs
     dumps = Hash.new { |h, k| h[k] = [] }
     decompositions(@fsm, @iters, @dir, 0, decomposer_class).each do |dec, dir, i|
