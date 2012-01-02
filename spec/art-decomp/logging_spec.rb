@@ -26,22 +26,22 @@ module ArtDecomp describe Logging do
     @log.read
   end
 
-  it 'logs Executable’s decompositions calls on simple cases' do
+  it 'logs OldExecutable’s decompositions calls on simple cases' do
     args = ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/lion']
-    Executable.new(args).run
+    OldExecutable.new(args).run
     log.must_include 'took 1s'
   end
 
-  it 'logs Executable’s decompositions calls on typical cases' do
-    ex = Executable.new ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
+  it 'logs OldExecutable’s decompositions calls on typical cases' do
+    ex = OldExecutable.new ['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']
     def ex.best; 69; end
     ex.run true, FakeDecomposer
     log.must_include '4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring'
     log.must_include 'took 1s'
   end
 
-  it 'logs Executable’s decompositions calls on problematic cases' do
-    Executable.new(['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']).run true, FakeDecomposer
+  it 'logs OldExecutable’s decompositions calls on problematic cases' do
+    OldExecutable.new(['-a', '5/1', '4/2', '-o', @dir, 'spec/fixtures/fsm']).run true, FakeDecomposer
     log.must_include '4/2+10s with UniqueRelevance, EdgeLabels, GraphColouring'
     log.must_include 'took 1s'
   end

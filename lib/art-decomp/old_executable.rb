@@ -1,6 +1,6 @@
 require 'trollop'
 
-module ArtDecomp class Executable
+module ArtDecomp class OldExecutable
 
   attr_reader :archs, :best, :iters, :dir
 

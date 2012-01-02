@@ -38,9 +38,9 @@ module ArtDecomp class Logging
     uv_gens = UVGenerator.constants.map { |c| UVGenerator.const_get c }
     qu_gens = QuGenerator.constants.map { |c| QuGenerator.const_get c }
 
-    (uv_gens + qu_gens + [Executable]).each { |c| c.class_eval { include RCapture::Interceptable } }
+    (uv_gens + qu_gens + [OldExecutable]).each { |c| c.class_eval { include RCapture::Interceptable } }
 
-    Executable.capture_pre methods: :decompositions do |point|
+    OldExecutable.capture_pre methods: :decompositions do |point|
       @best = point.sender.best
       @path = point.args[2][point.sender.dir.size+1..-1]
       @log.info "#{point.args[0].stats} with #{point.sender.gens}"
@@ -58,7 +58,7 @@ module ArtDecomp class Logging
       end
     end
 
-    Executable.capture_post methods: :run do |point|
+    OldExecutable.capture_post methods: :run do |point|
       @best = point.sender.best
       @log.info "took #{(Time.now - @start).ceil}s"
     end
