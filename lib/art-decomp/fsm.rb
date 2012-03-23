@@ -174,7 +174,7 @@ module ArtDecomp class FSM
     q_seps = beta_q.seps & f_seps
     q_seps -= i_seps.values.inject :+ if unique
     perpin = q_seps.size.to_f / beta_q.pins
-    i_seps = Hash[i_seps.map { |i, seps| [i, seps - i_seps.reject { |o,| o == i }.values.inject(Set[], :+)] }] if unique
+    i_seps = Hash[i_seps.map { |i, seps| [i, seps - q_seps - i_seps.reject { |o,| o == i }.values.inject(Set[], :+)] }] if unique
     more, less = i_seps.map { |i, seps| [seps.size, i] }.sort.reverse.reject { |rel,| rel.zero? }.partition { |rel,| rel > perpin }
     more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
   end
