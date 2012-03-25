@@ -102,6 +102,37 @@ module ArtDecomp class FSM
     encoding @state, rows
   end
 
+  # FIXME: refactor with #relevance
+  def relative_relevance
+    win = Struct.new :i, :seps, :pins
+    win.class_eval { def weight; seps.size.to_f / pins; end }
+
+    f_seps = beta_f.seps
+
+    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
+      win.new i, seps, 1
+    end
+
+    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
+
+    seps.delete_if { |s| s.seps.size.zero? }
+
+    rr = []
+
+    until seps.empty?
+      best = seps.delete seps.max_by &:weight
+
+      seps.each { |s| s.seps -= best.seps }
+      seps.delete_if { |s| s.seps.size.zero? }
+
+      rr << best.i
+    end
+
+    (beta_q.pins - 1).times { rr.insert rr.index(nil), nil }
+
+    rr
+  end
+
   def state_rows_of_next_state_of rows
     state = @next_state[rows.bits.first]
     B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]

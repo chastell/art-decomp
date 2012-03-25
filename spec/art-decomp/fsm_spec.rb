@@ -181,6 +181,19 @@ module ArtDecomp describe FSM do
     end
   end
 
+  describe '#relative_relevance' do
+    it 'returns its relative input relevance, and drops irrelevant inputs' do
+      ex4.relative_relevance.must_equal   [nil, nil, nil, nil, 1, 2, 3, 4, 5]
+      fsm.relative_relevance.must_equal   [2, 1, 0, 3, nil, nil, nil, nil]
+      lion.relative_relevance.must_equal  [0, nil, nil, 1]
+      mark1.relative_relevance.must_equal [nil, nil, nil, nil, 0, 2, 3, 4, 1]
+      mc.relative_relevance.must_equal    [nil, nil, 0, 1, 2]
+      opus.relative_relevance.must_equal  [nil, nil, nil, nil, 2, 0, 3, 1, 4]
+      s8.relative_relevance.must_equal    [0, 1, 2, nil, nil, nil]
+      tt.relative_relevance.must_equal    [1, 2, 3]
+    end
+  end
+
   describe '#state_rows_of_next_state_of' do
     it 'returns the row(s) of a state matching next-state of given row(s)' do
       opus.state_rows_of_next_state_of(B[20,21]).must_equal B[0,8,9,10,11,12,13,14]
