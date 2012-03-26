@@ -192,6 +192,10 @@ module ArtDecomp describe FSM do
       s8.relative_relevance.must_equal    [0, 1, 2, nil, nil, nil]
       tt.relative_relevance.must_equal    [1, 2, 3]
     end
+
+    it 'doesn’t break with irrelevant βq' do
+      FSM.from_kiss('spec/fixtures/not').relative_relevance.must_equal [0]
+    end
   end
 
   describe '#state_rows_of_next_state_of' do

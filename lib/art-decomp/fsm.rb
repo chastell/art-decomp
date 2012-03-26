@@ -128,7 +128,7 @@ module ArtDecomp class FSM
       rr << best.i
     end
 
-    (beta_q.pins - 1).times { rr.insert rr.index(nil), nil }
+    (beta_q.pins - 1).times { rr.insert rr.index(nil), nil } if rr.include? nil
 
     rr
   end
