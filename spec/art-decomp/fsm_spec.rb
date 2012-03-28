@@ -87,6 +87,10 @@ module ArtDecomp describe FSM do
       mc.beta_y(Set[2,3]).must_equal Blanket[B[0,1,2], B[3,4], B[5,6,7,8,9]]
       mc.beta_y(Set[]).must_equal    Blanket[B[0,1,2,3,4,5,6,7,8,9]]
     end
+
+    it 'returns the full output Blanket when called without parameters' do
+      mc.beta_y.must_equal Blanket[B[0,1], B[2], B[3], B[4], B[5], B[6,7], B[8], B[9]]
+    end
   end
 
   describe '#codes' do

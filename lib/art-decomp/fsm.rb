@@ -61,7 +61,7 @@ module ArtDecomp class FSM
     beta @inputs, ins
   end
 
-  def beta_y ins
+  def beta_y ins = (0...@outputs.size).to_a
     beta @outputs, ins
   end
 
