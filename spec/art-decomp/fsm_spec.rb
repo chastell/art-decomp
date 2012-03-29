@@ -79,6 +79,10 @@ module ArtDecomp describe FSM do
       mc.beta_x(Set[1,2]).must_equal Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9], B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
       mc.beta_x(Set[]).must_equal    Blanket[B[0,1,2,3,4,5,6,7,8,9]]
     end
+
+    it 'returns the full input Blanket when called without parameters' do
+      mc.beta_x.must_equal Blanket[B[0,1,3,6,8], B[0,1,4,6,9], B[0,3,6,7,8], B[0,4,6,7,9], B[1,3,5,8], B[1,4,5,9], B[2,3,7,8], B[2,4,7,9]]
+    end
   end
 
   describe '#beta_y' do

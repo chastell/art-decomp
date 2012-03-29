@@ -57,7 +57,7 @@ module ArtDecomp class FSM
     Blanket.from_array @next_state
   end
 
-  def beta_x ins
+  def beta_x ins = (0...@inputs.size).to_a
     beta @inputs, ins
   end
 
