@@ -77,8 +77,26 @@ module ArtDecomp class FSM
     Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
   end
 
+  # FIXME: refactor with #relative_relevance
   def general_relevance
-    relevance false
+    win = Struct.new :i, :seps, :pins
+    win.class_eval { def weight; seps.size.to_f / pins; end }
+
+    f_seps = beta_f.seps
+
+    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
+      win.new i, seps, 1
+    end
+
+    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
+
+    seps.delete_if { |s| s.seps.size.zero? }
+
+    gr = seps.sort_by(&:weight).reverse.map &:i
+
+    (beta_q.pins - 1).times { gr.insert gr.index(nil), nil } if gr.include? nil
+
+    gr
   end
 
   def hash
