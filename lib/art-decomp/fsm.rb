@@ -90,7 +90,7 @@ module ArtDecomp class FSM
 
     seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
 
-    seps.delete_if { |s| s.seps.size.zero? }
+    seps.delete_if { |s| s.seps.empty? }
 
     gr = seps.sort_by(&:weight).reverse.map &:i
 
@@ -133,7 +133,7 @@ module ArtDecomp class FSM
 
     seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
 
-    seps.delete_if { |s| s.seps.size.zero? }
+    seps.delete_if { |s| s.seps.empty? }
 
     rr = []
 
@@ -141,7 +141,7 @@ module ArtDecomp class FSM
       best = seps.delete seps.max_by &:weight
 
       seps.each { |s| s.seps -= best.seps }
-      seps.delete_if { |s| s.seps.size.zero? }
+      seps.delete_if { |s| s.seps.empty? }
 
       rr << best.i
     end
