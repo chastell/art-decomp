@@ -204,6 +204,7 @@ module ArtDecomp class FSM
   private
 
   def beta column, ins
+    ins = Array ins
     return Blanket[B[*0...@state.size]] if ins.empty?
     ins.map { |i| Blanket.from_array column[i] }.inject :*
   end
