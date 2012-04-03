@@ -84,7 +84,7 @@ module ArtDecomp class FSM
 
     f_seps = beta_f.seps
 
-    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
+    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
       win.new i, seps, 1
     end
 
@@ -127,7 +127,7 @@ module ArtDecomp class FSM
 
     f_seps = beta_f.seps
 
-    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
+    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
       win.new i, seps, 1
     end
 
@@ -220,7 +220,7 @@ module ArtDecomp class FSM
 
   def relevance unique
     f_seps = beta_f.seps
-    i_seps = Hash[(0...input_count).map { |i| [i, beta_x(Set[i]).seps & f_seps] }]
+    i_seps = Hash[(0...input_count).map { |i| [i, beta_x(i).seps & f_seps] }]
     q_seps = beta_q.seps & f_seps
     q_seps -= i_seps.values.inject :+ if unique
     perpin = q_seps.size.to_f / beta_q.pins

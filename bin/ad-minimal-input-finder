@@ -5,7 +5,7 @@ require_relative '../lib/art-decomp'
 fsm = ArtDecomp::FSM.from_kiss ARGV.first
 
 f_seps = fsm.beta_f.seps
-i_seps = Hash[Array.new(fsm.input_count) { |i| [i, fsm.beta_x(Set[i]).seps & f_seps] }]
+i_seps = Hash[Array.new(fsm.input_count) { |i| [i, fsm.beta_x(i).seps & f_seps] }]
 u_seps = Hash[i_seps.map { |i, seps| [i, seps - i_seps.reject { |o| o == i }.values.inject(:+)] }]
 
 puts "useful separations: #{i_seps.values.map &:size}"
