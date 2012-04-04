@@ -99,6 +99,10 @@ module ArtDecomp describe FSM do
     it 'returns the full output Blanket when called without parameters' do
       mc.beta_y.must_equal Blanket[B[0,1], B[2], B[3], B[4], B[5], B[6,7], B[8], B[9]]
     end
+
+    it 'returns the given output’s Blanket when called with a non-Enumerable' do
+      mc.beta_y(4).must_equal Blanket[B[0,1,2,3,4,5,6,7], B[8,9]]
+    end
   end
 
   describe '#codes' do
