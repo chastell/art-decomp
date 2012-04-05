@@ -13,6 +13,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'rcapture'
   gem.add_dependency 'trollop'
-  gem.add_development_dependency 'minitest', '>= 2.3'
+  gem.add_development_dependency 'minitest', '>= 2.12'
   gem.add_development_dependency 'rake'
 end
