@@ -185,8 +185,38 @@ module ArtDecomp class FSM
     @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
   end
 
+  # FIXME: refactor with #relative_relevance
   def unique_relevance
-    relevance true
+    win = Struct.new :i, :seps, :pins
+    win.class_eval { def weight; seps.size.to_f / pins; end }
+
+    f_seps = beta_f.seps
+
+    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
+      win.new i, seps, 1
+    end
+
+    unless beta_q.pins.zero?
+      seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
+
+      qs = seps.find { |s| s.i.nil? }
+      qs.seps -= seps.reject { |s| s.i.nil? }.map(&:seps).inject :+
+    end
+
+    others_seps = Hash[seps.map do |sep|
+      [
+        sep.i,
+        seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+),
+      ]
+    end]
+
+    seps.each { |sep| sep.seps -= others_seps[sep.i] }
+
+    ur = seps.sort_by(&:weight).reverse.map &:i
+
+    (beta_q.pins - 1).times { ur.insert ur.index(nil), nil } if ur.include? nil
+
+    ur
   end
 
   def x_encoding ins, rows
@@ -218,14 +248,4 @@ module ArtDecomp class FSM
     end
   end
 
-  def relevance unique
-    f_seps = beta_f.seps
-    i_seps = Hash[(0...input_count).map { |i| [i, beta_x(i).seps & f_seps] }]
-    q_seps = beta_q.seps & f_seps
-    q_seps -= i_seps.values.inject :+ if unique
-    perpin = q_seps.size.to_f / beta_q.pins
-    i_seps = Hash[i_seps.map { |i, seps| [i, seps - q_seps - i_seps.reject { |o,| o == i }.values.inject(Set[], :+)] }] if unique
-    more, less = i_seps.map { |i, seps| [seps.size, i] }.sort.reverse.reject { |rel,| rel.zero? }.partition { |rel,| rel > perpin }
-    more.map(&:last) + [nil] * beta_q.pins + less.map(&:last)
-  end
 end end
