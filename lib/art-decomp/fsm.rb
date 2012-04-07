@@ -198,12 +198,7 @@ module ArtDecomp class FSM
 
     seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins) unless beta_q.pins.zero?
 
-    others_seps = Hash[seps.map do |sep|
-      [
-        sep.i,
-        seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+),
-      ]
-    end]
+    others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
 
     seps.each { |sep| sep.seps -= others_seps[sep.i] }
 
