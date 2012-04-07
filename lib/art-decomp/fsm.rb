@@ -80,7 +80,6 @@ module ArtDecomp class FSM
   # FIXME: refactor with #relative_relevance
   def general_relevance
     win = Struct.new :i, :seps, :pins
-    win.class_eval { def weight; seps.size.to_f / pins; end }
 
     f_seps = beta_f.seps
 
@@ -92,7 +91,7 @@ module ArtDecomp class FSM
 
     seps.delete_if { |s| s.seps.empty? }
 
-    gr = seps.sort_by(&:weight).reverse.map &:i
+    gr = seps.sort_by { |sep| sep.seps.size.to_f / sep.pins }.reverse.map &:i
 
     (beta_q.pins - 1).times { gr.insert gr.index(nil), nil } if gr.include? nil
 
@@ -123,7 +122,6 @@ module ArtDecomp class FSM
   # FIXME: refactor with #relevance
   def relative_relevance
     win = Struct.new :i, :seps, :pins
-    win.class_eval { def weight; seps.size.to_f / pins; end }
 
     f_seps = beta_f.seps
 
@@ -138,7 +136,7 @@ module ArtDecomp class FSM
     rr = []
 
     until seps.empty?
-      best = seps.delete seps.max_by &:weight
+      best = seps.delete seps.max_by { |sep| sep.seps.size.to_f / sep.pins }
 
       seps.each { |s| s.seps -= best.seps }
       seps.delete_if { |s| s.seps.empty? }
@@ -188,7 +186,6 @@ module ArtDecomp class FSM
   # FIXME: refactor with #relative_relevance
   def unique_relevance
     win = Struct.new :i, :seps, :pins
-    win.class_eval { def weight; seps.size.to_f / pins; end }
 
     f_seps = beta_f.seps
 
@@ -202,7 +199,7 @@ module ArtDecomp class FSM
 
     seps.each { |sep| sep.seps -= others_seps[sep.i] }
 
-    ur = seps.sort_by(&:weight).reverse.map &:i
+    ur = seps.sort_by { |sep| sep.seps.size.to_f / sep.pins }.reverse.map &:i
 
     (beta_q.pins - 1).times { ur.insert ur.index(nil), nil } if ur.include? nil
 
