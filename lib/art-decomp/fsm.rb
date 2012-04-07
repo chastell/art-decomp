@@ -196,12 +196,7 @@ module ArtDecomp class FSM
       win.new i, seps, 1
     end
 
-    unless beta_q.pins.zero?
-      seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
-
-      qs = seps.find { |s| s.i.nil? }
-      qs.seps -= seps.reject { |s| s.i.nil? }.map(&:seps).inject :+
-    end
+    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins) unless beta_q.pins.zero?
 
     others_seps = Hash[seps.map do |sep|
       [
