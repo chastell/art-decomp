@@ -176,13 +176,11 @@ module ArtDecomp class FSM
   def relevance type
     f_seps = beta_f.seps
 
-    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      OpenStruct.new seps: seps, i: i
-    end
+    seps = Array.new(input_count) do |i|
+      OpenStruct.new seps: beta_x(i).seps & f_seps, i: i
+    end + [OpenStruct.new(seps: beta_q.seps & f_seps)]
 
-    seps << OpenStruct.new(seps: beta_q.seps & f_seps) unless beta_q.pins.zero?
-
-    seps.delete_if { |s| s.seps.empty? } unless type == :unique
+    seps.delete_if { |s| s.seps.empty? }
 
     case type
     when :general

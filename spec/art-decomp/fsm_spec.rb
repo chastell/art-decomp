@@ -268,14 +268,14 @@ module ArtDecomp describe FSM do
 
   describe '#unique_relevance' do
     it 'returns its unique input relevance, and drops irrelevant inputs' do
-      ex4.unique_relevance.must_equal   [nil, nil, nil, nil, 1, 2, 3, 4, 5, 0]
+      ex4.unique_relevance.must_equal   [nil, nil, nil, nil, 2, 1, 3, 5, 4]
       fsm.unique_relevance.must_equal   [nil, nil, nil, nil, 2, 1, 3, 0]
       lion.unique_relevance.must_equal  [nil, nil, 0, 1]
       mark1.unique_relevance.must_equal [nil, nil, nil, nil, 0, 3, 2, 4, 1]
       mc.unique_relevance.must_equal    [nil, nil, 2, 1, 0]
       opus.unique_relevance.must_equal  [nil, nil, nil, nil, 2, 3, 4, 1, 0]
       s8.unique_relevance.must_equal    [nil, nil, nil, 2, 3, 1, 0]
-      tt.unique_relevance.must_equal    [1, 3, 2, 0]
+      tt.unique_relevance.must_equal    [1, 2, 3]
     end
   end
 
