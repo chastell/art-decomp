@@ -77,25 +77,8 @@ module ArtDecomp class FSM
     Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
   end
 
-  # FIXME: refactor with #relative_relevance
   def general_relevance
-    f_seps = beta_f.seps
-
-    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      OpenStruct.new seps: seps, i: i
-    end
-
-    seps << OpenStruct.new(seps: beta_q.seps & f_seps)
-
-    seps.delete_if { |s| s.seps.empty? }
-
-    gr = seps.sort_by do |sep|
-      sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-    end.reverse.map &:i
-
-    (beta_q.pins - 1).times { gr.insert gr.index(nil), nil } if gr.include? nil
-
-    gr
+    relevance :general
   end
 
   def hash
@@ -119,34 +102,8 @@ module ArtDecomp class FSM
     encoding @state, rows
   end
 
-  # FIXME: refactor with #relevance
   def relative_relevance
-    f_seps = beta_f.seps
-
-    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      OpenStruct.new seps: seps, i: i
-    end
-
-    seps << OpenStruct.new(seps: beta_q.seps & f_seps)
-
-    seps.delete_if { |s| s.seps.empty? }
-
-    rr = []
-
-    until seps.empty?
-      best = seps.delete seps.max_by { |sep|
-        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-      }
-
-      seps.each { |s| s.seps -= best.seps }
-      seps.delete_if { |s| s.seps.empty? }
-
-      rr << best.i
-    end
-
-    (beta_q.pins - 1).times { rr.insert rr.index(nil), nil } if rr.include? nil
-
-    rr
+    relevance :relative
   end
 
   def state_rows_of_next_state_of rows
@@ -183,27 +140,8 @@ module ArtDecomp class FSM
     @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
   end
 
-  # FIXME: refactor with #relative_relevance
   def unique_relevance
-    f_seps = beta_f.seps
-
-    seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
-      OpenStruct.new seps: seps, i: i
-    end
-
-    seps << OpenStruct.new(seps: beta_q.seps & f_seps) unless beta_q.pins.zero?
-
-    others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
-
-    seps.each { |sep| sep.seps -= others_seps[sep.i] }
-
-    ur = seps.sort_by do |sep|
-      sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-    end.reverse.map &:i
-
-    (beta_q.pins - 1).times { ur.insert ur.index(nil), nil } if ur.include? nil
-
-    ur
+    relevance :unique
   end
 
   def x_encoding ins, rows
@@ -235,4 +173,44 @@ module ArtDecomp class FSM
     end
   end
 
+  def relevance type
+    f_seps = beta_f.seps
+
+    seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
+      OpenStruct.new seps: seps, i: i
+    end
+
+    seps << OpenStruct.new(seps: beta_q.seps & f_seps) unless beta_q.pins.zero?
+
+    seps.delete_if { |s| s.seps.empty? } unless type == :unique
+
+    case type
+    when :general
+      ins = seps.sort_by do |sep|
+        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+      end.reverse.map &:i
+
+    when :relative
+      ins = []
+      until seps.empty?
+        best = seps.delete seps.max_by { |sep|
+          sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+        }
+        seps.each { |s| s.seps -= best.seps }
+        seps.delete_if { |s| s.seps.empty? }
+        ins << best.i
+      end
+
+    when :unique
+      others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
+      seps.each { |sep| sep.seps -= others_seps[sep.i] }
+      ins = seps.sort_by do |sep|
+        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+      end.reverse.map &:i
+    end
+
+    (beta_q.pins - 1).times { ins.insert ins.index(nil), nil } if ins.include? nil
+
+    ins
+  end
 end end
