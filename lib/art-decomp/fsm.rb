@@ -79,15 +79,13 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relative_relevance
   def general_relevance
-    win = Struct.new :i, :seps
-
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps
+      OpenStruct.new seps: seps, i: i
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps)
+    seps << OpenStruct.new(seps: beta_q.seps & f_seps)
 
     seps.delete_if { |s| s.seps.empty? }
 
@@ -123,15 +121,13 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relevance
   def relative_relevance
-    win = Struct.new :i, :seps
-
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps
+      OpenStruct.new seps: seps, i: i
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps)
+    seps << OpenStruct.new(seps: beta_q.seps & f_seps)
 
     seps.delete_if { |s| s.seps.empty? }
 
@@ -189,15 +185,13 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relative_relevance
   def unique_relevance
-    win = Struct.new :i, :seps
-
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps
+      OpenStruct.new seps: seps, i: i
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps) unless beta_q.pins.zero?
+    seps << OpenStruct.new(seps: beta_q.seps & f_seps) unless beta_q.pins.zero?
 
     others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
 
