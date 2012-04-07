@@ -78,7 +78,11 @@ module ArtDecomp class FSM
   end
 
   def general_relevance
-    relevance :general
+    relevance do |inputs|
+      inputs.sort_by do |input|
+        input.i.nil? ? input.seps.size.to_f / beta_q.pins : input.seps.size
+      end.reverse
+    end
   end
 
   def hash
@@ -103,7 +107,18 @@ module ArtDecomp class FSM
   end
 
   def relative_relevance
-    relevance :relative
+    relevance do |inputs|
+      result = []
+      until inputs.empty?
+        best = inputs.delete inputs.max_by { |input|
+          input.i.nil? ? input.seps.size.to_f / beta_q.pins : input.seps.size
+        }
+        inputs.each { |i| i.seps -= best.seps }
+        inputs.delete_if { |i| i.seps.empty? }
+        result << best
+      end
+      result
+    end
   end
 
   def state_rows_of_next_state_of rows
@@ -141,7 +156,17 @@ module ArtDecomp class FSM
   end
 
   def unique_relevance
-    relevance :unique
+    relevance do |inputs|
+      others_seps = Hash[inputs.map do |input|
+        [input.i, inputs.reject { |i| i.equal? input }.map(&:seps).inject(:+)]
+      end]
+
+      inputs.each { |input| input.seps -= others_seps[input.i] }
+
+      inputs.sort_by do |input|
+        input.i.nil? ? input.seps.size.to_f / beta_q.pins : input.seps.size
+      end.reverse
+    end
   end
 
   def x_encoding ins, rows
@@ -173,42 +198,19 @@ module ArtDecomp class FSM
     end
   end
 
-  def relevance type
+  def relevance
     f_seps = beta_f.seps
 
-    seps = Array.new(input_count) do |i|
+    inputs = Array.new(input_count) do |i|
       OpenStruct.new seps: beta_x(i).seps & f_seps, i: i
     end + [OpenStruct.new(seps: beta_q.seps & f_seps)]
 
-    seps.delete_if { |s| s.seps.empty? }
+    inputs.delete_if { |input| input.seps.empty? }
 
-    case type
-    when :general
-      ins = seps.sort_by do |sep|
-        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-      end.reverse.map &:i
+    is = yield(inputs).map &:i
 
-    when :relative
-      ins = []
-      until seps.empty?
-        best = seps.delete seps.max_by { |sep|
-          sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-        }
-        seps.each { |s| s.seps -= best.seps }
-        seps.delete_if { |s| s.seps.empty? }
-        ins << best.i
-      end
+    (beta_q.pins - 1).times { is.insert is.index(nil), nil } if is.include? nil
 
-    when :unique
-      others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
-      seps.each { |sep| sep.seps -= others_seps[sep.i] }
-      ins = seps.sort_by do |sep|
-        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
-      end.reverse.map &:i
-    end
-
-    (beta_q.pins - 1).times { ins.insert ins.index(nil), nil } if ins.include? nil
-
-    ins
+    is
   end
 end end
