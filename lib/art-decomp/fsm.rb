@@ -108,16 +108,16 @@ module ArtDecomp class FSM
 
   def relative_relevance
     relevance do |inputs|
-      result = []
+      sorted = []
       until inputs.empty?
         best = inputs.delete inputs.max_by { |input|
           input.i.nil? ? input.seps.size.to_f / beta_q.pins : input.seps.size
         }
         inputs.each { |i| i.seps -= best.seps }
         inputs.delete_if { |i| i.seps.empty? }
-        result << best
+        sorted << best
       end
-      result
+      sorted
     end
   end
 
@@ -204,13 +204,14 @@ module ArtDecomp class FSM
     inputs = Array.new(input_count) do |i|
       OpenStruct.new seps: beta_x(i).seps & f_seps, i: i
     end + [OpenStruct.new(seps: beta_q.seps & f_seps)]
-
     inputs.delete_if { |input| input.seps.empty? }
 
-    is = yield(inputs).map &:i
+    sorted = yield inputs
 
-    (beta_q.pins - 1).times { is.insert is.index(nil), nil } if is.include? nil
+    if state = sorted.find { |input| input.i.nil? }
+      (beta_q.pins - 1).times { sorted.insert sorted.index(state), state }
+    end
 
-    is
+    sorted.map &:i
   end
 end end
