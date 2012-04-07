@@ -79,19 +79,21 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relative_relevance
   def general_relevance
-    win = Struct.new :i, :seps, :pins
+    win = Struct.new :i, :seps
 
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps, 1
+      win.new i, seps
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
+    seps << win.new(nil, beta_q.seps & f_seps)
 
     seps.delete_if { |s| s.seps.empty? }
 
-    gr = seps.sort_by { |sep| sep.seps.size.to_f / sep.pins }.reverse.map &:i
+    gr = seps.sort_by do |sep|
+      sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+    end.reverse.map &:i
 
     (beta_q.pins - 1).times { gr.insert gr.index(nil), nil } if gr.include? nil
 
@@ -121,22 +123,24 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relevance
   def relative_relevance
-    win = Struct.new :i, :seps, :pins
+    win = Struct.new :i, :seps
 
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(i).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps, 1
+      win.new i, seps
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins)
+    seps << win.new(nil, beta_q.seps & f_seps)
 
     seps.delete_if { |s| s.seps.empty? }
 
     rr = []
 
     until seps.empty?
-      best = seps.delete seps.max_by { |sep| sep.seps.size.to_f / sep.pins }
+      best = seps.delete seps.max_by { |sep|
+        sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+      }
 
       seps.each { |s| s.seps -= best.seps }
       seps.delete_if { |s| s.seps.empty? }
@@ -185,21 +189,23 @@ module ArtDecomp class FSM
 
   # FIXME: refactor with #relative_relevance
   def unique_relevance
-    win = Struct.new :i, :seps, :pins
+    win = Struct.new :i, :seps
 
     f_seps = beta_f.seps
 
     seps = Array.new(input_count) { |i| beta_x(Set[i]).seps & f_seps }.map.with_index do |seps, i|
-      win.new i, seps, 1
+      win.new i, seps
     end
 
-    seps << win.new(nil, beta_q.seps & f_seps, beta_q.pins) unless beta_q.pins.zero?
+    seps << win.new(nil, beta_q.seps & f_seps) unless beta_q.pins.zero?
 
     others_seps = Hash[seps.map { |sep| [sep.i, seps.reject { |s| s.equal? sep }.map(&:seps).inject(:+)] }]
 
     seps.each { |sep| sep.seps -= others_seps[sep.i] }
 
-    ur = seps.sort_by { |sep| sep.seps.size.to_f / sep.pins }.reverse.map &:i
+    ur = seps.sort_by do |sep|
+      sep.i.nil? ? sep.seps.size.to_f / beta_q.pins : sep.seps.size
+    end.reverse.map &:i
 
     (beta_q.pins - 1).times { ur.insert ur.index(nil), nil } if ur.include? nil
 
