@@ -30,12 +30,6 @@ module ArtDecomp describe UVGenerator::Braindead do
       fsm.expect :expand_x, fsm2, [Set[1]]
       fsm.expect :expand_x, fsm3, [Set[0,1]]
 
-      # FIXME: switch to saner approach once Mock supports multiple same-method expects
-      fsm0.expect :==, true, [MiniTest::Mock]
-      fsm1.expect :==, true, [MiniTest::Mock]
-      fsm2.expect :==, true, [MiniTest::Mock]
-      fsm3.expect :==, true, [MiniTest::Mock]
-
       uvs = uvg.uv_pairs(fsm, Set[Arch[3,1]]).to_a
 
       uvs.must_equal [
