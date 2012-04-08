@@ -1,4 +1,4 @@
-module ArtDecomp class QvGenerator::Bipainting
+module ArtDecomp module QvGenerator class Bipainting
   def blankets fsm, u, v, beta_qu
     beta_u    = fsm.beta_x u
     beta_v    = fsm.beta_x v
@@ -7,4 +7,4 @@ module ArtDecomp class QvGenerator::Bipainting
       yielder.yield bipainter.blankets
     end
   end
-end end
+end end end

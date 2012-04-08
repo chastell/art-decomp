@@ -1,4 +1,4 @@
-module ArtDecomp class QuGenerator::EdgeLabels
+module ArtDecomp module QuGenerator class EdgeLabels
   def blankets fsm, u, v
     seps   = fsm.beta_f.seps - fsm.beta_x(u).seps
     @graph = Graph.new fsm.beta_q, seps
@@ -19,4 +19,4 @@ module ArtDecomp class QuGenerator::EdgeLabels
   def initial_merge
     @graph.merge_until_complete!
   end
-end end
+end end end

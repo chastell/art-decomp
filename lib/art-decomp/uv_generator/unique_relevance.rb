@@ -1,5 +1,7 @@
-module ArtDecomp class UVGenerator::UniqueRelevance < UVRelevanceGenerator
+require_relative '../uv_relevance_generator'
+
+module ArtDecomp module UVGenerator class UniqueRelevance < UVRelevanceGenerator
   def uv_pairs fsm, archs
     super fsm, archs, :unique_relevance
   end
-end end
+end end end
