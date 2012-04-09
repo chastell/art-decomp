@@ -18,7 +18,7 @@ module ArtDecomp describe Logging do
 
   after do
     Logging.off
-    FileUtils.rmtree @dir if Dir.exists? @dir
+    FileUtils.rmtree @dir
   end
 
   def log

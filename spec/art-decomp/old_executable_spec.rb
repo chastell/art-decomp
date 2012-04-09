@@ -10,7 +10,7 @@ module ArtDecomp describe OldExecutable do
   end
 
   after do
-    FileUtils.rmdir @dir
+    FileUtils.rmtree @dir
   end
 
   describe '.new' do
