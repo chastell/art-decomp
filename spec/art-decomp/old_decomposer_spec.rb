@@ -14,9 +14,9 @@ module ArtDecomp describe OldDecomposer do
 
   describe '#decompositions' do
     class StubGenerator
-      def initialize sequences;  @sequences = sequences;      end
-      def blankets *key, &block; @sequences[key].each &block; end
-      def uv_pairs *key, &block; @sequences[key].each &block; end
+      def initialize sequences;  @sequences = sequences;       end
+      def blankets *key, &block; @sequences[key].each(&block); end
+      def uv_pairs *key, &block; @sequences[key].each(&block); end
     end
 
     it 'polls the generators and yields the resulting decompositions one by one' do

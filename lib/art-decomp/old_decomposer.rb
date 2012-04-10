@@ -3,9 +3,9 @@ module ArtDecomp class OldDecomposer
   def initialize params
     @archs   = params[:archs]
     @fsm     = params[:fsm]
-    @uv_gens = params[:uv_gens].map &:new
-    @qu_gens = params[:qu_gens].map &:new
-    @qv_gens = params[:qv_gens].map &:new
+    @uv_gens = params[:uv_gens].map(&:new)
+    @qu_gens = params[:qu_gens].map(&:new)
+    @qv_gens = params[:qv_gens].map(&:new)
   end
 
   def decompositions opts = {}

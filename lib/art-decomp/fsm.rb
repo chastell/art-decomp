@@ -212,6 +212,6 @@ module ArtDecomp class FSM
       (beta_q.pins - 1).times { sorted.insert sorted.index(state), state }
     end
 
-    sorted.map &:i
+    sorted.map(&:i)
   end
 end end

@@ -47,7 +47,7 @@ module ArtDecomp class Graph
     pins = @neighbours.size.log2_ceil
     until @neighbours.size.log2_ceil < pins
       # FIXME: edge labels can/should be cached from previous computations
-      a, b = *edges.sort_by { |edge| yield *edge }.first
+      a, b = *edges.sort_by { |edge| yield(*edge) }.first
       merge! a, b
     end
     self
