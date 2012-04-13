@@ -10,8 +10,9 @@ module ArtDecomp describe Sep do
 
   describe '#hash' do
     it 'hashes uniformly' do
+      sep_0_69_int = 2**69 + 0b1
       Sep[1,2].hash.must_equal  0b110.hash
-      Sep[0,69].hash.must_equal (2**69 + 0b1).hash
+      Sep[0,69].hash.must_equal sep_0_69_int.hash
     end
   end
 end end
