@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 module ArtDecomp describe KISS do
   def verify_kiss scenario
-    scenario.gsub! /^#{scenario[/\A\s*/]}/, ''
+    scenario.gsub!(/^#{scenario[/\A\s*/]}/, '')
     lines, formatted = scenario.split("\n\n").map { |e| e.split "\n" }
     formatted = formatted.join("\n") + "\n"
     KISS.new(lines).formatted.must_equal formatted
