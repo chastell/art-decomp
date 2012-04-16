@@ -14,12 +14,15 @@ module ArtDecomp describe B do
 
   describe '#hash' do
     it 'hashes uniformly' do
+      b_30_int   = 2**30
+      b_40_int   = 2**40
+      b_1_69_int = 2**69 + 0b10
       B[].hash.must_equal     0b0.hash
       B[0].hash.must_equal    0b1.hash
       B[5,8].hash.must_equal  0b100100000.hash
-      B[30].hash.must_equal   (2**30).hash
-      B[40].hash.must_equal   (2**40).hash
-      B[1,69].hash.must_equal (2**69 + 0b10).hash
+      B[30].hash.must_equal   b_30_int.hash
+      B[40].hash.must_equal   b_40_int.hash
+      B[1,69].hash.must_equal b_1_69_int.hash
     end
   end
 end end
