@@ -60,7 +60,7 @@ module ArtDecomp describe OldDecomposer do
       uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0], Set[1]]], [FSM, Set]
       qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [Blanket.new([])], [FSM, Set, Set]
       qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[Blanket.new([]), Blanket.new([])], [Blanket.new([]), Blanket.new([])]], [FSM, Set, Set, Object]
-      class FakeDecomposition
+      dec_class = Class.new do
         def self.new *_
           pos = MiniTest::Mock.new; pos.expect :sensible?, true,  [Set]
           neg = MiniTest::Mock.new; neg.expect :sensible?, false, [Set]
@@ -72,7 +72,7 @@ module ArtDecomp describe OldDecomposer do
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
       decomposer = OldDecomposer.new archs: Set[Arch[4,2]], fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
-      decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 1
+      decomposer.decompositions(dec_class: dec_class).to_a.size.must_equal 1
     end
 
     it 'skips re-computing elements it already computed once (unless told not to)' do
@@ -81,7 +81,7 @@ module ArtDecomp describe OldDecomposer do
       uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0], Set[1]], [fsm, Set[0], Set[1]], [fsm, Set[1], Set[0]]], [FSM, Set]
       qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu1, qu1, qu2], [FSM, Set, Set]
       qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g1], [qv, g1], [qv, g2]], [FSM, Set, Set, Object]
-      class FakeDecomposition
+      dec_class = Class.new do
         def self.new *_
           MiniTest::Mock.new.expect :sensible?, true, [Set]
         end
@@ -90,9 +90,9 @@ module ArtDecomp describe OldDecomposer do
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
       decomposer = OldDecomposer.new archs: Set[Arch[4,2]], fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
-      decomposer.decompositions(dec_class: FakeDecomposition).to_a.size.must_equal 8
+      decomposer.decompositions(dec_class: dec_class).to_a.size.must_equal 8
       decomposer = OldDecomposer.new archs: Set[Arch[4,2]], fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
-      decomposer.decompositions(dec_class: FakeDecomposition, keep_seen: true).to_a.size.must_equal 27
+      decomposer.decompositions(dec_class: dec_class, keep_seen: true).to_a.size.must_equal 27
     end
 
     it 'computes shallow ((u & v).size == 1) non-disjoint decompositions (if told to)' do
@@ -103,7 +103,7 @@ module ArtDecomp describe OldDecomposer do
       uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0,1], Set[2,3]]], [Object, Set]
       qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu], [Object, Set, Set]
       qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g2], [qv, g1]], [Object, Set, Set, Object]
-      class FakeDecomposition
+      dec_class = Class.new do
         def self.new *_
           MiniTest::Mock.new.expect :sensible?, true, [Set]
         end
@@ -112,7 +112,7 @@ module ArtDecomp describe OldDecomposer do
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
       decomposer = OldDecomposer.new archs: Set[Arch[4,2]], fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
-      decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true).to_a.size.must_equal 4
+      decomposer.decompositions(dec_class: dec_class, non_disjoint: true).to_a.size.must_equal 4
     end
 
     it 'computes deep ((u & v).size > 1) non-disjoint decompositions (if told to)' do
@@ -123,7 +123,7 @@ module ArtDecomp describe OldDecomposer do
       uv_gen = MiniTest::Mock.new; uv_gen.expect :uv_pairs, [[fsm, Set[0,1], Set[2,3]]], [Object, Set]
       qu_gen = MiniTest::Mock.new; qu_gen.expect :blankets, [qu], [Object, Set, Set]
       qv_gen = MiniTest::Mock.new; qv_gen.expect :blankets, [[qv, g2], [qv, g1]], [Object, Set, Set, Object]
-      class FakeDecomposition
+      dec_class = Class.new do
         def self.new *_
           MiniTest::Mock.new.expect :sensible?, true, [Set]
         end
@@ -132,7 +132,7 @@ module ArtDecomp describe OldDecomposer do
       qu_gens = MiniTest::Mock.new; qu_gens.expect :new, qu_gen
       qv_gens = MiniTest::Mock.new; qv_gens.expect :new, qv_gen
       decomposer = OldDecomposer.new archs: Set[Arch[4,2]], fsm: fsm, uv_gens: [uv_gens], qu_gens: [qu_gens], qv_gens: [qv_gens]
-      decomposer.decompositions(dec_class: FakeDecomposition, non_disjoint: true, deep_ndj: true).to_a.size.must_equal 4
+      decomposer.decompositions(dec_class: dec_class, non_disjoint: true, deep_ndj: true).to_a.size.must_equal 4
     end
   end
 end end
