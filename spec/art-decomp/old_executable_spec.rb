@@ -65,11 +65,11 @@ module ArtDecomp describe OldExecutable do
 
     it 'allows logging to the specified file/stream' do
       log = Tempfile.new rand.to_s
-      class FakeDecomposer
+      fake_decomposer = Class.new do
         def initialize *_; end
         def decompositions *_; [].each; end
       end
-      OldExecutable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run true, FakeDecomposer
+      OldExecutable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run true, fake_decomposer
       Logging.level.must_equal Logger::DEBUG
       Logging.off
       File.read(log.path).must_include '4/2+10s'
@@ -79,24 +79,24 @@ module ArtDecomp describe OldExecutable do
   describe '#run' do
     it 'dumps the resulting decompositions into a file' do
       $dec = Decomposition.new FSM.from_kiss(@fsm), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-      class FakeDecomposer
+      fake_decomposer = Class.new do
         def initialize *_; end
         def decompositions *_; [$dec, $dec].each; end
       end
-      OldExecutable.new(@args).run false, FakeDecomposer
+      OldExecutable.new(@args).run false, fake_decomposer
       Marshal.load(File.read("#{@dir}/decompositions")).must_equal [$dec, $dec]
     end
 
     it 'creates files holding the resulting Decomposition objects and keeps track of the best decomposition' do
       $dec0 = Decomposition.new FSM.from_kiss(@fsm), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
       $dec1 = Decomposition.new FSM.from_kiss(@fsm), Set[1], Set[0], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[]
-      class FakeDecomposer
+      fake_decomposer = Class.new do
         def initialize *_; end
         def decompositions *_; [$dec0, $dec1].each; end
       end
       ex = OldExecutable.new @args
       ex.best.must_be_nil
-      ex.run true, FakeDecomposer
+      ex.run true, fake_decomposer
       ex.best.must_equal 4
       Marshal.load(File.read("#{@dir}/0.dec")).must_equal $dec0
       Marshal.load(File.read("#{@dir}/1.dec")).must_equal $dec1
@@ -126,13 +126,13 @@ module ArtDecomp describe OldExecutable do
 
     it 'decomposes iteratively according to the number of iterations' do
       args = ['--archs', '2/1', '--iters', '2', '--outdir', @dir, 'spec/fixtures/lion']
-      class FakeDecomposer
+      fake_decomposer = Class.new do
         def initialize *_; end
         def decompositions *_
           [Decomposition.new(FSM.from_kiss('spec/fixtures/lion'), Set[0], Set[1], Blanket[B[0],B[1],B[2]], Blanket[], Blanket[])].each
         end
       end
-      OldExecutable.new(args).run true, FakeDecomposer
+      OldExecutable.new(args).run true, fake_decomposer
       assert Pathname("#{@dir}/0.dec").exist?
       assert Pathname("#{@dir}/0/0.dec").exist?
       refute Pathname("#{@dir}/0/0/0.dec").exist?
