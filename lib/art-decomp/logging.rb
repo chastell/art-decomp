@@ -46,15 +46,9 @@ module ArtDecomp class Logging
       @log.info "#{point.args[0].stats} with #{point.sender.gens}"
     end
 
-    uv_gens.each do |uv_gen|
-      uv_gen.capture_pre methods: :uv_pairs do |point|
-        @uv_gen = uv_gen.to_s.split('::').last
-      end
-    end
-
     qu_gens.each do |qu_gen|
       qu_gen.capture_pre methods: :blankets do |point|
-        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10} via #{@uv_gen} with #{qu_gen.to_s.split('::').last}"
+        @log.debug "#{point.args[1].sort.join(' ').ljust 10} #{point.args[2].sort.join(' ').ljust 10}"
       end
     end
 

@@ -56,7 +56,7 @@ module ArtDecomp describe Logging do
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets fsm, u, v
     end
-    log.must_include '0          1          via  with BlockTable'
-    log.must_include '1          0          via  with BlockTable'
+    log.must_include '0          1'
+    log.must_include '1          0'
   end
 end end
