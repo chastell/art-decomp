@@ -15,6 +15,8 @@ module ArtDecomp class Logging
 
   def self.log= log
     @start = Time.now
+    @best = nil
+    @path = nil
     @log = Logger.new log
     @log.level = Logger::INFO
     @log.formatter = proc do |sev, date, name, msg|
