@@ -33,7 +33,7 @@ module ArtDecomp class Decomposition
       g  = @g.encoding row
       "#{v}#{qv} #{g}"
     end
-    KISS.new(lines).formatted
+    KISS.new(lines, [".v #{@v.sort.join ' '}"]).formatted
   end
 
   def h_cells archs
