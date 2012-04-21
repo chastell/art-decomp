@@ -54,7 +54,7 @@ module ArtDecomp class Decomposition
         "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
     end.flatten
-    KISS.new(lines).formatted
+    KISS.new(lines, [".u #{@u.sort.join ' '}"]).formatted
   end
 
   def hash
