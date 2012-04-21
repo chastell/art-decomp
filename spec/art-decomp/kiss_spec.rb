@@ -69,5 +69,9 @@ module ArtDecomp describe KISS do
         -- 0
       end
     end
+
+    it 'supports metadata' do
+      KISS.new(['00 0'], ['.v 0 1']).formatted.must_equal ".v 0 1\n00 0\n"
+    end
   end
 end end
