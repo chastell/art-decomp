@@ -287,6 +287,10 @@ module ArtDecomp describe FSM do
       opus.x_encoding(Set[0,2], B[0]).must_equal '-1'
       -> { opus.x_encoding Set[0], B[8,9] }.must_raise AmbiguousEncodingQuery
     end
+
+    it 'returns the same (ordered) encoding regardless of input order' do
+      opus.x_encoding(Set[0,2], B[0]).must_equal opus.x_encoding Set[2,0], B[0]
+    end
   end
 
   describe '#y_encoding' do

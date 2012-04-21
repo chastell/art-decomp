@@ -170,7 +170,7 @@ module ArtDecomp class FSM
   end
 
   def x_encoding ins, rows
-    ins.map { |i| encoding @inputs[i], rows }.join
+    ins.sort.map { |i| encoding @inputs[i], rows }.join
   end
 
   def y_encoding rows
