@@ -33,7 +33,7 @@ module ArtDecomp class Decomposition
       g  = @g.encoding row
       "#{v}#{qv} #{g}"
     end
-    KISS.new(lines, [".v #{@v.sort.join ' '}"]).formatted
+    KISS.new(lines).formatted
   end
 
   def h_cells archs
@@ -54,7 +54,7 @@ module ArtDecomp class Decomposition
         "#{u}#{g} #{qu} #{qup} #{qvp}#{y}"
       end
     end.flatten
-    KISS.new(lines, [".u #{@u.sort.join ' '}"]).formatted
+    KISS.new(lines).formatted
   end
 
   def hash
