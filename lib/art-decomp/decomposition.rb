@@ -66,9 +66,9 @@ module ArtDecomp class Decomposition
       qu = @qu.encoding row
       qv = @qv.encoding row
       q  = @fsm.q_encoding row
-      "#{qu} #{qv}  #{q}"
+      "#{q} #{qu} #{qv}"
     end
-    KISS.new(lines).formatted
+    KISS.new(lines).formatted false
   end
 
   def sensible? archs
