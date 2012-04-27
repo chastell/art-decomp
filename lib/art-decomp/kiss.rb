@@ -4,11 +4,11 @@ module ArtDecomp class KISS
     @meta  = meta
   end
 
-  def formatted
+  def formatted compact = true
     @lines.sort!
     @lines.uniq!
-    drop_overlapping
-    combine_matching
+    drop_overlapping if compact
+    combine_matching if compact
     (@meta + @lines).join("\n") + "\n"
   end
 
