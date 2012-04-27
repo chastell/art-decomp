@@ -1,0 +1,77 @@
+.dec F
+.inputs x0 x1 x2 x3
+.state q
+.next_state qp
+.outputs y0 y1
+--00 init0 init1 00
+--01 init4 IOwait 01
+--1- init1 init2 10
+-01- IOwait init2 01
+-111 init4 init4 10
+000- IOwait IOwait 01
+0001 read0 read1 11
+0010 RMACK RMACK 11
+0010 read1 IOwait 01
+0100 init1 init1 00
+0100 write0 IOwait 01
+0110 IOwait read0 00
+0111 IOwait RMACK 11
+0111 RMACK read0 00
+1-10 init2 init4 10
+100- IOwait init1 01
+1001 WMACK write0 01
+1100 IOwait write0 11
+1100 WMACK WMACK 00
+1101 IOwait WMACK 00
+.e
+
+.dec Q
+.state q
+.next_state qu
+.outputs qv0
+IOwait 01 1
+RMACK 10 1
+WMACK 11 1
+init0 00 1
+init1 10 0
+init2 10 1
+init4 00 1
+read0 11 1
+read1 11 0
+write0 11 1
+.e
+
+.dec G
+.inputs x2 qv0
+.outputs g0
+00 0
+01 1
+10 1
+11 0
+.e
+
+.dec H
+.inputs x0 x1 x3 g0
+.state qu
+.next_state qup
+.outputs qvp0 y0 y1
+---1 10 10 110
+--01 00 10 000
+--11 00 01 101
+-0-0 01 10 101
+-110 00 00 110
+0-01 11 01 101
+00-1 01 01 101
+0000 10 10 111
+0011 11 11 011
+0100 01 11 100
+0100 10 10 000
+0110 01 10 111
+0110 10 11 100
+1-00 10 00 110
+10-1 01 10 001
+1011 11 11 101
+1101 01 11 111
+1101 11 11 100
+1111 01 11 100
+.e

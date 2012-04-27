@@ -79,6 +79,39 @@ module ArtDecomp class Decomposition
     @qu.size > 2
   end
 
+  def to_kiss
+    <<-KISS.gsub(/^ +/, '')
+      .dec F
+      .inputs #{kiss_pins fsm.input_count, 'x'}
+      .state q
+      .next_state qp
+      .outputs #{kiss_pins fsm.output_count, 'y'}
+      #{f_kiss.strip}
+      .e
+
+      .dec Q
+      .state q
+      .next_state qu
+      .outputs #{kiss_pins qv.pins, 'qv'}
+      #{q_kiss.strip}
+      .e
+
+      .dec G
+      .inputs #{kiss_pins v, 'x'} #{kiss_pins qv.pins, 'qv'}
+      .outputs #{kiss_pins g.pins, 'g'}
+      #{g_kiss.strip}
+      .e
+
+      .dec H
+      .inputs #{kiss_pins u, 'x'} #{kiss_pins g.pins, 'g'}
+      .state qu
+      .next_state qup
+      .outputs #{kiss_pins qv.pins, 'qvp'} #{kiss_pins fsm.output_count, 'y'}
+      #{h_kiss.strip}
+      .e
+    KISS
+  end
+
   def valid?
     @g.seps.subset?((@fsm.beta_x(@v) * @qv).seps) and @fsm.beta_f.seps.subset?((@fsm.beta_x(@u) * @qu * @g).seps)
   end
@@ -86,4 +119,12 @@ module ArtDecomp class Decomposition
   protected
 
   attr_reader :fsm, :u, :v, :qu, :qv, :g
+
+  private
+
+  # FIXME: this should really move to KISS
+  def kiss_pins pins, name
+    pins = 0...pins if pins.is_a? Integer
+    pins.map { |i| name + i.to_s }.join ' '
+  end
 end end

@@ -143,6 +143,12 @@ module ArtDecomp describe Decomposition do
     end
   end
 
+  describe '#to_kiss' do
+    it 'returns the combined decomposition KISS representation' do
+      dec.to_kiss.must_equal File.read 'spec/fixtures/dec.kiss'
+    end
+  end
+
   describe '#valid?' do
     it 'is a predicate whether the Decomposition is valid' do
       qu = Blanket[B[0,1,2,3,4,5,17],B[6,7,8,9,10,11,12,13,14,15,16,18,19]]
