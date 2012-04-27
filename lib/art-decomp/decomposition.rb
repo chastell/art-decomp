@@ -125,6 +125,7 @@ module ArtDecomp class Decomposition
   # FIXME: this should really move to KISS
   def kiss_pins pins, name
     pins = 0...pins if pins.is_a? Integer
+    pins = pins.to_a.sort if pins.is_a? Set
     pins.map { |i| name + i.to_s }.join ' '
   end
 end end

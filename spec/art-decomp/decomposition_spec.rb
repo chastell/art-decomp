@@ -9,7 +9,7 @@ module ArtDecomp describe Decomposition do
   let(:b9) { Blanket[B[0],B[1],B[2],B[3],B[4],B[5],B[6],B[7],B[8]] }
 
   let(:dec) do
-    Decomposition.new fsm, Set[0,1,3], Set[2],
+    Decomposition.new fsm, Set[0,3,1], Set[2],
       Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]],
       Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]],
       Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]]
