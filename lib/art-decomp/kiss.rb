@@ -1,7 +1,6 @@
 module ArtDecomp class KISS
-  def initialize lines, meta = []
+  def initialize lines
     @lines = lines
-    @meta  = meta
   end
 
   def formatted compact = true
@@ -9,7 +8,7 @@ module ArtDecomp class KISS
     @lines.uniq!
     drop_overlapping if compact
     combine_matching if compact
-    (@meta + @lines).join("\n") + "\n"
+    @lines.join("\n") + "\n"
   end
 
   private

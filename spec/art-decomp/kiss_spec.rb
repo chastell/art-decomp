@@ -70,10 +70,6 @@ module ArtDecomp describe KISS do
       end
     end
 
-    it 'supports metadata' do
-      KISS.new(['00 0'], ['.v 0 1']).formatted.must_equal ".v 0 1\n00 0\n"
-    end
-
     it 'allows skipping the drop-and-combine steps' do
       verify_kiss false, <<-end
         1 1
