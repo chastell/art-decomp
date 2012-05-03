@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 require_relative '../spec_helper'
+require_relative '../../lib/art-decomp/old_executable'
 
 module ArtDecomp describe OldExecutable do
   before do

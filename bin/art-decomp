@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/art-decomp'
+require_relative '../lib/art-decomp/old_executable'
 
 ArtDecomp::OldExecutable.new.run
