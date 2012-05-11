@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe UVGenerator::Braindead do
-  let(:uvg) { UVGenerator::Braindead.new }
+module ArtDecomp describe UVGenerators::Braindead do
+  let(:uvg) { UVGenerators::Braindead.new }
 
   describe '#uv_pairs' do
     it 'yields all non-insane U and V combinations' do

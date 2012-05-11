@@ -108,7 +108,7 @@ module ArtDecomp describe OldExecutable do
   #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
   #     decomposer = mock OldDecomposer, decompositions: [].each
-  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::Braindead], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::GraphMerging, QvGenerator::Bipainting]).and_return decomposer
+  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[4,2], Arch[5,1]], uv_gens: [UVGenerators::Braindead, UVGenerators::Braindead], qu_gens: [QuGenerators::BlockTable, QuGenerators::EdgeLabels], qv_gens: [QvGenerators::GraphMerging, QvGenerators::Bipainting]).and_return decomposer
 
   #     args = ['--archs', '5/1', '4/2', '--uv', 'Braindead', 'Braindead', '--qu', 'BlockTable', 'EdgeLabels', '--qv', 'GraphMerging', 'Bipainting', '--outdir', @dir, @fsm]
   #     OldExecutable.new(args).run
@@ -119,7 +119,7 @@ module ArtDecomp describe OldExecutable do
   #     FSM.should_receive(:from_kiss).with(@fsm).and_return fsm
 
   #     decomposer = mock OldDecomposer, decompositions: [].each
-  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerator::Braindead, UVGenerator::GeneralRelevance, UVGenerator::UniqueRelevance], qu_gens: [QuGenerator::BlockTable, QuGenerator::EdgeLabels], qv_gens: [QvGenerator::Bipainting, QvGenerator::GraphColouring,QvGenerator::GraphMerging]).and_return decomposer
+  #     OldDecomposer.should_receive(:new).with(fsm: fsm, archs: Set[Arch[5,1]], uv_gens: [UVGenerators::Braindead, UVGenerators::GeneralRelevance, UVGenerators::UniqueRelevance], qu_gens: [QuGenerators::BlockTable, QuGenerators::EdgeLabels], qv_gens: [QvGenerators::Bipainting, QvGenerators::GraphColouring,QvGenerators::GraphMerging]).and_return decomposer
 
   #     args = ['--archs', '5/1', '--uv', 'all', '--qu', 'all', '--qv', 'all', '--outdir', @dir, @fsm]
   #     OldExecutable.new(args).run

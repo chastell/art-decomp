@@ -52,7 +52,7 @@ module ArtDecomp describe Logging do
     fsm.expect :beta_q, Blanket[]
     fsm.expect :beta_x, Blanket[], [Set]
     Logging.level = Logger::DEBUG
-    qu = QuGenerator::BlockTable.new
+    qu = QuGenerators::BlockTable.new
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets fsm, u, v
     end

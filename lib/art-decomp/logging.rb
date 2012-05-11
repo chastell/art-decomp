@@ -37,8 +37,8 @@ module ArtDecomp class Logging
   private
 
   def self.add_logging
-    uv_gens = UVGenerator.constants.map { |c| UVGenerator.const_get c }
-    qu_gens = QuGenerator.constants.map { |c| QuGenerator.const_get c }
+    uv_gens = UVGenerators.constants.map { |c| UVGenerators.const_get c }
+    qu_gens = QuGenerators.constants.map { |c| QuGenerators.const_get c }
 
     (uv_gens + qu_gens + [OldExecutable]).each { |c| c.class_eval { include RCapture::Interceptable } }
 

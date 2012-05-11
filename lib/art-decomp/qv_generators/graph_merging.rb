@@ -1,4 +1,4 @@
-module ArtDecomp module QvGenerator class GraphMerging
+module ArtDecomp module QvGenerators class GraphMerging
   def blankets fsm, u, v, beta_qu
     beta_u   = fsm.beta_x u
     beta_v   = fsm.beta_x v

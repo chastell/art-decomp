@@ -19,9 +19,9 @@ module ArtDecomp class OldExecutable
       opt :debug,        'Log debug-level activities',           default: false
     end
 
-    opts[:uv] = UVGenerator.constants.map(&:to_s).sort if opts[:uv] == ['all']
-    opts[:qu] = QuGenerator.constants.map(&:to_s).sort if opts[:qu] == ['all']
-    opts[:qv] = QvGenerator.constants.map(&:to_s).sort if opts[:qv] == ['all']
+    opts[:uv] = UVGenerators.constants.map(&:to_s).sort if opts[:uv] == ['all']
+    opts[:qu] = QuGenerators.constants.map(&:to_s).sort if opts[:qu] == ['all']
+    opts[:qv] = QvGenerators.constants.map(&:to_s).sort if opts[:qv] == ['all']
 
     Trollop.die          'no FSM given'                      if     args.empty?
     Trollop.die          'FSM does not exist'                unless File.exists? args.first
@@ -29,9 +29,9 @@ module ArtDecomp class OldExecutable
     Trollop.die          'no output directory given'         unless opts[:outdir_given]
     Trollop.die :archs,  'not in the form of inputs/outputs' unless opts[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
     Trollop.die :outdir, 'output directory exists'           if     File.exists? opts[:outdir]
-    Trollop.die :uv,     'no such UV generator'              unless (opts[:uv] - UVGenerator.constants.map(&:to_s)).empty?
-    Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu] - QuGenerator.constants.map(&:to_s)).empty?
-    Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv] - QvGenerator.constants.map(&:to_s)).empty?
+    Trollop.die :uv,     'no such UV generator'              unless (opts[:uv] - UVGenerators.constants.map(&:to_s)).empty?
+    Trollop.die :qu,     'no such Qu generator'              unless (opts[:qu] - QuGenerators.constants.map(&:to_s)).empty?
+    Trollop.die :qv,     'no such Qv generator'              unless (opts[:qv] - QvGenerators.constants.map(&:to_s)).empty?
 
     Dir.mkdir opts[:outdir] rescue Trollop.die :outdir, 'output directory cannot be created'
 
@@ -43,9 +43,9 @@ module ArtDecomp class OldExecutable
     @non_disjoint = opts[:non_disjoint]
     @deep_ndj     = opts[:deep_ndj]
 
-    @uv_gens = opts[:uv].map { |gen| UVGenerator.const_get gen }
-    @qu_gens = opts[:qu].map { |gen| QuGenerator.const_get gen }
-    @qv_gens = opts[:qv].map { |gen| QvGenerator.const_get gen }
+    @uv_gens = opts[:uv].map { |gen| UVGenerators.const_get gen }
+    @qu_gens = opts[:qu].map { |gen| QuGenerators.const_get gen }
+    @qv_gens = opts[:qv].map { |gen| QvGenerators.const_get gen }
 
     if opts[:log_given]
       require_relative 'logging'

@@ -1,4 +1,4 @@
-module ArtDecomp module QvGenerator class GraphColouring
+module ArtDecomp module QvGenerators class GraphColouring
   def blankets fsm, u, v, beta_qu
     beta_u = fsm.beta_x u
     beta_v = fsm.beta_x v
