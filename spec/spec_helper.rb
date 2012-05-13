@@ -17,14 +17,15 @@ def qu_blankets opts
 end
 
 def verify_qv_blankets generator, pairs
-  beta_f  = MiniTest::Mock.new.expect :seps, Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]
+  beta_f  = MiniTest::Mock.new
+  5.times { beta_f.expect :seps, Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]] }
   beta_u  = Blanket[]
   beta_v  = Blanket[B[1,3,5], B[2,4,6]]
   beta_qu = Blanket[]
 
   fsm = MiniTest::Mock.new
-  fsm.expect :beta_f, beta_f
-  fsm.expect :beta_q, Blanket[B[1,2], B[3,4], B[5,6]]
+  3.times { fsm.expect :beta_f, beta_f }
+  3.times { fsm.expect :beta_q, Blanket[B[1,2], B[3,4], B[5,6]] }
   def fsm.beta_x set
     case set
     when Set[0] then Blanket[]

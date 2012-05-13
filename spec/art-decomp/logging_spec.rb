@@ -48,9 +48,9 @@ module ArtDecomp describe Logging do
 
   it 'logs QuGenerators’ blankets calls (if debug-level logging enabled)' do
     fsm = MiniTest::Mock.new
-    fsm.expect :beta_f, Blanket[]
-    fsm.expect :beta_q, Blanket[]
-    fsm.expect :beta_x, Blanket[], [Set]
+    2.times { fsm.expect :beta_f, Blanket[] }
+    2.times { fsm.expect :beta_q, Blanket[] }
+    2.times { fsm.expect :beta_x, Blanket[], [Set] }
     Logging.level = Logger::DEBUG
     qu = QuGenerators::BlockTable.new
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|

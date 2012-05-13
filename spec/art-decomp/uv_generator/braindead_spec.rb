@@ -7,7 +7,7 @@ module ArtDecomp describe UVGenerators::Braindead do
     it 'yields all non-insane U and V combinations' do
       fsm = MiniTest::Mock.new
       fsm.expect :input_count, 4
-      fsm.expect :expand_x, fsm, [Set]
+      15.times { fsm.expect :expand_x, fsm, [Set] }
 
       uvs = uvg.uv_pairs(fsm, Set[Arch[3,1]]).to_a
 

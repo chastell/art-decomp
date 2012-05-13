@@ -3,9 +3,9 @@ require_relative '../spec_helper'
 module ArtDecomp describe UVRelevanceGenerator do
   let :fsm do
     fsm = MiniTest::Mock.new
+    42.times { fsm.expect :expand_x, fsm, [Set] }
     fsm.expect :input_count, 6
     fsm.expect :send, [0, 1, 2, nil, nil, nil, 3, 4, 5], [:common_relevance]
-    fsm.expect :expand_x, fsm, [Set]
   end
 
   describe '#uv_pairs' do
