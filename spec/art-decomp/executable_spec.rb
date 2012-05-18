@@ -2,13 +2,15 @@ require_relative '../spec_helper'
 require_relative '../../lib/art-decomp/executable'
 
 module ArtDecomp describe Executable do
+  let(:args)     { ['--archs', '5/1', '--', fsm_path] }
   let(:fsm_path) { 'spec/fixtures/fsm' }
 
   describe '.new' do
     it 'gives help when asked' do
       -> { -> { Executable.new ['--help'] }.must_raise SystemExit }.must_output <<-end.gsub(/^ {8}/, '')
         Options:
-          --help, -h:   Show this message
+          --archs, -a <s+>:   Target architecture(s)
+                --help, -h:   Show this message
       end
     end
 
@@ -19,6 +21,10 @@ module ArtDecomp describe Executable do
 
     it 'requires one or more architectures' do
       capture_io { -> { Executable.new [fsm_path] }.must_raise SystemExit }.last.must_include 'no architecture(s) given'
+    end
+
+    it 'does not raise with minimal arguments' do
+      Executable.new args
     end
   end
 end end
