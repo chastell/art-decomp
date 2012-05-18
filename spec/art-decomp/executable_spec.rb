@@ -2,9 +2,9 @@ require_relative '../spec_helper'
 require_relative '../../lib/art-decomp/executable'
 
 module ArtDecomp describe Executable do
-  let(:args)     { ['--archs', '5/1', '--dir', dir_path, '--', fsm_path] }
   let(:dir_path) { Dir.mktmpdir }
   let(:fsm_path) { 'spec/fixtures/fsm' }
+  let(:min_args) { ['--archs', '5/1', '--dir', dir_path, '--', fsm_path] }
 
   after { FileUtils.rmtree dir_path }
 
@@ -32,7 +32,7 @@ module ArtDecomp describe Executable do
     end
 
     it 'does not raise with minimal arguments' do
-      Executable.new args
+      Executable.new min_args
     end
   end
 end end
