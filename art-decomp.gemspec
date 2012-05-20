@@ -10,8 +10,8 @@ Gem::Specification.new do |gem|
 
   gem.files       = `git ls-files -z`.split "\0"
   gem.files      -= Dir['kiss/**/*']
-  gem.executables = Dir['bin/*'].map { |d| d.split '/' }.map(&:last)
-  gem.test_files  = Dir['spec/**/*.rb']
+  gem.executables = gem.files.grep(%r{^bin/}).map { |path| File.basename path }
+  gem.test_files  = gem.files.grep %r{^spec/.*\.rb$}
 
   gem.add_dependency 'rcapture'
   gem.add_dependency 'trollop'
