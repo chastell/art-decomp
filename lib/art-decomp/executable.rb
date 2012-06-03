@@ -41,7 +41,7 @@ module ArtDecomp class Executable
     if @best
       Log.warn "FSM #{@fsm.stats} is directly implementable in #{@archs.sort.reverse.map(&:to_s).join '+'} with #{@best} cells"
     else
-      decompositions.each do |dec|
+      decs.each do |dec|
         puts
         puts
         puts
@@ -56,6 +56,21 @@ module ArtDecomp class Executable
   end
 
   private
+
+  def decs opts = {}
+    fsm = opts.fetch :fsm, @fsm
+    decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
+    Enumerator.new do |yielder|
+      decomposer.decompositions.each do |dec|
+        yielder.yield dec
+        if not dec.final? @archs
+          decs(fsm: FSM.from_kiss(dec.h_kiss)).each do |in_dec|
+            yielder.yield in_dec
+          end
+        end
+      end
+    end
+  end
 
   def decompositions opts = {}
     fsm   = opts.fetch :fsm,   @fsm
