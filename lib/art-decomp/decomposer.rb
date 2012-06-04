@@ -9,12 +9,12 @@ module ArtDecomp class Decomposer
 
   def decompositions opts = {}
     tabs = "\t" * opts.fetch(:level, 0)
-    Log.info "#{tabs}FSM #{@fsm.stats}" if defined? Log
+    Log.debug "#{tabs}FSM #{@fsm.stats}" if defined? Log
     Enumerator.new do |yielder|
       @uv_gens.each do |uv_gen|
-        Log.info "#{tabs}\tUV #{uv_gen.class}" if defined? Log
+        Log.debug "#{tabs}\tUV #{uv_gen.class}" if defined? Log
         uv_gen.uv_pairs(@fsm, @archs).each do |fsm, u, v|
-          Log.info "#{tabs}\t\t#{u.sort.join ' '} | #{v.sort.join ' '}" if defined? Log
+          Log.debug "#{tabs}\t\t#{u.sort.join ' '} | #{v.sort.join ' '}" if defined? Log
           @qu_gens.each do |qu_gen|
             qu_gen.blankets(fsm, u, v).each do |qu|
               @qv_gens.each do |qv_gen|

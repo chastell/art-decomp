@@ -52,7 +52,7 @@ module ArtDecomp class Executable
         end
         name    = "#{@fsm_name}_#{i}"
         dectree = DecTree.new tree, @archs
-        Log.info "#{name}: #{dectree.cells} cells" if defined? Log
+        Log.info "#{name}: #{dectree.cells} cells, depth #{tree.size}" if defined? Log
         File.open("#{@dir}/#{name}.vhdl", 'w') do |f|
           f << dectree.to_vhdl(name)
         end
