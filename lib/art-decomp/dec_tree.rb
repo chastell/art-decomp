@@ -1,9 +1,10 @@
 module ArtDecomp class DecTree
-  attr_accessor :decs, :fsm
+  attr_accessor :archs, :decs, :fsm
 
-  def initialize decs
-    self.decs = decs
-    self.fsm  = decs.first.fsm
+  def initialize decs, archs
+    self.archs = archs
+    self.decs  = decs
+    self.fsm   = decs.first.fsm
   end
 
   def first_state
@@ -93,6 +94,10 @@ module ArtDecomp class DecTree
 
   def to_vhdl name = 'full_4'
     <<-end
+-- #{decs.map { |d| d.g_cells(archs) }.inject(:+) + decs.last.h_cells(archs)} cells of target arch (#{archs.map(&:to_s).join ' + ' })
+-- G archs: #{decs.map { |d| d.g_arch.to_s }.join ' ' }
+-- H arch: #{decs.last.h_arch.to_s }
+
 library ieee;
 use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;

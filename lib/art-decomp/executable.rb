@@ -48,7 +48,7 @@ module ArtDecomp class Executable
           File.open("#{@dir}/#{i}.#{j}.kiss", 'w') { |f| f << dec.to_kiss }
         end
         File.open("#{@dir}/#{i}.vhdl", 'w') do |f|
-          f << DecTree.new(dectrees.first).to_vhdl
+          f << DecTree.new(dectrees.first, @archs).to_vhdl
         end
       end
     end
