@@ -46,13 +46,15 @@ module ArtDecomp class Executable
     if @best
       Log.warn "FSM #{@fsm.stats} is directly implementable in #{@archs.sort.reverse.map(&:to_s).join '+'} with #{@best} cells"
     else
-      dectrees.each.with_index do |dectree, i|
-        dectree.each.with_index do |dec, j|
+      dectrees.each.with_index do |tree, i|
+        tree.each.with_index do |dec, j|
           File.open("#{@dir}/#{@fsm_name}.#{i}.#{j}.kiss", 'w') { |f| f << dec.to_kiss }
         end
-        name = "#{@fsm_name}_#{i}"
+        name    = "#{@fsm_name}_#{i}"
+        dectree = DecTree.new tree, @archs
+        Log.info "#{name}: #{dectree.cells} cells" if defined? Log
         File.open("#{@dir}/#{name}.vhdl", 'w') do |f|
-          f << DecTree.new(dectrees.first, @archs).to_vhdl(name)
+          f << dectree.to_vhdl(name)
         end
       end
     end
