@@ -8,7 +8,7 @@ module ArtDecomp class DecTree
   end
 
   def cells
-    decs.map { |d| d.g_cells(archs) }.inject(:+) + decs.last.h_cells(archs)
+    decs.map { |d| d.g_cells(archs) }.inject(:+) + decs.last.h_cells(archs) rescue nil
   end
 
   def to_vhdl name = 'full_4'
