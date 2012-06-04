@@ -67,6 +67,9 @@ module ArtDecomp class Executable
       decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
       decomposer.decompositions(level: dectree.size).each do |dec|
         dectree << dec
+        cells = DecTree.new(dectree, @archs).cells
+        @best = cells if cells and (@best.nil? or cells < @best)
+        break if @best and cells and @best < cells
         if dec.final? @archs
           yielder.yield dectree
         else
