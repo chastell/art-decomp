@@ -62,22 +62,6 @@ module ArtDecomp class Executable
 
   private
 
-  def decs fsm = @fsm
-    Enumerator.new do |yielder|
-      decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
-      decomposer.decompositions.each do |dec|
-        if dec.final? @archs
-          yielder.yield dec, true
-        else
-          yielder.yield dec, false
-          decs(FSM.from_kiss(dec.h_kiss)).each do |in_dec, final|
-            yielder.yield in_dec, final
-          end
-        end
-      end
-    end
-  end
-
   def dectrees fsm = @fsm, dectree = []
     Enumerator.new do |yielder|
       decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
