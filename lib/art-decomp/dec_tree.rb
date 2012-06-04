@@ -7,9 +7,13 @@ module ArtDecomp class DecTree
     self.fsm   = decs.first.fsm
   end
 
+  def cells
+    decs.map { |d| d.g_cells(archs) }.inject(:+) + decs.last.h_cells(archs)
+  end
+
   def to_vhdl name = 'full_4'
     <<-end
--- #{decs.map { |d| d.g_cells(archs) }.inject(:+) + decs.last.h_cells(archs)} cells of target arch (#{archs.map(&:to_s).join ' + ' })
+-- #{cells} cells of target arch (#{archs.map(&:to_s).join ' + ' })
 -- G archs: #{decs.map { |d| d.g_arch.to_s }.join ' ' }
 -- H arch: #{decs.last.h_arch.to_s }
 
