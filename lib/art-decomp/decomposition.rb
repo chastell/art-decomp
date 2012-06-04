@@ -125,6 +125,7 @@ module ArtDecomp class Decomposition
   end
 
   protected
+  public
 
   attr_reader :fsm, :u, :v, :qu, :qv, :g
 
