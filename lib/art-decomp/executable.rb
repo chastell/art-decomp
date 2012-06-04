@@ -21,8 +21,10 @@ module ArtDecomp class Executable
     Trollop.die :qv,    'generator does not exist'          unless (opts[:qv] - QvGenerators.constants.map(&:to_s)).empty?
 
     @archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
-    @dir   = FileUtils.mkdir_p "#{opts[:dir]}/#{File.basename args.first}/#{@archs.sort.reverse.map(&:to_s).join(' ').tr '/', ':'}/#{Time.now}"
+    @dir   = "#{opts[:dir]}/#{File.basename args.first}/#{@archs.sort.reverse.map(&:to_s).join(' ').tr '/', ':'}/#{Time.now}"
     @fsm   = FSM.from_kiss args.first
+
+    FileUtils.mkdir_p @dir
 
     @uv_gens = opts[:uv].map { |gen| UVGenerators.const_get gen }
     @qu_gens = opts[:qu].map { |gen| QuGenerators.const_get gen }
@@ -41,7 +43,13 @@ module ArtDecomp class Executable
     if @best
       Log.warn "FSM #{@fsm.stats} is directly implementable in #{@archs.sort.reverse.map(&:to_s).join '+'} with #{@best} cells"
     else
-      dectrees.each do |dectree|
+      dectrees.each.with_index do |dectree, i|
+        dectree.each.with_index do |dec, j|
+          File.open("#{@dir}/#{i}.#{j}.kiss", 'w') { |f| f << dec.to_kiss }
+        end
+        File.open("#{@dir}/#{i}.vhdl", 'w') do |f|
+          f << DecTree.new(dectrees.first).to_vhdl
+        end
       end
     end
   end
