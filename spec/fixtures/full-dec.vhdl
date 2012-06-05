@@ -1,17 +1,21 @@
+-- 6 cells of target arch (5/2)
+-- G archs: 5/2 4/2
+-- H arch: 5/8
+
 library ieee;
 use ieee.numeric_std.all;
 use ieee.std_logic_1164.all;
 
-entity full_4 is
+entity fsm_0 is
   port(
         reset: in  std_logic;
         clock: in  std_logic;
         fsm_i: in  std_logic_vector(0 to 3);
         fsm_o: out std_logic_vector(0 to 1)
       );
-end full_4;
+end fsm_0;
 
-architecture behaviour of full_4 is
+architecture behaviour of fsm_0 is
 
   signal fsm_q, fsm_qp: std_logic_vector(0 to 5);
 
@@ -42,7 +46,7 @@ begin
 
   d0_g_i <= (d0_x(0) & d0_x(1) & d0_x(3) & d0_qv);
 
-  d1_x   <= (d0_x(2) & d0_g_o(0) & d0_g_o(1));
+  d1_x   <= (d0_x(2) & d0_g_o);
   d1_q   <= d0_qu;
 
   d1_qu  <= d1_q(0 to 1);
@@ -56,7 +60,7 @@ begin
   fsm_o  <= d1_h_o(6 to 7);
 
   process(reset, clock) begin
-    if reset = '1' then fsm_q <= "110110";
+    if reset = '1' then fsm_q <= "000101";
     elsif rising_edge(clock) then fsm_q <= fsm_qp;
     end if;
   end process;
