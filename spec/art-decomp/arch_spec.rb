@@ -15,6 +15,12 @@ module ArtDecomp describe Arch do
     end
   end
 
+  describe '#<=>' do
+    it 'allows sorting' do
+      [Arch[5,1], Arch[4,1], Arch[4,2]].sort.must_equal [Arch[4,1], Arch[4,2], Arch[5,1]]
+    end
+  end
+
   describe '#cells' do
     it 'reports how many cells of the given Archs it requires' do
       Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).must_equal 2
