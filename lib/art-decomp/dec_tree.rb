@@ -64,16 +64,19 @@ end behaviour;
   private
 
   def g_block d
-    lines = decs[d].g_kiss.lines.to_a
-    fline = lines.shift.split
-    el_if = lines.map do |line|
-      "    elsif std_match(d#{d}_g_i, \"#{line.split.first}\") then d#{d}_g_o <= \"#{line.split.last}\";"
-    end.join("\n").strip
+    dec = decs[d]
+    lines = (dec.fsm.beta_x(dec.v) * dec.qv).ints.map do |row|
+      v  = dec.fsm.x_encoding dec.v, row
+      qv = dec.qv.encoding row
+      g  = dec.g.encoding row
+      "#{v}#{qv} #{g}"
+      "    elsif std_match(d#{d}_g_i, \"#{v}#{qv}\") then d#{d}_g_o <= \"#{g}\";" unless g =~ /\A-+\Z/
+    end.compact.sort.join("\n").gsub /\A    elsif/, 'if   '
+
     <<-end
   d#{d}_g: process(d#{d}_g_i) begin
     d#{d}_g_o <= (others => '-');
-    if    std_match(d#{d}_g_i, "#{fline.first}") then d#{d}_g_o <= "#{fline.last}";
-    #{el_if}
+    #{lines}
     end if;
   end process;
     end
