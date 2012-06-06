@@ -84,17 +84,23 @@ end behaviour;
   end
 
   def h_block
-    lines = decs.last.h_kiss.lines.to_a
-    fline = lines.shift.split
-    el_if = lines.map do |line|
-      parts = line.split
-      "    elsif std_match(d#{decs.size - 1}_h_i, \"#{parts[0]}#{parts[1]}\") then d#{decs.size - 1}_h_o <= \"#{parts[2]}#{parts[3]}\";"
-    end.join("\n").strip
+    d = decs.size - 1
+    dec = decs.last
+    lines = (dec.fsm.beta_x(dec.u) * dec.g * dec.qu).ints.map do |row|
+      u   = dec.fsm.x_encoding dec.u, row
+      qu  = dec.qu.encoding row
+      qup = dec.qu.encoding dec.fsm.state_rows_of_next_state_of(row)
+      qvp = dec.qv.encoding dec.fsm.state_rows_of_next_state_of(row)
+      y   = dec.fsm.y_encoding row
+      dec.g.encodings(row).map do |g|
+        "    elsif std_match(d#{d}_h_i, \"#{u}#{g}#{qu}\") then d#{d}_h_o <= \"#{qup}#{qvp}#{y}\";" unless "#{qup}#{qvp}#{y}" =~ /\A-+\Z/
+      end
+    end.flatten.compact.sort.join("\n").gsub /\A    elsif/, 'if   '
+
     <<-end
-  d#{decs.size - 1}_h: process(d#{decs.size - 1}_h_i) begin
-    d#{decs.size - 1}_h_o <= (others => '-');
-    if    std_match(d#{decs.size - 1}_h_i, "#{fline[0]}#{fline[1]}") then d#{decs.size - 1}_h_o <= "#{fline[2]}#{fline[3]}";
-    #{el_if}
+  d#{d}_h: process(d#{d}_h_i) begin
+    d#{d}_h_o <= (others => '-');
+    #{lines}
     end if;
   end process;
     end
