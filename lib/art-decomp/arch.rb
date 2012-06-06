@@ -13,6 +13,10 @@ module ArtDecomp class Arch
     @pins == other.pins and @pons == other.pons
   end
 
+  def <=> other
+    (@pins <=> other.pins).nonzero? or @pons <=> other.pons
+  end
+
   def cells archs
     pons = archs.select { |a| a.pins >= @pins }.map(&:pons).max
     return nil unless pons
