@@ -22,6 +22,10 @@ module ArtDecomp class Decomposition
     @v.size + @qv.pins <= pins and @u.size + @qu.pins + @g.pins <= pins
   end
 
+  def g_arch
+    Arch[@v.size + @qv.pins, @g.pins]
+  end
+
   def g_cells archs
     Arch[@v.size + @qv.pins, @g.pins].cells archs
   end

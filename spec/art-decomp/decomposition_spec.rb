@@ -58,6 +58,14 @@ module ArtDecomp describe Decomposition do
     end
   end
 
+  describe '#g_arch' do
+    it 'returns G architecture' do
+      Decomposition.new(:fsm, :u, Set[1,2,3], :qu, b4, b4).g_arch.must_equal Arch[5,2]
+      Decomposition.new(:fsm, :u, Set[1,2],   :qu, b4, b4).g_arch.must_equal Arch[4,2]
+      Decomposition.new(:fsm, :u, Set[1,2],   :qu, b2, b2).g_arch.must_equal Arch[3,1]
+    end
+  end
+
   describe '#g_cells' do
     it 'returns G cell count (if G fits the provided Archs)' do
       Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_cells(Set[Arch[5,1]]).must_equal 2
