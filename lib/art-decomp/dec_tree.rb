@@ -69,9 +69,8 @@ end behaviour;
       v  = dec.fsm.x_encoding dec.v, row
       qv = dec.qv.encoding row
       g  = dec.g.encoding row
-      "#{v}#{qv} #{g}"
       "    elsif std_match(d#{d}_g_i, \"#{v}#{qv}\") then d#{d}_g_o <= \"#{g}\";" unless g =~ /\A-+\Z/
-    end.compact.sort.join("\n").gsub /\A    elsif/, 'if   '
+    end.compact.sort.join("\n").gsub(/\A    elsif/, 'if   ')
 
     <<-end
   d#{d}_g: process(d#{d}_g_i) begin
@@ -98,7 +97,7 @@ end behaviour;
       dec.g.encodings(row).map do |g|
         "    elsif std_match(d#{d}_h_i, \"#{u}#{g}#{qu}\") then d#{d}_h_o <= \"#{qup}#{qvp}#{y}\";" unless "#{qup}#{qvp}#{y}" =~ /\A-+\Z/
       end
-    end.flatten.compact.sort.join("\n").gsub /\A    elsif/, 'if   '
+    end.flatten.compact.sort.join("\n").gsub(/\A    elsif/, 'if   ')
 
     <<-end
   d#{d}_h: process(d#{d}_h_i) begin

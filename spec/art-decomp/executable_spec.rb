@@ -14,6 +14,9 @@ module ArtDecomp describe Executable do
         Options:
           --archs, -a <s+>:   Target architecture(s)
              --dir, -d <s>:   Results directory
+             --uv, -u <s+>:   UV generator(s) (default: RelativeRelevance)
+             --qu, -q <s+>:   Qu generator(s) (default: EdgeLabels)
+             --qv, -v <s+>:   Qv generator(s) (default: GraphColouring)
              --log, -l <s>:   Logging level
              --uv, -u <s+>:   UV generator(s) (default: RelativeRelevance)
              --qu, -q <s+>:   Qu generator(s) (default: EdgeLabels)
