@@ -36,17 +36,17 @@ architecture behaviour of #{name} is
 
   #{signals_d}
 
-  signal d#{decs.size - 1}_h_i: std_logic_vector(0 to #{decs.last.u.size + decs.last.qu.pins + decs.last.g.pins - 1});
-  signal d#{decs.size - 1}_h_o: std_logic_vector(0 to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - 1});
+  signal d#{max_d}_h_i: std_logic_vector(0 to #{decs.last.u.size + decs.last.qu.pins + decs.last.g.pins - 1});
+  signal d#{max_d}_h_o: std_logic_vector(0 to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - 1});
 
 begin
 
   #{structures_d}
 
-  d#{decs.size - 1}_h_i <= (#{decs.last.u.sort.map { |i| "d#{decs.size - 1}_x(#{i})" }.join ' & '} & d#{decs.size - 1}_g_o & d#{decs.size - 1}_qu);
+  d#{max_d}_h_i <= (#{h_inputs.join ' & '});
 
-  fsm_qp <= d#{decs.size - 1}_h_o(0 to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - fsm.output_count - 1});
-  fsm_o  <= d#{decs.size - 1}_h_o(#{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - fsm.output_count} to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - 1});
+  fsm_qp <= d#{max_d}_h_o(0 to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - fsm.output_count - 1});
+  fsm_o  <= d#{max_d}_h_o(#{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - fsm.output_count} to #{decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - 1});
 
   process(reset, clock) begin
     if reset = '1' then fsm_q <= "#{first_state}";
@@ -85,8 +85,11 @@ end behaviour;
     decs.map.with_index { |_, d| g_block d }.join("\n").strip
   end
 
+  def g_inputs d
+    decs[d].v.sort.map { |i| "d#{d}_x(#{i})" } + ["d#{d}_qv"]
+  end
+
   def h_block
-    d = decs.size - 1
     dec = decs.last
     lines = (dec.fsm.beta_x(dec.u) * dec.g * dec.qu).ints.map do |row|
       u   = dec.fsm.x_encoding dec.u, row
@@ -95,17 +98,21 @@ end behaviour;
       qvp = dec.qv.encoding dec.fsm.state_rows_of_next_state_of(row)
       y   = dec.fsm.y_encoding row
       dec.g.encodings(row).map do |g|
-        "    elsif std_match(d#{d}_h_i, \"#{u}#{g}#{qu}\") then d#{d}_h_o <= \"#{qup}#{qvp}#{y}\";" unless "#{qup}#{qvp}#{y}" =~ /\A-+\Z/
+        "    elsif std_match(d#{max_d}_h_i, \"#{u}#{g}#{qu}\") then d#{max_d}_h_o <= \"#{qup}#{qvp}#{y}\";" unless "#{qup}#{qvp}#{y}" =~ /\A-+\Z/
       end
     end.flatten.compact.sort.join("\n").gsub(/\A    elsif/, 'if   ')
 
     <<-end
-  d#{d}_h: process(d#{d}_h_i) begin
-    d#{d}_h_o <= (others => '-');
+  d#{max_d}_h: process(d#{max_d}_h_i) begin
+    d#{max_d}_h_o <= (others => '-');
     #{lines}
     end if;
   end process;
     end
+  end
+
+  def h_inputs
+    decs.last.u.sort.map { |i| "d#{max_d}_x(#{i})" } + ["d#{max_d}_g_o", "d#{max_d}_qu"]
   end
 
   def first_state
@@ -115,11 +122,15 @@ end behaviour;
     #   codes = Hash[dec.fsm.beta_q.ints.sort.map { |row| [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }] }]
     #   code ||= codes.keys.first
     #   encoded.prepend codes[code][:qv]
-    #   encoded.prepend codes[code][:qu] if i == decs.size - 1
+    #   encoded.prepend codes[code][:qu] if i == max_d
     #   code = codes[code][:qu]
     # end
     # encoded
     '0' * state_pins
+  end
+
+  def max_d
+    decs.size - 1
   end
 
   def signal_d d
@@ -149,7 +160,7 @@ end behaviour;
   d#{d}_qu  <= d#{d}_q(0 to #{state_pins(d) - decs[d].qv.pins - 1});
   d#{d}_qv  <= d#{d}_q(#{state_pins(d) - decs[d].qv.pins} to #{state_pins(d) - 1});
 
-  d#{d}_g_i <= (#{decs[d].v.sort.map { |i| "d#{d}_x(#{i})" }.join ' & '} & d#{d}_qv);
+  d#{d}_g_i <= (#{g_inputs(d).join ' & '});
     end
   end
 
