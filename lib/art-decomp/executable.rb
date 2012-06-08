@@ -72,7 +72,7 @@ module ArtDecomp class Executable
         break if @best and cells and @best < cells
         if dec.final? @archs
           yielder.yield dectree
-        else
+        elsif dec.symbolic?
           dectrees(FSM.from_kiss(dec.h_kiss), dectree).each do |subtree|
             yielder.yield subtree
           end
