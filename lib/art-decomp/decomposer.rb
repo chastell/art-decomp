@@ -8,17 +8,18 @@ module ArtDecomp class Decomposer
   end
 
   def decompositions opts = {}
-    tabs = "\t" * opts.fetch(:level, 0)
-    Log.debug "#{tabs}FSM #{@fsm.stats}" if defined? Log
+    tabs = "  " * opts.fetch(:level, 0)
+    Log.warn "#{tabs}FSM #{@fsm.stats}" if defined? Log
     Enumerator.new do |yielder|
       @uv_gens.each do |uv_gen|
-        Log.debug "#{tabs}\tUV #{uv_gen.class}" if defined? Log
         uv_gen.uv_pairs(@fsm, @archs).each do |fsm, u, v|
-          Log.debug "#{tabs}\t\t#{u.sort.join ' '} | #{v.sort.join ' '}" if defined? Log
+          Log.warn "#{tabs}  #{u.sort.join ' '} | #{v.sort.join ' '} with #{uv_gen.class}" if defined? Log
           @qu_gens.each do |qu_gen|
             qu_gen.blankets(fsm, u, v).each do |qu|
+              Log.info "#{tabs}    #{qu.pins} Qu pins with #{qu_gen.class}" if defined? Log
               @qv_gens.each do |qv_gen|
                 qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
+                  Log.debug "#{tabs}      #{qv.pins} Qv pins and #{g.pins} G pins with #{qv_gen.class}" if defined? Log
                   dec = Decomposition.new fsm, u, v, qu, qv, g
                   if dec.sensible? @archs
                     yielder.yield dec

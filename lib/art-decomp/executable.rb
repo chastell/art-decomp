@@ -37,14 +37,14 @@ module ArtDecomp class Executable
       require 'logger'
       log = opts[:log] == '-' ? $stdout : opts[:log]
       ArtDecomp.const_set 'Log', Logger.new(log)
-      Log.level = opts[:debug] ? Logger::DEBUG : Logger::INFO
+      Log.level = Logger.const_get opts[:level].upcase
     end
   end
 
   def run
     @best = @fsm.fsm_cells @archs
     if @best
-      Log.warn "FSM #{@fsm.stats} is directly implementable in #{@archs.sort.reverse.map(&:to_s).join '+'} with #{@best} cells"
+      Log.fatal "FSM #{@fsm.stats} is directly implementable in #{@archs.sort.reverse.map(&:to_s).join '+'} with #{@best} cells"
     else
       dectrees.each.with_index do |tree, i|
         tree.each.with_index do |dec, j|
@@ -52,7 +52,7 @@ module ArtDecomp class Executable
         end
         name    = "#{@fsm_name}_#{i}"
         dectree = DecTree.new tree, @archs
-        Log.info "#{name}: #{dectree.cells} cells, depth #{tree.size}" if defined? Log
+        Log.error "#{name}: #{dectree.cells} cells, depth #{tree.size}" if defined? Log
         File.open("#{@dir}/#{name}.vhdl", 'w') do |f|
           f << dectree.to_vhdl(name)
         end
