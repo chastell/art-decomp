@@ -81,25 +81,4 @@ module ArtDecomp class Executable
       end
     end
   end
-
-  def decompositions opts = {}
-    fsm   = opts.fetch :fsm,   @fsm
-    cells = opts.fetch :cells, 0
-    level = opts.fetch :level, 0
-
-    decomposer = Decomposer.new fsm: fsm, archs: @archs, uv_gens: @uv_gens, qu_gens: @qu_gens, qv_gens: @qv_gens
-    Enumerator.new do |yielder|
-      decomposer.decompositions(level: level).each do |dec|
-        yielder.yield dec
-        if dec.final? @archs
-          this = cells + dec.g_cells(@archs) + dec.h_cells(@archs)
-          @best = this if @best.nil? or this < @best
-        elsif dec.symbolic? and (@best.nil? or cells < @best)
-          decompositions(fsm: FSM.from_kiss(dec.h_kiss), cells: cells + dec.g_cells(@archs), level: level + 1).each do |in_dec|
-            yielder.yield in_dec
-          end
-        end
-      end
-    end
-  end
 end end
