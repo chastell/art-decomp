@@ -116,17 +116,17 @@ end behaviour;
   end
 
   def first_state
-    # encoded = ''
-    # code = nil
-    # decs.each.with_index do |dec, i|
-    #   codes = Hash[dec.fsm.beta_q.ints.sort.map { |row| [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }] }]
-    #   code ||= codes.keys.first
-    #   encoded.prepend codes[code][:qv]
-    #   encoded.prepend codes[code][:qu] if i == max_d
-    #   code = codes[code][:qu]
-    # end
-    # encoded
-    '0' * state_pins
+    encoded = ''
+    code = nil
+    decs.each.with_index do |dec, i|
+      codes = Hash[dec.fsm.beta_q.ints.sort.map { |row| [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }] }]
+      code ||= codes.keys.first
+      encoded.prepend codes[code][:qv]
+      encoded.prepend codes[code][:qu] if i == max_d
+      code = codes[code][:qu]
+      break if code.empty?
+    end
+    encoded
   end
 
   def max_d
