@@ -81,6 +81,16 @@ module ArtDecomp describe Decomposition do
     end
   end
 
+  describe '#h_arch' do
+    it 'returns H architecture' do
+      Decomposition.new(fsm, Set[0],   :v, b2, b2, b4).h_arch.must_equal Arch[4,4]
+      Decomposition.new(fsm, Set[0,1], :v, b2, b2, b4).h_arch.must_equal Arch[5,4]
+      Decomposition.new(fsm, Set[0],   :v, b4, b2, b4).h_arch.must_equal Arch[5,5]
+      Decomposition.new(fsm, Set[0],   :v, b2, b4, b4).h_arch.must_equal Arch[4,5]
+      Decomposition.new(fsm, Set[0],   :v, b2, b2, b2).h_arch.must_equal Arch[3,4]
+    end
+  end
+
   describe '#h_cells' do
     it 'returns H cell count (if H fits the provided Archs)' do
       Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[5,1]]).must_equal 4
