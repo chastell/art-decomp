@@ -14,5 +14,5 @@ archs = opts[:archs].map { |s| ArtDecomp::Arch[*s.split('/').map(&:to_i)] }.to_s
 
 ARGV.each do |fsm_file|
   fsm = ArtDecomp::FSM.from_kiss fsm_file
-  puts "#{File.basename fsm_file}:\t#{fsm.stats} #{"implementable in #{fsm.fsm_cells archs}" if fsm.implementable_in? archs}"
+  puts "#{File.basename fsm_file}:\t#{fsm.stats} = #{fsm.input_count + fsm.beta_q.pins}/#{fsm.output_count + fsm.beta_q.pins} #{"implementable in #{fsm.fsm_cells archs}" if fsm.implementable_in? archs}"
 end
