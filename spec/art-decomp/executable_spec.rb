@@ -19,16 +19,16 @@ module ArtDecomp describe Executable do
     end
 
     it 'requires a path to an existing FSM' do
-      capture_io { -> { Executable.new []        }.must_raise SystemExit }.last.must_include 'no FSM given'
-      capture_io { -> { Executable.new ['bogus'] }.must_raise SystemExit }.last.must_include 'FSM does not exist'
+      capture_io { -> { Executable.new min_args[0...-1]             }.must_raise SystemExit }.last.must_include 'no FSM given'
+      capture_io { -> { Executable.new min_args[0...-1] + ['bogus'] }.must_raise SystemExit }.last.must_include 'FSM does not exist'
     end
 
     it 'requires one or more architectures' do
-      capture_io { -> { Executable.new [fsm_path] }.must_raise SystemExit }.last.must_include 'no architecture(s) given'
+      capture_io { -> { Executable.new [fsm_path] }.must_raise SystemExit }.last.must_include '--archs must be specified'
     end
 
     it 'requires directory for results' do
-      capture_io { -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit }.last.must_include 'no directory given'
+      capture_io { -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit }.last.must_include '--dir must be specified'
     end
 
     it 'does not raise with minimal arguments' do
