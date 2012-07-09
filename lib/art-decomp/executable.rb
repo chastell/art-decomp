@@ -5,6 +5,7 @@ module ArtDecomp class Executable
     opts = Trollop.options args do
       opt :archs, 'Target architecture(s)', required: true, type: :strings
       opt :dir,   'Results directory',      required: true, type: :string
+      opt :log,   'Logging level',          type: :string
     end
 
     Trollop.die 'no FSM given'       if     args.empty?
