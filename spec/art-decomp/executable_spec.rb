@@ -14,6 +14,7 @@ module ArtDecomp describe Executable do
         Options:
           --archs, -a <s+>:   Target architecture(s)
              --dir, -d <s>:   Results directory
+             --log, -l <s>:   Logging level
                 --help, -h:   Show this message
       end
     end
