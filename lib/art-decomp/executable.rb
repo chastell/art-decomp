@@ -6,6 +6,9 @@ module ArtDecomp class Executable
       opt :archs, 'Target architecture(s)', required: true, type: :strings
       opt :dir,   'Results directory',      required: true, type: :string
       opt :log,   'Logging level',          type: :string
+      opt :uv,    'UV generator(s)',        default: ['RelativeRelevance']
+      opt :qu,    'Qu generator(s)',        default: ['EdgeLabels']
+      opt :qv,    'Qv generator(s)',        default: ['GraphColouring']
     end
 
     Trollop.die 'no FSM given'       if     args.empty?
