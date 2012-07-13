@@ -13,5 +13,7 @@ module ArtDecomp class Executable
 
     Trollop.die 'no FSM given'       if     args.empty?
     Trollop.die 'FSM does not exist' unless File.exists? args.first
+
+    Trollop.die :archs, 'not in the form of inputs/outputs' unless opts[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
   end
 end end

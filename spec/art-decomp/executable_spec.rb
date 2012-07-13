@@ -35,6 +35,10 @@ module ArtDecomp describe Executable do
       capture_io { -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit }.last.must_include '--dir must be specified'
     end
 
+    it 'requires that architectures are parsable' do
+      capture_io { -> { Executable.new min_args.insert 1, 'a/b' }.must_raise SystemExit }.last.must_include '--archs not in the form of inputs/outputs'
+    end
+
     it 'does not raise with minimal arguments' do
       Executable.new min_args
     end
