@@ -1,9 +1,9 @@
 # encoding: UTF-8
 
 require_relative '../spec_helper'
-require_relative '../../lib/art-decomp/logging'
+require_relative '../../lib/art-decomp/old_logging'
 
-module ArtDecomp describe Logging do
+module ArtDecomp describe OldLogging do
   class FakeDecomposer
     def initialize *; end
     def decompositions *; [].each; end
@@ -12,12 +12,12 @@ module ArtDecomp describe Logging do
   before do
     @dir = "#{Dir.tmpdir}/#{rand.to_s}"
     @log = StringIO.new
-    Logging.log = @log
-    Logging.level = Logger::INFO
+    OldLogging.log = @log
+    OldLogging.level = Logger::INFO
   end
 
   after do
-    Logging.off
+    OldLogging.off
     FileUtils.rmtree @dir
   end
 
@@ -51,7 +51,7 @@ module ArtDecomp describe Logging do
     2.times { fsm.expect :beta_f, Blanket[] }
     2.times { fsm.expect :beta_q, Blanket[] }
     2.times { fsm.expect :beta_x, Blanket[], [Set] }
-    Logging.level = Logger::DEBUG
+    OldLogging.level = Logger::DEBUG
     qu = QuGenerators::BlockTable.new
     [[Set[0], Set[1]], [Set[1], Set[0]]].each do |u, v|
       qu.blankets fsm, u, v

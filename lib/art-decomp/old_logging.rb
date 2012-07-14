@@ -3,7 +3,7 @@
 require 'logger'
 require 'rcapture'
 
-module ArtDecomp class Logging
+module ArtDecomp class OldLogging
 
   def self.level
     @log.level
