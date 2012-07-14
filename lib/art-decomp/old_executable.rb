@@ -48,9 +48,9 @@ module ArtDecomp class OldExecutable
     @qv_gens = opts[:qv].map { |gen| QvGenerators.const_get gen }
 
     if opts[:log_given]
-      require_relative 'logging'
-      Logging.log = opts[:log] == '-' ? $stdout : opts[:log]
-      Logging.level = Logger::DEBUG if opts[:debug]
+      require_relative 'old_logging'
+      OldLogging.log = opts[:log] == '-' ? $stdout : opts[:log]
+      OldLogging.level = Logger::DEBUG if opts[:debug]
     end
   end
 

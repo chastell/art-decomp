@@ -71,8 +71,8 @@ module ArtDecomp describe OldExecutable do
         def decompositions *_; [].each; end
       end
       OldExecutable.new(['--archs', '5/1', '4/2', '--debug', '--log', log.path, '--outdir', @dir, @fsm]).run true, fake_decomposer
-      Logging.level.must_equal Logger::DEBUG
-      Logging.off
+      OldLogging.level.must_equal Logger::DEBUG
+      OldLogging.off
       File.read(log.path).must_include '4/2+10s'
     end
   end
@@ -142,7 +142,7 @@ module ArtDecomp describe OldExecutable do
     it 'handles the s8 edge case with grace' do
       log = Tempfile.new rand.to_s
       OldExecutable.new(['--archs', '2/1', '--log', log.path, '--outdir', @dir, 'spec/fixtures/s8']).run
-      Logging.off
+      OldLogging.off
       File.read(log.path).must_include ' 0c'
     end
   end
