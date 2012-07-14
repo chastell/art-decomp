@@ -19,12 +19,18 @@ module ArtDecomp class Executable
     Trollop.die :qu,    'generator does not exist'          unless (opts[:qu] - QuGenerators.constants.map(&:to_s)).empty?
     Trollop.die :qv,    'generator does not exist'          unless (opts[:qv] - QvGenerators.constants.map(&:to_s)).empty?
 
-    self.dir = "#{opts[:dir]}/#{File.basename args.first}/#{opts[:archs].join(' ').tr('/', ':')}"
+    self.archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
+    self.dir   = "#{opts[:dir]}/#{File.basename args.first}/#{archs.sort.reverse.map(&:to_s).join(' ').tr('/', ':')}"
+    self.fsm   = FSM.from_kiss args.first
+    self.uv    = opts[:uv].map { |name| UVGenerators.const_get(name).new }
+    self.qu    = opts[:qu].map { |name| QuGenerators.const_get(name).new }
+    self.qv    = opts[:qv].map { |name| QvGenerators.const_get(name).new }
   end
 
   def run opts
     FileUtils.mkdir_p dir
     decomposer = opts.fetch :decomposer
+    decomposer.config = { archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv } }
     decomposer.dectrees.each.with_index do |dectree, i|
       File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl
     end
@@ -32,5 +38,5 @@ module ArtDecomp class Executable
 
   private
 
-  attr_accessor :dir
+  attr_accessor :archs, :dir, :fsm, :qu, :qv, :uv
 end end

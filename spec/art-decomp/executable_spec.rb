@@ -53,6 +53,16 @@ module ArtDecomp describe Executable do
   describe '#run' do
     let(:executable) { Executable.new min_args }
 
+    it 'configures the decomposer' do
+      decomposer = OpenStruct.new dectrees: []
+      executable.run :decomposer => decomposer
+      decomposer.config[:archs].must_equal Set[Arch[5,1]]
+      decomposer.config[:fsm].must_equal   FSM.from_kiss(fsm_path)
+      decomposer.config[:gens][:uv].map(&:class).must_equal [UVGenerators::RelativeRelevance]
+      decomposer.config[:gens][:qu].map(&:class).must_equal [QuGenerators::EdgeLabels]
+      decomposer.config[:gens][:qv].map(&:class).must_equal [QvGenerators::GraphColouring]
+    end
+
     it 'saves the dectrees to the results dir' do
       dectree_a  = OpenStruct.new to_vhdl: 'VHDL of dectree A'
       dectree_b  = OpenStruct.new to_vhdl: 'VHDL of dectree B'
