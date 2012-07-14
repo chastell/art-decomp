@@ -49,4 +49,17 @@ module ArtDecomp describe Executable do
       Executable.new min_args
     end
   end
+
+  describe '#run' do
+    let(:executable) { Executable.new min_args }
+
+    it 'saves the dectrees to the results dir' do
+      dectree_a  = OpenStruct.new to_vhdl: 'VHDL of dectree A'
+      dectree_b  = OpenStruct.new to_vhdl: 'VHDL of dectree B'
+      decomposer = OpenStruct.new dectrees: [dectree_a, dectree_b]
+      executable.run :decomposer => decomposer
+      File.read("#{dir_path}/fsm/5:1/0.vhdl").must_equal 'VHDL of dectree A'
+      File.read("#{dir_path}/fsm/5:1/1.vhdl").must_equal 'VHDL of dectree B'
+    end
+  end
 end end

@@ -18,5 +18,19 @@ module ArtDecomp class Executable
     Trollop.die :uv,    'generator does not exist'          unless (opts[:uv] - UVGenerators.constants.map(&:to_s)).empty?
     Trollop.die :qu,    'generator does not exist'          unless (opts[:qu] - QuGenerators.constants.map(&:to_s)).empty?
     Trollop.die :qv,    'generator does not exist'          unless (opts[:qv] - QvGenerators.constants.map(&:to_s)).empty?
+
+    self.dir = "#{opts[:dir]}/#{File.basename args.first}/#{opts[:archs].join(' ').tr('/', ':')}"
   end
+
+  def run opts
+    FileUtils.mkdir_p dir
+    decomposer = opts.fetch :decomposer
+    decomposer.dectrees.each.with_index do |dectree, i|
+      File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl
+    end
+  end
+
+  private
+
+  attr_accessor :dir
 end end
