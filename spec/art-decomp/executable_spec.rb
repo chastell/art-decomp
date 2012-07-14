@@ -39,6 +39,12 @@ module ArtDecomp describe Executable do
       capture_io { -> { Executable.new min_args.insert 1, 'a/b' }.must_raise SystemExit }.last.must_include '--archs not in the form of inputs/outputs'
     end
 
+    it 'requires that generators exist' do
+      capture_io { -> { Executable.new ['--uv', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--uv generator does not exist'
+      capture_io { -> { Executable.new ['--qu', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--qu generator does not exist'
+      capture_io { -> { Executable.new ['--qv', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--qv generator does not exist'
+    end
+
     it 'does not raise with minimal arguments' do
       Executable.new min_args
     end
