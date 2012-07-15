@@ -1,10 +1,10 @@
 module ArtDecomp class Decomposer
-  def config= config
-    self.archs = config.fetch :archs
-    self.fsm   = config.fetch :fsm
-    self.uv    = config.fetch(:gens).fetch :uv
-    self.qu    = config.fetch(:gens).fetch :qu
-    self.qv    = config.fetch(:gens).fetch :qv
+  def initialize opts
+    self.archs = opts.fetch :archs
+    self.fsm   = opts.fetch :fsm
+    self.uv    = opts.fetch(:gens).fetch :uv
+    self.qu    = opts.fetch(:gens).fetch :qu
+    self.qv    = opts.fetch(:gens).fetch :qv
   end
 
   def decompositions

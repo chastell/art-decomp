@@ -9,8 +9,7 @@ module ArtDecomp describe Decomposer do
         qu: [MiniTest::Mock.new.expect(:blankets, [qu],          [fsm, u, v])],
         qv: [MiniTest::Mock.new.expect(:blankets, [[qv, g]],     [fsm, u, v, qu])],
       }
-      decomposer = Decomposer.new
-      decomposer.config = { archs: archs, fsm: fsm, gens: gens }
+      decomposer = Decomposer.new archs: archs, fsm: fsm, gens: gens
       decomposer.decompositions.must_include Decomposition.new fsm, u, v, qu, qv, g
       gens.values.each { |gs| gs.map(&:verify) }
     end
