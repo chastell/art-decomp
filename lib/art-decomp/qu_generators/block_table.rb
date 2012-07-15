@@ -1,4 +1,8 @@
 module ArtDecomp module QuGenerators class BlockTable
+  def == other
+    self.class == other.class
+  end
+
   def blankets fsm, u, v
     @seps   = fsm.beta_f.seps
     @rows   = fsm.beta_q.ints.dup

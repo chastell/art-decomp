@@ -1,4 +1,8 @@
 module ArtDecomp module QuGenerators class EdgeLabels
+  def == other
+    self.class == other.class
+  end
+
   def blankets fsm, u, v
     seps   = fsm.beta_f.seps - fsm.beta_x(u).seps
     @graph = Graph.new fsm.beta_q, seps
