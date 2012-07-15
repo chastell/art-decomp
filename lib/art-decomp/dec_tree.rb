@@ -5,11 +5,11 @@ module ArtDecomp class DecTree
     self.decs = decs
   end
 
+  def_delegators :decs, :<<, :pop
+
   def == other
     self.decs == other.decs
   end
-
-  def_delegators :decs, :<<
 
   protected
 

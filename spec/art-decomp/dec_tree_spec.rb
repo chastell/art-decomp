@@ -15,4 +15,12 @@ module ArtDecomp describe DecTree do
       dt.must_equal DecTree.new ['foo']
     end
   end
+
+  describe '#pop' do
+    it 'drops elements' do
+      dt = DecTree.new ['foo', 'bar']
+      dt.pop
+      dt.must_equal DecTree.new ['foo']
+    end
+  end
 end end
