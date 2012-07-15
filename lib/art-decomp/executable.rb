@@ -29,8 +29,7 @@ module ArtDecomp class Executable
 
   def run opts
     FileUtils.mkdir_p dir
-    decomposer = opts.fetch :decomposer
-    decomposer.config = { archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv } }
+    decomposer = opts.fetch(:decomposer_generator).new archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv }
     decomposer.dectrees.each.with_index do |dectree, i|
       File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl
     end

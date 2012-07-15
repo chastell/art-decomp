@@ -54,22 +54,26 @@ module ArtDecomp describe Executable do
     let(:executable) { Executable.new min_args }
 
     it 'configures the decomposer' do
-      decomposer = OpenStruct.new dectrees: []
-      executable.run :decomposer => decomposer
-      decomposer.config[:archs].must_equal Set[Arch[5,1]]
-      decomposer.config[:fsm].must_equal   FSM.from_kiss(fsm_path)
-      decomposer.config[:gens][:uv].map(&:class).must_equal [UVGenerators::RelativeRelevance]
-      decomposer.config[:gens][:qu].map(&:class).must_equal [QuGenerators::EdgeLabels]
-      decomposer.config[:gens][:qv].map(&:class).must_equal [QvGenerators::GraphColouring]
+      dec_gen = MiniTest::Mock.new.expect :new, OpenStruct.new(dectrees: []), [{
+        archs: Set[Arch[5,1]],
+        fsm:   FSM.from_kiss(fsm_path),
+        gens:  { uv: [UVGenerators::RelativeRelevance.new], qu: [QuGenerators::EdgeLabels.new], qv: [QvGenerators::GraphColouring.new] },
+      }]
+      executable.run decomposer_generator: dec_gen
+      dec_gen.verify
     end
 
     it 'saves the dectrees to the results dir' do
-      dectree_a  = OpenStruct.new to_vhdl: 'VHDL of dectree A'
-      dectree_b  = OpenStruct.new to_vhdl: 'VHDL of dectree B'
-      decomposer = OpenStruct.new dectrees: [dectree_a, dectree_b]
-      executable.run :decomposer => decomposer
-      File.read("#{dir_path}/fsm/5:1/0.vhdl").must_equal 'VHDL of dectree A'
-      File.read("#{dir_path}/fsm/5:1/1.vhdl").must_equal 'VHDL of dectree B'
+      dec_gen = Class.new do
+        def initialize *_
+        end
+        def dectrees
+          [OpenStruct.new(to_vhdl: 'VHDL A'), OpenStruct.new(to_vhdl: 'VHDL B')]
+        end
+      end
+      executable.run decomposer_generator: dec_gen
+      File.read("#{dir_path}/fsm/5:1/0.vhdl").must_equal 'VHDL A'
+      File.read("#{dir_path}/fsm/5:1/1.vhdl").must_equal 'VHDL B'
     end
   end
 end end
