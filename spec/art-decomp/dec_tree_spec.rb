@@ -1,26 +1,26 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe DecTree do
+  let(:dec_tree) { DecTree.new ['foo', 'bar'] }
+
   describe '#==' do
     it 'verifies tree equality' do
-      DecTree.new(['foo', 'bar']).must_equal DecTree.new ['foo', 'bar']
-      DecTree.new(['foo', 'bar']).wont_equal DecTree.new ['bar', 'foo']
+      dec_tree.must_equal DecTree.new ['foo', 'bar']
+      dec_tree.wont_equal DecTree.new ['bar', 'foo']
     end
   end
 
   describe '#<<' do
     it 'appends elements' do
-      dt = DecTree.new
-      dt << 'foo'
-      dt.must_equal DecTree.new ['foo']
+      dec_tree << 'baz'
+      dec_tree.must_equal DecTree.new ['foo', 'bar', 'baz']
     end
   end
 
   describe '#pop' do
     it 'drops elements' do
-      dt = DecTree.new ['foo', 'bar']
-      dt.pop
-      dt.must_equal DecTree.new ['foo']
+      dec_tree.pop
+      dec_tree.must_equal DecTree.new ['foo']
     end
   end
 end end
