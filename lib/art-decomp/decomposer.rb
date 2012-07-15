@@ -7,7 +7,8 @@ module ArtDecomp class Decomposer
     self.qv    = opts.fetch(:gens).fetch :qv
   end
 
-  def decompositions
+  def decompositions opts = {}
+    dec_gen = opts.fetch :decomposition_generator, Decomposition
     Enumerator.new do |yielder|
       uv.each do |uv_gen|
         uv_gen.uv_pairs(fsm, archs).each do |fsm, u, v|
@@ -15,7 +16,8 @@ module ArtDecomp class Decomposer
             qu_gen.blankets(fsm, u, v).each do |qu|
               qv.each do |qv_gen|
                 qv_gen.blankets(fsm, u, v, qu).each do |qv, g|
-                  yielder.yield Decomposition.new fsm, u, v, qu, qv, g
+                  dec = dec_gen.new fsm, u, v, qu, qv, g
+                  yielder.yield dec if dec.sensible? archs
                 end
               end
             end
