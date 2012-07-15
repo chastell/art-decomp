@@ -25,7 +25,7 @@ module ArtDecomp class Decomposer
     end
   end
 
-  private
+  protected
 
   attr_accessor :archs, :fsm, :uv, :qu, :qv
 end end

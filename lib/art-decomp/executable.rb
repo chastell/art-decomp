@@ -36,7 +36,7 @@ module ArtDecomp class Executable
     end
   end
 
-  private
+  protected
 
   attr_accessor :archs, :dir, :fsm, :qu, :qv, :uv
 end end
