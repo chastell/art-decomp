@@ -7,4 +7,12 @@ module ArtDecomp describe DecTree do
       DecTree.new(['foo', 'bar']).wont_equal DecTree.new ['bar', 'foo']
     end
   end
+
+  describe '#<<' do
+    it 'appends elements' do
+      dt = DecTree.new
+      dt << 'foo'
+      dt.must_equal DecTree.new ['foo']
+    end
+  end
 end end

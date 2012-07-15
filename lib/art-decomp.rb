@@ -1,3 +1,4 @@
+require 'forwardable'
 require 'ostruct'
 require 'set'
 require 'yaml'

@@ -1,11 +1,15 @@
 module ArtDecomp class DecTree
-  def initialize decs
+  extend Forwardable
+
+  def initialize decs = []
     self.decs = decs
   end
 
   def == other
     self.decs == other.decs
   end
+
+  def_delegators :decs, :<<
 
   protected
 
