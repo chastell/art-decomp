@@ -8,19 +8,19 @@ module ArtDecomp class DecTreeGenerator
 
   def dectrees opts = {}
     this_fsm = opts.fetch :fsm, fsm
-    tree     = opts.fetch :tree, []
+    dec_tree = opts.fetch :dec_tree, DecTree.new
     Enumerator.new do |yielder|
       decomposer = decomposer_generator.new fsm: this_fsm, archs: archs, gens: gens
       decomposer.decompositions.each do |dec|
-        tree << dec
+        dec_tree << dec
         if dec.final? archs
-          yielder.yield tree.dup
+          yielder.yield dec_tree.dup
         else
-          dectrees(fsm: dec.h, tree: tree).each do |subtree|
+          dectrees(fsm: dec.h, dec_tree: dec_tree).each do |subtree|
             yielder.yield subtree
           end
         end
-        tree.pop
+        dec_tree.pop
       end
     end
   end
