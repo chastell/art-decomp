@@ -17,6 +17,14 @@ module ArtDecomp describe DecTree do
     end
   end
 
+  describe '#dup' do
+    it 'makes a shallow copy' do
+      copy = dec_tree.dup
+      copy << 'baz'
+      dec_tree.must_equal DecTree.new ['foo', 'bar']
+    end
+  end
+
   describe '#pop' do
     it 'drops elements' do
       dec_tree.pop

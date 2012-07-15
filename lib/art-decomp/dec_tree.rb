@@ -11,6 +11,10 @@ module ArtDecomp class DecTree
     self.decs == other.decs
   end
 
+  def dup
+    self.class.new decs.dup
+  end
+
   protected
 
   attr_accessor :decs
