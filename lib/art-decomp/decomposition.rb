@@ -40,6 +40,10 @@ module ArtDecomp class Decomposition
     KISS.new(lines).formatted
   end
 
+  def h
+    FSM.from_kiss h_kiss
+  end
+
   def h_arch
     Arch[@u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins]
   end

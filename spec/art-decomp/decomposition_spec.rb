@@ -81,6 +81,12 @@ module ArtDecomp describe Decomposition do
     end
   end
 
+  describe '#h' do
+    it 'returns the H FSM' do
+      dec.h.must_equal FSM.from_kiss 'spec/fixtures/fsm.h'
+    end
+  end
+
   describe '#h_arch' do
     it 'returns H architecture' do
       Decomposition.new(fsm, Set[0],   :v, b2, b2, b4).h_arch.must_equal Arch[4,4]
