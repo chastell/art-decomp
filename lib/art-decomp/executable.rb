@@ -35,9 +35,8 @@ module ArtDecomp class Executable
 
     if opts[:log_given]
       require 'logger'
-      log = opts[:log] == '-' ? $stdout : opts[:log]
-      ArtDecomp.const_set 'Log', Logger.new(log)
-      Log.level = Logger.const_get opts[:level].upcase
+      ArtDecomp.const_set 'Log', Logger.new($stdout)
+      Log.level = Logger.const_get opts[:log].upcase
     end
   end
 
