@@ -89,6 +89,10 @@ module ArtDecomp class Decomposition
 
   def to_kiss
     <<-KISS.gsub(/^ +/, '')
+      .qu #{@qu.inspect}
+      .qv #{@qv.inspect}
+      .g  #{@g.inspect}
+
       .dec F
       .inputs #{kiss_pins fsm.input_count, 'x'}
       .state q
