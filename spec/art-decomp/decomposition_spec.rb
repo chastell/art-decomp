@@ -8,14 +8,14 @@ module ArtDecomp describe Decomposition do
   let(:b8) { Blanket[B[0],B[1],B[2],B[3],B[4],B[5],B[6],B[7]]      }
   let(:b9) { Blanket[B[0],B[1],B[2],B[3],B[4],B[5],B[6],B[7],B[8]] }
 
-  let(:dec) do
-    Decomposition.new fsm, Set[0,3,1], Set[2],
-      Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]],
-      Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]],
-      Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]]
-  end
-
   let(:fsm) { FSM.from_kiss 'spec/fixtures/fsm' }
+  let(:u)   { Set[0,3,1] }
+  let(:v)   { Set[2] }
+  let(:qu)  { Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]] }
+  let(:qv)  { Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]] }
+  let(:g)   { Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]] }
+
+  let(:dec) { Decomposition.new fsm, u, v, qu, qv, g }
 
   describe '#==' do
     it 'compares to another Decomposition' do
@@ -55,6 +55,18 @@ module ArtDecomp describe Decomposition do
       refute Decomposition.new(:fsm, Set[0,1], Set[2],   b2, b8, b8).final? Set[Arch[5,1]]
       refute Decomposition.new(:fsm, Set[0],   Set[1,2], b4, b8, b8).final? Set[Arch[5,1]]
       refute Decomposition.new(:fsm, Set[0],   Set[1,2], b2, b8, b9).final? Set[Arch[5,1]]
+    end
+  end
+
+  describe '#fsm' do
+    it 'returns the FSM' do
+      dec.fsm.must_equal fsm
+    end
+  end
+
+  describe '#g' do
+    it 'returns βG' do
+      dec.g.must_equal g
     end
   end
 
@@ -144,6 +156,18 @@ module ArtDecomp describe Decomposition do
     end
   end
 
+  describe '#qu' do
+    it 'returns βQu' do
+      dec.qu.must_equal qu
+    end
+  end
+
+  describe '#qv' do
+    it 'returns βQv' do
+      dec.qv.must_equal qv
+    end
+  end
+
   describe '#sensible?' do
     it 'is a predicate whether it’s sensible, based on target Archs and G and H Archs' do
       fsm = Object.new
@@ -170,6 +194,18 @@ module ArtDecomp describe Decomposition do
   describe '#to_kiss' do
     it 'returns the combined decomposition KISS representation' do
       dec.to_kiss.must_equal File.read 'spec/fixtures/dec.kiss'
+    end
+  end
+
+  describe '#u' do
+    it 'returns U' do
+      dec.u.must_equal u
+    end
+  end
+
+  describe '#v' do
+    it 'returns V' do
+      dec.v.must_equal v
     end
   end
 

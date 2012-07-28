@@ -7,6 +7,8 @@ module ArtDecomp class Decomposition
     [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
+  attr_reader :fsm, :g, :qu, :qv, :u, :v
+
   def disjoint?
     (@u & @v).empty?
   end
@@ -131,10 +133,6 @@ module ArtDecomp class Decomposition
   def valid?
     @g.seps.subset?((@fsm.beta_x(@v) * @qv).seps) and @fsm.beta_f.seps.subset?((@fsm.beta_x(@u) * @qu * @g).seps)
   end
-
-  protected
-
-  attr_reader :fsm, :u, :v, :qu, :qv, :g
 
   private
 
