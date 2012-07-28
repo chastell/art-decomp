@@ -54,24 +54,24 @@ module ArtDecomp describe Executable do
     let(:executable) { Executable.new min_args }
 
     it 'configures the DecTreeGenerator' do
-      dt_gen = MiniTest::Mock.new.expect :new, OpenStruct.new(dectrees: []), [{
+      dt_gen_class = MiniTest::Mock.new.expect :new, OpenStruct.new(dectrees: []), [{
         archs: Set[Arch[5,1]],
         fsm:   FSM.from_kiss(fsm_path),
         gens:  { uv: [UVGenerators::RelativeRelevance.new], qu: [QuGenerators::EdgeLabels.new], qv: [QvGenerators::GraphColouring.new] },
       }]
-      executable.run dec_tree_generator: dt_gen
-      dt_gen.verify
+      executable.run dec_tree_generator_class: dt_gen_class
+      dt_gen_class.verify
     end
 
     it 'saves the DecTrees to the results dir' do
-      dt_gen = Class.new do
+      dt_gen_class = Class.new do
         def initialize *_
         end
         def dectrees
           [OpenStruct.new(to_vhdl: 'VHDL A'), OpenStruct.new(to_vhdl: 'VHDL B')]
         end
       end
-      executable.run dec_tree_generator: dt_gen
+      executable.run dec_tree_generator_class: dt_gen_class
       File.read("#{dir_path}/fsm/5:1/0.vhdl").must_equal 'VHDL A'
       File.read("#{dir_path}/fsm/5:1/1.vhdl").must_equal 'VHDL B'
     end

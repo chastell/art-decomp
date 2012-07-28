@@ -8,7 +8,7 @@ module ArtDecomp class Decomposer
   end
 
   def decompositions opts = {}
-    dec_gen = opts.fetch :decomposition_generator, Decomposition
+    dec_gen = opts.fetch :decomposition_class, Decomposition
     Enumerator.new do |yielder|
       uv.each do |uv_gen|
         uv_gen.uv_pairs(fsm, archs).each do |fsm, u, v|

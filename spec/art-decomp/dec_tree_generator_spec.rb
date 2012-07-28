@@ -17,12 +17,12 @@ module ArtDecomp describe DecTreeGenerator do
       decomposer11  = MiniTest::Mock.new.expect :decompositions, [dec11, dec12]
       decomposer111 = MiniTest::Mock.new.expect :decompositions, [dec111]
 
-      dec_gen = MiniTest::Mock.new
-      dec_gen.expect :new, decomposer1,   [{ archs: archs, fsm: fsm,   gens: gens }]
-      dec_gen.expect :new, decomposer11,  [{ archs: archs, fsm: fsm1,  gens: gens }]
-      dec_gen.expect :new, decomposer111, [{ archs: archs, fsm: fsm11, gens: gens }]
+      dec_class = MiniTest::Mock.new
+      dec_class.expect :new, decomposer1,   [{ archs: archs, fsm: fsm,   gens: gens }]
+      dec_class.expect :new, decomposer11,  [{ archs: archs, fsm: fsm1,  gens: gens }]
+      dec_class.expect :new, decomposer111, [{ archs: archs, fsm: fsm11, gens: gens }]
 
-      dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens, decomposer_generator: dec_gen
+      dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens, decomposer_class: dec_class
       dt_gen.dectrees.to_a.must_equal [
         DecTree.new([dec1, dec11, dec111]),
         DecTree.new([dec1, dec12]),

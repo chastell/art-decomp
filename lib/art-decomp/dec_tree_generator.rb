@@ -1,14 +1,14 @@
 module ArtDecomp class DecTreeGenerator
   def initialize opts
-    self.archs                = opts.fetch :archs
-    self.fsm                  = opts.fetch :fsm
-    self.gens                 = opts.fetch :gens
-    self.decomposer_generator = opts.fetch :decomposer_generator
+    self.archs            = opts.fetch :archs
+    self.fsm              = opts.fetch :fsm
+    self.gens             = opts.fetch :gens
+    self.decomposer_class = opts.fetch :decomposer_class
   end
 
   def dectrees fsm = fsm, dec_tree = DecTree.new
     Enumerator.new do |yielder|
-      decomposer = decomposer_generator.new fsm: fsm, archs: archs, gens: gens
+      decomposer = decomposer_class.new fsm: fsm, archs: archs, gens: gens
       decomposer.decompositions.each do |dec|
         dec_tree << dec
         if dec.final? archs
@@ -23,5 +23,5 @@ module ArtDecomp class DecTreeGenerator
 
   protected
 
-  attr_accessor :archs, :decomposer_generator, :fsm, :gens
+  attr_accessor :archs, :decomposer_class, :fsm, :gens
 end end
