@@ -74,9 +74,9 @@ module ArtDecomp describe Executable do
           ]
         end
       end
-      executable.run dec_tree_generator_class: dt_gen_class
-      File.read("#{dir_path}/fsm/5:1/0.vhdl").must_equal 'VHDL A'
-      File.read("#{dir_path}/fsm/5:1/1.vhdl").must_equal 'VHDL B'
+      executable.run dec_tree_generator_class: dt_gen_class, dir_prefix: 'dir_prefix'
+      File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_0.vhdl").must_equal 'VHDL A'
+      File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_1.vhdl").must_equal 'VHDL B'
     end
   end
 end end

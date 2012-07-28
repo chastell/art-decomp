@@ -29,11 +29,14 @@ module ArtDecomp class Executable
     self.qv    = opts[:qv].map { |name| QvGenerators.const_get(name).new }
   end
 
-  def run opts = { dec_tree_generator_class: DecTreeGenerator }
+  def run opts = {}
+    self.dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
     FileUtils.mkdir_p dir
-    dt_gen = opts.fetch(:dec_tree_generator_class).new archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv }
+
+    dt_gen_class = opts.fetch :dec_tree_generator_class, DecTreeGenerator
+    dt_gen = dt_gen_class.new archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv }
     dt_gen.dectrees.each.with_index do |dectree, i|
-      File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl(archs, name)
+      File.write "#{dir}/#{name}_#{i}.vhdl", dectree.to_vhdl(archs, name)
     end
   end
 
