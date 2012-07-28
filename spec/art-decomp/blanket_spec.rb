@@ -104,4 +104,11 @@ module ArtDecomp describe Blanket do
       Blanket[B[1,2,3], B[2,3,4]].size.must_equal 2
     end
   end
+
+  describe '#to_s' do
+    it 'returns a self-instanting form' do
+      Blanket[B[]].to_s.must_equal          'Blanket[]'
+      Blanket[B[1,2], B[0]].to_s.must_equal 'Blanket[B[0], B[1,2]]'
+    end
+  end
 end end

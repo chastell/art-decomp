@@ -69,4 +69,6 @@ module ArtDecomp class Blanket
   def size
     @ints.size
   end
+
+  alias to_s inspect
 end end
