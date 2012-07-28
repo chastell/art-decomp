@@ -1,10 +1,8 @@
 module ArtDecomp class DecTree
   extend Forwardable
 
-  def initialize decs = [], opts = {}
-    self.archs = opts[:archs]
-    self.decs  = decs
-    self.name  = opts[:name]
+  def initialize decs = []
+    self.decs = decs
   end
 
   def_delegators :decs, :<<, :pop
@@ -17,13 +15,16 @@ module ArtDecomp class DecTree
     self.class.new decs.dup
   end
 
-  def to_vhdl
+  def to_vhdl archs, name
+    self.archs = archs
     ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
   end
 
   protected
 
-  attr_accessor :archs, :decs, :name
+  attr_accessor :archs, :decs
+
+  private
 
   def cell_count
     decs.map { |dec| dec.g_cells archs }.inject(:+) + decs.last.h_cells(archs)

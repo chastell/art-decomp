@@ -50,8 +50,8 @@ module ArtDecomp describe DecTree do
       g2   = Blanket[B[0,2,10,12], B[1,3,11,13], B[4,9,14,19,22], B[5,15], B[6,16], B[7,8,17,18,20,21], B[23,26], B[24,27,33,35], B[25,28,34,36], B[29,30,37], B[31,38], B[32,39], B[40,43,50,53], B[41,44,51,54], B[42,45,52,55], B[46,47,48,49,56,57,58,59]]
       d2   = Decomposition.new fsm2.expand_x(v2), u2, v2, qu2, qv2, g2
 
-      dec_tree = DecTree.new [d1, d2], :archs => Set[Arch[6,1], Arch[5,2]], :name => 'bbara'
-      dec_tree.to_vhdl.must_equal File.read 'spec/fixtures/bbara.vhdl'
+      dec_tree = DecTree.new [d1, d2]
+      dec_tree.to_vhdl(Set[Arch[6,1], Arch[5,2]], 'bbara').must_equal File.read 'spec/fixtures/bbara.vhdl'
     end
   end
 end end

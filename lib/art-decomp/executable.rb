@@ -20,7 +20,8 @@ module ArtDecomp class Executable
     Trollop.die :qv,    'generator does not exist'          unless (opts[:qv] - QvGenerators.constants.map(&:to_s)).empty?
 
     self.archs = opts[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
-    self.dir   = "#{opts[:dir]}/#{File.basename args.first}/#{archs.sort.reverse.map(&:to_s).join(' ').tr('/', ':')}"
+    self.name  = File.basename args.first
+    self.dir   = "#{opts[:dir]}/#{name}/#{archs.sort.reverse.map(&:to_s).join(' ').tr('/', ':')}"
     self.fsm   = FSM.from_kiss args.first
     self.uv    = opts[:uv].map { |name| UVGenerators.const_get(name).new }
     self.qu    = opts[:qu].map { |name| QuGenerators.const_get(name).new }
@@ -31,11 +32,11 @@ module ArtDecomp class Executable
     FileUtils.mkdir_p dir
     dt_gen = opts.fetch(:dec_tree_generator_class).new archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv }
     dt_gen.dectrees.each.with_index do |dectree, i|
-      File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl
+      File.write "#{dir}/#{i}.vhdl", dectree.to_vhdl(archs, name)
     end
   end
 
   protected
 
-  attr_accessor :archs, :dir, :fsm, :qu, :qv, :uv
+  attr_accessor :archs, :dir, :fsm, :name, :qu, :qv, :uv
 end end
