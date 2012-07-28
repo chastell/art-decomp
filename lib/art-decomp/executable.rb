@@ -2,7 +2,7 @@ require 'fileutils'
 require 'trollop'
 
 module ArtDecomp class Executable
-  def initialize args
+  def initialize args, opts = {}
     options = Trollop.options args do
       opt :archs, 'Target architecture(s)', required: true, type: :strings
       opt :dir,   'Results directory',      required: true, type: :string
@@ -27,6 +27,8 @@ module ArtDecomp class Executable
     self.uv    = options[:uv].map { |name| UVGenerators.const_get(name).new }
     self.qu    = options[:qu].map { |name| QuGenerators.const_get(name).new }
     self.qv    = options[:qv].map { |name| QvGenerators.const_get(name).new }
+
+    opts.fetch(:logging_class).new options[:log] if options[:log_given]
   end
 
   def run opts = {}
