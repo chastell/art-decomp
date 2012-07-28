@@ -1,0 +1,73 @@
+-- <%= cell_count %> cells of target arch (<%= archs.map(&:to_s).join ' + ' %>)
+-- G archs: <%= g_archs %>
+-- H arch: <%= h_arch %>
+
+library ieee;
+use ieee.numeric_std.all;
+use ieee.std_logic_1164.all;
+
+entity <%= name %> is
+  port(
+        reset: in  std_logic;
+        clock: in  std_logic;
+        fsm_i: in  std_logic_vector(0 to <%= fsm_i_size %>);
+        fsm_o: out std_logic_vector(0 to <%= fsm_o_size %>)
+      );
+end <%= name %>;
+
+architecture behaviour of <%= name %> is
+
+  signal fsm_q, fsm_qp: std_logic_vector(0 to <%= fsm_q_size %>);
+
+% dec_sizes.each.with_index do |ds, i|
+  signal d<%= i %>_x:   std_logic_vector(0 to <%= ds.x   %>);
+  signal d<%= i %>_q:   std_logic_vector(0 to <%= ds.q   %>);
+  signal d<%= i %>_qu:  std_logic_vector(0 to <%= ds.qu  %>);
+  signal d<%= i %>_qv:  std_logic_vector(0 to <%= ds.qv  %>);
+  signal d<%= i %>_g_i: std_logic_vector(0 to <%= ds.g_i %>);
+  signal d<%= i %>_g_o: std_logic_vector(0 to <%= ds.g_o %>);
+% end
+
+  signal d<%= max_d %>_h_i: std_logic_vector(0 to <%= h_i_size %>);
+  signal d<%= max_d %>_h_o: std_logic_vector(0 to <%= h_o_size %>);
+
+begin
+
+% dec_structures.each.with_index do |ds, i|
+  d<%= i %>_x   <= <%= ds.x   %>;
+  d<%= i %>_q   <= <%= ds.q   %>;
+  d<%= i %>_qu  <= <%= ds.qu  %>;
+  d<%= i %>_qv  <= <%= ds.qv  %>;
+  d<%= i %>_g_i <= <%= ds.g_i %>;
+% end
+
+  d<%= max_d %>_h_i <= (<%= h_i_structure %>);
+
+  fsm_qp <= d<%= max_d %>_h_o(0 to <%= h_o_qp_size %>);
+  fsm_o  <= d<%= max_d %>_h_o(<%= h_o_qp_size + 1 %> to <%= h_o_size %>);
+
+  process(reset, clock) begin
+    if reset = '1' then fsm_q <= "<%= first_state %>";
+    elsif rising_edge(clock) then fsm_q <= fsm_qp;
+    end if;
+  end process;
+
+% dec_g_blocks.each.with_index do |dgb, i|
+  d<%= i %>_g: process(d<%= i %>_g_i) begin
+    d<%= i %>_g_o <= (others => '-');
+% dgb.each.with_index do |(g_i, g_o), line|
+    <%= line.zero? ? 'if' : 'elsif' %> std_match(d<%= i %>_g_i, "<%= g_i %>") then d<%= i %>_g_o <= "<%= g_o %>";
+% end
+    end if;
+  end process;
+% end
+
+  d<%= max_d %>_h: process(d<%= max_d %>_h_i) begin
+    d<%= max_d %>_h_o <= (others => '-');
+% h_block.each.with_index do |(h_i, h_o), line|
+    <%= line.zero? ? 'if' : 'elsif' %> std_match(d<%= max_d %>_h_i, "<%= h_i %>") then d<%= max_d %>_h_o <= "<%= h_o %>";
+% end
+    end if;
+  end process;
+
+end behaviour;

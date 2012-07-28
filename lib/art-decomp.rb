@@ -1,3 +1,4 @@
+require 'erb'
 require 'forwardable'
 require 'ostruct'
 require 'set'
