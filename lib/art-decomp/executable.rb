@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'trollop'
 
 module ArtDecomp class Executable
@@ -28,7 +29,7 @@ module ArtDecomp class Executable
     self.qv    = opts[:qv].map { |name| QvGenerators.const_get(name).new }
   end
 
-  def run opts
+  def run opts = { dec_tree_generator_class: DecTreeGenerator }
     FileUtils.mkdir_p dir
     dt_gen = opts.fetch(:dec_tree_generator_class).new archs: archs, fsm: fsm, gens: { uv: uv, qu: qu, qv: qv }
     dt_gen.dectrees.each.with_index do |dectree, i|
