@@ -8,6 +8,12 @@ module ArtDecomp describe UVRelevanceGenerator do
     fsm.expect :send, [0, 1, 2, nil, nil, nil, 3, 4, 5], [:common_relevance]
   end
 
+  describe '#==' do
+    it 'performs class-based comparison' do
+      UVRelevanceGenerator.new.must_equal UVRelevanceGenerator.new
+    end
+  end
+
   describe '#uv_pairs' do
     it 'yields U and V combinations in a relevance-based order' do
       uvg = UVRelevanceGenerator.new

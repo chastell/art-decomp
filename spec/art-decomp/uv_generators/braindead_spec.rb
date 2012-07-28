@@ -3,6 +3,12 @@ require_relative '../../spec_helper'
 module ArtDecomp describe UVGenerators::Braindead do
   let(:uvg) { UVGenerators::Braindead.new }
 
+  describe '#==' do
+    it 'performs class-based comparison' do
+      uvg.must_equal UVGenerators::Braindead.new
+    end
+  end
+
   describe '#uv_pairs' do
     it 'yields all non-insane U and V combinations' do
       fsm = MiniTest::Mock.new

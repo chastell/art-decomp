@@ -3,6 +3,12 @@
 require_relative '../../spec_helper'
 
 module ArtDecomp describe QuGenerators::BlockTable do
+  describe '#==' do
+    it 'performs class-based comparison' do
+      QuGenerators::BlockTable.new.must_equal QuGenerators::BlockTable.new
+    end
+  end
+
   describe '#blankets' do
     it 'folds Q blocks that match in the first go' do
       qu_blankets(
