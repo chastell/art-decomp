@@ -29,7 +29,7 @@ module ArtDecomp class Decomposition
   end
 
   def g_cells archs
-    Arch[@v.size + @qv.pins, @g.pins].cells archs
+    g_arch.cells archs
   end
 
   def g_kiss
@@ -51,7 +51,7 @@ module ArtDecomp class Decomposition
   end
 
   def h_cells archs
-    Arch[@u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins].cells archs
+    h_arch.cells archs
   end
 
   def h_kiss
