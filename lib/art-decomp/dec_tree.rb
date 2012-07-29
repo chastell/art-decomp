@@ -1,8 +1,9 @@
 module ArtDecomp class DecTree
   extend Forwardable
 
-  def initialize decs = []
-    self.decs = decs
+  def initialize archs, decs = []
+    self.archs = archs
+    self.decs  = decs
   end
 
   def_delegators :decs, :<<, :pop
@@ -12,11 +13,10 @@ module ArtDecomp class DecTree
   end
 
   def dup
-    self.class.new decs.dup
+    self.class.new archs, decs.dup
   end
 
-  def to_vhdl archs, name
-    self.archs = archs
+  def to_vhdl name
     ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
   end
 

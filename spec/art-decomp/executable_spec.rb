@@ -75,8 +75,8 @@ module ArtDecomp describe Executable do
         end
         def dectrees
           [
-            MiniTest::Mock.new.expect(:to_vhdl, 'VHDL A', [Set[Arch[5,1]], 'fsm_0']),
-            MiniTest::Mock.new.expect(:to_vhdl, 'VHDL B', [Set[Arch[5,1]], 'fsm_1']),
+            MiniTest::Mock.new.expect(:to_vhdl, 'VHDL A', ['fsm_0']),
+            MiniTest::Mock.new.expect(:to_vhdl, 'VHDL B', ['fsm_1']),
           ]
         end
       end

@@ -24,8 +24,8 @@ module ArtDecomp describe DecTreeGenerator do
 
       dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens, decomposer_class: dec_class
       dt_gen.dectrees.to_a.must_equal [
-        DecTree.new([dec1, dec11, dec111]),
-        DecTree.new([dec1, dec12]),
+        DecTree.new(archs, [dec1, dec11, dec111]),
+        DecTree.new(archs, [dec1, dec12]),
       ]
     end
   end
