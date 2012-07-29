@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'logger'
 require 'rcapture'
 
@@ -24,7 +26,8 @@ module ArtDecomp class Logging
 
   def log_executable
     classes[:executable].capture_pre methods: :run do |point|
-      logger.unknown 'Executable#run'
+      ex = point.sender
+      logger.unknown "decomposing #{ex.name}: #{ex.fsm.stats} → #{ex.archs.sort.map(&:to_s).join ' + '}"
     end
   end
 
