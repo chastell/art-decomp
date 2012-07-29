@@ -53,6 +53,13 @@ module ArtDecomp describe DecTree do
     end
   end
 
+  describe '#g_cells' do
+    it 'returns the number of cells of target arch taken by G blocks' do
+      DecTree.new(Set[Arch[6,1], Arch[5,2]], [dec1, dec2]).g_cells.must_equal 3
+      DecTree.new(Set[Arch[6,1]],            [dec1, dec2]).g_cells.must_equal 6
+    end
+  end
+
   describe '#pop' do
     it 'drops elements' do
       dec_tree.pop

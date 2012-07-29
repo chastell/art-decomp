@@ -20,6 +20,10 @@ module ArtDecomp class DecTree
     self.class.new archs, decs.dup
   end
 
+  def g_cells
+    decs.map { |dec| dec.g_cells archs }.inject :+
+  end
+
   def to_vhdl name
     ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
   end
