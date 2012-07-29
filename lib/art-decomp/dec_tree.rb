@@ -26,7 +26,7 @@ module ArtDecomp class DecTree
 
   private
 
-  def cell_count
+  def cells
     decs.map { |dec| dec.g_cells archs }.inject(:+) + decs.last.h_cells(archs)
   end
 
