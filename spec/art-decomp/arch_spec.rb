@@ -17,7 +17,7 @@ module ArtDecomp describe Arch do
 
   describe '#<=>' do
     it 'allows sorting' do
-      [Arch[5,1], Arch[4,1], Arch[4,2]].sort.must_equal [Arch[4,1], Arch[4,2], Arch[5,1]]
+      [Arch[5,1], Arch[4,1], Arch[4,2]].sort.must_equal [Arch[5,1], Arch[4,2], Arch[4,1]]
     end
   end
 

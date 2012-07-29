@@ -14,7 +14,7 @@ module ArtDecomp class Arch
   end
 
   def <=> other
-    (@pins <=> other.pins).nonzero? or @pons <=> other.pons
+    (other.pins <=> @pins).nonzero? or other.pons <=> @pons
   end
 
   def cells archs
