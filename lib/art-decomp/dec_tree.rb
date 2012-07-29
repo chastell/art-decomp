@@ -13,7 +13,7 @@ module ArtDecomp class DecTree
   end
 
   def cells
-    decs.map { |dec| dec.g_cells archs }.inject(:+) + decs.last.h_cells(archs) rescue nil
+    g_cells + decs.last.h_cells(archs) rescue nil
   end
 
   def dup
