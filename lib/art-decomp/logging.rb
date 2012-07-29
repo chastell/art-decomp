@@ -14,6 +14,10 @@ module ArtDecomp class Logging
     log_executable
   end
 
+  protected
+
+  attr_accessor :logger
+
   private
 
   def classes
@@ -30,6 +34,4 @@ module ArtDecomp class Logging
       logger.unknown "decomposing #{ex.name}: #{ex.fsm.stats} → #{ex.archs.sort.map(&:to_s).join ' + '}"
     end
   end
-
-  attr_accessor :logger
 end end
