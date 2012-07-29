@@ -8,6 +8,7 @@ module ArtDecomp class Logging
 
     classes[:executable] = opts.fetch :executable
 
+    extend_classes
     log_executable
   end
 
@@ -17,8 +18,11 @@ module ArtDecomp class Logging
     @classes ||= {}
   end
 
-  def log_executable
+  def extend_classes
     classes[:executable].class_eval { include RCapture::Interceptable }
+  end
+
+  def log_executable
     classes[:executable].capture_pre methods: :run do |point|
       logger.unknown 'Executable#run'
     end
