@@ -12,6 +12,10 @@ module ArtDecomp class DecTree
     self.decs == other.decs
   end
 
+  def cells
+    decs.map { |dec| dec.g_cells archs }.inject(:+) + decs.last.h_cells(archs) rescue nil
+  end
+
   def dup
     self.class.new archs, decs.dup
   end
@@ -25,10 +29,6 @@ module ArtDecomp class DecTree
   attr_accessor :archs, :decs
 
   private
-
-  def cells
-    decs.map { |dec| dec.g_cells archs }.inject(:+) + decs.last.h_cells(archs)
-  end
 
   def dec_g_blocks
     decs.map do |dec|
