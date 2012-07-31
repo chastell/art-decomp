@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require_relative '../spec_helper'
 require_relative '../../lib/art-decomp/executable'
 
@@ -5,6 +7,8 @@ module ArtDecomp describe Executable do
   let(:dir_path) { Dir.mktmpdir }
   let(:fsm_path) { 'spec/fixtures/fsm' }
   let(:min_args) { ['--archs', '5/1', '--dir', dir_path, '--', fsm_path] }
+
+  let(:executable) { Executable.new min_args }
 
   after { FileUtils.rmtree dir_path }
 
@@ -53,6 +57,24 @@ module ArtDecomp describe Executable do
       logging_class = MiniTest::Mock.new.expect :new, nil, ['unknown']
       Executable.new ['--log', 'unknown'] + min_args, logging_class: logging_class
       logging_class.verify
+    end
+  end
+
+  describe '#archs' do
+    it 'returns the target archs' do
+      executable.archs.must_equal Set[Arch[5,1]]
+    end
+  end
+
+  describe '#fsm' do
+    it 'returns the FSM' do
+      executable.fsm.must_equal FSM.from_kiss 'spec/fixtures/fsm'
+    end
+  end
+
+  describe '#name' do
+    it 'returns the FSM’s name' do
+      executable.name.must_equal 'fsm'
     end
   end
 

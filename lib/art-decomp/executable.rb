@@ -31,6 +31,8 @@ module ArtDecomp class Executable
     opts.fetch(:logging_class).new options[:log] if options[:log_given]
   end
 
+  attr_accessor :archs, :fsm, :name
+
   def run opts = {}
     self.dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
     FileUtils.mkdir_p dir
@@ -44,5 +46,5 @@ module ArtDecomp class Executable
 
   protected
 
-  attr_accessor :archs, :dir, :fsm, :name, :qu, :qv, :uv
+  attr_accessor :dir, :qu, :qv, :uv
 end end
