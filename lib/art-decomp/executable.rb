@@ -1,8 +1,10 @@
 require 'fileutils'
 require 'trollop'
 
+require_relative 'logging'
+
 module ArtDecomp class Executable
-  def initialize args, opts = {}
+  def initialize args, opts = { logging_class: Logging }
     options = Trollop.options args do
       opt :archs, 'Target architecture(s)', required: true, type: :strings
       opt :dir,   'Results directory',      required: true, type: :string
