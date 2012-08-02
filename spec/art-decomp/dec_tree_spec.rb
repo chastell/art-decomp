@@ -41,7 +41,7 @@ module ArtDecomp describe DecTree do
     it 'returns the number of cells of target arch' do
       DecTree.new(Set[Arch[6,1], Arch[5,2]], [dec1, dec2]).cells.must_equal 11
       DecTree.new(Set[Arch[6,1]],            [dec1, dec2]).cells.must_equal 14
-      DecTree.new(Set[Arch[5,2]],            [dec1, dec2]).cells.must_be_nil
+      DecTree.new(Set[Arch[5,2]],            [dec1, dec2]).cells.must_equal Infinity
     end
   end
 

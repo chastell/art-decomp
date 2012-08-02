@@ -90,7 +90,7 @@ module ArtDecomp class FSM
   end
 
   def implementable_in? archs
-    not fsm_cells(archs).nil?
+    fsm_cells(archs) < Infinity
   end
 
   def input_count

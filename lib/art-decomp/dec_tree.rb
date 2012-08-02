@@ -13,7 +13,7 @@ module ArtDecomp class DecTree
   end
 
   def cells
-    g_cells + decs.last.h_cells(archs) rescue nil
+    g_cells + decs.last.h_cells(archs)
   end
 
   def dup

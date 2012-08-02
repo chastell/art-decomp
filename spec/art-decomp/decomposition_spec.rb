@@ -82,7 +82,7 @@ module ArtDecomp describe Decomposition do
     it 'returns G cell count (if G fits the provided Archs)' do
       Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_cells(Set[Arch[5,1]]).must_equal 2
       Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_cells(Set[Arch[4,2]]).must_equal 1
-      Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_cells(Set[Arch[3,2]]).must_be_nil
+      Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_cells(Set[Arch[3,2]]).must_equal Infinity
       Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b8).g_cells(Set[Arch[4,2]]).must_equal 2
     end
   end
@@ -113,7 +113,7 @@ module ArtDecomp describe Decomposition do
     it 'returns H cell count (if H fits the provided Archs)' do
       Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[5,1]]).must_equal 4
       Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[4,2]]).must_equal 2
-      Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[3,1]]).must_be_nil
+      Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[3,1]]).must_equal Infinity
       Decomposition.new(fsm, Set[0], Set[1,2], b2, b4, b4).h_cells(Set[Arch[4,2]]).must_equal 3
     end
   end

@@ -135,7 +135,7 @@ module ArtDecomp describe FSM do
     it 'returns the cell count for a given Set of Archs (if it’s implementable in it)' do
       lion.fsm_cells(Set[Arch[4,1]]).must_equal 3
       lion.fsm_cells(Set[Arch[4,2]]).must_equal 2
-      mc.fsm_cells(Set[Arch[4,2]]).must_be_nil
+      mc.fsm_cells(Set[Arch[4,2]]).must_equal   Infinity
       mc.fsm_cells(Set[Arch[5,1]]).must_equal   7
       s8.fsm_cells(Set[Arch[2,1]]).must_equal   0
       s8.fsm_cells(Set[Arch[3,2]]).must_equal   0

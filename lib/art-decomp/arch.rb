@@ -19,7 +19,7 @@ module ArtDecomp class Arch
 
   def cells archs
     pons = archs.select { |a| a.pins >= @pins }.map(&:pons).max
-    return nil unless pons
+    return Infinity unless pons
     (@pons % pons).zero? ? @pons / pons : @pons / pons + 1
   end
 

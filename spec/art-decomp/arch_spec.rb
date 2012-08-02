@@ -25,7 +25,7 @@ module ArtDecomp describe Arch do
     it 'reports how many cells of the given Archs it requires' do
       Arch[4,3].cells(Set[Arch[4,2], Arch[5,1]]).must_equal 2
       Arch[4,3].cells(Set[Arch[5,1]]).must_equal 3
-      Arch[5,3].cells(Set[Arch[4,3]]).must_be_nil
+      Arch[5,3].cells(Set[Arch[4,3]]).must_equal Infinity
       Arch[5,3].cells(Set[Arch[5,2]]).must_equal 2
     end
   end
