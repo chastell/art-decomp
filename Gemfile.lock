@@ -8,9 +8,16 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    coderay (1.0.7)
+    method_source (0.8)
     minitest (3.3.0)
+    pry (0.9.10)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.3.1)
     rake (0.9.2.2)
     rcapture (1.0.4)
+    slop (3.3.2)
     trollop (1.16.2)
 
 PLATFORMS
@@ -19,4 +26,5 @@ PLATFORMS
 DEPENDENCIES
   art-decomp!
   minitest (>= 2.12)
+  pry
   rake
