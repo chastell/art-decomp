@@ -16,6 +16,14 @@ module ArtDecomp describe Blanket do
     end
   end
 
+  describe '.new' do
+    it 'drops subset blocks' do
+      Blanket[B[1], B[1,2]].must_equal   Blanket[B[1,2]]
+      Blanket[B[1,2], B[2,3]].must_equal Blanket[B[1,2], B[2,3]]
+      Blanket[B[1], B[2,3]].must_equal   Blanket[B[1], B[2,3]]
+    end
+  end
+
   describe '#*' do
     it 'returns the multiplication of self and another Blanket' do
       b1 = Blanket[B[1,2,3], B[4,5,6]]
