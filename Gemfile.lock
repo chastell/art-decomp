@@ -25,6 +25,6 @@ PLATFORMS
 
 DEPENDENCIES
   art-decomp!
-  minitest (>= 2.12)
+  minitest (~> 3.0)
   pry
   rake
