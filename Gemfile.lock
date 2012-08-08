@@ -11,6 +11,7 @@ GEM
     coderay (1.0.7)
     method_source (0.8)
     minitest (3.3.0)
+    perftools.rb (2.0.0)
     pry (0.9.10)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -26,5 +27,6 @@ PLATFORMS
 DEPENDENCIES
   art-decomp!
   minitest (~> 3.0)
+  perftools.rb
   pry
   rake
