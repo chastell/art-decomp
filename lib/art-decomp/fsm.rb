@@ -42,38 +42,38 @@ module ArtDecomp class FSM
   end
 
   def == other
-    [@inputs, @outputs, @state, @next_state] == [other.inputs, other.outputs, other.state, other.next_state]
+    [inputs, outputs, state, next_state] == [other.inputs, other.outputs, other.state, other.next_state]
   end
 
   def beta_f
-    @outputs.map { |o| Blanket.from_array o }.inject(:*) * Blanket.from_array(@next_state)
+    outputs.map { |o| Blanket.from_array o }.inject(:*) * Blanket.from_array(next_state)
   end
 
   def beta_q
-    Blanket.from_array @state
+    Blanket.from_array state
   end
 
   def beta_qp
-    Blanket.from_array @next_state
+    Blanket.from_array next_state
   end
 
-  def beta_x ins = (0...@inputs.size).to_a
-    beta @inputs, ins
+  def beta_x ins = (0...inputs.size).to_a
+    beta inputs, ins
   end
 
-  def beta_y ins = (0...@outputs.size).to_a
-    beta @outputs, ins
+  def beta_y ins = (0...outputs.size).to_a
+    beta outputs, ins
   end
 
   alias eql? ==
 
   def expand_x ins
-    return self unless ins.any? { |i| @inputs[i].include? DontCare }
+    return self unless ins.any? { |i| inputs[i].include? DontCare }
     FSM.from_kiss to_kiss.lines.map { |line| line.extend(CoreExtensions::String).dc_expand(ins) }.flatten.sort.join
   end
 
   def fsm_cells archs
-    return 0 if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
+    return 0 if outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
     Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
   end
 
@@ -86,7 +86,7 @@ module ArtDecomp class FSM
   end
 
   def hash
-    @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
+    inputs.hash ^ outputs.hash ^ state.hash ^ next_state.hash
   end
 
   def implementable_in? archs
@@ -94,16 +94,16 @@ module ArtDecomp class FSM
   end
 
   def input_count
-    @inputs.size
+    inputs.size
   end
 
   def output_count
-    @outputs.size
+    outputs.size
   end
 
   def q_encoding rows
     # FIXME: consider tr DontCare, '*'
-    encoding @state, rows
+    encoding state, rows
   end
 
   def relative_relevance
@@ -122,28 +122,28 @@ module ArtDecomp class FSM
   end
 
   def state_rows_of_next_state_of rows
-    state = @next_state[rows.bits.first]
-    B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]
+    st = next_state[rows.bits.first]
+    B[*(0...state.size).select { |i| state[i] == st or state[i] == DontCare }]
   end
 
   def stats
-    "#{@inputs.size}/#{@outputs.size}+#{(@state.uniq - [DontCare]).size}s"
+    "#{inputs.size}/#{outputs.size}+#{(state.uniq - [DontCare]).size}s"
   end
 
   def structure
     structure = Hash.new { |state, input| state[input] = {} }
-    @state.each_index do |row|
-      structure[@state[row]][@inputs.transpose[row].join] = {next_state: @next_state[row], output: @outputs.transpose[row].join}
+    state.each_index do |row|
+      structure[state[row]][inputs.transpose[row].join] = {next_state: next_state[row], output: outputs.transpose[row].join}
     end
     structure
   end
 
   def to_kiss
-    st   = @state.map      { |e| e == DontCare ? '*' : e }
-    nxt  = @next_state.map { |e| e == DontCare ? '*' : e }
-    div  = Array.new @state.size, ' '
+    st   = state.map      { |e| e == DontCare ? '*' : e }
+    nxt  = next_state.map { |e| e == DontCare ? '*' : e }
+    div  = Array.new state.size, ' '
     mid  = truth_table? ? [div] : [div, st, div, nxt, div]
-    cols = @inputs + mid + @outputs
+    cols = inputs + mid + outputs
     KISS.new(cols.transpose.map(&:join)).formatted
   end
 
@@ -152,7 +152,7 @@ module ArtDecomp class FSM
   end
 
   def truth_table?
-    @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
+    state.all? { |s| s == DontCare } and next_state.all? { |ns| ns == DontCare }
   end
 
   def unique_relevance
@@ -170,11 +170,11 @@ module ArtDecomp class FSM
   end
 
   def x_encoding ins, rows
-    ins.sort.map { |i| encoding @inputs[i], rows }.join
+    ins.sort.map { |i| encoding inputs[i], rows }.join
   end
 
   def y_encoding rows
-    @outputs.map { |output| encoding output, rows }.join
+    outputs.map { |output| encoding output, rows }.join
   end
 
   protected
@@ -185,7 +185,7 @@ module ArtDecomp class FSM
 
   def beta column, ins
     ins = Array ins
-    return Blanket[B[*0...@state.size]] if ins.empty?
+    return Blanket[B[*0...state.size]] if ins.empty?
     ins.map { |i| Blanket.from_array column[i] }.inject :*
   end
 
