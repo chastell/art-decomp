@@ -4,7 +4,7 @@ module ArtDecomp class Decomposition
   end
 
   def == other
-    [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
+    [fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
   end
 
   attr_reader :fsm, :g, :qu, :qv, :u, :v
@@ -16,7 +16,7 @@ module ArtDecomp class Decomposition
   alias eql? ==
 
   def f_kiss
-    @fsm.to_kiss
+    fsm.to_kiss
   end
 
   def final? archs
@@ -33,8 +33,8 @@ module ArtDecomp class Decomposition
   end
 
   def g_kiss
-    lines = (@fsm.beta_x(@v) * @qv).ints.map do |row|
-      v  = @fsm.x_encoding @v, row
+    lines = (fsm.beta_x(@v) * @qv).ints.map do |row|
+      v  = fsm.x_encoding @v, row
       qv = @qv.encoding row
       g  = @g.encoding row
       "#{v}#{qv} #{g}"
@@ -47,7 +47,7 @@ module ArtDecomp class Decomposition
   end
 
   def h_arch
-    Arch[@u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins]
+    Arch[@u.size + @qu.pins + @g.pins, fsm.output_count + @qu.pins + @qv.pins]
   end
 
   def h_cells archs
@@ -55,12 +55,12 @@ module ArtDecomp class Decomposition
   end
 
   def h_kiss
-    lines = (@fsm.beta_x(@u) * @g * @qu).ints.map do |row|
-      u   = @fsm.x_encoding @u, row
+    lines = (fsm.beta_x(@u) * @g * @qu).ints.map do |row|
+      u   = fsm.x_encoding @u, row
       qu  = @qu.encoding row
-      qup = @qu.encoding @fsm.state_rows_of_next_state_of(row)
-      qvp = @qv.encoding @fsm.state_rows_of_next_state_of(row)
-      y   = @fsm.y_encoding row
+      qup = @qu.encoding fsm.state_rows_of_next_state_of(row)
+      qvp = @qv.encoding fsm.state_rows_of_next_state_of(row)
+      y   = fsm.y_encoding row
       qu  = '*' if qu  =~ /^-+$/
       qup = '*' if qup =~ /^-+$/
       # FIXME: use only the encoding(s) really mapped from this row
@@ -72,21 +72,21 @@ module ArtDecomp class Decomposition
   end
 
   def hash
-    @fsm.hash ^ @u.hash ^ @v.hash ^ @qu.hash ^ @qv.hash ^ @g.hash
+    fsm.hash ^ @u.hash ^ @v.hash ^ @qu.hash ^ @qv.hash ^ @g.hash
   end
 
   def q_kiss
-    lines = @fsm.beta_q.ints.map do |row|
+    lines = fsm.beta_q.ints.map do |row|
       qu = @qu.encoding row
       qv = @qv.encoding row
-      q  = @fsm.q_encoding row
+      q  = fsm.q_encoding row
       "#{q} #{qu} #{qv}"
     end
     KISS.new(lines).formatted false
   end
 
   def sensible? archs
-    @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
+    @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < fsm.input_count + fsm.beta_q.pins
   end
 
   def symbolic?
@@ -131,7 +131,7 @@ module ArtDecomp class Decomposition
   end
 
   def valid?
-    @g.seps.subset?((@fsm.beta_x(@v) * @qv).seps) and @fsm.beta_f.seps.subset?((@fsm.beta_x(@u) * @qu * @g).seps)
+    @g.seps.subset?((fsm.beta_x(@v) * @qv).seps) and fsm.beta_f.seps.subset?((fsm.beta_x(@u) * @qu * @g).seps)
   end
 
   private
