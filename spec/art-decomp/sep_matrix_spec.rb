@@ -1,6 +1,12 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe SepMatrix do
+  describe '#==' do
+    it 'compares SepMatrices properly' do
+      SepMatrix.new([]).must_equal SepMatrix.new []
+    end
+  end
+
   describe '#seps' do
     it 'returns provided Seps' do
       SepMatrix.new([

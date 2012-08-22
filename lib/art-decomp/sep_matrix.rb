@@ -3,6 +3,10 @@ module ArtDecomp class SepMatrix
     @matrix = matrix
   end
 
+  def == other
+    @matrix == other.matrix
+  end
+
   def seps
     (0...@matrix.size).flat_map do |row|
       (0...@matrix.size).map do |col|
@@ -10,4 +14,8 @@ module ArtDecomp class SepMatrix
       end
     end.compact.to_set
   end
+
+  protected
+
+  attr_reader :matrix
 end end
