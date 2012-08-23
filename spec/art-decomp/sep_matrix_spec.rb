@@ -20,6 +20,26 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '#&' do
+    it 'ANDs the SepMatrices together' do
+      a = SepMatrix.new [
+        0b010,
+        0b101,
+        0b010,
+      ]
+      b = SepMatrix.new [
+        0b110,
+        0b000,
+        0b011,
+      ]
+      (a & b).must_equal SepMatrix.new [
+        0b010,
+        0b000,
+        0b010,
+      ]
+    end
+  end
+
   describe '#seps' do
     it 'returns provided Seps' do
       SepMatrix.new([

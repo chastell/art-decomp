@@ -28,6 +28,13 @@ module ArtDecomp class SepMatrix
     @matrix == other.matrix
   end
 
+  def & other
+    product = @matrix.each_index.map do |i|
+      @matrix[i] & other.matrix[i]
+    end
+    SepMatrix.new product
+  end
+
   def seps
     (0...@matrix.size).flat_map do |row|
       (0...@matrix.size).map do |col|
