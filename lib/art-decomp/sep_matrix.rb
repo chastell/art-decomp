@@ -29,10 +29,7 @@ module ArtDecomp class SepMatrix
   end
 
   def & other
-    product = @matrix.each_index.map do |i|
-      @matrix[i] & other.matrix[i]
-    end
-    SepMatrix.new product
+    SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a & b }
   end
 
   def seps
