@@ -32,6 +32,10 @@ module ArtDecomp class SepMatrix
     SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a & b }
   end
 
+  def | other
+    SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a | b }
+  end
+
   def seps
     (0...@matrix.size).flat_map do |row|
       (0...@matrix.size).map do |col|
