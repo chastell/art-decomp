@@ -1,6 +1,27 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe SepMatrix do
+  let(:sep_01) { SepMatrix.new [
+    0b010,
+    0b001,
+    0b000,
+  ] }
+  let(:sep_01_02) { SepMatrix.new [
+    0b110,
+    0b001,
+    0b001,
+  ] }
+  let(:sep_01_02_12) { SepMatrix.new [
+    0b110,
+    0b101,
+    0b011,
+  ] }
+  let(:sep_01_12) { SepMatrix.new [
+    0b010,
+    0b101,
+    0b010,
+  ] }
+
   describe '.from_blanket' do
     it 'builds upon separations provided by a Blanket' do
       blanket = Blanket[B[0], B[1,2], B[2,3,4]]
@@ -25,41 +46,13 @@ module ArtDecomp describe SepMatrix do
 
   describe '#&' do
     it 'ANDs the SepMatrices together' do
-      a = SepMatrix.new [
-        0b010,
-        0b101,
-        0b010,
-      ]
-      b = SepMatrix.new [
-        0b110,
-        0b000,
-        0b011,
-      ]
-      (a & b).must_equal SepMatrix.new [
-        0b010,
-        0b000,
-        0b010,
-      ]
+      (sep_01_12 & sep_01_02).must_equal sep_01
     end
   end
 
   describe '#|' do
     it 'ORs the SepMatrices together' do
-      a = SepMatrix.new [
-        0b010,
-        0b101,
-        0b010,
-      ]
-      b = SepMatrix.new [
-        0b110,
-        0b000,
-        0b011,
-      ]
-      (a | b).must_equal SepMatrix.new [
-        0b110,
-        0b101,
-        0b011,
-      ]
+      (sep_01_12 | sep_01_02).must_equal sep_01_02_12
     end
   end
 end end
