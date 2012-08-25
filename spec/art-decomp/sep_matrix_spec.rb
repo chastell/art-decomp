@@ -11,6 +11,13 @@ module ArtDecomp describe SepMatrix do
     0b001,
     0b001,
   ] }
+  let(:sep_01_02_03_04_13_14) { SepMatrix.new [
+    0b11110,
+    0b11001,
+    0b00001,
+    0b00011,
+    0b00011,
+  ] }
   let(:sep_01_02_12) { SepMatrix.new [
     0b110,
     0b101,
@@ -35,13 +42,7 @@ module ArtDecomp describe SepMatrix do
   describe '.from_blanket' do
     it 'builds upon separations provided by a Blanket' do
       blanket = Blanket[B[0], B[1,2], B[2,3,4]]
-      SepMatrix.from_blanket(blanket).must_equal SepMatrix.new [
-        0b11110,
-        0b11001,
-        0b00001,
-        0b00011,
-        0b00011,
-      ]
+      SepMatrix.from_blanket(blanket).must_equal sep_01_02_03_04_13_14
     end
   end
 
