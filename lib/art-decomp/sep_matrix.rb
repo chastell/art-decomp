@@ -54,6 +54,10 @@ module ArtDecomp class SepMatrix
     self & other == self
   end
 
+  def superset? other
+    self & other == other
+  end
+
   protected
 
   attr_reader :matrix

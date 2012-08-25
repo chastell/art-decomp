@@ -124,4 +124,14 @@ module ArtDecomp describe SepMatrix do
       refute sep_01_02.subset? sep_01_12
     end
   end
+
+  describe '#superset?' do
+    it 'is a predicate whether a SepMatrix is a superset of another' do
+      assert sep_01.superset? sep_01
+      assert sep_01_02.superset? sep_01
+      assert sep_01_02_03_04_12_13_14.superset? sep_01_02
+      refute sep_01.superset? sep_01_02
+      refute sep_01_12.superset? sep_01_02
+    end
+  end
 end end
