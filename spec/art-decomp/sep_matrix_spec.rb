@@ -114,4 +114,14 @@ module ArtDecomp describe SepMatrix do
       sep_01_02_03_04_12_13_14.sep_count.must_equal    7
     end
   end
+
+  describe '#subset?' do
+    it 'is a predicate whether a SepMatrix is a subset of another' do
+      assert sep_01.subset? sep_01
+      assert sep_01.subset? sep_01_02
+      assert sep_01_02.subset? sep_01_02_03_04_12_13_14
+      refute sep_01_02.subset? sep_01
+      refute sep_01_02.subset? sep_01_12
+    end
+  end
 end end

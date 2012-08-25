@@ -50,6 +50,10 @@ module ArtDecomp class SepMatrix
     @matrix.map(&:bits).map(&:size).inject(0, :+) / 2
   end
 
+  def subset? other
+    self & other == self
+  end
+
   protected
 
   attr_reader :matrix
