@@ -58,6 +58,8 @@ module ArtDecomp describe SepMatrix do
   describe '#&' do
     it 'ANDs the SepMatrices together' do
       (sep_01_12 & sep_01_02).must_equal sep_01
+      (sep_01_02_03_04_13_14 & sep_01_02_12).must_equal sep_01_02
+      (sep_01_02_12 & sep_01_02_03_04_13_14).must_equal sep_01_02
     end
   end
 
