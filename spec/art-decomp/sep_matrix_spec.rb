@@ -21,6 +21,16 @@ module ArtDecomp describe SepMatrix do
     0b101,
     0b010,
   ] }
+  let(:sep_02) { SepMatrix.new [
+    0b100,
+    0b000,
+    0b001,
+  ] }
+  let(:sep_12) { SepMatrix.new [
+    0b000,
+    0b100,
+    0b010,
+  ] }
 
   describe '.from_blanket' do
     it 'builds upon separations provided by a Blanket' do
@@ -53,6 +63,15 @@ module ArtDecomp describe SepMatrix do
   describe '#+' do
     it 'sums the SepMatrices together' do
       (sep_01_12 + sep_01_02).must_equal sep_01_02_12
+    end
+  end
+
+  describe '#-' do
+    it 'subtracts the second SepMatrix from the first' do
+      (sep_01_12 - sep_01).must_equal    sep_12
+      (sep_01_02 - sep_01).must_equal    sep_02
+      (sep_01_12 - sep_01_02).must_equal sep_12
+      (sep_01_02 - sep_01_12).must_equal sep_02
     end
   end
 
