@@ -42,8 +42,6 @@ module ArtDecomp class SepMatrix
     SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a | b : a }
   end
 
-  alias + |
-
   protected
 
   attr_reader :matrix
