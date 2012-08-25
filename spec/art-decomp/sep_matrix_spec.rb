@@ -96,6 +96,15 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '#empty?' do
+    it 'is a predicate whether the SepMatrix is empty' do
+      SepMatrix.new([]).must_be           :empty?
+      SepMatrix.new([0b0]).must_be        :empty?
+      SepMatrix.new([0b00, 0b00]).must_be :empty?
+      SepMatrix.new([0b10, 0b01]).wont_be :empty?
+    end
+  end
+
   describe '#sep_count' do
     it 'returns the number of separations' do
       SepMatrix.new([]).sep_count.must_equal           0

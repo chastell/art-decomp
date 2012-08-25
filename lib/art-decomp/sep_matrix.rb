@@ -42,6 +42,10 @@ module ArtDecomp class SepMatrix
     SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a | b : a }
   end
 
+  def empty?
+    @matrix.all?(&:zero?)
+  end
+
   def sep_count
     @matrix.map(&:bits).map(&:size).inject(0, :+) / 2
   end
