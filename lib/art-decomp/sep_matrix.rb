@@ -38,7 +38,8 @@ module ArtDecomp class SepMatrix
   end
 
   def | other
-    SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a | b }
+    smaller, larger = [@matrix, other.matrix].sort_by(&:size)
+    SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a | b : a }
   end
 
   alias + |
