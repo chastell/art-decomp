@@ -16,7 +16,10 @@ module ArtDecomp describe SepMatrix do
 
   describe '#==' do
     it 'compares SepMatrices properly' do
-      SepMatrix.new([]).must_equal SepMatrix.new []
+      SepMatrix.new([]).must_equal           SepMatrix.new []
+      SepMatrix.new([0b0]).must_equal        SepMatrix.new [0b0]
+      SepMatrix.new([0b10, 0b01]).must_equal SepMatrix.new [0b10, 0b01]
+      SepMatrix.new([0b10, 0b01]).wont_equal SepMatrix.new [0b10, 0b10]
     end
   end
 
