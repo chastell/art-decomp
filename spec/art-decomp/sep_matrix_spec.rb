@@ -40,6 +40,13 @@ module ArtDecomp describe SepMatrix do
     0b000,
     0b001,
   ] }
+  let(:sep_03_04_13_14) { SepMatrix.new [
+    0b11000,
+    0b11000,
+    0b00000,
+    0b00011,
+    0b00011,
+  ] }
   let(:sep_12) { SepMatrix.new [
     0b000,
     0b100,
@@ -76,6 +83,8 @@ module ArtDecomp describe SepMatrix do
       (sep_01_02 - sep_01).must_equal    sep_02
       (sep_01_12 - sep_01_02).must_equal sep_12
       (sep_01_02 - sep_01_12).must_equal sep_02
+      (sep_01_02_03_04_13_14 - sep_01_02_12).must_equal sep_03_04_13_14
+      (sep_01_02_12 - sep_01_02_03_04_13_14).must_equal sep_12
     end
   end
 

@@ -34,7 +34,7 @@ module ArtDecomp class SepMatrix
   end
 
   def - other
-    SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a & ~b }
+    SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a && b ? a & ~b : a }
   end
 
   def | other
