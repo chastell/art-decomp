@@ -50,6 +50,12 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '#+' do
+    it 'sums the SepMatrices together' do
+      (sep_01_12 + sep_01_02).must_equal sep_01_02_12
+    end
+  end
+
   describe '#|' do
     it 'ORs the SepMatrices together' do
       (sep_01_12 | sep_01_02).must_equal sep_01_02_12

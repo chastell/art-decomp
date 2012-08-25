@@ -36,6 +36,8 @@ module ArtDecomp class SepMatrix
     SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a | b }
   end
 
+  alias + |
+
   protected
 
   attr_reader :matrix
