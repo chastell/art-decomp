@@ -4,7 +4,7 @@ module ArtDecomp class SepMatrix
   end
 
   def self.from_blanket blanket
-    size = blanket.ints.max.to_s(2).size
+    size = (blanket.ints.max or 0).to_s(2).size
     ones = (1 << size) - 1
     matrix = Array.new size, ones
 

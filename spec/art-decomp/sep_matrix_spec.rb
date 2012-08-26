@@ -105,6 +105,7 @@ module ArtDecomp describe SepMatrix do
     it 'builds upon separations provided by a Blanket' do
       blanket = Blanket[B[0], B[1,2], B[2,3,4]]
       SepMatrix.from_blanket(blanket).must_equal sep_01_02_03_04_13_14
+      SepMatrix.from_blanket(Blanket[]).must_equal SepMatrix.new [0b0]
     end
   end
 
