@@ -137,12 +137,9 @@ module ArtDecomp describe SepMatrix do
 
   describe '#seps' do
     it 'returns provided Seps' do
-      SepMatrix.new([
-        0b1000,
-        0b0100,
-        0b0010,
-        0b0001,
-      ]).seps.must_equal Set[Sep[0,3], Sep[1,2]]
+      sep_01.seps.must_equal Set[Sep[0,1]]
+      sep_01_02.seps.must_equal Set[Sep[0,1], Sep[0,2]]
+      sep_01_02_03_04_12_13_14.seps.must_equal Set[Sep[0,1], Sep[0,2], Sep[0,3], Sep[0,4], Sep[1,2], Sep[1,3], Sep[1,4]]
     end
   end
 end end
