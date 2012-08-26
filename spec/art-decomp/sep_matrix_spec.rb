@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require_relative '../spec_helper'
 
 module ArtDecomp describe SepMatrix do
@@ -18,6 +20,13 @@ module ArtDecomp describe SepMatrix do
     0b00011,
     0b00011,
   ] }
+  let(:sep_01_02_03_04_12_13_14_23_24_34) { SepMatrix.new [
+    0b11110,
+    0b11101,
+    0b11011,
+    0b10111,
+    0b01111,
+  ] }
   let(:sep_01_02_03_04_13_14) { SepMatrix.new [
     0b11110,
     0b11001,
@@ -35,10 +44,42 @@ module ArtDecomp describe SepMatrix do
     0b101,
     0b010,
   ] }
+  let(:sep_01_23) { SepMatrix.new [
+    0b0010,
+    0b0001,
+    0b1000,
+    0b0100,
+  ] }
+  let(:sep_01_45) { SepMatrix.new [
+    0b000010,
+    0b000001,
+    0b000000,
+    0b000000,
+    0b100000,
+    0b010000,
+  ] }
   let(:sep_02) { SepMatrix.new [
     0b100,
     0b000,
     0b001,
+  ] }
+  let(:sep_02_03_12_13) { SepMatrix.new [
+    0b1100,
+    0b1100,
+    0b0011,
+    0b0011,
+  ] }
+  let(:sep_02_03_12_13_23) { SepMatrix.new [
+    0b1100,
+    0b1100,
+    0b1011,
+    0b0111,
+  ] }
+  let(:sep_03) { SepMatrix.new [
+    0b1000,
+    0b0000,
+    0b0000,
+    0b0001,
   ] }
   let(:sep_03_04_13_14) { SepMatrix.new [
     0b11000,
@@ -46,6 +87,13 @@ module ArtDecomp describe SepMatrix do
     0b00000,
     0b00011,
     0b00011,
+  ] }
+  let(:sep_04) { SepMatrix.new [
+    0b10000,
+    0b00000,
+    0b00000,
+    0b00000,
+    0b00001,
   ] }
   let(:sep_12) { SepMatrix.new [
     0b000,
@@ -102,6 +150,19 @@ module ArtDecomp describe SepMatrix do
       SepMatrix.new([0b0]).must_be        :empty?
       SepMatrix.new([0b00, 0b00]).must_be :empty?
       SepMatrix.new([0b10, 0b01]).wont_be :empty?
+    end
+  end
+
+  describe '#r_adm' do
+    it 'returns the given block’s r-admissibility' do
+      b = B[0,1,2,3]
+      sep_04.r_adm(b).must_equal 0
+      sep_03.r_adm(b).must_equal 1
+      sep_01_45.r_adm(b).must_equal 1
+      sep_01_23.r_adm(b).must_equal 1
+      sep_02_03_12_13.r_adm(b).must_equal 1
+      sep_02_03_12_13_23.r_adm(b).must_equal 2
+      sep_01_02_03_04_12_13_14_23_24_34.r_adm(b).must_equal 2
     end
   end
 
