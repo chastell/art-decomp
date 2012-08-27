@@ -1,6 +1,6 @@
 module ArtDecomp class SepMatrix
   def initialize matrix
-    @matrix = matrix
+    @matrix = matrix.empty? ? [0b0] : matrix
   end
 
   def self.from_blanket blanket

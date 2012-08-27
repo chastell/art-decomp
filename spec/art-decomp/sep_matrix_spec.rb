@@ -109,6 +109,12 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '.new' do
+    it 'cleans-up the matrix when building' do
+      SepMatrix.new([]).must_equal SepMatrix.new [0b0]
+    end
+  end
+
   describe '#==' do
     it 'compares SepMatrices properly' do
       SepMatrix.new([]).must_equal           SepMatrix.new []
