@@ -1,8 +1,4 @@
 module ArtDecomp class SepMatrix
-  def initialize matrix
-    @matrix = matrix.empty? ? [0b0] : matrix
-  end
-
   def self.from_blanket blanket
     size = (blanket.ints.max or 0).to_s(2).size
     ones = (1 << size) - 1
@@ -22,6 +18,11 @@ module ArtDecomp class SepMatrix
     end
 
     new matrix
+  end
+
+  def initialize matrix
+    matrix.pop until matrix.empty? or matrix.last.nonzero?
+    @matrix = matrix.empty? ? [0b0] : matrix
   end
 
   def == other
