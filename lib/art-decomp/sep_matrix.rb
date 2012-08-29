@@ -22,7 +22,7 @@ module ArtDecomp class SepMatrix
 
   def initialize matrix
     matrix.pop until matrix.empty? or matrix.last.nonzero?
-    @matrix = matrix.empty? ? [0b0] : matrix
+    @matrix = matrix
   end
 
   def == other

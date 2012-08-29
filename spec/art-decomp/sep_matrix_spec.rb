@@ -4,9 +4,8 @@ require_relative '../spec_helper'
 
 module ArtDecomp describe SepMatrix do
   let(:sep_01) { SepMatrix.new [
-    0b010,
-    0b001,
-    0b000,
+    0b10,
+    0b01,
   ] }
   let(:sep_01_02) { SepMatrix.new [
     0b110,
@@ -111,8 +110,9 @@ module ArtDecomp describe SepMatrix do
 
   describe '.new' do
     it 'cleans-up the matrix when building' do
-      SepMatrix.new([]).must_equal           SepMatrix.new [0b0]
-      SepMatrix.new([0b00, 0b00]).must_equal SepMatrix.new [0b0]
+      SepMatrix.new([]).must_equal                    SepMatrix.new []
+      SepMatrix.new([0b00, 0b00]).must_equal          SepMatrix.new []
+      SepMatrix.new([0b010, 0b001, 0b000]).must_equal SepMatrix.new [0b10, 0b01]
     end
   end
 
