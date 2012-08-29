@@ -174,6 +174,14 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '#matrix_size' do
+    it 'returns the internal size of the matrix' do
+      SepMatrix.new([]).matrix_size.must_equal    0
+      SepMatrix.new([0b0]).matrix_size.must_equal 0
+      sep_01.matrix_size.must_equal               2
+    end
+  end
+
   describe '#sep_count' do
     it 'returns the number of separations' do
       SepMatrix.new([]).sep_count.must_equal           0

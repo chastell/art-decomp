@@ -51,6 +51,10 @@ module ArtDecomp class SepMatrix
     seps.r_adm int
   end
 
+  def matrix_size
+    @matrix.size
+  end
+
   def sep_count
     @matrix.map(&:bits).map(&:size).inject(0, :+) / 2
   end
