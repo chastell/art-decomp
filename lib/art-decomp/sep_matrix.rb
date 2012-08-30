@@ -41,7 +41,13 @@ module ArtDecomp class SepMatrix
   end
 
   def r_adm int
-    seps.r_adm int
+    conflicts = []
+    int.bits.each do |bit|
+      mask = 1 << bit
+      slot = conflicts.index { |row| (row & matrix[bit]).zero? }
+      slot ? (conflicts[slot] |= mask) : (conflicts << mask)
+    end
+    conflicts.size.log2_ceil
   end
 
   def matrix_size
