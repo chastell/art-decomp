@@ -1,22 +1,15 @@
 module ArtDecomp class SepMatrix
   def self.from_blanket blanket
-    size = (blanket.ints.max or 0).to_s(2).size
+    size = (blanket.ints.max || 0).to_s(2).size
     ones = (1 << size) - 1
-    matrix = Array.new size, ones
-
-    blanket.ints.each do |int|
-      int.bits.pairs.each do |a, b|
-        mask = 1 << a | 1 << b
-        matrix[a] ^= mask
-        matrix[b] ^= mask
-      end
+    matrix = (0...size).map do |bit|
+      ones ^ blanket.ints.select { |int| int[bit] == 1 }.inject(0, :|)
     end
-
-    matrix.each_index do |i|
+    (0...matrix.size).select { |i| matrix[i] == ones }.each do |i|
       mask = 1 << i
-      matrix[i] ^= mask unless matrix[i][i].zero?
+      matrix.map! { |int| int ^ mask }
+      matrix[i] = 0
     end
-
     new matrix
   end
 
