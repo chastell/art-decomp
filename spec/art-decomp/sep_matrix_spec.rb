@@ -213,12 +213,4 @@ module ArtDecomp describe SepMatrix do
       refute sep_01_12.superset? sep_01_02
     end
   end
-
-  describe '#seps' do
-    it 'returns provided Seps' do
-      sep_01.seps.must_equal Set[Sep[0,1]]
-      sep_01_02.seps.must_equal Set[Sep[0,1], Sep[0,2]]
-      sep_01_02_03_04_12_13_14.seps.must_equal Set[Sep[0,1], Sep[0,2], Sep[0,3], Sep[0,4], Sep[1,2], Sep[1,3], Sep[1,4]]
-    end
-  end
 end end
