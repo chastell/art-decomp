@@ -184,13 +184,13 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
-  describe '#sep_count' do
+  describe '#size' do
     it 'returns the number of separations' do
-      SepMatrix.new([]).sep_count.must_equal           0
-      SepMatrix.new([0b00, 0b00]).sep_count.must_equal 0
-      sep_01.sep_count.must_equal                      1
-      sep_01_02.sep_count.must_equal                   2
-      sep_01_02_03_04_12_13_14.sep_count.must_equal    7
+      SepMatrix.new([]).size.must_equal           0
+      SepMatrix.new([0b00, 0b00]).size.must_equal 0
+      sep_01.size.must_equal                      1
+      sep_01_02.size.must_equal                   2
+      sep_01_02_03_04_12_13_14.size.must_equal    7
     end
   end
 
