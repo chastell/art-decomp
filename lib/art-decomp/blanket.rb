@@ -16,7 +16,7 @@ module ArtDecomp class Blanket
   end
 
   def initialize ints
-    @ints = ints.reject { |i| ints.any? { |j| i != j and i | j == j } }.to_set.delete(0).freeze
+    @ints = ints.reject { |i| ints.any? { |j| i != j and i & j == i } }.to_set.delete(0).freeze
   end
 
   def * other
