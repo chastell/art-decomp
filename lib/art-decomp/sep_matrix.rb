@@ -13,6 +13,16 @@ module ArtDecomp class SepMatrix
     new matrix
   end
 
+  def self.from_seps seps
+    size = (seps.max || 0).to_s(2).size
+    matrix = Array.new size, 0
+    seps.map(&:bits).each do |a, b|
+      matrix[a] |= 1 << b
+      matrix[b] |= 1 << a
+    end
+    new matrix
+  end
+
   def initialize matrix
     matrix.pop until matrix.empty? or matrix.last.nonzero?
     @matrix = matrix
