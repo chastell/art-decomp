@@ -36,6 +36,8 @@ module ArtDecomp class SepMatrix
     SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a | b : a }
   end
 
+  alias + |
+
   def empty?
     @matrix.all?(&:zero?)
   end
