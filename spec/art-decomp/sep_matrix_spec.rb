@@ -99,12 +99,13 @@ module ArtDecomp describe SepMatrix do
     0b100,
     0b010,
   ] }
+  let(:sep_empty) { SepMatrix.new [] }
 
   describe '.from_blanket' do
     it 'builds upon separations provided by a Blanket' do
-      SepMatrix.from_blanket(Blanket[]).must_equal     SepMatrix.new [0b0]
-      SepMatrix.from_blanket(Blanket[B[0]]).must_equal SepMatrix.new [0b0]
-      SepMatrix.from_blanket(Blanket[B[1]]).must_equal SepMatrix.new [0b0]
+      SepMatrix.from_blanket(Blanket[]).must_equal     sep_empty
+      SepMatrix.from_blanket(Blanket[B[0]]).must_equal sep_empty
+      SepMatrix.from_blanket(Blanket[B[1]]).must_equal sep_empty
       Blanket[B[1], B[2]].sep_matrix.must_equal        SepMatrix.new [0b000, 0b100, 0b010]
       SepMatrix.from_blanket(Blanket[B[0], B[1,2], B[2,3,4]]).must_equal sep_01_02_03_04_13_14
     end
@@ -112,16 +113,16 @@ module ArtDecomp describe SepMatrix do
 
   describe '.new' do
     it 'cleans-up the matrix when building' do
-      SepMatrix.new([]).must_equal                    SepMatrix.new []
-      SepMatrix.new([0b00, 0b00]).must_equal          SepMatrix.new []
+      SepMatrix.new([]).must_equal                    sep_empty
+      SepMatrix.new([0b00, 0b00]).must_equal          sep_empty
       SepMatrix.new([0b010, 0b001, 0b000]).must_equal SepMatrix.new [0b10, 0b01]
     end
   end
 
   describe '#==' do
     it 'compares SepMatrices properly' do
-      SepMatrix.new([]).must_equal           SepMatrix.new []
-      SepMatrix.new([0b0]).must_equal        SepMatrix.new [0b0]
+      SepMatrix.new([]).must_equal           sep_empty
+      SepMatrix.new([0b0]).must_equal        sep_empty
       SepMatrix.new([0b10, 0b01]).must_equal SepMatrix.new [0b10, 0b01]
       SepMatrix.new([0b10, 0b01]).wont_equal SepMatrix.new [0b10, 0b10]
     end
