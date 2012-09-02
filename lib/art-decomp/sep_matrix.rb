@@ -48,6 +48,10 @@ module ArtDecomp class SepMatrix
 
   alias + |
 
+  def conflicts_of block
+    block.bits.map { |bit| @matrix[bit] || 0 }.inject 0, :|
+  end
+
   def empty?
     @matrix.all?(&:zero?)
   end

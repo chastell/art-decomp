@@ -172,6 +172,19 @@ module ArtDecomp describe SepMatrix do
     end
   end
 
+  describe '#conflicts_of' do
+    it 'returns a block with conflicts for the given block' do
+      sep_01_12.conflicts_of(B[0]).must_equal     B[1]
+      sep_01_12.conflicts_of(B[1]).must_equal     B[0,2]
+      sep_01_12.conflicts_of(B[2]).must_equal     B[1]
+      sep_01_12.conflicts_of(B[0,1]).must_equal   B[0,1,2]
+      sep_01_12.conflicts_of(B[0,2]).must_equal   B[1]
+      sep_01_12.conflicts_of(B[1,2]).must_equal   B[0,1,2]
+      sep_01_12.conflicts_of(B[0,1,2]).must_equal B[0,1,2]
+      sep_empty.conflicts_of(B[0]).must_equal     B[]
+    end
+  end
+
   describe '#empty?' do
     it 'is a predicate whether the SepMatrix is empty' do
       SepMatrix.new([]).must_be           :empty?
