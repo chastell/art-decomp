@@ -61,7 +61,7 @@ module ArtDecomp class DecTree
   def dec_structures
     decs.map.with_index do |dec, d|
       OpenStruct.new(
-        x:   d.zero? ? 'fsm_i' : "(#{decs[d-1].u.sort.map { |x| "d#{d-1}_x(#{x})" }.join ' & '} & d#{d-1}_g_o)",
+        x:   d.zero? ? 'fsm_i' : "(#{(decs[d-1].u.sort.map { |x| "d#{d-1}_x(#{x})" } + ["d#{d-1}_g_o"]).join ' & '})",
         q:   d.zero? ? 'fsm_q' : "d#{d-1}_qu",
         qu:  "d#{d}_q(0 to #{state_pins(d) - dec.qv.pins - 1})",
         qv:  "d#{d}_q(#{state_pins(d) - decs[d].qv.pins} to #{state_pins(d) - 1})",
