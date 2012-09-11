@@ -5,7 +5,7 @@ require_relative '../spec_helper'
 module ArtDecomp describe Graph do
   let :graph do
     blanket = Blanket[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
-    seps    = SepMatrix.from_seps [Sep[4,6], Sep[5,9], Sep[5,7], Sep[7,9]]
+    seps    = SepMatrix.from_seps [[4,6], [5,9], [5,7], [7,9]]
     Graph.new blanket, seps
   end
 
@@ -17,7 +17,7 @@ module ArtDecomp describe Graph do
     it 'creates only the necessary edges' do
       skip
       blanket = Blanket[B[1,2,3], B[1,2,4], B[1,5], B[2,6]]
-      Graph.new(blanket, SepMatrix.from_seps([Sep[1,2]])).edges.must_equal Set[Set[B[1,5], B[2,6]]]
+      Graph.new(blanket, SepMatrix.from_seps([[1,2]])).edges.must_equal Set[Set[B[1,5], B[2,6]]]
     end
   end
 
@@ -39,7 +39,7 @@ module ArtDecomp describe Graph do
 
   describe '#complete?' do
     it 'reports whether it’s complete' do
-      complete = Graph.new Blanket[B[1], B[2], B[3]], SepMatrix.from_seps([Sep[1,2], Sep[1,3], Sep[2,3]])
+      complete = Graph.new Blanket[B[1], B[2], B[3]], SepMatrix.from_seps([[1,2], [1,3], [2,3]])
       assert complete.complete?
       refute graph.complete?
     end
@@ -76,7 +76,7 @@ module ArtDecomp describe Graph do
   describe '#merge_by_vertex_degrees!' do
     it 'merges based on vertex degrees' do
       blanket = Blanket[B[1], B[2], B[3], B[4], B[5], B[6]]
-      seps    = SepMatrix.from_seps [Sep[3,4], Sep[4,5], Sep[4,6], Sep[5,6]]
+      seps    = SepMatrix.from_seps [[3,4], [4,5], [4,6], [5,6]]
       merged  = Graph.new blanket, seps
 
       merged.merge_by_vertex_degrees!

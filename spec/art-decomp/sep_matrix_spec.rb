@@ -106,7 +106,7 @@ module ArtDecomp describe SepMatrix do
       SepMatrix.from_blanket(Blanket[]).must_equal                       sep_empty
       SepMatrix.from_blanket(Blanket[B[0]]).must_equal                   sep_empty
       SepMatrix.from_blanket(Blanket[B[1]]).must_equal                   sep_empty
-      SepMatrix.from_blanket(Blanket[B[1], B[2]]).must_equal             SepMatrix.from_seps [Sep[1,2]]
+      SepMatrix.from_blanket(Blanket[B[1], B[2]]).must_equal             SepMatrix.from_seps [[1,2]]
       SepMatrix.from_blanket(Blanket[B[0], B[1,2], B[2,3,4]]).must_equal sep_01_02_03_04_13_14
     end
   end
@@ -114,9 +114,9 @@ module ArtDecomp describe SepMatrix do
   describe '.from_seps' do
     it 'builds from the provided Enumerable of Seps' do
       SepMatrix.from_seps([]).must_equal sep_empty
-      SepMatrix.from_seps([Sep[0,1]]).must_equal sep_01
-      SepMatrix.from_seps([Sep[0,1],Sep[0,2],Sep[0,3],Sep[0,4],Sep[1,2],Sep[1,3],Sep[1,4]]).must_equal sep_01_02_03_04_12_13_14
-      SepMatrix.from_seps([Sep[1,2]]).must_equal sep_12
+      SepMatrix.from_seps([[0,1]]).must_equal sep_01
+      SepMatrix.from_seps([[0,1], [0,2], [0,3], [0,4], [1,2], [1,3], [1,4]]).must_equal sep_01_02_03_04_12_13_14
+      SepMatrix.from_seps([[1,2]]).must_equal sep_12
     end
   end
 

@@ -14,9 +14,9 @@ module ArtDecomp class SepMatrix
   end
 
   def self.from_seps seps
-    size = (seps.max || 0).to_s(2).size
-    matrix = Array.new size, 0
-    seps.map(&:bits).each do |a, b|
+    max = seps.flatten.max || 0
+    matrix = Array.new max + 1, 0
+    seps.each do |a, b|
       matrix[a] |= 1 << b
       matrix[b] |= 1 << a
     end

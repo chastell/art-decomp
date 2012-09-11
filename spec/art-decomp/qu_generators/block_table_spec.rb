@@ -30,7 +30,7 @@ module ArtDecomp describe QuGenerators::BlockTable do
 
     it 'first tries to fold matching blocks and then folds by r-admissibility' do
       qu_blankets(
-        beta_f: MiniTest::Mock.new.expect(:seps, SepMatrix.from_seps([Sep[1,2], Sep[2,3]])),
+        beta_f: MiniTest::Mock.new.expect(:seps, SepMatrix.from_seps([[1,2], [2,3]])),
         beta_q: Blanket[B[1], B[2], B[3]],
         beta_x: Blanket[B[1,2,3], B[1,3]],
         generator: QuGenerators::BlockTable.new,
