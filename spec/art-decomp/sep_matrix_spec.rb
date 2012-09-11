@@ -197,13 +197,13 @@ module ArtDecomp describe SepMatrix do
   describe '#r_adm' do
     it 'returns the given block’s r-admissibility' do
       b = B[0,1,2,3]
-      sep_04.r_adm(b).must_equal 0
-      sep_03.r_adm(b).must_equal 1
-      sep_01.r_adm(b).must_equal 1
-      sep_01_45.r_adm(b).must_equal 1
-      sep_01_23.r_adm(b).must_equal 1
-      sep_02_03_12_13.r_adm(b).must_equal 1
-      sep_02_03_12_13_23.r_adm(b).must_equal 2
+      sep_04.r_adm(b).must_equal                            0
+      sep_03.r_adm(b).must_equal                            1
+      sep_01.r_adm(b).must_equal                            1
+      sep_01_45.r_adm(b).must_equal                         1
+      sep_01_23.r_adm(b).must_equal                         1
+      sep_02_03_12_13.r_adm(b).must_equal                   1
+      sep_02_03_12_13_23.r_adm(b).must_equal                2
       sep_01_02_03_04_12_13_14_23_24_34.r_adm(b).must_equal 2
     end
   end
