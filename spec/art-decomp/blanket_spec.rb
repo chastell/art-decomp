@@ -99,9 +99,9 @@ module ArtDecomp describe Blanket do
       Blanket[].seps.must_equal                   SepMatrix.new []
       Blanket[B[0]].seps.must_equal               SepMatrix.new []
       Blanket[B[1]].seps.must_equal               SepMatrix.new []
-      Blanket[B[1], B[2], B[]].seps.must_equal    SepMatrix.from_seps [Sep[1,2]]
-      Blanket[B[1,2], B[3,4]].seps.must_equal     SepMatrix.from_seps [Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]]
-      Blanket[B[1,2,3], B[2,3,4]].seps.must_equal SepMatrix.from_seps [Sep[1,4]]
+      Blanket[B[1], B[2], B[]].seps.must_equal    SepMatrix.from_seps [[1,2]]
+      Blanket[B[1,2], B[3,4]].seps.must_equal     SepMatrix.from_seps [[1,3], [1,4], [2,3], [2,4]]
+      Blanket[B[1,2,3], B[2,3,4]].seps.must_equal SepMatrix.from_seps [[1,4]]
     end
   end
 

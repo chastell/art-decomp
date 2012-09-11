@@ -18,7 +18,7 @@ end
 
 def verify_qv_blankets generator, pairs
   beta_f  = MiniTest::Mock.new
-  5.times { beta_f.expect :seps, SepMatrix.from_seps([Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]]) }
+  5.times { beta_f.expect :seps, SepMatrix.from_seps([[1,2], [1,3], [1,6], [2,6], [3,4], [3,6], [4,5], [5,6]]) }
   beta_u  = Blanket[]
   beta_v  = Blanket[B[1,3,5], B[2,4,6]]
   beta_qu = Blanket[]

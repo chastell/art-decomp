@@ -10,7 +10,7 @@ module ArtDecomp describe QuGenerators::EdgeLabels do
   describe '#blankets' do
     it 'fist merges until its graph is complete' do
       qu_blankets(
-        beta_f: MiniTest::Mock.new.expect(:seps, SepMatrix.from_seps([Sep[1,2], Sep[2,3]])),
+        beta_f: MiniTest::Mock.new.expect(:seps, SepMatrix.from_seps([[1,2], [2,3]])),
         beta_q: Blanket[B[1], B[2], B[3]],
         beta_x: Blanket[],
         generator: QuGenerators::EdgeLabels.new,
