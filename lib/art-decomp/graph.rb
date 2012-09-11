@@ -1,11 +1,10 @@
 module ArtDecomp class Graph
   def initialize blanket, seps
     vertices = blanket.ints.dup
-    vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
     @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
-    relevant = Hash[vertices.map { |v| [v, seps.select { |s| v & s != 0 and v & s != s }.to_set] }]
+    conflicts = Hash[vertices.map { |v| [v, seps.conflicts_of(v) & ~v] }]
     vertices.pairs.each do |a, b|
-      if (relevant[a] & relevant[b]).any? { |s| a & s != b & s }
+      if a & conflicts[b] != 0 or b & conflicts[a] != 0
         @neighbours[a] << b
         @neighbours[b] << a
       end

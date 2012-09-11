@@ -94,24 +94,14 @@ module ArtDecomp describe Blanket do
     end
   end
 
-  describe '#sep_matrix' do
-    it 'returns the related SepMatrix' do
-      Blanket[].sep_matrix.must_equal                   SepMatrix.new [0b0]
-      Blanket[B[0]].sep_matrix.must_equal               SepMatrix.new [0b0]
-      Blanket[B[1]].sep_matrix.must_equal               SepMatrix.new [0b0]
-      Blanket[B[1], B[2], B[]].sep_matrix.must_equal    SepMatrix.new [0b000, 0b100, 0b010]
-      Blanket[B[1,2], B[3,4]].sep_matrix.must_equal     SepMatrix.new [0b00000, 0b11000, 0b11000, 0b00110, 0b00110]
-      Blanket[B[1,2,3], B[2,3,4]].sep_matrix.must_equal SepMatrix.new [0b00000, 0b10000, 0b00000, 0b00000, 0b00010]
-    end
-  end
-
   describe '#seps' do
-    it 'returns the provided/required separations' do
-      Blanket[].seps.must_equal                   Set[]
-      Blanket[B[1]].seps.must_equal               Set[]
-      Blanket[B[1], B[2], B[]].seps.must_equal    Set[Sep[1,2]]
-      Blanket[B[1,2], B[3,4]].seps.must_equal     Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]]
-      Blanket[B[1,2,3], B[2,3,4]].seps.must_equal Set[Sep[1,4]]
+    it 'returns the provided/required SepMatrix' do
+      Blanket[].seps.must_equal                   SepMatrix.new []
+      Blanket[B[0]].seps.must_equal               SepMatrix.new []
+      Blanket[B[1]].seps.must_equal               SepMatrix.new []
+      Blanket[B[1], B[2], B[]].seps.must_equal    SepMatrix.from_seps [Sep[1,2]]
+      Blanket[B[1,2], B[3,4]].seps.must_equal     SepMatrix.from_seps [Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]]
+      Blanket[B[1,2,3], B[2,3,4]].seps.must_equal SepMatrix.from_seps [Sep[1,4]]
     end
   end
 
