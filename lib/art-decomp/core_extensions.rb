@@ -1,6 +1,5 @@
 require_relative 'core_extensions/enumerable'
 require_relative 'core_extensions/integer'
-require_relative 'core_extensions/set'
 require_relative 'core_extensions/string'
 
 class Array
@@ -13,5 +12,4 @@ end
 
 class Set
   include ArtDecomp::CoreExtensions::Enumerable
-  include ArtDecomp::CoreExtensions::Set
 end
