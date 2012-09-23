@@ -199,6 +199,7 @@ module ArtDecomp describe SepMatrix do
       b = B[0,1,2,3]
       sep_04.r_adm(b).must_equal 0
       sep_03.r_adm(b).must_equal 1
+      sep_01.r_adm(b).must_equal 1
       sep_01_45.r_adm(b).must_equal 1
       sep_01_23.r_adm(b).must_equal 1
       sep_02_03_12_13.r_adm(b).must_equal 1

@@ -60,7 +60,7 @@ module ArtDecomp class SepMatrix
     conflicts = []
     int.bits.each do |bit|
       mask = 1 << bit
-      slot = conflicts.index { |row| (row & matrix[bit]).zero? }
+      slot = conflicts.index { |row| (row & (matrix[bit] || 0)).zero? }
       slot ? (conflicts[slot] |= mask) : (conflicts << mask)
     end
     conflicts.size.log2_ceil
