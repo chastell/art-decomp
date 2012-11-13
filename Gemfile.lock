@@ -8,17 +8,17 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    coderay (1.0.7)
+    coderay (1.0.8)
     ffi (1.1.5)
     listen (0.5.3)
-    method_source (0.8)
+    method_source (0.8.1)
     minitest (3.5.0)
     perftools.rb (2.0.0)
     pry (0.9.10)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
-    rake (0.9.2.2)
+    rake (10.0.0)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
     rcapture (1.0.4)
