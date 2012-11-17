@@ -18,7 +18,7 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
-    rake (10.0.0)
+    rake (10.0.1)
     rb-inotify (0.8.8)
       ffi (>= 0.5.0)
     rcapture (1.0.4)
