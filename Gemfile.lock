@@ -10,9 +10,9 @@ GEM
   specs:
     coderay (1.0.8)
     ffi (1.2.0)
-    listen (0.5.3)
+    listen (0.6.0)
     method_source (0.8.1)
-    minitest (3.5.0)
+    minitest (4.3.3)
     perftools.rb (2.0.0)
     pry (0.9.10)
       coderay (~> 1.0.5)
@@ -32,7 +32,7 @@ PLATFORMS
 
 DEPENDENCIES
   art-decomp!
-  minitest (~> 3.0)
+  minitest (~> 4.0)
   perftools.rb
   pry
   rake
