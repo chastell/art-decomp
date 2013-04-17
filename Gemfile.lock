@@ -6,7 +6,7 @@ PATH
       trollop
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     coderay (1.0.8)
     ffi (1.2.0)
