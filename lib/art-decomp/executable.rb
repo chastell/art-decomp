@@ -31,11 +31,13 @@ module ArtDecomp class Executable
     self.qv    = options[:qv].map { |name| QvGenerators.const_get(name).new }
 
     opts.fetch(:logging_class).new options[:log] if options[:log_given]
+    puts "\ndecomposing with #{uv.map &:class} / #{qu.map &:class} / #{qv.map &:class}"
   end
 
   attr_accessor :archs, :fsm, :name
 
   def run opts = {}
+    start = Time.now
     self.dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
     FileUtils.mkdir_p dir
 
@@ -44,6 +46,7 @@ module ArtDecomp class Executable
     dt_gen.dectrees.each.with_index do |dectree, i|
       File.write "#{dir}/#{name}_#{i}.vhdl", dectree.to_vhdl("#{name}_#{i}")
     end
+    puts "ran #{name} with #{uv.map &:class} / #{qu.map &:class} / #{qv.map &:class}, took #{Time.now - start} s"
   end
 
   protected

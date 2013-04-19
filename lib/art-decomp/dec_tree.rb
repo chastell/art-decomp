@@ -24,6 +24,16 @@ module ArtDecomp class DecTree
     decs.map { |dec| dec.g_cells archs }.inject :+
   end
 
+  def slices
+    archs  = decs.map(&:g_arch) + [decs.last.h_arch]
+    slices =
+      (archs.select { |a| a.pins == 8 }.map(&:pons).reduce(0, :+) / 1.0).ceil +
+      (archs.select { |a| a.pins == 7 }.map(&:pons).reduce(0, :+) / 2.0).ceil +
+      (archs.select { |a| a.pins == 6 }.map(&:pons).reduce(0, :+) / 4.0).ceil +
+      (archs.select { |a| a.pins <= 5 }.map(&:pons).reduce(0, :+) / 8.0).ceil
+    slices.zero? ? Infinity : slices
+  end
+
   def to_vhdl name
     ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
   end

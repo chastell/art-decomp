@@ -28,5 +28,9 @@ module ArtDecomp describe DecTreeGenerator do
         DecTree.new(archs, [dec1, dec12]),
       ]
     end
+
+    it 'does not yield worse DecTrees than yielded in the past' do
+      # FIXME: spec best-driven DecTree yielding
+    end
   end
 end end
