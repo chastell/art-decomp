@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+Arch = Struct.new :i, :o
+
+def slices_old str
+  archs = str.split.map { |s| Arch[*s.split('/').map(&:to_i)] }
+  return Float::INFINITY if archs.any? { |a| a.i > 8 }
+  slices =
+    (archs.select { |a| a.i == 8 }.map(&:o).reduce(0, :+) / 1.0).ceil +
+    (archs.select { |a| a.i == 7 }.map(&:o).reduce(0, :+) / 2.0).ceil +
+    (archs.select { |a| a.i == 6 }.map(&:o).reduce(0, :+) / 4.0).ceil +
+    (archs.select { |a| a.i <= 5 }.map(&:o).reduce(0, :+) / 8.0).ceil
+end
+
+def slices str
+  archs = str.split.map { |s| Arch[*s.split('/').map(&:to_i)] }
+  return Float::INFINITY if archs.any? { |a| a.i > 8 }
+  quarters =
+    archs.select { |a| a.i == 8 }.map(&:o).reduce(0, :+) * 4 +
+    archs.select { |a| a.i == 7 }.map(&:o).reduce(0, :+) * 2 +
+    archs.select { |a| a.i == 6 }.map(&:o).reduce(0, :+) +
+    archs.select { |a| a.i <= 5 }.map { |a| (a.o / 2.0).ceil }.reduce(0, :+)
+  (quarters / 4.0).ceil
+end
+
+Stat = Struct.new :fsm, :target, :old, :new, :archs
+stats = Dir["#{ARGV.first}/**/*.vhdl"].map do |path|
+  fsm = File.basename(path).split('_').first
+  target, g_archs, h_arch = File.readlines(path).first 3
+  target = target[/\((.*)\)/, 1]
+  g_archs = g_archs[/: (.*)\n/, 1]
+  h_arch = h_arch[/: (.*)\n/, 1]
+  archs = "#{g_archs} #{h_arch}"
+  old = slices_old archs
+  new = slices archs
+  Stat.new fsm, target, old, new, archs
+  # puts "#{fsm}\t#{target}\t#{old} old\t#{new} new\t#{archs}" unless old == new
+end
+
+stats.group_by { |s| [s.fsm, s.target] }.each do |(fsm, target), stats|
+  old_min = stats.min_by(&:old)
+  new_min = stats.min_by(&:new)
+  next if old_min.old == new_min.new
+  change = old_min.archs == new_min.archs ? '' : '(!)'
+  puts "#{fsm}\t#{target}\t#{old_min.old} → #{new_min.new}\t#{old_min.archs} → #{new_min.archs} #{change}"
+end
