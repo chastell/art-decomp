@@ -26,12 +26,12 @@ module ArtDecomp class DecTree
 
   def slices
     archs  = decs.map(&:g_arch) + [decs.last.h_arch]
-    return Infinity if archs.any? { |a| a.i > 8 }
+    return Infinity if archs.any? { |a| a.pins > 8 }
     quarters =
-      archs.select { |a| a.i == 8 }.map(&:o).reduce(0, :+) * 4 +
-      archs.select { |a| a.i == 7 }.map(&:o).reduce(0, :+) * 2 +
-      archs.select { |a| a.i == 6 }.map(&:o).reduce(0, :+) +
-      archs.select { |a| a.i <= 5 }.map { |a| (a.o / 2.0).ceil }.reduce(0, :+)
+      archs.select { |a| a.pins == 8 }.map(&:o).reduce(0, :+) * 4 +
+      archs.select { |a| a.pins == 7 }.map(&:o).reduce(0, :+) * 2 +
+      archs.select { |a| a.pins == 6 }.map(&:o).reduce(0, :+) +
+      archs.select { |a| a.pins <= 5 }.map { |a| (a.pons / 2.0).ceil }.reduce(0, :+)
     (quarters / 4.0).ceil
   end
 
