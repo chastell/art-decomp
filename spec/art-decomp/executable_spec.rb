@@ -16,13 +16,13 @@ module ArtDecomp describe Executable do
     it 'gives help when asked' do
       -> { -> { Executable.new ['--help'] }.must_raise SystemExit }.must_output <<-end.gsub(/^ {8}/, '')
         Options:
-          --archs, -a <s+>:   Target architecture(s)
-             --dir, -d <s>:   Results directory
-             --log, -l <s>:   Logging level
-             --uv, -u <s+>:   UV generator(s) (default: RelativeRelevance)
-             --qu, -q <s+>:   Qu generator(s) (default: EdgeLabels)
-             --qv, -v <s+>:   Qv generator(s) (default: GraphColouring)
-                --help, -h:   Show this message
+          -a, --archs=<s+>    Target architecture(s)
+          -d, --dir=<s>       Results directory
+          -l, --log=<s>       Logging level
+          -u, --uv=<s+>       UV generator(s) (default: RelativeRelevance)
+          -q, --qu=<s+>       Qu generator(s) (default: EdgeLabels)
+          -v, --qv=<s+>       Qv generator(s) (default: GraphColouring)
+          -h, --help          Show this message
       end
     end
 

@@ -8,9 +8,9 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    minitest (4.7.2)
+    minitest (4.7.5)
     rcapture (1.0.4)
-    trollop (2.0)
+    trollop (2.1.2)
 
 PLATFORMS
   ruby
@@ -18,3 +18,6 @@ PLATFORMS
 DEPENDENCIES
   art-decomp!
   minitest (~> 4.0)
+
+BUNDLED WITH
+   1.13.6
