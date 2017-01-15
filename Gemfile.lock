@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     art-decomp (0.4.0)
-      rcapture
-      trollop
+      rcapture (~> 1.0)
+      trollop (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -20,4 +20,4 @@ DEPENDENCIES
   minitest (~> 4.0)
 
 BUNDLED WITH
-   1.13.6
+   1.13.7
