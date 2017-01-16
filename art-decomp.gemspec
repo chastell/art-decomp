@@ -16,5 +16,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rcapture', '~> 1.0'
   gem.add_dependency 'trollop',  '~> 2.0'
 
-  gem.add_development_dependency 'minitest', '~> 4.0'
+  gem.add_development_dependency 'minitest', '~> 5.0'
 end
