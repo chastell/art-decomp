@@ -6,7 +6,7 @@ module ArtDecomp class DecTreeGenerator
     self.decomposer_class = opts.fetch :decomposer_class, Decomposer
   end
 
-  def dectrees fsm = fsm, dec_tree = DecTree.new(archs)
+  def dectrees fsm = self.fsm, dec_tree = DecTree.new(archs)
     Enumerator.new do |yielder|
       decomposer = decomposer_class.new fsm: fsm, archs: archs, gens: gens
       decomposer.decompositions.each do |dec|
