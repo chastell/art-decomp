@@ -8,7 +8,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    minitest (5.10.1)
+    minitest (5.10.2)
     rcapture (1.0.4)
     trollop (2.1.2)
 
@@ -20,4 +20,4 @@ DEPENDENCIES
   minitest (~> 5.0)
 
 BUNDLED WITH
-   1.13.7
+   1.15.1
