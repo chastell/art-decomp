@@ -9,6 +9,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.10.3)
+    minitest-focus (1.1.2)
+      minitest (>= 4, < 6)
     rcapture (1.0.4)
     trollop (2.1.2)
 
@@ -18,6 +20,7 @@ PLATFORMS
 DEPENDENCIES
   art-decomp!
   minitest (~> 5.0)
+  minitest-focus (~> 1.1)
 
 BUNDLED WITH
-   1.15.3
+   1.16.1
