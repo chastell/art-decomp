@@ -29,9 +29,9 @@ def verify_qv_blankets generator, pairs
   3.times { fsm.expect :beta_f, beta_f }
   3.times { fsm.expect :beta_q, Blanket[B[1,2], B[3,4], B[5,6]] }
   def fsm.beta_x set
-    case set
-    when Set[0] then Blanket[]
-    when Set[1] then Blanket[B[1,3,5], B[2,4,6]]
+    case
+    when set == Set[0] then Blanket[]
+    when set == Set[1] then Blanket[B[1,3,5], B[2,4,6]]
     end
   end
 
