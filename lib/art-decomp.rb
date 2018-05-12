@@ -6,7 +6,7 @@ require 'yaml'
 
 module ArtDecomp
   DontCare = :-
-  Infinity = 1.0 / 0
+  Infinity = Float::INFINITY
 end
 
 require_relative 'art-decomp/ambiguous_encoding_query'
