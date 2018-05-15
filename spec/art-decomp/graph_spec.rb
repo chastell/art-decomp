@@ -98,7 +98,6 @@ module ArtDecomp describe Graph do
     end
   end
 
-
   describe '#vertices' do
     it 'returns vertices' do
       graph.vertices.must_equal Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]

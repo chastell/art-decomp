@@ -41,12 +41,6 @@ Layout/EmptyLineBetweenDefs:
     - 'spec/art-decomp/executable_spec.rb'
     - 'spec/art-decomp/logging_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/EmptyLines:
-  Exclude:
-    - 'spec/art-decomp/graph_spec.rb'
-
 # Offense count: 107
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
