@@ -48,14 +48,6 @@ Layout/EmptyLineBetweenDefs:
 Layout/EndAlignment:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: auto_detection, squiggly, active_support, powerpack, unindent
-Layout/IndentHeredoc:
-  Exclude:
-    - 'lib/art-decomp/vhdl.rb'
-
 # Offense count: 30
 # Cop supports --auto-correct.
 # Configuration parameters: Width, IgnoredPatterns.
