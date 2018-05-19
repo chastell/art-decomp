@@ -252,14 +252,6 @@ Style/BracesAroundHashParameters:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: compact, expanded
-Style/EmptyMethod:
-  Exclude:
-    - 'spec/art-decomp/executable_spec.rb'
-
 # Offense count: 16
 # Cop supports --auto-correct.
 Style/Encoding:
