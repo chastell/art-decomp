@@ -27,13 +27,15 @@ module ArtDecomp class FSM
       next_state << (nxt == '*' ? DontCare : nxt.to_sym)
     end
     # FIXME: the below hack makes state have all possible values by expanding a don’t-care a bit (if present)
-    (next_state - state - [DontCare]).each do |missing_state|
-      i = state.index DontCare
-      state      << missing_state
-      next_state << next_state[i]
-      inputs     << inputs[i]
-      outputs    << outputs[i]
-    end if state.index DontCare
+    if state.index DontCare
+      (next_state - state - [DontCare]).each do |missing_state|
+        i = state.index DontCare
+        state      << missing_state
+        next_state << next_state[i]
+        inputs     << inputs[i]
+        outputs    << outputs[i]
+      end
+    end
     new inputs.transpose, outputs.transpose, state, next_state, codes
   end
 

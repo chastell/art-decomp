@@ -128,7 +128,7 @@ Metrics/BlockLength:
 # Offense count: 4
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 174
+  Max: 176
 
 # Offense count: 4
 Metrics/CyclomaticComplexity:
@@ -289,12 +289,6 @@ Style/MethodDefParentheses:
 Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MultilineIfModifier:
-  Exclude:
-    - 'lib/art-decomp/fsm.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
