@@ -32,10 +32,9 @@ module ArtDecomp class KISS
 
   def find_matching
     @lines.pairs.each do |a, b|
-      if a[/\s.*$/] == b[/\s.*$/]
-        a.size.times do |i|
-          return a, b, i if a[0...i] == b[0...i] and a[i+1..-1] == b[i+1..-1]
-        end
+      next unless a[/\s.*$/] == b[/\s.*$/]
+      a.size.times do |i|
+        return a, b, i if a[0...i] == b[0...i] and a[i+1..-1] == b[i+1..-1]
       end
     end
     nil
