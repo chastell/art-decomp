@@ -17,7 +17,7 @@ module ArtDecomp class Executable
     Trollop.die 'no FSM given'       if     args.empty?
     Trollop.die 'FSM does not exist' unless File.exist? args.first
 
-    Trollop.die :archs, 'not in the form of inputs/outputs' unless options[:archs].all? { |s| s =~ /^\d+\/\d+$/ }
+    Trollop.die :archs, 'not in the form of inputs/outputs' unless options[:archs].all? { |s| s =~ %r{^\d+/\d+$} }
     Trollop.die :uv,    'generator does not exist'          unless (options[:uv] - UVGenerators.constants.map(&:to_s)).empty?
     Trollop.die :qu,    'generator does not exist'          unless (options[:qu] - QuGenerators.constants.map(&:to_s)).empty?
     Trollop.die :qv,    'generator does not exist'          unless (options[:qv] - QvGenerators.constants.map(&:to_s)).empty?
