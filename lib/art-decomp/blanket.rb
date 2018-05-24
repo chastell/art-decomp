@@ -43,7 +43,7 @@ module ArtDecomp class Blanket
     sorted = @ints.sort
     width = sorted.size.log2_ceil
     encs = @ints.select { |int| int & bits == bits }.map { |int| sorted.index(int) }.map { |i| i.to_s(2).rjust width, '0' }
-    encs.size == 0 or encs.size == @ints.size ? [DontCare.to_s * width] : encs
+    encs.empty? or encs.size == @ints.size ? [DontCare.to_s * width] : encs
   end
 
   alias eql? ==
