@@ -284,13 +284,6 @@ Style/MixinUsage:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/Not:
-  Exclude:
-    - 'lib/art-decomp/fsm.rb'
-    - 'lib/art-decomp/graph.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 # Configuration parameters: Strict.
 Style/NumericLiterals:
   MinDigits: 20
