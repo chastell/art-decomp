@@ -5,7 +5,7 @@ require_relative '../../spec_helper'
 module ArtDecomp describe CoreExtensions::Set do
   describe '#hash' do
     it 'doesn’t exibit a MRI bug (fixed in r22308)' do
-      Set[2305860601668175887].hash.must_equal Set[2305860601668175887].hash
+      Set[2_305_860_601_668_175_887].hash.must_equal Set[2_305_860_601_668_175_887].hash
     end
   end
 
