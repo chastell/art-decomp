@@ -304,12 +304,6 @@ Style/ParallelAssignment:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/RedundantBegin:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/RedundantSelf:
   Exclude:
     - 'lib/art-decomp/dec_tree.rb'
