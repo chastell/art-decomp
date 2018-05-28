@@ -9,7 +9,7 @@ module ArtDecomp class DecTree
   def_delegators :decs, :<<, :pop
 
   def == other
-    self.decs == other.decs
+    decs == other.decs
   end
 
   def cells

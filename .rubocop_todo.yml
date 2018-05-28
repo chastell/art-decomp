@@ -302,13 +302,6 @@ Style/ParallelAssignment:
     - 'lib/art-decomp/fsm.rb'
     - 'lib/art-decomp/uv_generators/braindead.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/art-decomp/dec_tree.rb'
-    - 'lib/art-decomp/executable.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: AllowAsExpressionSeparator.

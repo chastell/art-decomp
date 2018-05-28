@@ -36,7 +36,7 @@ module ArtDecomp class Executable
   attr_accessor :archs, :fsm, :name
 
   def run opts = {}
-    self.dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
+    dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
     FileUtils.mkdir_p dir
 
     dt_gen_class = opts.fetch :dec_tree_generator_class, DecTreeGenerator
