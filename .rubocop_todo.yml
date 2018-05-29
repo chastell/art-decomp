@@ -107,15 +107,6 @@ Lint/UnusedBlockArgument:
     - 'lib/art-decomp/bipainter.rb'
     - 'lib/art-decomp/qu_generators/block_table.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/art-decomp/logging.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-    - 'lib/art-decomp/qu_generators/edge_labels.rb'
-
 # Offense count: 42
 Metrics/AbcSize:
   Max: 89

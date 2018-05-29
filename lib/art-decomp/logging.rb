@@ -4,7 +4,7 @@ require 'logger'
 require 'rcapture'
 
 module ArtDecomp class Logging
-  def initialize level, opts = { executable: Executable }
+  def initialize _level, opts = { executable: Executable }
     self.logger  = Logger.new $stdout
     logger.level = Logger::UNKNOWN
 
