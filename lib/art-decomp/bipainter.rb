@@ -57,9 +57,9 @@ module ArtDecomp class Bipainter
   def colour_next_vertex!
     # FIXME: consider colouring G graph’s vertex first
     # FIXME: consider other vertex selection algorithms
-    qv_vertex = (@qv_graph.vertices - @qv_colours.keys).sort_by { |v| [-@qv_forbidden[v].size, -@qv_graph.degree(v)] }.first
+    qv_vertex = (@qv_graph.vertices - @qv_colours.keys).min_by { |v| [-@qv_forbidden[v].size, -@qv_graph.degree(v)] }
     colour_qv_vertex! qv_vertex if qv_vertex
-    g_vertex = (@g_graph.vertices - @g_colours.keys).sort_by { |v| [-@g_forbidden[v].size, -@g_graph.degree(v)] }.first
+    g_vertex = (@g_graph.vertices - @g_colours.keys).min_by { |v| [-@g_forbidden[v].size, -@g_graph.degree(v)] }
     colour_g_vertex! g_vertex if g_vertex
   end
 

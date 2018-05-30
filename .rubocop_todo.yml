@@ -181,13 +181,6 @@ Naming/UncommunicativeMethodParamName:
     - 'spec/art-decomp/decomposer_spec.rb'
     - 'spec/art-decomp/executable_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Performance/UnneededSort:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/graph.rb'
-
 # Offense count: 4
 Security/MarshalLoad:
   Exclude:
