@@ -224,14 +224,6 @@ Style/BlockDelimiters:
     - 'spec/art-decomp/decomposer_spec.rb'
     - 'spec/art-decomp/sep_matrix_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/art-decomp/fsm_spec.rb'
-
 # Offense count: 33
 Style/Documentation:
   Enabled: false
