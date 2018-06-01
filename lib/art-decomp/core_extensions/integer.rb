@@ -4,7 +4,7 @@ module ArtDecomp module CoreExtensions module Integer
   end
 
   def log2_ceil
-    return 0 if self == 0 or self == 1
+    return 0 if self == 0 or self == 1 # rubocop:disable NumericPredicate
     (self - 1).to_s(2).size
   end
 end end end

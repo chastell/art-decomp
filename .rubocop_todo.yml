@@ -258,17 +258,6 @@ Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'lib/art-decomp/blanket.rb'
-    - 'lib/art-decomp/core_extensions/integer.rb'
-    - 'lib/art-decomp/vhdl.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Style/ParallelAssignment:
