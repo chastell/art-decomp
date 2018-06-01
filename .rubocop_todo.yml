@@ -318,16 +318,6 @@ Style/TrailingCommaInArrayLiteral:
     - 'spec/art-decomp/uv_generators/braindead_spec.rb'
     - 'spec/art-decomp/uv_relevance_generator_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'spec/art-decomp/decomposer_spec.rb'
-    - 'spec/art-decomp/executable_spec.rb'
-
 # Offense count: 9
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize, WordRegex.
