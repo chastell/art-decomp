@@ -121,8 +121,8 @@ module ArtDecomp class Bipainter
 
   def siblings_of g_vertex
     v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
-    colours  = @qv_colours.select { |q, col| g_vertex & q == g_vertex }.values
-    similar  = @qv_colours.select { |q, col| colours.include? col }.keys
+    colours  = @qv_colours.select { |q, _col| g_vertex & q == g_vertex }.values
+    similar  = @qv_colours.select { |_q, col| colours.include? col }.keys
     (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
   end
 

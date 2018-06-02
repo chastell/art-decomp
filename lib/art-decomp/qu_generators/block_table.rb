@@ -26,8 +26,8 @@ module ArtDecomp module QuGenerators class BlockTable
       @rows.pairs.each do |a, b|
         @r_adms[Set[a, b]] ||= @cols.map { |col| @seps.r_adm((a | b) & col) }.max
       end
-      a, b = *@r_adms.min_by { |key, val| val }.first
-      @r_adms.delete_if { |key, val| key.include? a or key.include? b }
+      a, b = *@r_adms.min_by { |_key, val| val }.first
+      @r_adms.delete_if { |key, _val| key.include? a or key.include? b }
       @rows.subtract [a, b]
       @rows.add a|b
     end

@@ -99,14 +99,6 @@ Lint/AssignmentInCondition:
   Exclude:
     - 'lib/art-decomp/fsm.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-
 # Offense count: 42
 Metrics/AbcSize:
   Max: 89
