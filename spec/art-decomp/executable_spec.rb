@@ -94,6 +94,7 @@ module ArtDecomp describe Executable do
     it 'saves the DecTrees to the results dir' do
       dt_gen_class = Class.new do
         def initialize *_; end
+
         def dectrees
           [
             MiniTest::Mock.new.expect(:to_vhdl, 'VHDL A', ['fsm_0']),

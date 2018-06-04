@@ -171,8 +171,14 @@ module ArtDecomp describe Decomposition do
   describe '#sensible?' do
     it 'is a predicate whether it’s sensible, based on target Archs and G and H Archs' do
       fsm = Object.new
-      def fsm.input_count; 3;                                      end
-      def fsm.beta_q;      Blanket[B[0],B[1],B[2],B[3],B[4],B[5]]; end
+
+      def fsm.input_count
+        3
+      end
+
+      def fsm.beta_q
+        Blanket[B[0],B[1],B[2],B[3],B[4],B[5]]
+      end
 
       refute Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b4, b4).sensible? Set[Arch[3,2]]
       assert Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b4, b4).sensible? Set[Arch[4,1]]

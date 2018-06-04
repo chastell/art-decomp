@@ -32,15 +32,6 @@ Layout/BlockEndNewline:
   Exclude:
     - 'spec/art-decomp/sep_matrix_spec.rb'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAdjacentOneLineDefs, NumberOfEmptyLines.
-Layout/EmptyLineBetweenDefs:
-  Exclude:
-    - 'spec/art-decomp/decomposition_spec.rb'
-    - 'spec/art-decomp/executable_spec.rb'
-    - 'spec/art-decomp/logging_spec.rb'
-
 # Offense count: 107
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
