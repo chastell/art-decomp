@@ -135,7 +135,7 @@ module ArtDecomp class FSM
   def structure
     structure = Hash.new { |state, input| state[input] = {} }
     @state.each_index do |row|
-      structure[@state[row]][@inputs.transpose[row].join] = {next_state: @next_state[row], output: @outputs.transpose[row].join}
+      structure[@state[row]][@inputs.transpose[row].join] = { next_state: @next_state[row], output: @outputs.transpose[row].join }
     end
     structure
   end
