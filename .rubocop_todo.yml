@@ -263,16 +263,6 @@ Style/SingleLineMethods:
 Style/TrailingBodyOnModule:
   Enabled: false
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArguments:
-  Exclude:
-    - 'lib/art-decomp/dec_tree.rb'
-    - 'spec/art-decomp/qu_generators/block_table_spec.rb'
-    - 'spec/art-decomp/qu_generators/edge_labels_spec.rb'
-
 # Offense count: 29
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline.

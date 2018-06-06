@@ -6,5 +6,8 @@ Style/EmptyCaseCondition:
 Style/Not:
   Enabled: false
 
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
