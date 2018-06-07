@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe DecTree do
-  let(:dec_tree) { DecTree.new Set[], ['foo', 'bar'] }
+  let(:dec_tree) { DecTree.new Set[], %w[foo bar] }
 
   let(:dec1) do
     fsm = FSM.from_kiss 'spec/fixtures/bbara'
@@ -25,15 +25,15 @@ module ArtDecomp describe DecTree do
 
   describe '#==' do
     it 'verifies tree equality' do
-      dec_tree.must_equal DecTree.new Set[], ['foo', 'bar']
-      dec_tree.wont_equal DecTree.new Set[], ['bar', 'foo']
+      dec_tree.must_equal DecTree.new Set[], %w[foo bar]
+      dec_tree.wont_equal DecTree.new Set[], %w[bar foo]
     end
   end
 
   describe '#<<' do
     it 'appends elements' do
       dec_tree << 'baz'
-      dec_tree.must_equal DecTree.new Set[], ['foo', 'bar', 'baz']
+      dec_tree.must_equal DecTree.new Set[], %w[foo bar baz]
     end
   end
 
@@ -49,7 +49,7 @@ module ArtDecomp describe DecTree do
     it 'makes a shallow copy' do
       copy = dec_tree.dup
       copy << 'baz'
-      dec_tree.must_equal DecTree.new Set[], ['foo', 'bar']
+      dec_tree.must_equal DecTree.new Set[], %w[foo bar]
     end
   end
 

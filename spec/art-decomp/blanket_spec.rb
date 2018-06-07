@@ -50,7 +50,7 @@ module ArtDecomp describe Blanket do
       blanket.encodings(B[1,2,3]).must_equal ['01']
       blanket.encodings(B[2,3,4]).must_equal ['10']
       blanket.encodings(B[2]).must_equal     ['--']
-      blanket.encodings(B[1,2]).must_equal   ['00', '01']
+      blanket.encodings(B[1,2]).must_equal   %w[00 01]
     end
   end
 

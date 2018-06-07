@@ -281,13 +281,6 @@ Style/TrailingCommaInArrayLiteral:
     - 'spec/art-decomp/uv_generators/braindead_spec.rb'
     - 'spec/art-decomp/uv_relevance_generator_spec.rb'
 
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: MinSize, WordRegex.
-# SupportedStyles: percent, brackets
-Style/WordArray:
-  EnforcedStyle: brackets
-
 # Offense count: 198
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
