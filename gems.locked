@@ -9,6 +9,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.0)
+    jaro_winkler (1.5.1)
     minitest (5.11.3)
     minitest-focus (1.1.2)
       minitest (>= 4, < 6)
@@ -18,7 +19,8 @@ GEM
     powerpack (0.1.1)
     rainbow (3.0.0)
     rcapture (1.0.4)
-    rubocop (0.55.0)
+    rubocop (0.57.1)
+      jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.5)
       powerpack (~> 0.1)
@@ -36,7 +38,7 @@ DEPENDENCIES
   art-decomp!
   minitest (~> 5.0)
   minitest-focus (~> 1.1)
-  rubocop (~> 0.55.0)
+  rubocop (~> 0.57.0)
 
 BUNDLED WITH
    1.16.2
