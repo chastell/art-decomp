@@ -231,15 +231,6 @@ Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'
 
-# Offense count: 5
-# Cop supports --auto-correct.
-Style/ParallelAssignment:
-  Exclude:
-    - 'lib/art-decomp/arch.rb'
-    - 'lib/art-decomp/decomposition.rb'
-    - 'lib/art-decomp/fsm.rb'
-    - 'lib/art-decomp/uv_generators/braindead.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: AllowAsExpressionSeparator.

@@ -6,6 +6,9 @@ Style/EmptyCaseCondition:
 Style/Not:
   Enabled: false
 
+Style/ParallelAssignment:
+  Enabled: false
+
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 
