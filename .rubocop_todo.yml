@@ -57,17 +57,6 @@ Layout/MultilineBlockLayout:
 Layout/SpaceAfterComma:
   Enabled: false
 
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Layout/SpaceAroundOperators:
-  Exclude:
-    - 'lib/art-decomp/dec_tree.rb'
-    - 'lib/art-decomp/kiss.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-    - 'lib/art-decomp/qu_generators/edge_labels.rb'
-    - 'spec/spec_helper.rb'
-
 # Offense count: 3
 Lint/AmbiguousBlockAssociation:
   Exclude:
