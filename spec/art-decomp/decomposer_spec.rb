@@ -25,8 +25,17 @@ module ArtDecomp describe Decomposer do
     end
 
     it 'yields only sensible Decompositions' do
-      pos_dec = Object.new; def pos_dec.sensible? _; true;  end
-      neg_dec = Object.new; def neg_dec.sensible? _; false; end
+      pos_dec = Object.new
+      neg_dec = Object.new
+
+      def pos_dec.sensible? _
+        true
+      end
+
+      def neg_dec.sensible? _
+        false
+      end
+
       dec_class = MiniTest::Mock.new
       dec_class.expect :new, pos_dec, [fsm, u, v, qu, qv1, g1]
       dec_class.expect :new, neg_dec, [fsm, u, v, qu, qv2, g2]

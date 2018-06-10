@@ -8,10 +8,26 @@ module ArtDecomp describe DecTreeGenerator do
       fsm    = Object.new
       fsm1   = Object.new
       fsm11  = Object.new
-      dec1   = OpenStruct.new(h: fsm1);  def dec1.final?   *_; false; end
-      dec11  = OpenStruct.new(h: fsm11); def dec11.final?  *_; false; end
-      dec111 = Object.new;               def dec111.final? *_; true;  end
-      dec12  = Object.new;               def dec12.final?  *_; true;  end
+      dec1   = OpenStruct.new(h: fsm1)
+      dec11  = OpenStruct.new(h: fsm11)
+      dec111 = Object.new
+      dec12  = Object.new
+
+      def dec1.final? *_
+        false
+      end
+
+      def dec11.final? *_
+        false
+      end
+
+      def dec111.final? *_
+        true
+      end
+
+      def dec12.final? *_
+        true
+      end
 
       decomposer1   = MiniTest::Mock.new.expect :decompositions, [dec1]
       decomposer11  = MiniTest::Mock.new.expect :decompositions, [dec11, dec12]

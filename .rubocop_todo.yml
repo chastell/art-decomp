@@ -228,16 +228,6 @@ Style/Semicolon:
     - 'spec/art-decomp/dec_tree_generator_spec.rb'
     - 'spec/art-decomp/decomposer_spec.rb'
 
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: AllowIfMethodIsEmpty.
-Style/SingleLineMethods:
-  Exclude:
-    - 'spec/art-decomp/dec_tree_generator_spec.rb'
-    - 'spec/art-decomp/decomposer_spec.rb'
-    - 'spec/art-decomp/decomposition_spec.rb'
-    - 'spec/art-decomp/logging_spec.rb'
-
 # Offense count: 75
 # Cop supports --auto-correct.
 Style/TrailingBodyOnModule:
