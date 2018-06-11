@@ -26,12 +26,6 @@ Layout/AccessModifierIndentation:
     - 'lib/art-decomp/qu_generators/edge_labels.rb'
     - 'lib/art-decomp/sep_matrix.rb'
 
-# Offense count: 16
-# Cop supports --auto-correct.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'spec/art-decomp/sep_matrix_spec.rb'
-
 # Offense count: 107
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
