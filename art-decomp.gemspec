@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |gem|
   gem.name     = 'art-decomp'
   gem.version  = '0.4.0'
