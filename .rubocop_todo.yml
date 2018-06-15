@@ -161,18 +161,6 @@ Style/AsciiComments:
     - 'lib/art-decomp/fsm.rb'
     - 'spec/art-decomp/bipainter_spec.rb'
 
-# Offense count: 17
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ProceduralMethods, FunctionalMethods, IgnoredMethods.
-# SupportedStyles: line_count_based, semantic, braces_for_chaining
-# ProceduralMethods: benchmark, bm, bmbm, create, each_with_object, measure, new, realtime, tap, with_object
-# FunctionalMethods: let, let!, subject, watch
-# IgnoredMethods: lambda, proc, it
-Style/BlockDelimiters:
-  Exclude:
-    - 'spec/art-decomp/decomposer_spec.rb'
-    - 'spec/art-decomp/sep_matrix_spec.rb'
-
 # Offense count: 33
 Style/Documentation:
   Enabled: false

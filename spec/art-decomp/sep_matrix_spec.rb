@@ -1,20 +1,20 @@
 require_relative '../spec_helper'
 
 module ArtDecomp describe SepMatrix do
-  let(:sep_01) {
+  let(:sep_01) do
     SepMatrix.new [
       0b10,
       0b01,
     ]
-  }
-  let(:sep_01_02) {
+  end
+  let(:sep_01_02) do
     SepMatrix.new [
       0b110,
       0b001,
       0b001,
     ]
-  }
-  let(:sep_01_02_03_04_12_13_14) {
+  end
+  let(:sep_01_02_03_04_12_13_14) do
     SepMatrix.new [
       0b11110,
       0b11101,
@@ -22,8 +22,8 @@ module ArtDecomp describe SepMatrix do
       0b00011,
       0b00011,
     ]
-  }
-  let(:sep_01_02_03_04_12_13_14_23_24_34) {
+  end
+  let(:sep_01_02_03_04_12_13_14_23_24_34) do
     SepMatrix.new [
       0b11110,
       0b11101,
@@ -31,8 +31,8 @@ module ArtDecomp describe SepMatrix do
       0b10111,
       0b01111,
     ]
-  }
-  let(:sep_01_02_03_04_13_14) {
+  end
+  let(:sep_01_02_03_04_13_14) do
     SepMatrix.new [
       0b11110,
       0b11001,
@@ -40,30 +40,30 @@ module ArtDecomp describe SepMatrix do
       0b00011,
       0b00011,
     ]
-  }
-  let(:sep_01_02_12) {
+  end
+  let(:sep_01_02_12) do
     SepMatrix.new [
       0b110,
       0b101,
       0b011,
     ]
-  }
-  let(:sep_01_12) {
+  end
+  let(:sep_01_12) do
     SepMatrix.new [
       0b010,
       0b101,
       0b010,
     ]
-  }
-  let(:sep_01_23) {
+  end
+  let(:sep_01_23) do
     SepMatrix.new [
       0b0010,
       0b0001,
       0b1000,
       0b0100,
     ]
-  }
-  let(:sep_01_45) {
+  end
+  let(:sep_01_45) do
     SepMatrix.new [
       0b000010,
       0b000001,
@@ -72,39 +72,39 @@ module ArtDecomp describe SepMatrix do
       0b100000,
       0b010000,
     ]
-  }
-  let(:sep_02) {
+  end
+  let(:sep_02) do
     SepMatrix.new [
       0b100,
       0b000,
       0b001,
     ]
-  }
-  let(:sep_02_03_12_13) {
+  end
+  let(:sep_02_03_12_13) do
     SepMatrix.new [
       0b1100,
       0b1100,
       0b0011,
       0b0011,
     ]
-  }
-  let(:sep_02_03_12_13_23) {
+  end
+  let(:sep_02_03_12_13_23) do
     SepMatrix.new [
       0b1100,
       0b1100,
       0b1011,
       0b0111,
     ]
-  }
-  let(:sep_03) {
+  end
+  let(:sep_03) do
     SepMatrix.new [
       0b1000,
       0b0000,
       0b0000,
       0b0001,
     ]
-  }
-  let(:sep_03_04_13_14) {
+  end
+  let(:sep_03_04_13_14) do
     SepMatrix.new [
       0b11000,
       0b11000,
@@ -112,8 +112,8 @@ module ArtDecomp describe SepMatrix do
       0b00011,
       0b00011,
     ]
-  }
-  let(:sep_04) {
+  end
+  let(:sep_04) do
     SepMatrix.new [
       0b10000,
       0b00000,
@@ -121,14 +121,14 @@ module ArtDecomp describe SepMatrix do
       0b00000,
       0b00001,
     ]
-  }
-  let(:sep_12) {
+  end
+  let(:sep_12) do
     SepMatrix.new [
       0b000,
       0b100,
       0b010,
     ]
-  }
+  end
   let(:sep_empty) { SepMatrix.new [] }
 
   describe '.from_blanket' do
