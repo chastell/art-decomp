@@ -135,24 +135,6 @@ Security/MarshalLoad:
   Exclude:
     - 'lib/art-decomp/bipainter.rb'
 
-# Offense count: 30
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, conditionals
-Style/AndOr:
-  Exclude:
-    - 'lib/art-decomp/arch.rb'
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/blanket.rb'
-    - 'lib/art-decomp/core_extensions/integer.rb'
-    - 'lib/art-decomp/core_extensions/string.rb'
-    - 'lib/art-decomp/decomposition.rb'
-    - 'lib/art-decomp/fsm.rb'
-    - 'lib/art-decomp/graph.rb'
-    - 'lib/art-decomp/kiss.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-    - 'lib/art-decomp/sep_matrix.rb'
-
 # Offense count: 3
 # Configuration parameters: AllowedChars.
 Style/AsciiComments:

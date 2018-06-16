@@ -3,6 +3,9 @@ inherit_from: .rubocop_todo.yml
 Layout/SpaceAroundOperators:
   Enabled: false
 
+Style/AndOr:
+  Enabled: false
+
 Style/EmptyCaseCondition:
   Enabled: false
 
