@@ -203,24 +203,6 @@ Style/Semicolon:
 Style/TrailingBodyOnModule:
   Enabled: false
 
-# Offense count: 29
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - 'lib/art-decomp/vhdl.rb'
-    - 'spec/art-decomp/dec_tree_generator_spec.rb'
-    - 'spec/art-decomp/executable_spec.rb'
-    - 'spec/art-decomp/qu_generators/block_table_spec.rb'
-    - 'spec/art-decomp/qu_generators/edge_labels_spec.rb'
-    - 'spec/art-decomp/qv_generators/bipainting_spec.rb'
-    - 'spec/art-decomp/qv_generators/graph_colouring_spec.rb'
-    - 'spec/art-decomp/qv_generators/graph_merging_spec.rb'
-    - 'spec/art-decomp/sep_matrix_spec.rb'
-    - 'spec/art-decomp/uv_generators/braindead_spec.rb'
-    - 'spec/art-decomp/uv_relevance_generator_spec.rb'
-
 # Offense count: 198
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
