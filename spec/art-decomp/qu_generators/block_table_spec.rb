@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe QuGenerators::BlockTable do
+module ArtDecomp
+  describe QuGenerators::BlockTable do
   describe '#==' do
     it 'performs class-based comparison' do
       QuGenerators::BlockTable.new.must_equal QuGenerators::BlockTable.new
@@ -39,4 +40,4 @@ module ArtDecomp describe QuGenerators::BlockTable do
       ]
     end
   end
-end end
+  end end

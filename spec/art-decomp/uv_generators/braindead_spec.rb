@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe UVGenerators::Braindead do
+module ArtDecomp
+  describe UVGenerators::Braindead do
   let(:uvg) { UVGenerators::Braindead.new }
 
   describe '#==' do
@@ -46,4 +47,4 @@ module ArtDecomp describe UVGenerators::Braindead do
       ]
     end
   end
-end end
+  end end

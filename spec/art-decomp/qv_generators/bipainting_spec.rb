@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe QvGenerators::Bipainting do
+module ArtDecomp
+  describe QvGenerators::Bipainting do
   describe '#==' do
     it 'performs class-based comparison' do
       QvGenerators::Bipainting.new.must_equal QvGenerators::Bipainting.new
@@ -14,4 +15,4 @@ module ArtDecomp describe QvGenerators::Bipainting do
       ]
     end
   end
-end end
+  end end

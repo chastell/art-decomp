@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe DecTreeGenerator do
+module ArtDecomp
+  describe DecTreeGenerator do
   describe '#dectrees' do
     it 'yields subsequent DecTrees' do
       archs  = Object.new
@@ -45,4 +46,4 @@ module ArtDecomp describe DecTreeGenerator do
       ]
     end
   end
-end end
+  end end

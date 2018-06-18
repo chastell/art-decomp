@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe UVRelevanceGenerator do
+module ArtDecomp
+  describe UVRelevanceGenerator do
   let :fsm do
     fsm = MiniTest::Mock.new
     42.times { fsm.expect :expand_x, fsm, [Set] }
@@ -76,4 +77,4 @@ module ArtDecomp describe UVRelevanceGenerator do
       ]
     end
   end
-end end
+  end end

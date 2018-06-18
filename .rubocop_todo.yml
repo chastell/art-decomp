@@ -82,7 +82,7 @@ Metrics/MethodLength:
 # Offense count: 4
 # Configuration parameters: CountComments.
 Metrics/ModuleLength:
-  Max: 261
+  Max: 262
 
 # Offense count: 1
 # Configuration parameters: CountKeywordArgs.
@@ -172,11 +172,6 @@ Style/Semicolon:
   Exclude:
     - 'spec/art-decomp/dec_tree_generator_spec.rb'
     - 'spec/art-decomp/decomposer_spec.rb'
-
-# Offense count: 75
-# Cop supports --auto-correct.
-Style/TrailingBodyOnModule:
-  Enabled: false
 
 # Offense count: 198
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.

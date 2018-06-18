@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Decomposition do
+module ArtDecomp
+  describe Decomposition do
   let(:b2) { Blanket[B[0],B[1]]                                    }
   let(:b4) { Blanket[B[0],B[1],B[2],B[3]]                          }
   let(:b8) { Blanket[B[0],B[1],B[2],B[3],B[4],B[5],B[6],B[7]]      }
@@ -224,4 +225,4 @@ module ArtDecomp describe Decomposition do
       refute Decomposition.new(fsm, Set[1,3], Set[0,2], qv, qv, g).valid?
     end
   end
-end end
+  end end

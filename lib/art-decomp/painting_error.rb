@@ -1,2 +1,4 @@
-module ArtDecomp class PaintingError < RuntimeError
-end end
+module ArtDecomp
+  class PaintingError < RuntimeError
+  end
+end

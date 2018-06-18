@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe SepMatrix do
+module ArtDecomp
+  describe SepMatrix do
   let(:sep_01) do
     SepMatrix.new [
       0b10,
@@ -275,4 +276,4 @@ module ArtDecomp describe SepMatrix do
       refute sep_01_12.superset? sep_01_02
     end
   end
-end end
+  end end

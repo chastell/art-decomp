@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe CoreExtensions::Integer do
+module ArtDecomp
+  describe CoreExtensions::Integer do
   describe '#bits' do
     it 'returns set bit positions' do
       0.bits.must_equal        []
@@ -17,4 +18,4 @@ module ArtDecomp describe CoreExtensions::Integer do
       (2**69).log2_ceil.must_equal       69
     end
   end
-end end
+  end end

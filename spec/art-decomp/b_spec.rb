@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe B do
+module ArtDecomp
+  describe B do
   describe '.[]' do
     it 'constructs an Integer with the given bits set' do
       B[].must_equal     0b0
@@ -25,4 +26,4 @@ module ArtDecomp describe B do
       B[1,69].hash.must_equal b_1_69_int.hash
     end
   end
-end end
+  end end

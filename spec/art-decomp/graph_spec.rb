@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Graph do
+module ArtDecomp
+  describe Graph do
   let :graph do
     blanket = Blanket[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
     seps    = Set[Sep[4,6], Sep[5,9], Sep[5,7], Sep[7,9]]
@@ -101,4 +102,4 @@ module ArtDecomp describe Graph do
       graph.vertices.must_equal Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
     end
   end
-end end
+  end end

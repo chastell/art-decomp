@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Bipainter do
+module ArtDecomp
+  describe Bipainter do
   describe '#blankets' do
     it 'returns the Qv and G Blankets based on the provided Q and V Blankets and a Set of Seps' do
       beta_q = Blanket[B[1,2], B[3,4], B[5,6]]
@@ -17,4 +18,4 @@ module ArtDecomp describe Bipainter do
 
     # FIXME: way underspec’d
   end
-end end
+  end end

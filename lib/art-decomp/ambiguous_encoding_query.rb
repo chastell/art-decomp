@@ -1,2 +1,4 @@
-module ArtDecomp class AmbiguousEncodingQuery < RuntimeError
-end end
+module ArtDecomp
+  class AmbiguousEncodingQuery < RuntimeError
+  end
+end

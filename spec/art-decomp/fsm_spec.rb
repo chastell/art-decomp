@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe FSM do
+module ArtDecomp
+  describe FSM do
   let(:ex4)     { FSM.from_kiss 'spec/fixtures/ex4'         }
   let(:fsm)     { FSM.from_kiss 'spec/fixtures/fsm'         }
   let(:jedi)    { FSM.from_kiss 'spec/fixtures/mark1.jed'   }
@@ -302,4 +303,4 @@ module ArtDecomp describe FSM do
       mark1.y_encoding(B[0,16]).must_equal   '-11---1-00100000'
     end
   end
-end end
+  end end

@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe KISS do
+module ArtDecomp
+  describe KISS do
   def verify_kiss compact, scenario
     scenario.gsub!(/^#{scenario[/\A\s*/]}/, '')
     lines, formatted = scenario.split("\n\n").map { |e| e.split "\n" }
@@ -82,4 +83,4 @@ module ArtDecomp describe KISS do
       end
     end
   end
-end end
+  end end

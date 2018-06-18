@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe CoreExtensions::String do
+module ArtDecomp
+  describe CoreExtensions::String do
   describe '#dc_expand' do
     it 'expands don’t-cares when representing boolean inputs' do
       '0'.extend(CoreExtensions::String).dc_expand.must_equal   ['0']
@@ -14,4 +15,4 @@ module ArtDecomp describe CoreExtensions::String do
       '---'.extend(CoreExtensions::String).dc_expand(Set[1]).must_equal   ['-0-', '-1-']
     end
   end
-end end
+  end end

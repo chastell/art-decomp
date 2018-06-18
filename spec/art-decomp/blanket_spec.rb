@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Blanket do
+module ArtDecomp
+  describe Blanket do
   describe '.[]' do
     it 'instantiates Blanket Array-style' do
       Blanket[B[], B[0], B[1,2]].must_equal Blanket.new [B[1,2], B[0]]
@@ -128,4 +129,4 @@ module ArtDecomp describe Blanket do
       Blanket[B[1,2], B[0]].to_s.must_equal 'Blanket[B[0], B[1,2]]'
     end
   end
-end end
+  end end

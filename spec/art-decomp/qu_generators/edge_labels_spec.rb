@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe QuGenerators::EdgeLabels do
+module ArtDecomp
+  describe QuGenerators::EdgeLabels do
   describe '#==' do
     it 'performs class-based comparison' do
       QuGenerators::EdgeLabels.new.must_equal QuGenerators::EdgeLabels.new
@@ -43,4 +44,4 @@ module ArtDecomp describe QuGenerators::EdgeLabels do
       ]
     end
   end
-end end
+  end end

@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Arch do
+module ArtDecomp
+  describe Arch do
   describe '.[]' do
     it 'instantiates Arch Array-style' do
       Arch[5,1].must_equal Arch.new 5, 1
@@ -50,4 +51,4 @@ module ArtDecomp describe Arch do
       Arch[4,2].to_s.must_equal '4/2'
     end
   end
-end end
+  end end

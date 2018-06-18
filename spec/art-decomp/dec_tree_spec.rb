@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe DecTree do
+module ArtDecomp
+  describe DecTree do
   let(:dec_tree) { DecTree.new Set[], %w[foo bar] }
 
   let(:dec1) do
@@ -73,4 +74,4 @@ module ArtDecomp describe DecTree do
       dec_tree.to_vhdl('bbara').must_equal File.read 'spec/fixtures/bbara.vhdl'
     end
   end
-end end
+  end end

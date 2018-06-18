@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe Decomposer do
+module ArtDecomp
+  describe Decomposer do
   let(:archs) { Set[Arch[5,1]] }
   let(:fsm)   { FSM.from_kiss 'spec/fixtures/fsm' }
   let(:g1)    { Blanket.new [] }
@@ -47,4 +48,4 @@ module ArtDecomp describe Decomposer do
       dec_class.verify
     end
   end
-end end
+  end end

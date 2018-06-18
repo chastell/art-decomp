@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe QvGenerators::GraphColouring do
+module ArtDecomp
+  describe QvGenerators::GraphColouring do
   describe '#==' do
     it 'performs class-based comparison' do
       QvGenerators::GraphColouring.new.must_equal QvGenerators::GraphColouring.new
@@ -15,4 +16,4 @@ module ArtDecomp describe QvGenerators::GraphColouring do
       ]
     end
   end
-end end
+  end end

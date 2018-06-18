@@ -1,6 +1,7 @@
 require_relative '../spec_helper'
 
-module ArtDecomp describe VHDL do
+module ArtDecomp
+  describe VHDL do
   def verify_vhdl fsm_name
     vhdl_name = fsm_name.tr '.', '_'
     fsm = VHDL.new(FSM.from_kiss("spec/fixtures/#{fsm_name}")).vhdl vhdl_name
@@ -21,4 +22,4 @@ module ArtDecomp describe VHDL do
       verify_vhdl 'ex4.hot'
     end
   end
-end end
+  end end

@@ -1,6 +1,7 @@
 require_relative '../../spec_helper'
 
-module ArtDecomp describe CoreExtensions::Set do
+module ArtDecomp
+  describe CoreExtensions::Set do
   describe '#hash' do
     it 'doesn’t exibit a MRI bug (fixed in r22308)' do
       Set[2_305_860_601_668_175_887].hash.must_equal Set[2_305_860_601_668_175_887].hash
@@ -19,4 +20,4 @@ module ArtDecomp describe CoreExtensions::Set do
       ArtDecomp::Blanket[B[1],B[2],B[3],B[4]].seps.r_adm(b).must_equal 2
     end
   end
-end end
+  end end
