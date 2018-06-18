@@ -9,6 +9,9 @@ Style/AndOr:
 Style/EmptyCaseCondition:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
 Style/Not:
   Enabled: false
 
