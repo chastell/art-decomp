@@ -33,12 +33,6 @@ Layout/AccessModifierIndentation:
 Layout/EndAlignment:
   Enabled: false
 
-# Offense count: 30
-# Cop supports --auto-correct.
-# Configuration parameters: Width, IgnoredPatterns.
-Layout/IndentationWidth:
-  Enabled: false
-
 # Offense count: 1827
 # Cop supports --auto-correct.
 Layout/SpaceAfterComma:
@@ -177,4 +171,4 @@ Style/Semicolon:
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 587
+  Max: 589

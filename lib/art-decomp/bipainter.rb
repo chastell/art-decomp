@@ -45,14 +45,14 @@ module ArtDecomp
     end
 
     def colour_g_vertex! g_vertex
-        backup!
-        colour = :a
-        colour = colour.next while @g_forbidden[g_vertex].include? colour
-        colour_g! g_vertex, colour
+      backup!
+      colour = :a
+      colour = colour.next while @g_forbidden[g_vertex].include? colour
+      colour_g! g_vertex, colour
     rescue PaintingError
-        restore!
-        forbid_g! g_vertex, colour
-        retry
+      restore!
+      forbid_g! g_vertex, colour
+      retry
     end
 
     def colour_next_vertex!
@@ -84,14 +84,14 @@ module ArtDecomp
     end
 
     def colour_qv_vertex! qv_vertex
-        backup!
-        colour = :a
-        colour = colour.next while @qv_forbidden[qv_vertex].include? colour
-        colour_qv! qv_vertex, colour
+      backup!
+      colour = :a
+      colour = colour.next while @qv_forbidden[qv_vertex].include? colour
+      colour_qv! qv_vertex, colour
     rescue PaintingError
-        restore!
-        forbid_qv! qv_vertex, colour
-        retry
+      restore!
+      forbid_qv! qv_vertex, colour
+      retry
     end
 
     def forbid_g! g_vertex, colour
