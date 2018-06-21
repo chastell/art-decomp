@@ -6,26 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 16
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: outdent, indent
-Layout/AccessModifierIndentation:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/dec_tree.rb'
-    - 'lib/art-decomp/dec_tree_generator.rb'
-    - 'lib/art-decomp/decomposer.rb'
-    - 'lib/art-decomp/decomposition.rb'
-    - 'lib/art-decomp/executable.rb'
-    - 'lib/art-decomp/fsm.rb'
-    - 'lib/art-decomp/graph.rb'
-    - 'lib/art-decomp/kiss.rb'
-    - 'lib/art-decomp/logging.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-    - 'lib/art-decomp/qu_generators/edge_labels.rb'
-    - 'lib/art-decomp/sep_matrix.rb'
-
 # Offense count: 107
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
