@@ -1,7 +1,7 @@
 module ArtDecomp
   module CoreExtensions
     module String
-      def dc_expand columns = 0...size
+      def dc_expand(columns = 0...size)
         return [self] unless include? ArtDecomp::DontCare.to_s
 
         offsets = columns.sort

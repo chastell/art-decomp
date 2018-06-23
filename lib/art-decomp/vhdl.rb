@@ -1,10 +1,10 @@
 module ArtDecomp
   class VHDL
-    def initialize fsm
+    def initialize(fsm)
       @fsm = fsm
     end
 
-    def vhdl name
+    def vhdl(name)
       structure = @fsm.structure
       logic = structure[DontCare].map do |input, results|
         results[:next_state] = "s#{results[:next_state]}".to_sym if results[:next_state] =~ /^\d+$/

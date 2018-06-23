@@ -122,13 +122,6 @@ Style/GuardClause:
   Exclude:
     - 'lib/art-decomp/bipainter.rb'
 
-# Offense count: 105
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: require_parentheses, require_no_parentheses, require_no_parentheses_except_multiline
-Style/MethodDefParentheses:
-  Enabled: false
-
 # Offense count: 1
 Style/MixinUsage:
   Exclude:

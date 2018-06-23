@@ -1,10 +1,10 @@
 module ArtDecomp
   class KISS
-    def initialize lines
+    def initialize(lines)
       @lines = lines
     end
 
-    def formatted compact = true
+    def formatted(compact = true)
       @lines.sort!
       @lines.uniq!
       drop_overlapping if compact

@@ -1,11 +1,11 @@
 module ArtDecomp
   module UVGenerators
     class Braindead
-      def == other
+      def ==(other)
         self.class == other.class
       end
 
-      def uv_pairs fsm, archs
+      def uv_pairs(fsm, archs)
         input_count = fsm.input_count
         max_v_size  = archs.map(&:pins).max
         Enumerator.new do |yielder|

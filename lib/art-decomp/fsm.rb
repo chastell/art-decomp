@@ -2,7 +2,7 @@ module ArtDecomp
   class FSM
     attr_reader :codes
 
-    def self.from_kiss kiss
+    def self.from_kiss(kiss)
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
       codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]
@@ -40,11 +40,11 @@ module ArtDecomp
       new inputs.transpose, outputs.transpose, state, next_state, codes
     end
 
-    def initialize inputs, outputs, state, next_state, codes = {}
+    def initialize(inputs, outputs, state, next_state, codes = {})
       @inputs, @outputs, @state, @next_state, @codes = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze, codes.freeze
     end
 
-    def == other
+    def ==(other)
       [@inputs, @outputs, @state, @next_state] == [other.inputs, other.outputs, other.state, other.next_state]
     end
 
@@ -60,22 +60,22 @@ module ArtDecomp
       Blanket.from_array @next_state
     end
 
-    def beta_x ins = (0...@inputs.size).to_a
+    def beta_x(ins = (0...@inputs.size).to_a)
       beta @inputs, ins
     end
 
-    def beta_y ins = (0...@outputs.size).to_a
+    def beta_y(ins = (0...@outputs.size).to_a)
       beta @outputs, ins
     end
 
     alias eql? ==
 
-    def expand_x ins
+    def expand_x(ins)
       return self unless ins.any? { |i| @inputs[i].include? DontCare }
       FSM.from_kiss to_kiss.lines.map { |line| line.extend(CoreExtensions::String).dc_expand(ins) }.flatten.sort.join
     end
 
-    def fsm_cells archs
+    def fsm_cells(archs)
       return 0 if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
       Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
     end
@@ -92,7 +92,7 @@ module ArtDecomp
       @inputs.hash ^ @outputs.hash ^ @state.hash ^ @next_state.hash
     end
 
-    def implementable_in? archs
+    def implementable_in?(archs)
       fsm_cells(archs) < Infinity
     end
 
@@ -104,7 +104,7 @@ module ArtDecomp
       @outputs.size
     end
 
-    def q_encoding rows
+    def q_encoding(rows)
       # FIXME: consider tr DontCare, '*'
       encoding @state, rows
     end
@@ -124,7 +124,7 @@ module ArtDecomp
       end
     end
 
-    def state_rows_of_next_state_of rows
+    def state_rows_of_next_state_of(rows)
       state = @next_state[rows.bits.first]
       B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]
     end
@@ -150,7 +150,7 @@ module ArtDecomp
       KISS.new(cols.transpose.map(&:join)).formatted
     end
 
-    def to_vhdl name
+    def to_vhdl(name)
       VHDL.new(self).vhdl name
     end
 
@@ -172,11 +172,11 @@ module ArtDecomp
       end
     end
 
-    def x_encoding ins, rows
+    def x_encoding(ins, rows)
       ins.sort.map { |i| encoding @inputs[i], rows }.join
     end
 
-    def y_encoding rows
+    def y_encoding(rows)
       @outputs.map { |output| encoding output, rows }.join
     end
 
@@ -186,13 +186,13 @@ module ArtDecomp
 
     private
 
-    def beta column, ins
+    def beta(column, ins)
       ins = Array ins
       return Blanket[B[*0...@state.size]] if ins.empty?
       ins.map { |i| Blanket.from_array column[i] }.inject :*
     end
 
-    def encoding column, rows
+    def encoding(column, rows)
       encs = rows.bits.map { |row| column[row] }.uniq - [DontCare]
       case encs.size
       when 0 then DontCare.to_s

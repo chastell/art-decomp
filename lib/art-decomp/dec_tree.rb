@@ -2,14 +2,14 @@ module ArtDecomp
   class DecTree
     extend Forwardable
 
-    def initialize archs, decs = []
+    def initialize(archs, decs = [])
       self.archs = archs
       self.decs  = decs
     end
 
     def_delegators :decs, :<<, :pop
 
-    def == other
+    def ==(other)
       decs == other.decs
     end
 
@@ -25,7 +25,7 @@ module ArtDecomp
       decs.map { |dec| dec.g_cells archs }.inject :+
     end
 
-    def to_vhdl name
+    def to_vhdl(name)
       ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
     end
 
@@ -139,7 +139,7 @@ module ArtDecomp
       decs.size - 1
     end
 
-    def state_pins start = 0
+    def state_pins(start = 0)
       decs[start..-1].map { |d| d.qv.pins }.inject(:+) + decs.last.qu.pins
     end
   end

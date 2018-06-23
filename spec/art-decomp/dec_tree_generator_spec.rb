@@ -14,19 +14,19 @@ module ArtDecomp
         dec111 = Object.new
         dec12  = Object.new
 
-        def dec1.final? *_
+        def dec1.final?(*_)
           false
         end
 
-        def dec11.final? *_
+        def dec11.final?(*_)
           false
         end
 
-        def dec111.final? *_
+        def dec111.final?(*_)
           true
         end
 
-        def dec12.final? *_
+        def dec12.final?(*_)
           true
         end
 

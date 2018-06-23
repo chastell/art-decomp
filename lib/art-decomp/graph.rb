@@ -1,6 +1,6 @@
 module ArtDecomp
   class Graph
-    def initialize blanket, seps
+    def initialize(blanket, seps)
       vertices = blanket.ints.dup
       vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
       @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
@@ -13,7 +13,7 @@ module ArtDecomp
       end
     end
 
-    def adjacent *vertices
+    def adjacent(*vertices)
       vertices.map { |vertex| @neighbours[vertex] }.inject(:|) - vertices
     end
 
@@ -35,7 +35,7 @@ module ArtDecomp
       @neighbours.values.map(&:size).inject(:+) == @neighbours.size * (@neighbours.size - 1)
     end
 
-    def degree vertex
+    def degree(vertex)
       @neighbours[vertex].size
     end
 
@@ -74,7 +74,7 @@ module ArtDecomp
 
     private
 
-    def merge! a, b
+    def merge!(a, b)
       new = a | b
       adjs = adjacent(a) | adjacent(b)
       adjs.each { |adj| @neighbours[adj] << new }

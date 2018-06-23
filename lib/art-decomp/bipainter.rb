@@ -1,6 +1,6 @@
 module ArtDecomp
   class Bipainter
-    def initialize beta_q, beta_v, seps
+    def initialize(beta_q, beta_v, seps)
       raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
       @beta_v = beta_v
       @qv_colours = {}
@@ -35,7 +35,7 @@ module ArtDecomp
       @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
     end
 
-    def colour_g! g_vertex, colour
+    def colour_g!(g_vertex, colour)
       return if @g_colours[g_vertex] == colour
       raise PaintingError if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
       raise PaintingError if @g_forbidden[g_vertex].include? colour
@@ -44,7 +44,7 @@ module ArtDecomp
       siblings_of(g_vertex).each { |sibling| colour_g! sibling, colour }
     end
 
-    def colour_g_vertex! g_vertex
+    def colour_g_vertex!(g_vertex)
       backup!
       colour = :a
       colour = colour.next while @g_forbidden[g_vertex].include? colour
@@ -64,7 +64,7 @@ module ArtDecomp
       colour_g_vertex! g_vertex if g_vertex
     end
 
-    def colour_qv! qv_vertex, colour
+    def colour_qv!(qv_vertex, colour)
       return if @qv_colours[qv_vertex] == colour
       raise PaintingError if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
@@ -83,7 +83,7 @@ module ArtDecomp
       end
     end
 
-    def colour_qv_vertex! qv_vertex
+    def colour_qv_vertex!(qv_vertex)
       backup!
       colour = :a
       colour = colour.next while @qv_forbidden[qv_vertex].include? colour
@@ -94,14 +94,14 @@ module ArtDecomp
       retry
     end
 
-    def forbid_g! g_vertex, colour
+    def forbid_g!(g_vertex, colour)
       return if @g_forbidden[g_vertex].include? colour
       raise PaintingError if colour == @g_colours[g_vertex]
       @g_forbidden[g_vertex] << colour
       siblings_of(g_vertex).each { |sibling| forbid_g! sibling, colour }
     end
 
-    def forbid_qv! qv_vertex, colour
+    def forbid_qv!(qv_vertex, colour)
       return if @qv_forbidden[qv_vertex].include? colour
       raise PaintingError if colour == @qv_colours[qv_vertex]
       @qv_forbidden[qv_vertex] << colour
@@ -120,14 +120,14 @@ module ArtDecomp
       @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
     end
 
-    def siblings_of g_vertex
+    def siblings_of(g_vertex)
       v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
       colours  = @qv_colours.select { |q, _col| g_vertex & q == g_vertex }.values
       similar  = @qv_colours.select { |_q, col| colours.include? col }.keys
       (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
     end
 
-    def sync_colours v1, v2
+    def sync_colours(v1, v2)
       (@g_forbidden[v1] - @g_forbidden[v2]).each { |col| forbid_g! v2, col }
       (@g_forbidden[v2] - @g_forbidden[v1]).each { |col| forbid_g! v1, col }
       if    @g_colours[v1] then colour_g! v2, @g_colours[v1]

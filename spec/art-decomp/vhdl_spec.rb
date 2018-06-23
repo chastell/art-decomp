@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 module ArtDecomp
   describe VHDL do
-    def verify_vhdl fsm_name
+    def verify_vhdl(fsm_name)
       vhdl_name = fsm_name.tr '.', '_'
       fsm = VHDL.new(FSM.from_kiss("spec/fixtures/#{fsm_name}")).vhdl vhdl_name
       fsm.must_equal File.read "spec/fixtures/#{vhdl_name}.vhd"

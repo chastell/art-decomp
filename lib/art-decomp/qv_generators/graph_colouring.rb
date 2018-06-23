@@ -1,11 +1,11 @@
 module ArtDecomp
   module QvGenerators
     class GraphColouring
-      def == other
+      def ==(other)
         self.class == other.class
       end
 
-      def blankets fsm, u, v, beta_qu
+      def blankets(fsm, u, v, beta_qu)
         beta_u = fsm.beta_x u
         beta_v = fsm.beta_x v
         Enumerator.new do |yielder|

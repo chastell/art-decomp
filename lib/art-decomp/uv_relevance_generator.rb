@@ -1,10 +1,10 @@
 module ArtDecomp
   class UVRelevanceGenerator
-    def == other
+    def ==(other)
       self.class == other.class
     end
 
-    def uv_pairs fsm, archs, method
+    def uv_pairs(fsm, archs, method)
       relevance   = fsm.send(method).reverse
       max_v_sizes = archs.map(&:pins).to_set
       cache       = Set[]

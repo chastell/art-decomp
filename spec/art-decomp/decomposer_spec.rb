@@ -31,11 +31,11 @@ module ArtDecomp
         pos_dec = Object.new
         neg_dec = Object.new
 
-        def pos_dec.sensible? _
+        def pos_dec.sensible?(_)
           true
         end
 
-        def neg_dec.sensible? _
+        def neg_dec.sensible?(_)
           false
         end
 

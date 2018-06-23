@@ -6,19 +6,19 @@ module ArtDecomp
       alias [] new
     end
 
-    def initialize pins, pons
+    def initialize(pins, pons)
       @pins, @pons = pins, pons
     end
 
-    def == other
+    def ==(other)
       @pins == other.pins and @pons == other.pons
     end
 
-    def <=> other
+    def <=>(other)
       (other.pins <=> @pins).nonzero? or other.pons <=> @pons
     end
 
-    def cells archs
+    def cells(archs)
       pons = archs.select { |a| a.pins >= @pins }.map(&:pons).max
       return Infinity unless pons
       (@pons % pons).zero? ? @pons / pons : @pons / pons + 1

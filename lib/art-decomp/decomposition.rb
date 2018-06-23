@@ -1,10 +1,10 @@
 module ArtDecomp
   class Decomposition
-    def initialize fsm, u, v, qu, qv, g
+    def initialize(fsm, u, v, qu, qv, g)
       @fsm, @u, @v, @qu, @qv, @g = fsm, u, v, qu, qv, g
     end
 
-    def == other
+    def ==(other)
       [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
     end
 
@@ -20,7 +20,7 @@ module ArtDecomp
       @fsm.to_kiss
     end
 
-    def final? archs
+    def final?(archs)
       pins = archs.map(&:pins).max
       @v.size + @qv.pins <= pins and @u.size + @qu.pins + @g.pins <= pins
     end
@@ -29,7 +29,7 @@ module ArtDecomp
       Arch[@v.size + @qv.pins, @g.pins]
     end
 
-    def g_cells archs
+    def g_cells(archs)
       g_arch.cells archs
     end
 
@@ -51,7 +51,7 @@ module ArtDecomp
       Arch[@u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins]
     end
 
-    def h_cells archs
+    def h_cells(archs)
       h_arch.cells archs
     end
 
@@ -86,7 +86,7 @@ module ArtDecomp
       KISS.new(lines).formatted false
     end
 
-    def sensible? archs
+    def sensible?(archs)
       @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
     end
 
@@ -138,7 +138,7 @@ module ArtDecomp
     private
 
     # FIXME: this should really move to KISS
-    def kiss_pins pins, name
+    def kiss_pins(pins, name)
       pins = 0...pins if pins.is_a? Integer
       pins = pins.to_a.sort if pins.is_a? Set
       pins.map { |i| name + i.to_s }.join ' '

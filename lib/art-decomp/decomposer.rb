@@ -1,6 +1,6 @@
 module ArtDecomp
   class Decomposer
-    def initialize opts
+    def initialize(opts)
       self.archs = opts.fetch :archs
       self.fsm   = opts.fetch :fsm
       self.uv    = opts.fetch(:gens).fetch :uv
@@ -8,7 +8,7 @@ module ArtDecomp
       self.qv    = opts.fetch(:gens).fetch :qv
     end
 
-    def decompositions opts = {}
+    def decompositions(opts = {})
       dec_gen = opts.fetch :decomposition_class, Decomposition
       Enumerator.new do |yielder|
         uv.each do |uv_gen|

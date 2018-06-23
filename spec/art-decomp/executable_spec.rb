@@ -92,7 +92,7 @@ module ArtDecomp
 
       it 'saves the DecTrees to the results dir' do
         dt_gen_class = Class.new do
-          def initialize *_; end
+          def initialize(*_); end
 
           def dectrees
             [

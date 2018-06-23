@@ -1,6 +1,6 @@
 module ArtDecomp
   class SepMatrix
-    def self.from_blanket blanket
+    def self.from_blanket(blanket)
       size = (blanket.ints.max || 0).to_s(2).size
       ones = (1 << size) - 1
       matrix = (0...size).map do |bit|
@@ -14,7 +14,7 @@ module ArtDecomp
       new matrix
     end
 
-    def self.from_seps seps
+    def self.from_seps(seps)
       size = (seps.max || 0).to_s(2).size
       matrix = Array.new size, 0
       seps.map(&:bits).each do |a, b|
@@ -24,32 +24,32 @@ module ArtDecomp
       new matrix
     end
 
-    def initialize matrix
+    def initialize(matrix)
       matrix.pop until matrix.empty? or matrix.last.nonzero?
       @matrix = matrix
     end
 
-    def == other
+    def ==(other)
       @matrix == other.matrix
     end
 
-    def & other
+    def &(other)
       smaller, larger = [@matrix, other.matrix].sort_by(&:size)
       SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a & b : b }.compact
     end
 
-    def - other
+    def -(other)
       SepMatrix.new @matrix.zip(other.matrix).map { |a, b| a && b ? a & ~b : a }
     end
 
-    def | other
+    def |(other)
       smaller, larger = [@matrix, other.matrix].sort_by(&:size)
       SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a | b : a }
     end
 
     alias + |
 
-    def conflicts_of block
+    def conflicts_of(block)
       block.bits.map { |bit| @matrix[bit] || 0 }.inject 0, :|
     end
 
@@ -57,7 +57,7 @@ module ArtDecomp
       @matrix.all?(&:zero?)
     end
 
-    def r_adm int
+    def r_adm(int)
       conflicts = []
       int.bits.each do |bit|
         mask = 1 << bit
@@ -75,11 +75,11 @@ module ArtDecomp
       @matrix.map(&:bits).map(&:size).inject(0, :+) / 2
     end
 
-    def subset? other
+    def subset?(other)
       self & other == self
     end
 
-    def superset? other
+    def superset?(other)
       self & other == other
     end
 

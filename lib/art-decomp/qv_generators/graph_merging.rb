@@ -1,11 +1,11 @@
 module ArtDecomp
   module QvGenerators
     class GraphMerging
-      def == other
+      def ==(other)
         self.class == other.class
       end
 
-      def blankets fsm, u, v, beta_qu
+      def blankets(fsm, u, v, beta_qu)
         beta_u   = fsm.beta_x u
         beta_v   = fsm.beta_x v
         qv_graph = Graph.new fsm.beta_q, fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps
