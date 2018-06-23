@@ -1,5 +1,8 @@
 inherit_from: .rubocop_todo.yml
 
+Layout/SpaceAfterComma:
+  Enabled: false
+
 Layout/SpaceAroundOperators:
   Enabled: false
 

@@ -13,11 +13,6 @@
 Layout/EndAlignment:
   Enabled: false
 
-# Offense count: 1827
-# Cop supports --auto-correct.
-Layout/SpaceAfterComma:
-  Enabled: false
-
 # Offense count: 3
 Lint/AmbiguousBlockAssociation:
   Exclude:
