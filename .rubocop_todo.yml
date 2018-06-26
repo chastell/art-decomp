@@ -19,12 +19,6 @@ Lint/AmbiguousBlockAssociation:
     - 'lib/art-decomp/fsm.rb'
     - 'lib/art-decomp/sep_matrix.rb'
 
-# Offense count: 1
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'lib/art-decomp/fsm.rb'
-
 # Offense count: 42
 Metrics/AbcSize:
   Max: 89

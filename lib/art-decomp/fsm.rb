@@ -211,7 +211,7 @@ module ArtDecomp
 
       sorted = yield inputs
 
-      if state = sorted.find { |input| input.i.nil? }
+      if (state = sorted.find { |input| input.i.nil? })
         (beta_q.pins - 1).times { sorted.insert sorted.index(state), state }
       end
 
