@@ -47,11 +47,6 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Max: 262
 
-# Offense count: 1
-# Configuration parameters: CountKeywordArgs.
-Metrics/ParameterLists:
-  Max: 6
-
 # Offense count: 4
 Metrics/PerceivedComplexity:
   Max: 13

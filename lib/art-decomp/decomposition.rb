@@ -1,6 +1,6 @@
 module ArtDecomp
   class Decomposition
-    def initialize(fsm, u, v, qu, qv, g)
+    def initialize(fsm, u, v, qu, qv, g) # rubocop:disable ParameterLists
       @fsm, @u, @v, @qu, @qv, @g = fsm, u, v, qu, qv, g
     end
 
