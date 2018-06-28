@@ -5,7 +5,7 @@ require 'set'
 require 'yaml'
 
 module ArtDecomp
-  DontCare = :-
+  DontCare = :- # rubocop:disable ConstantName
   Infinity = Float::INFINITY
 end
 
