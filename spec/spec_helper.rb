@@ -8,7 +8,7 @@ require 'tempfile'
 
 require_relative '../lib/art-decomp'
 
-include ArtDecomp
+include ArtDecomp # rubocop:disable MixinUsage
 
 def qu_blankets(opts)
   fsm = MiniTest::Mock.new
