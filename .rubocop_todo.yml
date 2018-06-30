@@ -94,12 +94,6 @@ Style/Documentation:
   Enabled: false
 
 # Offense count: 1
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-
-# Offense count: 1
 Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'

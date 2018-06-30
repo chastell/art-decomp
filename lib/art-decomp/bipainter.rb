@@ -70,16 +70,15 @@ module ArtDecomp
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
       @qv_colours[qv_vertex] = colour
       @qv_graph.adjacent(qv_vertex).each { |adjacent| forbid_qv! adjacent, colour }
-      if @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
-        @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
-          v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
-          @g_graph.adjacent(g_vertex).select { |g| v_parent & g == g and qv_vertex & g != g }.each do |neighbour|
-            @qv_graph.vertices.select { |q| q & neighbour == neighbour }.each do |q_parent|
-              forbid_qv! q_parent, colour
-            end
+      return unless @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
+      @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
+        v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
+        @g_graph.adjacent(g_vertex).select { |g| v_parent & g == g and qv_vertex & g != g }.each do |neighbour|
+          @qv_graph.vertices.select { |q| q & neighbour == neighbour }.each do |q_parent|
+            forbid_qv! q_parent, colour
           end
-          siblings_of(g_vertex).each { |sibling| sync_colours g_vertex, sibling }
         end
+        siblings_of(g_vertex).each { |sibling| sync_colours g_vertex, sibling }
       end
     end
 
