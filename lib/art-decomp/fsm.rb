@@ -113,9 +113,9 @@ module ArtDecomp
       relevance do |inputs|
         sorted = []
         until inputs.empty?
-          best = inputs.delete inputs.max_by { |input|
+          best = inputs.delete(inputs.max_by do |input|
             input.i.nil? ? input.seps.size.to_f / beta_q.pins : input.seps.size
-          }
+          end)
           inputs.each { |i| i.seps -= best.seps }
           inputs.delete_if { |i| i.seps.empty? }
           sorted << best

@@ -13,12 +13,6 @@
 Layout/EndAlignment:
   Enabled: false
 
-# Offense count: 3
-Lint/AmbiguousBlockAssociation:
-  Exclude:
-    - 'lib/art-decomp/fsm.rb'
-    - 'lib/art-decomp/sep_matrix.rb'
-
 # Offense count: 42
 Metrics/AbcSize:
   Max: 89
