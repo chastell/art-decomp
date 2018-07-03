@@ -9,6 +9,9 @@ Layout/SpaceAroundOperators:
 Style/AndOr:
   Enabled: false
 
+Style/AsciiComments:
+  Enabled: false
+
 Style/EmptyCaseCondition:
   Enabled: false
 

@@ -75,14 +75,6 @@ Security/MarshalLoad:
   Exclude:
     - 'lib/art-decomp/bipainter.rb'
 
-# Offense count: 3
-# Configuration parameters: AllowedChars.
-Style/AsciiComments:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/fsm.rb'
-    - 'spec/art-decomp/bipainter_spec.rb'
-
 # Offense count: 33
 Style/Documentation:
   Enabled: false
