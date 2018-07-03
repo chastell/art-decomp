@@ -1,5 +1,5 @@
 module ArtDecomp
-  class Bipainter
+  class Bipainter # rubocop:disable ClassLength
     def initialize(beta_q, beta_v, seps)
       raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
       @beta_v = beta_v

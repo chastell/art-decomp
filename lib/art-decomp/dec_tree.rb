@@ -1,5 +1,5 @@
 module ArtDecomp
-  class DecTree
+  class DecTree # rubocop:disable ClassLength
     extend Forwardable
 
     def initialize(archs, decs = [])

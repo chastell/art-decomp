@@ -1,5 +1,5 @@
 module ArtDecomp
-  class FSM
+  class FSM # rubocop:disable ClassLength
     attr_reader :codes
 
     def self.from_kiss(kiss)
