@@ -64,7 +64,7 @@ module ArtDecomp
       colour_g_vertex! g_vertex if g_vertex
     end
 
-    def colour_qv!(qv_vertex, colour)
+    def colour_qv!(qv_vertex, colour) # rubocop:disable CyclomaticComplexity
       return if @qv_colours[qv_vertex] == colour
       raise PaintingError if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
