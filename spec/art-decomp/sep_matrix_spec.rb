@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-module ArtDecomp
+module ArtDecomp # rubocop:disable ModuleLength
   describe SepMatrix do
     let(:sep_01) do
       SepMatrix.new [

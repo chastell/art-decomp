@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-module ArtDecomp
+module ArtDecomp # rubocop:disable ModuleLength
   describe Decomposition do
     let(:b2) { Blanket[B[0],B[1]] }
     let(:b4) { Blanket[B[0],B[1],B[2],B[3]]                          }

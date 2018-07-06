@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-module ArtDecomp
+module ArtDecomp # rubocop:disable ModuleLength
   describe Blanket do
     describe '.[]' do
       it 'instantiates Blanket Array-style' do

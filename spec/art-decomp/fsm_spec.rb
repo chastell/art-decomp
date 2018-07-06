@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-module ArtDecomp
+module ArtDecomp # rubocop:disable ModuleLength
   describe FSM do
     let(:ex4)     { FSM.from_kiss 'spec/fixtures/ex4' }
     let(:fsm)     { FSM.from_kiss 'spec/fixtures/fsm'         }
