@@ -4,7 +4,7 @@ module ArtDecomp
       @fsm = fsm
     end
 
-    def vhdl(name) # rubocop:disable CyclomaticComplexity
+    def vhdl(name) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
       structure = @fsm.structure
       logic = structure[DontCare].map do |input, results|
         results[:next_state] = "s#{results[:next_state]}".to_sym if results[:next_state] =~ /^\d+$/

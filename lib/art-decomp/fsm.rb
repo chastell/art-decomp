@@ -2,7 +2,7 @@ module ArtDecomp
   class FSM # rubocop:disable ClassLength
     attr_reader :codes
 
-    def self.from_kiss(kiss) # rubocop:disable CyclomaticComplexity
+    def self.from_kiss(kiss) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
       codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]

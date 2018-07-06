@@ -27,10 +27,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 39
 
-# Offense count: 4
-Metrics/PerceivedComplexity:
-  Max: 13
-
 # Offense count: 8
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: lowercase, uppercase
