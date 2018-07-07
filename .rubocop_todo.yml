@@ -52,11 +52,6 @@ Naming/UncommunicativeMethodParamName:
     - 'spec/art-decomp/decomposer_spec.rb'
     - 'spec/art-decomp/executable_spec.rb'
 
-# Offense count: 4
-Security/MarshalLoad:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-
 # Offense count: 33
 Style/Documentation:
   Enabled: false

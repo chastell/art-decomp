@@ -111,10 +111,10 @@ module ArtDecomp
     end
 
     def restore!
-      @g_colours    = Marshal.load @backup[:g_colours]
-      @g_forbidden  = Marshal.load @backup[:g_forbidden]
-      @qv_colours   = Marshal.load @backup[:qv_colours]
-      @qv_forbidden = Marshal.load @backup[:qv_forbidden]
+      @g_colours    = Marshal.load @backup[:g_colours]    # rubocop:disable MarshalLoad
+      @g_forbidden  = Marshal.load @backup[:g_forbidden]  # rubocop:disable MarshalLoad
+      @qv_colours   = Marshal.load @backup[:qv_colours]   # rubocop:disable MarshalLoad
+      @qv_forbidden = Marshal.load @backup[:qv_forbidden] # rubocop:disable MarshalLoad
       @g_forbidden.default_proc  = proc { |h, k| h[k] = Set[] }
       @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
     end
