@@ -27,14 +27,6 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Max: 39
 
-# Offense count: 8
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: lowercase, uppercase
-Naming/HeredocDelimiterCase:
-  Exclude:
-    - 'spec/art-decomp/executable_spec.rb'
-    - 'spec/art-decomp/kiss_spec.rb'
-
 # Offense count: 26
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at
