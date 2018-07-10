@@ -22,11 +22,6 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 261
 
-# Offense count: 17
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 39
-
 # Offense count: 26
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at

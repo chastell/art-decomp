@@ -55,7 +55,7 @@ module ArtDecomp
       h_arch.cells archs
     end
 
-    def h_kiss
+    def h_kiss # rubocop:disable MethodLength
       lines = (@fsm.beta_x(@u) * @g * @qu).ints.map do |row|
         u   = @fsm.x_encoding @u, row
         qu  = @qu.encoding row

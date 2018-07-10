@@ -4,7 +4,7 @@ module ArtDecomp
       self.class == other.class
     end
 
-    def uv_pairs(fsm, archs, method)
+    def uv_pairs(fsm, archs, method) # rubocop:disable MethodLength
       relevance   = fsm.send(method).reverse
       max_v_sizes = archs.map(&:pins).to_set
       cache       = Set[]

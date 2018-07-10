@@ -5,7 +5,7 @@ module ArtDecomp
         self.class == other.class
       end
 
-      def blankets(fsm, u, _v)
+      def blankets(fsm, u, _v) # rubocop:disable MethodLength
         @seps   = fsm.beta_f.seps
         @rows   = fsm.beta_q.ints.dup
         @cols   = fsm.beta_x(u).ints

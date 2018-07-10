@@ -71,7 +71,7 @@ module ArtDecomp
       end
     end
 
-    def first_state
+    def first_state # rubocop:disable MethodLength
       encoded = ''
       code = nil
       decs.each.with_index do |dec, d|
@@ -105,7 +105,7 @@ module ArtDecomp
       decs.last.h_arch.to_s
     end
 
-    def h_block
+    def h_block # rubocop:disable MethodLength
       dec = decs.last
       Hash[(dec.fsm.beta_x(dec.u) * dec.g * dec.qu).ints.flat_map do |row|
         u   = dec.fsm.x_encoding dec.u, row

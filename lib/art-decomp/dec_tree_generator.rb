@@ -7,7 +7,7 @@ module ArtDecomp
       self.decomposer_class = opts.fetch :decomposer_class, Decomposer
     end
 
-    def dectrees(fsm = self.fsm, dec_tree = DecTree.new(archs))
+    def dectrees(fsm = self.fsm, dec_tree = DecTree.new(archs)) # rubocop:disable MethodLength
       Enumerator.new do |yielder|
         decomposer = decomposer_class.new fsm: fsm, archs: archs, gens: gens
         decomposer.decompositions.each do |dec|

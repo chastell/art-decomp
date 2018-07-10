@@ -2,7 +2,7 @@ module ArtDecomp
   class FSM # rubocop:disable ClassLength
     attr_reader :codes
 
-    def self.from_kiss(kiss) # rubocop:disable CyclomaticComplexity, PerceivedComplexity
+    def self.from_kiss(kiss) # rubocop:disable CyclomaticComplexity, MethodLength, PerceivedComplexity
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
       codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]
@@ -109,7 +109,7 @@ module ArtDecomp
       encoding @state, rows
     end
 
-    def relative_relevance
+    def relative_relevance # rubocop:disable MethodLength
       relevance do |inputs|
         sorted = []
         until inputs.empty?

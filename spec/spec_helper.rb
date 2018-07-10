@@ -18,7 +18,7 @@ def qu_blankets(opts)
   opts[:generator].blankets fsm, Set[0], Set[1]
 end
 
-def verify_qv_blankets(generator, pairs)
+def verify_qv_blankets(generator, pairs) # rubocop:disable MethodLength
   beta_f  = MiniTest::Mock.new
   5.times { beta_f.expect :seps, Set[Sep[1,2], Sep[1,3], Sep[1,6], Sep[2,6], Sep[3,4], Sep[3,6], Sep[4,5], Sep[5,6]] }
   beta_u  = Blanket[]

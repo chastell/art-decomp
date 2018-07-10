@@ -1,6 +1,6 @@
 module ArtDecomp
   class SepMatrix
-    def self.from_blanket(blanket)
+    def self.from_blanket(blanket) # rubocop:disable MethodLength
       size = (blanket.ints.max || 0).to_s(2).size
       ones = (1 << size) - 1
       matrix = (0...size).map do |bit|
