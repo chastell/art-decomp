@@ -6,6 +6,10 @@ Layout/SpaceAfterComma:
 Layout/SpaceAroundOperators:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
 Naming/HeredocDelimiterCase:
   Enabled: false
 

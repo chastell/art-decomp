@@ -17,11 +17,6 @@ Layout/EndAlignment:
 Metrics/AbcSize:
   Max: 89
 
-# Offense count: 20
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/BlockLength:
-  Max: 261
-
 # Offense count: 26
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at
