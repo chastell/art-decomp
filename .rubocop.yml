@@ -13,6 +13,20 @@ Metrics/BlockLength:
 Naming/HeredocDelimiterCase:
   Enabled: false
 
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - _
+    - _v
+    - a
+    - b
+    - g
+    - qu
+    - qv
+    - u
+    - v
+    - v1
+    - v2
+
 Style/AndOr:
   Enabled: false
 

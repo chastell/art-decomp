@@ -17,23 +17,6 @@ Layout/EndAlignment:
 Metrics/AbcSize:
   Max: 89
 
-# Offense count: 26
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: io, id, to, by, on, in, at
-Naming/UncommunicativeMethodParamName:
-  Exclude:
-    - 'lib/art-decomp/bipainter.rb'
-    - 'lib/art-decomp/decomposition.rb'
-    - 'lib/art-decomp/graph.rb'
-    - 'lib/art-decomp/qu_generators/block_table.rb'
-    - 'lib/art-decomp/qu_generators/edge_labels.rb'
-    - 'lib/art-decomp/qv_generators/bipainting.rb'
-    - 'lib/art-decomp/qv_generators/graph_colouring.rb'
-    - 'lib/art-decomp/qv_generators/graph_merging.rb'
-    - 'spec/art-decomp/dec_tree_generator_spec.rb'
-    - 'spec/art-decomp/decomposer_spec.rb'
-    - 'spec/art-decomp/executable_spec.rb'
-
 # Offense count: 33
 Style/Documentation:
   Enabled: false
