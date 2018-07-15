@@ -35,7 +35,7 @@ module ArtDecomp
 
     private
 
-    def dec_g_blocks
+    def dec_g_blocks # rubocop:disable AbcSize
       decs.map do |dec|
         Hash[(dec.fsm.beta_x(dec.v) * dec.qv).ints.map do |row|
           v  = dec.fsm.x_encoding dec.v, row
@@ -46,7 +46,7 @@ module ArtDecomp
       end
     end
 
-    def dec_sizes
+    def dec_sizes # rubocop:disable AbcSize
       decs.map.with_index do |dec, d|
         OpenStruct.new(
           x:   dec.fsm.input_count - 1,
@@ -59,7 +59,7 @@ module ArtDecomp
       end
     end
 
-    def dec_structures
+    def dec_structures # rubocop:disable AbcSize
       decs.map.with_index do |dec, d|
         OpenStruct.new(
           x:   d.zero? ? 'fsm_i' : "(#{(decs[d-1].u.sort.map { |x| "d#{d-1}_x(#{x})" } + ["d#{d-1}_g_o"]).join ' & '})",
@@ -71,7 +71,7 @@ module ArtDecomp
       end
     end
 
-    def first_state # rubocop:disable MethodLength
+    def first_state # rubocop:disable AbcSize, MethodLength
       encoded = ''
       code = nil
       decs.each.with_index do |dec, d|
@@ -105,7 +105,7 @@ module ArtDecomp
       decs.last.h_arch.to_s
     end
 
-    def h_block # rubocop:disable MethodLength
+    def h_block # rubocop:disable AbcSize, MethodLength
       dec = decs.last
       Hash[(dec.fsm.beta_x(dec.u) * dec.g * dec.qu).ints.flat_map do |row|
         u   = dec.fsm.x_encoding dec.u, row
@@ -127,7 +127,7 @@ module ArtDecomp
       (decs.last.u.sort.map { |x| "d#{max_d}_x(#{x})" } + ["d#{max_d}_g_o", "d#{max_d}_qu"]).join ' & '
     end
 
-    def h_o_qp_size
+    def h_o_qp_size # rubocop:disable AbcSize
       decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - decs.first.fsm.output_count - 1
     end
 

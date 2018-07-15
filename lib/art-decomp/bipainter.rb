@@ -1,6 +1,6 @@
 module ArtDecomp
   class Bipainter # rubocop:disable ClassLength
-    def initialize(beta_q, beta_v, seps)
+    def initialize(beta_q, beta_v, seps) # rubocop:disable AbcSize
       raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
       @beta_v = beta_v
       @qv_colours = {}
@@ -35,7 +35,7 @@ module ArtDecomp
       @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
     end
 
-    def colour_g!(g_vertex, colour)
+    def colour_g!(g_vertex, colour) # rubocop:disable AbcSize
       return if @g_colours[g_vertex] == colour
       raise PaintingError if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
       raise PaintingError if @g_forbidden[g_vertex].include? colour
@@ -55,7 +55,7 @@ module ArtDecomp
       retry
     end
 
-    def colour_next_vertex!
+    def colour_next_vertex! # rubocop:disable AbcSize
       # FIXME: consider colouring G graph’s vertex first
       # FIXME: consider other vertex selection algorithms
       qv_vertex = (@qv_graph.vertices - @qv_colours.keys).min_by { |v| [-@qv_forbidden[v].size, -@qv_graph.degree(v)] }
@@ -64,7 +64,7 @@ module ArtDecomp
       colour_g_vertex! g_vertex if g_vertex
     end
 
-    def colour_qv!(qv_vertex, colour) # rubocop:disable CyclomaticComplexity, MethodLength, PerceivedComplexity
+    def colour_qv!(qv_vertex, colour) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       return if @qv_colours[qv_vertex] == colour
       raise PaintingError if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
@@ -119,14 +119,14 @@ module ArtDecomp
       @qv_forbidden.default_proc = proc { |h, k| h[k] = Set[] }
     end
 
-    def siblings_of(g_vertex)
+    def siblings_of(g_vertex) # rubocop:disable AbcSize
       v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
       colours  = @qv_colours.select { |q, _col| g_vertex & q == g_vertex }.values
       similar  = @qv_colours.select { |_q, col| colours.include? col }.keys
       (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
     end
 
-    def sync_colours(v1, v2)
+    def sync_colours(v1, v2) # rubocop:disable AbcSize
       (@g_forbidden[v1] - @g_forbidden[v2]).each { |col| forbid_g! v2, col }
       (@g_forbidden[v2] - @g_forbidden[v1]).each { |col| forbid_g! v1, col }
       if    @g_colours[v1] then colour_g! v2, @g_colours[v1]

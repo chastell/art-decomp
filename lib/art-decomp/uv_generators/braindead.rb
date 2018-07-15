@@ -5,7 +5,7 @@ module ArtDecomp
         self.class == other.class
       end
 
-      def uv_pairs(fsm, archs) # rubocop:disable MethodLength
+      def uv_pairs(fsm, archs) # rubocop:disable AbcSize, MethodLength
         input_count = fsm.input_count
         max_v_size  = archs.map(&:pins).max
         Enumerator.new do |yielder|

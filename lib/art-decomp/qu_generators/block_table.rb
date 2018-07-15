@@ -5,7 +5,7 @@ module ArtDecomp
         self.class == other.class
       end
 
-      def blankets(fsm, u, _v) # rubocop:disable MethodLength
+      def blankets(fsm, u, _v) # rubocop:disable AbcSize, MethodLength
         @seps   = fsm.beta_f.seps
         @rows   = fsm.beta_q.ints.dup
         @cols   = fsm.beta_x(u).ints
@@ -22,7 +22,7 @@ module ArtDecomp
 
       private
 
-      def fold!
+      def fold! # rubocop:disable AbcSize
         pins = @rows.size.log2_ceil
         until @rows.size.log2_ceil < pins
           @rows.pairs.each do |a, b|

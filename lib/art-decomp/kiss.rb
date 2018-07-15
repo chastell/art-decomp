@@ -31,7 +31,7 @@ module ArtDecomp
       end
     end
 
-    def find_matching
+    def find_matching # rubocop:disable AbcSize
       @lines.pairs.each do |a, b|
         next unless a[/\s.*$/] == b[/\s.*$/]
         a.size.times do |i|

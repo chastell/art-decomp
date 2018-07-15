@@ -55,7 +55,7 @@ module ArtDecomp
       h_arch.cells archs
     end
 
-    def h_kiss # rubocop:disable MethodLength
+    def h_kiss # rubocop:disable AbcSize, MethodLength
       lines = (@fsm.beta_x(@u) * @g * @qu).ints.map do |row|
         u   = @fsm.x_encoding @u, row
         qu  = @qu.encoding row
@@ -86,7 +86,7 @@ module ArtDecomp
       KISS.new(lines).formatted false
     end
 
-    def sensible?(archs)
+    def sensible?(archs) # rubocop:disable AbcSize
       @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
     end
 
@@ -94,7 +94,7 @@ module ArtDecomp
       @qu.size > 2
     end
 
-    def to_kiss
+    def to_kiss # rubocop:disable AbcSize
       <<-KISS.gsub(/^ +/, '')
         .qu #{@qu}
         .qv #{@qv}

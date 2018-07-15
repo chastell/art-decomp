@@ -2,7 +2,7 @@ module ArtDecomp
   class FSM # rubocop:disable ClassLength
     attr_reader :codes
 
-    def self.from_kiss(kiss) # rubocop:disable CyclomaticComplexity, MethodLength, PerceivedComplexity
+    def self.from_kiss(kiss) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
       codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]
@@ -75,7 +75,7 @@ module ArtDecomp
       FSM.from_kiss to_kiss.lines.map { |line| line.extend(CoreExtensions::String).dc_expand(ins) }.flatten.sort.join
     end
 
-    def fsm_cells(archs)
+    def fsm_cells(archs) # rubocop:disable AbcSize
       return 0 if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
       Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
     end
@@ -109,7 +109,7 @@ module ArtDecomp
       encoding @state, rows
     end
 
-    def relative_relevance # rubocop:disable MethodLength
+    def relative_relevance # rubocop:disable AbcSize, MethodLength
       relevance do |inputs|
         sorted = []
         until inputs.empty?
@@ -158,7 +158,7 @@ module ArtDecomp
       @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
     end
 
-    def unique_relevance
+    def unique_relevance # rubocop:disable AbcSize
       relevance do |inputs|
         others_seps = Hash[inputs.map do |input|
           [input.i, inputs.reject { |i| i.equal? input }.map(&:seps).inject(:+)]
@@ -201,7 +201,7 @@ module ArtDecomp
       end
     end
 
-    def relevance
+    def relevance # rubocop:disable AbcSize
       f_seps = beta_f.seps
 
       inputs = Array.new(input_count) do |i|

@@ -1,6 +1,6 @@
 module ArtDecomp
   class Graph
-    def initialize(blanket, seps)
+    def initialize(blanket, seps) # rubocop:disable AbcSize
       vertices = blanket.ints.dup
       vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
       @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
@@ -17,7 +17,7 @@ module ArtDecomp
       vertices.map { |vertex| @neighbours[vertex] }.inject(:|) - vertices
     end
 
-    def blanket_from_colouring
+    def blanket_from_colouring # rubocop:disable AbcSize
       colours = {}
       @neighbours.keys.sort_by { |vert| [-degree(vert), vert] }.each do |vertex|
         forbidden = adjacent(vertex).map { |vert| colours[vert] }.to_set
@@ -54,7 +54,7 @@ module ArtDecomp
       self
     end
 
-    def merge_by_vertex_degrees!
+    def merge_by_vertex_degrees! # rubocop:disable AbcSize
       pins = @neighbours.size.log2_ceil
       until @neighbours.size.log2_ceil < pins or complete?
         a, b = *@neighbours.keys.sort_by { |v| -degree(v) }.pairs.find { |v1, v2| not @neighbours[v1].include? v2 }
@@ -74,7 +74,7 @@ module ArtDecomp
 
     private
 
-    def merge!(a, b)
+    def merge!(a, b) # rubocop:disable AbcSize
       new = a | b
       adjs = adjacent(a) | adjacent(b)
       adjs.each { |adj| @neighbours[adj] << new }

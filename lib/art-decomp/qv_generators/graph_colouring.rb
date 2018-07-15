@@ -5,7 +5,7 @@ module ArtDecomp
         self.class == other.class
       end
 
-      def blankets(fsm, u, v, beta_qu)
+      def blankets(fsm, u, v, beta_qu) # rubocop:disable AbcSize
         beta_u = fsm.beta_x u
         beta_v = fsm.beta_x v
         Enumerator.new do |yielder|

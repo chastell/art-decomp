@@ -13,10 +13,6 @@
 Layout/EndAlignment:
   Enabled: false
 
-# Offense count: 42
-Metrics/AbcSize:
-  Max: 89
-
 # Offense count: 198
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https

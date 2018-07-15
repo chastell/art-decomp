@@ -8,7 +8,7 @@ module ArtDecomp
       self.qv    = opts.fetch(:gens).fetch :qv
     end
 
-    def decompositions(opts = {}) # rubocop:disable MethodLength
+    def decompositions(opts = {}) # rubocop:disable AbcSize, MethodLength
       dec_gen = opts.fetch :decomposition_class, Decomposition
       Enumerator.new do |yielder|
         uv.each do |uv_gen|

@@ -1,7 +1,7 @@
 module ArtDecomp
   module CoreExtensions
     module Set
-      def r_adm(int)
+      def r_adm(int) # rubocop:disable AbcSize
         seps = select { |sep| int & sep == sep }
         subblocks = ::Set[]
         int.bits.each do |elem|

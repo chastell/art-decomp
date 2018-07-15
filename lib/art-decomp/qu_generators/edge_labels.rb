@@ -5,7 +5,7 @@ module ArtDecomp
         self.class == other.class
       end
 
-      def blankets(fsm, u, _v) # rubocop:disable MethodLength
+      def blankets(fsm, u, _v) # rubocop:disable AbcSize, MethodLength
         seps   = fsm.beta_f.seps - fsm.beta_x(u).seps
         @graph = Graph.new fsm.beta_q, seps
         Enumerator.new do |yielder|

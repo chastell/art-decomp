@@ -5,7 +5,7 @@ require_relative 'logging'
 
 module ArtDecomp
   class Executable
-    def initialize(args, opts = { logging_class: Logging }) # rubocop:disable CyclomaticComplexity, MethodLength, PerceivedComplexity
+    def initialize(args, opts = { logging_class: Logging }) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       options = Trollop.options args do
         opt :archs, 'Target architecture(s)', required: true, type: :strings
         opt :dir,   'Results directory',      required: true, type: :string
@@ -36,7 +36,7 @@ module ArtDecomp
 
     attr_accessor :archs, :fsm, :name
 
-    def run(opts = {})
+    def run(opts = {}) # rubocop:disable AbcSize
       dir << '/' + opts.fetch(:dir_prefix, Time.now.to_s)
       FileUtils.mkdir_p dir
 
