@@ -303,4 +303,5 @@ module ArtDecomp # rubocop:disable ModuleLength
         mark1.y_encoding(B[0,16]).must_equal   '-11---1-00100000'
       end
     end
-  end end
+  end
+end

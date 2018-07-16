@@ -18,4 +18,5 @@ module ArtDecomp
         (2**69).log2_ceil.must_equal       69
       end
     end
-  end end
+  end
+end

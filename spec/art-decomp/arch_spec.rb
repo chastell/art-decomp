@@ -51,4 +51,5 @@ module ArtDecomp
         Arch[4,2].to_s.must_equal '4/2'
       end
     end
-  end end
+  end
+end

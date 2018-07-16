@@ -26,4 +26,5 @@ module ArtDecomp
         B[1,69].hash.must_equal b_1_69_int.hash
       end
     end
-  end end
+  end
+end

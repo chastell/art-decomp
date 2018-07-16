@@ -20,4 +20,5 @@ module ArtDecomp
         ArtDecomp::Blanket[B[1],B[2],B[3],B[4]].seps.r_adm(b).must_equal 2
       end
     end
-  end end
+  end
+end

@@ -129,4 +129,5 @@ module ArtDecomp # rubocop:disable ModuleLength
         Blanket[B[1,2], B[0]].to_s.must_equal 'Blanket[B[0], B[1,2]]'
       end
     end
-  end end
+  end
+end

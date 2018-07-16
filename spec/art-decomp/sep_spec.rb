@@ -16,4 +16,5 @@ module ArtDecomp
         Sep[0,69].hash.must_equal sep_0_69_int.hash
       end
     end
-  end end
+  end
+end

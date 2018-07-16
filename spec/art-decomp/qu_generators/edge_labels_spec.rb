@@ -44,4 +44,5 @@ module ArtDecomp
         ]
       end
     end
-  end end
+  end
+end

@@ -22,4 +22,5 @@ module ArtDecomp
         verify_vhdl 'ex4.hot'
       end
     end
-  end end
+  end
+end

@@ -15,4 +15,5 @@ module ArtDecomp
         '---'.extend(CoreExtensions::String).dc_expand(Set[1]).must_equal   ['-0-', '-1-']
       end
     end
-  end end
+  end
+end

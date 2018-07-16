@@ -225,4 +225,5 @@ module ArtDecomp # rubocop:disable ModuleLength
         refute Decomposition.new(fsm, Set[1,3], Set[0,2], qv, qv, g).valid?
       end
     end
-  end end
+  end
+end

@@ -102,4 +102,5 @@ module ArtDecomp
         graph.vertices.must_equal Set[B[1,2], B[3,4], B[5,6], B[7], B[8,9]]
       end
     end
-  end end
+  end
+end

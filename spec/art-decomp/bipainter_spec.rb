@@ -18,4 +18,5 @@ module ArtDecomp
 
       # FIXME: way underspec’d
     end
-  end end
+  end
+end

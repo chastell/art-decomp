@@ -276,4 +276,5 @@ module ArtDecomp # rubocop:disable ModuleLength
         refute sep_01_12.superset? sep_01_02
       end
     end
-  end end
+  end
+end

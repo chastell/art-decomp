@@ -9,4 +9,5 @@ module ArtDecomp
         fsm.verify
       end
     end
-  end end
+  end
+end

@@ -74,4 +74,5 @@ module ArtDecomp
         dec_tree.to_vhdl('bbara').must_equal File.read 'spec/fixtures/bbara.vhdl'
       end
     end
-  end end
+  end
+end

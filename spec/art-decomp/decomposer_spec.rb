@@ -48,4 +48,5 @@ module ArtDecomp
         dec_class.verify
       end
     end
-  end end
+  end
+end
