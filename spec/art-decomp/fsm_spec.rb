@@ -121,8 +121,19 @@ module ArtDecomp # rubocop:disable ModuleLength
                                  state14: :'000000000000100',
                                  state11: :'000000000000010',
                                  state12: :'000000000000001')
-        nova.codes.must_equal(state1: :'0100', state2: :'1000', state3: :'1011', state4: :'1100', state5: :'0001', state6: :'0011', state7: :'0000', state8: :'0010', state9: :'1101', state10: :'1010', state11: :'0111', state12: :'1001', state13: :'0101', state14: :'0110', state0: :'1110')
-        jedi.codes.must_equal(state1: :'0001', state3: :'1111', state2: :'0011', state0: :'1101', state4: :'1001', state13: :'1010', state10: :'1000', state9: :'1100', state8: :'0010', state7: :'0000', state6: :'0110', state5: :'0100', state14: :'1110', state11: :'0111', state12: :'1011')
+        nova.codes.must_equal(state1: :'0100', state2: :'1000', state3: :'1011',
+                              state4: :'1100', state5: :'0001', state6: :'0011',
+                              state7: :'0000', state8: :'0010', state9: :'1101',
+                              state10: :'1010', state11: :'0111',
+                              state12: :'1001', state13: :'0101',
+                              state14: :'0110', state0: :'1110')
+        jedi.codes.must_equal(state1: :'0001', state3: :'1111', state2: :'0011',
+                              state0: :'1101', state4: :'1001',
+                              state13: :'1010', state10: :'1000',
+                              state9: :'1100', state8: :'0010', state7: :'0000',
+                              state6: :'0110', state5: :'0100',
+                              state14: :'1110', state11: :'0111',
+                              state12: :'1011')
       end
     end
 
