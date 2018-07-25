@@ -27,7 +27,9 @@ module ArtDecomp
         ]
       end
       unless @fsm.codes.empty?
-        logic << "      when others => next_state <= \"#{'-' * @fsm.codes.values.first.size}\"; output <= \"#{'-' * structure.first.last.first.last[:output].size}\";"
+        ns_size  = @fsm.codes.values.first.size
+        out_size = structure.first.last.first.last[:output].size
+        logic << "      when others => next_state <= \"#{'-' * ns_size}\"; output <= \"#{'-' * out_size}\";"
       end
       logic << '    end case;'
       logic << '    end if;' if logic.flatten.include? '    else'

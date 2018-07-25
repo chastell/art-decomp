@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 Layout/SpaceAfterComma:
   Enabled: false
 
@@ -9,6 +7,10 @@ Layout/SpaceAroundOperators:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Metrics/LineLength:
+  IgnoreCopDirectives: true
+  Max: 156
 
 Naming/HeredocDelimiterCase:
   Enabled: false
