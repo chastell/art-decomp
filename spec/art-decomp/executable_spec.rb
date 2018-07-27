@@ -39,7 +39,9 @@ module ArtDecomp
       end
 
       it 'requires that architectures are parsable' do
-        capture_io { -> { Executable.new min_args.insert 1, 'a/b' }.must_raise SystemExit }.last.must_include '--archs not in the form of inputs/outputs'
+        capture_io do
+          -> { Executable.new min_args.insert 1, 'a/b' }.must_raise SystemExit
+        end.last.must_include '--archs not in the form of inputs/outputs'
       end
 
       it 'requires that generators exist' do
