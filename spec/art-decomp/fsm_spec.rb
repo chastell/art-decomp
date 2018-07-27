@@ -58,7 +58,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#beta_q' do
       it 'returns the Q Blanket' do
-        opus.beta_q.must_equal Blanket[B[0,1,2], B[0,3,4], B[0,5], B[0,6,7], B[0,8,9,10,11,12,13,14], B[0,15,16], B[0,17,18], B[0,19], B[0,20], B[0,21]]
+        opus.beta_q.must_equal Blanket[B[0,1,2], B[0,3,4], B[0,5], B[0,6,7],
+                                       B[0,8,9,10,11,12,13,14], B[0,15,16],
+                                       B[0,17,18], B[0,19], B[0,20], B[0,21]]
         lion.beta_q.must_equal Blanket[B[0,1,2], B[3,4,5], B[6,7,8], B[9,10]]
         mc.beta_q.must_equal   Blanket[B[0,1,2], B[3,4], B[5,6,7], B[8,9]]
       end
