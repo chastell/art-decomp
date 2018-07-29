@@ -15,7 +15,11 @@ module ArtDecomp
       {
         uv: [MiniTest::Mock.new.expect(:uv_pairs, [[fsm, u, v]], [fsm, archs]).expect(:uv_pairs, [[fsm, u, v]], [fsm, archs])],
         qu: [MiniTest::Mock.new.expect(:blankets, [qu], [fsm, u, v]).expect(:blankets, [qu], [fsm, u, v])],
-        qv: [MiniTest::Mock.new.expect(:blankets, [[qv1, g1], [qv2, g2]], [fsm, u, v, qu]).expect(:blankets, [[qv1, g1], [qv2, g2]], [fsm, u, v, qu])],
+        qv: [MiniTest::Mock.new
+                           .expect(:blankets, [[qv1, g1], [qv2, g2]],
+                                   [fsm, u, v, qu])
+                           .expect(:blankets, [[qv1, g1], [qv2, g2]],
+                                   [fsm, u, v, qu])],
       }
     end
     let(:decomposer) { Decomposer.new archs: archs, fsm: fsm, gens: gens }
