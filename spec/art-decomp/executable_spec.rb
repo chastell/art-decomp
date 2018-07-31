@@ -35,7 +35,9 @@ module ArtDecomp
       end
 
       it 'requires directory for results' do
-        capture_io { -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit }.last.must_include '--dir must be specified'
+        capture_io do
+          -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit
+        end.last.must_include '--dir must be specified'
       end
 
       it 'requires that architectures are parsable' do
