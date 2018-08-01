@@ -47,9 +47,15 @@ module ArtDecomp
       end
 
       it 'requires that generators exist' do
-        capture_io { -> { Executable.new ['--uv', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--uv generator does not exist'
-        capture_io { -> { Executable.new ['--qu', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--qu generator does not exist'
-        capture_io { -> { Executable.new ['--qv', 'foo'] + min_args }.must_raise SystemExit }.last.must_include '--qv generator does not exist'
+        capture_io do
+          -> { Executable.new ['--uv', 'foo'] + min_args }.must_raise SystemExit
+        end.last.must_include '--uv generator does not exist'
+        capture_io do
+          -> { Executable.new ['--qu', 'foo'] + min_args }.must_raise SystemExit
+        end.last.must_include '--qu generator does not exist'
+        capture_io do
+          -> { Executable.new ['--qv', 'foo'] + min_args }.must_raise SystemExit
+        end.last.must_include '--qv generator does not exist'
       end
 
       it 'does not raise with minimal arguments' do
