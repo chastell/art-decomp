@@ -75,7 +75,9 @@ module ArtDecomp
       encoded = ''
       code = nil
       decs.each.with_index do |dec, d|
-        codes = Hash[dec.fsm.beta_q.ints.sort.map { |row| [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }] }]
+        codes = Hash[dec.fsm.beta_q.ints.sort.map do |row|
+          [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }]
+        end]
         code ||= codes.keys.first
         encoded.prepend codes[code][:qv]
         encoded.prepend codes[code][:qu] if d == max_d
