@@ -82,7 +82,9 @@ module ArtDecomp # rubocop:disable ModuleLength
       end
 
       it 'returns the full input Blanket when called without parameters' do
-        mc.beta_x.must_equal Blanket[B[0,1,3,6,8], B[0,1,4,6,9], B[0,3,6,7,8], B[0,4,6,7,9], B[1,3,5,8], B[1,4,5,9], B[2,3,7,8], B[2,4,7,9]]
+        mc.beta_x.must_equal Blanket[B[0,1,3,6,8], B[0,1,4,6,9], B[0,3,6,7,8],
+                                     B[0,4,6,7,9], B[1,3,5,8], B[1,4,5,9],
+                                     B[2,3,7,8], B[2,4,7,9]]
       end
 
       it 'returns the given input’s Blanket when called with a non-Enumerable' do
