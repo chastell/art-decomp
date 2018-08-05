@@ -27,7 +27,11 @@ module ArtDecomp
 
     def drop_overlapping
       @lines.reject! do |line|
-        @lines.any? { |l| line != l and line[/\s.*$/] == l[/\s.*$/] and line =~ Regexp.new("^#{l.split.first.tr DontCare.to_s, '.'}\s") }
+        @lines.any? do |l|
+          line != l and
+            line[/\s.*$/] == l[/\s.*$/] and
+            line =~ Regexp.new("^#{l.split.first.tr DontCare.to_s, '.'}\s")
+        end
       end
     end
 
