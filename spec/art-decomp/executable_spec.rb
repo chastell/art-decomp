@@ -94,7 +94,9 @@ module ArtDecomp
         dt_gen_class = MiniTest::Mock.new.expect :new, OpenStruct.new(dectrees: []), [{
           archs: Set[Arch[5,1]],
           fsm:   FSM.from_kiss(fsm_path),
-          gens:  { uv: [UVGenerators::RelativeRelevance.new], qu: [QuGenerators::EdgeLabels.new], qv: [QvGenerators::GraphColouring.new] },
+          gens:  { uv: [UVGenerators::RelativeRelevance.new],
+                   qu: [QuGenerators::EdgeLabels.new],
+                   qv: [QvGenerators::GraphColouring.new] },
         }]
         executable.run dec_tree_generator_class: dt_gen_class
         dt_gen_class.verify
