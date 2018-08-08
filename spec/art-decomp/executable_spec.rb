@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require_relative '../../lib/art-decomp/executable'
 
-module ArtDecomp
+module ArtDecomp # rubocop:disable ModuleLength
   describe Executable do
     let(:dir_path) { Dir.mktmpdir }
     let(:fsm_path) { 'spec/fixtures/fsm' }
@@ -26,8 +26,12 @@ module ArtDecomp
       end
 
       it 'requires a path to an existing FSM' do
-        capture_io { -> { Executable.new min_args[0...-1]             }.must_raise SystemExit }.last.must_include 'no FSM given'
-        capture_io { -> { Executable.new min_args[0...-1] + ['bogus'] }.must_raise SystemExit }.last.must_include 'FSM does not exist'
+        capture_io do
+          -> { Executable.new min_args[0...-1] }.must_raise SystemExit
+        end.last.must_include 'no FSM given'
+        capture_io do
+          -> { Executable.new min_args[0...-1] + ['bogus'] }.must_raise SystemExit
+        end.last.must_include 'FSM does not exist'
       end
 
       it 'requires one or more architectures' do
