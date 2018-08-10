@@ -6,7 +6,9 @@ module ArtDecomp
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
       codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]
-      codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map { |_, st, code| [st[7..-1].to_sym, code.to_sym] }] if codes.empty?
+      if codes.empty?
+        codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map { |_, st, code| [st[7..-1].to_sym, code.to_sym] }]
+      end
       kiss.each_line do |line|
         case line
         when /^\s*[\d-]+\s+\S+\s+\S+\s+[\d-]+\s*$/ then ins, st, nxt, outs = *line.split
