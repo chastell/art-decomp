@@ -43,7 +43,11 @@ module ArtDecomp
     end
 
     def initialize(inputs, outputs, state, next_state, codes = {})
-      @inputs, @outputs, @state, @next_state, @codes = inputs.freeze, outputs.freeze, state.freeze, next_state.freeze, codes.freeze
+      @inputs     = inputs.freeze
+      @outputs    = outputs.freeze
+      @state      = state.freeze
+      @next_state = next_state.freeze
+      @codes      = codes.freeze
     end
 
     def ==(other)
