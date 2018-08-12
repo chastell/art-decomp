@@ -7,9 +7,10 @@ module ArtDecomp
     def vhdl(name) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       structure = @fsm.structure
       logic = structure[DontCare].map do |input, results|
-        results[:next_state] = "s#{results[:next_state]}".to_sym if results[:next_state] =~ /^\d+$/
+        ns = results[:next_state]
+        results[:next_state] = "s#{ns}".to_sym if ns =~ /^\d+$/
         [
-          "    if std_match(input, \"#{input}\") then next_state <= #{results[:next_state]}; output <= \"#{results[:output]}\";",
+          "    if std_match(input, \"#{input}\") then next_state <= #{ns}; output <= \"#{results[:output]}\";",
           '    else',
         ]
       end
