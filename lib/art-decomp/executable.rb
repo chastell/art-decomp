@@ -19,9 +19,13 @@ module ArtDecomp
       Trollop.die 'FSM does not exist' unless File.exist? args.first
 
       Trollop.die :archs, 'not in the form of inputs/outputs' unless options[:archs].all? { |s| s =~ %r{^\d+/\d+$} }
-      Trollop.die :uv,    'generator does not exist'          unless (options[:uv] - UVGenerators.constants.map(&:to_s)).empty?
-      Trollop.die :qu,    'generator does not exist'          unless (options[:qu] - QuGenerators.constants.map(&:to_s)).empty?
-      Trollop.die :qv,    'generator does not exist'          unless (options[:qv] - QvGenerators.constants.map(&:to_s)).empty?
+
+      uv_gens = (options[:uv] - UVGenerators.constants.map(&:to_s))
+      qu_gens = (options[:qu] - QuGenerators.constants.map(&:to_s))
+      qv_gens = (options[:qv] - QvGenerators.constants.map(&:to_s))
+      Trollop.die :uv, 'generator does not exist' unless uv_gens.empty?
+      Trollop.die :qu, 'generator does not exist' unless qu_gens.empty?
+      Trollop.die :qv, 'generator does not exist' unless qv_gens.empty?
 
       self.archs = options[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
       self.name  = File.basename args.first
