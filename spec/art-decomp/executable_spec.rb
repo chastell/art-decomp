@@ -35,7 +35,9 @@ module ArtDecomp # rubocop:disable ModuleLength
       end
 
       it 'requires one or more architectures' do
-        capture_io { -> { Executable.new [fsm_path] }.must_raise SystemExit }.last.must_include '--archs must be specified'
+        capture_io do
+          -> { Executable.new [fsm_path] }.must_raise SystemExit
+        end.last.must_include '--archs must be specified'
       end
 
       it 'requires directory for results' do
