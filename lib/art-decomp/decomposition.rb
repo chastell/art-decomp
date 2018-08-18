@@ -87,7 +87,8 @@ module ArtDecomp
     end
 
     def sensible?(archs) # rubocop:disable AbcSize
-      @v.size + @qv.pins <= archs.map(&:pins).max and @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
+      @v.size + @qv.pins <= archs.map(&:pins).max and
+        @u.size + @qu.pins + @g.pins < @fsm.input_count + @fsm.beta_q.pins
     end
 
     def symbolic?

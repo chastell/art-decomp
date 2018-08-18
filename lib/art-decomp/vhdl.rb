@@ -24,7 +24,8 @@ module ArtDecomp
             ns = results[:next_state]
             ns = "s#{ns}".to_sym if ns =~ /^\d+$/
             out = results[:output]
-            "        #{'els' if i > 0}if std_match(input, \"#{input}\") then next_state <= #{ns}; output <= \"#{out}\";" # rubocop:disable NumericPredicate
+            "        #{'els' if i > 0}if std_match(input, \"#{input}\") then " + # rubocop:disable NumericPredicate
+              "next_state <= #{ns}; output <= \"#{out}\";"
           end,
           '        end if;',
         ]
