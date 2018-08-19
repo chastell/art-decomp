@@ -9,7 +9,9 @@ module ArtDecomp
         beta_u = fsm.beta_x u
         beta_v = fsm.beta_x v
         Enumerator.new do |yielder|
-          beta_g  = Graph.new(fsm.beta_q * beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps).blanket_from_colouring
+          beta_g  = Graph.new(fsm.beta_q * beta_v,
+                              fsm.beta_f.seps - beta_u.seps - beta_qu.seps)
+                         .blanket_from_colouring
           beta_qv = Graph.new(fsm.beta_q, beta_g.seps - beta_v.seps).blanket_from_colouring
           yielder.yield beta_qv, beta_g
           qv_graph = Graph.new(fsm.beta_q,

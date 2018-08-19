@@ -58,7 +58,9 @@ module ArtDecomp
     def colour_next_vertex! # rubocop:disable AbcSize
       # FIXME: consider colouring G graph’s vertex first
       # FIXME: consider other vertex selection algorithms
-      qv_vertex = (@qv_graph.vertices - @qv_colours.keys).min_by { |v| [-@qv_forbidden[v].size, -@qv_graph.degree(v)] }
+      qv_vertex = (@qv_graph.vertices - @qv_colours.keys).min_by do |v|
+        [-@qv_forbidden[v].size, -@qv_graph.degree(v)]
+      end
       colour_qv_vertex! qv_vertex if qv_vertex
       g_vertex = (@g_graph.vertices - @g_colours.keys).min_by { |v| [-@g_forbidden[v].size, -@g_graph.degree(v)] }
       colour_g_vertex! g_vertex if g_vertex
