@@ -48,7 +48,8 @@ module ArtDecomp
           state = "s#{state}".to_sym if state =~ /^\d+$/
           "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";"
         end
-        states << "  signal current_state, next_state: std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"
+        states << '  signal current_state, next_state: ' \
+          "std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"
         default_state = "\"#{'-' * @fsm.codes.values.first.size}\""
       end
       <<~VHDL
