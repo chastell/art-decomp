@@ -18,7 +18,9 @@ module ArtDecomp
       Trollop.die 'no FSM given'       if     args.empty?
       Trollop.die 'FSM does not exist' unless File.exist? args.first
 
-      Trollop.die :archs, 'not in the form of inputs/outputs' unless options[:archs].all? { |s| s =~ %r{^\d+/\d+$} }
+      unless options[:archs].all? { |s| s =~ %r{^\d+/\d+$} }
+        Trollop.die :archs, 'not in the form of inputs/outputs'
+      end
 
       uv_gens = (options[:uv] - UVGenerators.constants.map(&:to_s))
       qu_gens = (options[:qu] - QuGenerators.constants.map(&:to_s))
