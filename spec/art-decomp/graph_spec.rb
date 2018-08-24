@@ -52,7 +52,8 @@ module ArtDecomp
 
     describe '#edges' do
       it 'returns edges' do
-        graph.edges.must_equal Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]], Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
+        graph.edges.must_equal Set[Set[B[3,4], B[5,6]], Set[B[5,6], B[7]],
+                                   Set[B[8,9], B[7]], Set[B[5,6], B[8,9]]]
       end
     end
 

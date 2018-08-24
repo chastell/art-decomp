@@ -62,7 +62,9 @@ module ArtDecomp
         [-@qv_forbidden[v].size, -@qv_graph.degree(v)]
       end
       colour_qv_vertex! qv_vertex if qv_vertex
-      g_vertex = (@g_graph.vertices - @g_colours.keys).min_by { |v| [-@g_forbidden[v].size, -@g_graph.degree(v)] }
+      g_vertex = (@g_graph.vertices - @g_colours.keys).min_by do |v|
+        [-@g_forbidden[v].size, -@g_graph.degree(v)]
+      end
       colour_g_vertex! g_vertex if g_vertex
     end
 
