@@ -10,7 +10,8 @@ module ArtDecomp
         ns = results[:next_state]
         results[:next_state] = "s#{ns}".to_sym if ns =~ /^\d+$/
         [
-          "    if std_match(input, \"#{input}\") then next_state <= #{ns}; output <= \"#{results[:output]}\";",
+          "    if std_match(input, \"#{input}\") then next_state <= #{ns}; " \
+            "output <= \"#{results[:output]}\";",
           '    else',
         ]
       end

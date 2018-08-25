@@ -77,7 +77,10 @@ module ArtDecomp
       return unless @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
       @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
         v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
-        @g_graph.adjacent(g_vertex).select { |g| v_parent & g == g and qv_vertex & g != g }.each do |neighbour|
+        adjacents = @g_graph.adjacent(g_vertex).select do |g|
+          v_parent & g == g and qv_vertex & g != g
+        end
+        adjacents.each do |neighbour|
           @qv_graph.vertices.select { |q| q & neighbour == neighbour }.each do |q_parent|
             forbid_qv! q_parent, colour
           end

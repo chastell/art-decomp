@@ -5,7 +5,9 @@ module ArtDecomp
     def self.from_kiss(kiss) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
-      codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map { |_, st, code| [st.to_sym, code.to_sym] }]
+      codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map do |_, st, code|
+        [st.to_sym, code.to_sym]
+      end]
       if codes.empty?
         codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map do |_, st, code|
           [st[7..-1].to_sym, code.to_sym]
@@ -31,7 +33,8 @@ module ArtDecomp
         state      << (st  == '*' ? DontCare : st.to_sym)
         next_state << (nxt == '*' ? DontCare : nxt.to_sym)
       end
-      # FIXME: the below hack makes state have all possible values by expanding a don’t-care a bit (if present)
+      # FIXME: the below hack makes state have all possible
+      # values by expanding a don’t-care a bit (if present)
       if state.index DontCare
         (next_state - state - [DontCare]).each do |missing_state|
           i = state.index DontCare
