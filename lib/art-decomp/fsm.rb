@@ -56,7 +56,8 @@ module ArtDecomp
     end
 
     def ==(other)
-      [@inputs, @outputs, @state, @next_state] == [other.inputs, other.outputs, other.state, other.next_state]
+      [@inputs, @outputs, @state, @next_state] ==
+        [other.inputs, other.outputs, other.state, other.next_state]
     end
 
     def beta_f
