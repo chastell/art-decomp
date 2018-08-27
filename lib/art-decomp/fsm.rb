@@ -15,10 +15,14 @@ module ArtDecomp
       end
       kiss.each_line do |line|
         case line
-        when /^\s*[\d-]+\s+\S+\s+\S+\s+[\d-]+\s*$/ then ins, st, nxt, outs = *line.split
-        when /^\s*[\d-]+\s+[\d-]+\s*$/             then st, nxt, ins, outs = DontCare, DontCare, *line.split
-        when /^\.end_kiss$/                        then break
-        else next
+        when /^\s*[\d-]+\s+\S+\s+\S+\s+[\d-]+\s*$/
+          ins, st, nxt, outs = *line.split
+        when /^\s*[\d-]+\s+[\d-]+\s*$/
+          st, nxt, ins, outs = DontCare, DontCare, *line.split
+        when /^\.end_kiss$/
+          break
+        else
+          next
         end
         next if [DontCare, '*'].include? nxt and outs =~ /^-*$/
         if line =~ /^[01-]+\s+[01-]+$/ and not codes.empty?
