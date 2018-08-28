@@ -13,7 +13,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '.new' do
       it 'gives help when asked' do
-        -> { -> { Executable.new ['--help'] }.must_raise SystemExit }.must_output <<-end.gsub(/^ {10}/, '')
+        lambda do
+          -> { Executable.new ['--help'] }.must_raise SystemExit
+        end.must_output <<-end.gsub(/^ {10}/, '')
           Options:
             -a, --archs=<s+>    Target architecture(s)
             -d, --dir=<s>       Results directory
