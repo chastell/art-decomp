@@ -30,7 +30,8 @@ module ArtDecomp
     def log_executable
       classes[:executable].capture_pre methods: :run do |point|
         ex = point.sender
-        logger.unknown "decomposing #{ex.name}: #{ex.fsm.stats} → #{ex.archs.sort.map(&:to_s).join ' + '}"
+        logger.unknown "decomposing #{ex.name}: " \
+          "#{ex.fsm.stats} → #{ex.archs.sort.map(&:to_s).join ' + '}"
       end
     end
   end

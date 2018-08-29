@@ -131,7 +131,8 @@ module ArtDecomp
     end
 
     def h_o_qp_size # rubocop:disable AbcSize
-      decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count - decs.first.fsm.output_count - 1
+      decs.last.qu.pins + decs.last.qv.pins + decs.last.fsm.output_count -
+        decs.first.fsm.output_count - 1
     end
 
     def h_o_size
