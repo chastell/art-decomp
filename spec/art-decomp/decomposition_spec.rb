@@ -112,7 +112,8 @@ module ArtDecomp # rubocop:disable ModuleLength
       it 'returns H cell count (if H fits the provided Archs)' do
         Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[5,1]]).must_equal 4
         Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[4,2]]).must_equal 2
-        Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4).h_cells(Set[Arch[3,1]]).must_equal Infinity
+        Decomposition.new(fsm, Set[0], Set[1,2], b2, b2, b4)
+                     .h_cells(Set[Arch[3,1]]).must_equal Infinity
         Decomposition.new(fsm, Set[0], Set[1,2], b2, b4, b4).h_cells(Set[Arch[4,2]]).must_equal 3
       end
     end

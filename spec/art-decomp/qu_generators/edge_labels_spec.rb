@@ -31,7 +31,8 @@ module ArtDecomp
         ]
       end
 
-      it 'merges blocks based on the number of separations lost (if the r-admissibility is the same)' do
+      it 'merges blocks based on the number of separations lost ' \
+        '(if the r-admissibility is the same)' do
         qu_blankets(
           beta_f: Blanket[B[1,2], B[3,4,5], B[6]],
           beta_q: Blanket[B[1,2], B[3,4,5], B[6]],
