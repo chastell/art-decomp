@@ -127,7 +127,8 @@ module ArtDecomp
     end
 
     def h_i_structure
-      (decs.last.u.sort.map { |x| "d#{max_d}_x(#{x})" } + ["d#{max_d}_g_o", "d#{max_d}_qu"]).join ' & '
+      (decs.last.u.sort.map { |x| "d#{max_d}_x(#{x})" } +
+       ["d#{max_d}_g_o", "d#{max_d}_qu"]).join ' & '
     end
 
     def h_o_qp_size # rubocop:disable AbcSize
