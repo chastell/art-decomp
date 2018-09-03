@@ -39,7 +39,8 @@ module ArtDecomp
         dec_class.expect :new, decomposer11,  [{ archs: archs, fsm: fsm1,  gens: gens }]
         dec_class.expect :new, decomposer111, [{ archs: archs, fsm: fsm11, gens: gens }]
 
-        dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens, decomposer_class: dec_class
+        dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens,
+                                      decomposer_class: dec_class
         dt_gen.dectrees.to_a.must_equal [
           DecTree.new(archs, [dec1, dec11, dec111]),
           DecTree.new(archs, [dec1, dec12]),
