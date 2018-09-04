@@ -2,7 +2,9 @@ module ArtDecomp
   class Graph
     def initialize(blanket, seps) # rubocop:disable AbcSize, MethodLength
       vertices = blanket.ints.dup
-      vertices.delete_if { |this| vertices.any? { |other| other != this and other & this == this } }
+      vertices.delete_if do |this|
+        vertices.any? { |other| other != this and other & this == this }
+      end
       @neighbours = Hash[vertices.map { |vertex| [vertex, Set[]] }]
       relevant = Hash[vertices.map do |v|
         [v, seps.select { |s| v & s != 0 and v & s != s }.to_set]

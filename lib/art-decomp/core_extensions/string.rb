@@ -5,7 +5,8 @@ module ArtDecomp
         return [self] unless include? ArtDecomp::DontCare.to_s
 
         offsets = columns.sort
-        i = index ArtDecomp::DontCare.to_s, offsets.shift until columns.include? i or offsets.empty?
+        i = index ArtDecomp::DontCare.to_s, offsets.shift \
+          until columns.include? i or offsets.empty?
         return [self] unless columns.include? i
 
         zero = dup.extend CoreExtensions::String
