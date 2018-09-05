@@ -114,7 +114,8 @@ module ArtDecomp
     end
 
     def painted?
-      @qv_graph.vertices == @qv_colours.keys.to_set and @g_graph.vertices == @g_colours.keys.to_set
+      @qv_graph.vertices == @qv_colours.keys.to_set and
+        @g_graph.vertices == @g_colours.keys.to_set
     end
 
     def restore!

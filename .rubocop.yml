@@ -10,7 +10,7 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   IgnoreCopDirectives: true
-  Max: 99
+  Max: 98
 
 Naming/HeredocDelimiterCase:
   Enabled: false
