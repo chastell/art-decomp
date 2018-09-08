@@ -138,7 +138,8 @@ module ArtDecomp # rubocop:disable ModuleLength
         SepMatrix.from_blanket(Blanket[B[0]]).must_equal sep_empty
         SepMatrix.from_blanket(Blanket[B[1]]).must_equal sep_empty
         Blanket[B[1], B[2]].sep_matrix.must_equal        SepMatrix.new [0b000, 0b100, 0b010]
-        SepMatrix.from_blanket(Blanket[B[0], B[1,2], B[2,3,4]]).must_equal sep_01_02_03_04_13_14
+        SepMatrix.from_blanket(Blanket[B[0], B[1,2], B[2,3,4]])
+                 .must_equal sep_01_02_03_04_13_14
       end
     end
 

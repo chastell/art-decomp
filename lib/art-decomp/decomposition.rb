@@ -5,7 +5,8 @@ module ArtDecomp
     end
 
     def ==(other)
-      [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu, other.qv, other.g]
+      [@fsm, @u, @v, @qu, @qv, @g] == [other.fsm, other.u, other.v, other.qu,
+                                       other.qv, other.g]
     end
 
     attr_reader :fsm, :g, :qu, :qv, :u, :v

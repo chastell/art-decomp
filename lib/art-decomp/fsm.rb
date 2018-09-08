@@ -218,7 +218,8 @@ module ArtDecomp
       case encs.size
       when 0 then DontCare.to_s
       when 1 then encs.first.to_s
-      else raise AmbiguousEncodingQuery, "ambiguous encoding query: block #{rows.bits.join ','}"
+      else raise AmbiguousEncodingQuery,
+                 "ambiguous encoding query: block #{rows.bits.join ','}"
       end
     end
 

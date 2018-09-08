@@ -144,7 +144,8 @@ module ArtDecomp # rubocop:disable ModuleLength
 
       it 'properly recodes don’t-care states to *' do
         fsm = FSM.from_kiss 'spec/fixtures/opus'
-        qu  = Blanket[B[0,1,2,3,4,20,21],B[0,5,6,7],B[0,8,9,10,11,12,13,14,15,16],B[0,17,18,19]]
+        qu  = Blanket[B[0,1,2,3,4,20,21], B[0,5,6,7],
+                      B[0,8,9,10,11,12,13,14,15,16], B[0,17,18,19]]
         qv  = Blanket[B[0,1,2,6,7,15,16,17,18],B[0,3,4,5,8,9,10,11,12,13,14,19],B[0,20,21]]
         g   = Blanket[B[0,1],B[2,6,7,15,16,17,18],B[3,4,5,8,9,10,11,12,13,14,19],B[20,21]]
         dec = Decomposition.new fsm, Set[0,1,3,4], Set[2], qu, qv, g
@@ -190,13 +191,20 @@ module ArtDecomp # rubocop:disable ModuleLength
           Blanket[B[0],B[1],B[2],B[3],B[4],B[5]]
         end
 
-        refute Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b4, b4).sensible? Set[Arch[3,2]]
-        assert Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b4, b4).sensible? Set[Arch[4,1]]
-        refute Decomposition.new(fsm, Set[],    Set[0,1,2], b4, b4, b4).sensible? Set[Arch[4,1]]
-        refute Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b8, b4).sensible? Set[Arch[4,1]]
-        refute Decomposition.new(fsm, Set[0,1], Set[1,2],   b4, b4, b4).sensible? Set[Arch[4,1]]
-        refute Decomposition.new(fsm, Set[0],   Set[1,2],   b8, b4, b4).sensible? Set[Arch[4,1]]
-        refute Decomposition.new(fsm, Set[0],   Set[1,2],   b4, b4, b8).sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[0], Set[1,2], b4, b4, b4)
+                            .sensible? Set[Arch[3,2]]
+        assert Decomposition.new(fsm, Set[0], Set[1,2], b4, b4, b4)
+                            .sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[], Set[0,1,2], b4, b4, b4)
+                            .sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[0], Set[1,2], b4, b8, b4)
+                            .sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[0,1], Set[1,2], b4, b4, b4)
+                            .sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[0], Set[1,2], b8, b4, b4)
+                            .sensible? Set[Arch[4,1]]
+        refute Decomposition.new(fsm, Set[0], Set[1,2], b4, b4, b8)
+                            .sensible? Set[Arch[4,1]]
       end
     end
 
