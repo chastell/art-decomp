@@ -25,7 +25,8 @@ module ArtDecomp # rubocop:disable ModuleLength
       end
 
       it 'ignores KISS lines with don’t-care next states and outputs' do
-        FSM.from_kiss('spec/fixtures/kirkman').beta_q.ints.map(&:bits).flatten.max.must_equal 366
+        FSM.from_kiss('spec/fixtures/kirkman').beta_q.ints.map(&:bits).flatten
+           .max.must_equal 366
       end
 
       it 'handles truth table files by faking a don’t-care state column' do

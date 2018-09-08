@@ -17,7 +17,9 @@ module ArtDecomp
     end
 
     def initialize(ints)
-      @ints = ints.reject { |i| ints.any? { |j| i != j and i & j == i } }.to_set.delete(0).freeze
+      @ints = ints.reject do |i|
+        ints.any? { |j| i != j and i & j == i }
+      end.to_set.delete(0).freeze
     end
 
     def *(other)
