@@ -31,7 +31,8 @@ module ArtDecomp
 
       self.archs = options[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
       self.name  = File.basename args.first
-      self.dir   = "#{options[:dir]}/#{name}/#{archs.sort.map(&:to_s).join(' ').tr('/', ':')}"
+      arch_list  = archs.sort.map(&:to_s).join(' ').tr('/', ':')
+      self.dir   = "#{options[:dir]}/#{name}/#{arch_list}"
       self.fsm   = FSM.from_kiss args.first
       self.uv    = options[:uv].map { |name| UVGenerators.const_get(name).new }
       self.qu    = options[:qu].map { |name| QuGenerators.const_get(name).new }

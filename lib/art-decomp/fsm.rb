@@ -13,7 +13,7 @@ module ArtDecomp
           [st[7..-1].to_sym, code.to_sym]
         end]
       end
-      kiss.each_line do |line|
+      kiss.each_line do |line| # rubocop:disable BlockLength
         case line
         when /^\s*[\d-]+\s+\S+\s+\S+\s+[\d-]+\s*$/
           ins, st, nxt, outs = *line.split
@@ -27,8 +27,16 @@ module ArtDecomp
         next if [DontCare, '*'].include? nxt and outs =~ /^-*$/
         if line =~ /^[01-]+\s+[01-]+$/ and not codes.empty?
           size = codes.values.first.size
-          st   = ins[-size..-1] == '-' * size ? DontCare : codes.invert[ins[-size..-1].to_sym]
-          nxt  = outs[0...size] == '-' * size ? DontCare : codes.invert[outs[0...size].to_sym]
+          st   = if ins[-size..-1] == '-' * size
+                   DontCare
+                 else
+                   codes.invert[ins[-size..-1].to_sym]
+                 end
+          nxt  = if outs[0...size] == '-' * size
+                   DontCare
+                 else
+                   codes.invert[outs[0...size].to_sym]
+                 end
           ins  = ins[0...-size]
           outs = outs[size..-1]
         end

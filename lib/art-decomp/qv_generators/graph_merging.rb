@@ -13,7 +13,8 @@ module ArtDecomp
         Enumerator.new do |yielder|
           loop do
             beta_qv = Blanket.new qv_graph.vertices
-            g_graph = Graph.new beta_qv * beta_v, fsm.beta_f.seps - beta_u.seps - beta_qu.seps
+            g_graph = Graph.new beta_qv * beta_v,
+                                fsm.beta_f.seps - beta_u.seps - beta_qu.seps
             beta_g  = Blanket.new g_graph.merge_until_complete!.vertices
             yielder.yield [beta_qv, beta_g]
             break if qv_graph.complete?

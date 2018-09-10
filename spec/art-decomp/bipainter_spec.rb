@@ -16,7 +16,9 @@ module ArtDecomp
       end
 
       it 'raises a RuntimeError on non-disjoint beta_v' do
-        -> { Bipainter.new Blanket[], Blanket[B[0,1], B[0,2]], Set[] }.must_raise RuntimeError
+        lambda do
+          Bipainter.new Blanket[], Blanket[B[0,1], B[0,2]], Set[]
+        end.must_raise RuntimeError
       end
 
       # FIXME: way underspec’d

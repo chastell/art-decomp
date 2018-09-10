@@ -1,12 +1,14 @@
 module ArtDecomp
   module CoreExtensions
     module Set
-      def r_adm(int) # rubocop:disable AbcSize
+      def r_adm(int) # rubocop:disable AbcSize, MethodLength
         seps = select { |sep| int & sep == sep }
         subblocks = ::Set[]
         int.bits.each do |elem|
           bit = 1 << elem
-          subblock = subblocks.find { |sb| seps.none? { |sep| (sb | bit) & sep == sep } } || 0
+          subblock = subblocks.find do |sb|
+            seps.none? { |sep| (sb | bit) & sep == sep }
+          end || 0
           subblocks.delete subblock
           subblocks << (subblock | bit)
         end
