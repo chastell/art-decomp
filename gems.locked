@@ -28,7 +28,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.0)
-    trollop (2.1.3)
+    trollop (2.9.9)
     unicode-display_width (1.4.0)
 
 PLATFORMS
@@ -41,4 +41,4 @@ DEPENDENCIES
   rubocop (~> 0.58.0)
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
