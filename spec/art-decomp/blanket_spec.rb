@@ -98,7 +98,8 @@ module ArtDecomp # rubocop:disable ModuleLength
         Blanket[].sep_matrix.must_equal                   SepMatrix.new [0b0]
         Blanket[B[0]].sep_matrix.must_equal               SepMatrix.new [0b0]
         Blanket[B[1]].sep_matrix.must_equal               SepMatrix.new [0b0]
-        Blanket[B[1], B[2], B[]].sep_matrix.must_equal    SepMatrix.new [0b000, 0b100, 0b010]
+        Blanket[B[1], B[2], B[]].sep_matrix
+                                .must_equal SepMatrix.new [0b000, 0b100, 0b010]
         Blanket[B[1,2], B[3,4]].sep_matrix
                                .must_equal SepMatrix.new [0b00000, 0b11000,
                                                           0b11000, 0b00110,
