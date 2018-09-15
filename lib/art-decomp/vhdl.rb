@@ -48,7 +48,8 @@ module ArtDecomp
       else
         states = @fsm.codes.map do |state, code|
           state = "s#{state}".to_sym if state =~ /^\d+$/
-          "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) := \"#{code}\";"
+          "  constant #{state}: std_logic_vector(#{code.size - 1} downto 0) " \
+            ":= \"#{code}\";"
         end
         states << '  signal current_state, next_state: ' \
           "std_logic_vector(#{@fsm.codes.first.last.size - 1} downto 0);"

@@ -36,7 +36,8 @@ module ArtDecomp
     end
 
     def complete?
-      @neighbours.values.map(&:size).inject(:+) == @neighbours.size * (@neighbours.size - 1)
+      @neighbours.values.map(&:size).inject(:+) ==
+        @neighbours.size * (@neighbours.size - 1)
     end
 
     def degree(vertex)

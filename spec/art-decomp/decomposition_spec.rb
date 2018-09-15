@@ -45,15 +45,24 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#final?' do
       it 'is a predicate whether the Decomposition is final for the given Archs' do
-        assert Decomposition.new(:fsm, Set[0],   Set[1],   b2, b8, b8).final? Set[Arch[5,1]]
-        refute Decomposition.new(:fsm, Set[0],   Set[1],   b2, b8, b8).final? Set[Arch[4,2]]
-        assert Decomposition.new(:fsm, Set[],    Set[1],   b2, b8, b8).final? Set[Arch[4,2]]
-        refute Decomposition.new(:fsm, Set[],    Set[1,2], b2, b8, b8).final? Set[Arch[4,2]]
-        refute Decomposition.new(:fsm, Set[],    Set[1],   b2, b9, b8).final? Set[Arch[4,2]]
-        assert Decomposition.new(:fsm, Set[0],   Set[1,2], b2, b8, b8).final? Set[Arch[5,1]]
-        refute Decomposition.new(:fsm, Set[0,1], Set[2],   b2, b8, b8).final? Set[Arch[5,1]]
-        refute Decomposition.new(:fsm, Set[0],   Set[1,2], b4, b8, b8).final? Set[Arch[5,1]]
-        refute Decomposition.new(:fsm, Set[0],   Set[1,2], b2, b8, b9).final? Set[Arch[5,1]]
+        assert Decomposition.new(:fsm, Set[0],   Set[1],   b2, b8, b8)
+                            .final? Set[Arch[5,1]]
+        refute Decomposition.new(:fsm, Set[0],   Set[1],   b2, b8, b8)
+                            .final? Set[Arch[4,2]]
+        assert Decomposition.new(:fsm, Set[],    Set[1],   b2, b8, b8)
+                            .final? Set[Arch[4,2]]
+        refute Decomposition.new(:fsm, Set[],    Set[1,2], b2, b8, b8)
+                            .final? Set[Arch[4,2]]
+        refute Decomposition.new(:fsm, Set[],    Set[1],   b2, b9, b8)
+                            .final? Set[Arch[4,2]]
+        assert Decomposition.new(:fsm, Set[0],   Set[1,2], b2, b8, b8)
+                            .final? Set[Arch[5,1]]
+        refute Decomposition.new(:fsm, Set[0,1], Set[2],   b2, b8, b8)
+                            .final? Set[Arch[5,1]]
+        refute Decomposition.new(:fsm, Set[0],   Set[1,2], b4, b8, b8)
+                            .final? Set[Arch[5,1]]
+        refute Decomposition.new(:fsm, Set[0],   Set[1,2], b2, b8, b9)
+                            .final? Set[Arch[5,1]]
       end
     end
 

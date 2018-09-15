@@ -73,7 +73,9 @@ module ArtDecomp
     end
 
     def beta_f
-      @outputs.map { |o| Blanket.from_array o }.inject(:*) * Blanket.from_array(@next_state)
+      @outputs.map do |o|
+        Blanket.from_array o
+      end.inject(:*) * Blanket.from_array(@next_state)
     end
 
     def beta_q

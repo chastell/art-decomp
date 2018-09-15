@@ -13,7 +13,7 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   IgnoreCopDirectives: true
-  Max: 92
+  Max: 91
 
 Naming/FileName:
   Exclude:
