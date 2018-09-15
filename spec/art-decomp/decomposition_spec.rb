@@ -158,7 +158,8 @@ module ArtDecomp # rubocop:disable ModuleLength
         fsm = FSM.from_kiss 'spec/fixtures/opus'
         qu  = Blanket[B[0,1,2,3,4,20,21], B[0,5,6,7],
                       B[0,8,9,10,11,12,13,14,15,16], B[0,17,18,19]]
-        qv  = Blanket[B[0,1,2,6,7,15,16,17,18],B[0,3,4,5,8,9,10,11,12,13,14,19],B[0,20,21]]
+        qv  = Blanket[B[0,1,2,6,7,15,16,17,18],B[0,3,4,5,8,9,10,11,12,13,14,19],
+                      B[0,20,21]]
         g   = Blanket[B[0,1],B[2,6,7,15,16,17,18],B[3,4,5,8,9,10,11,12,13,14,19],B[20,21]]
         dec = Decomposition.new fsm, Set[0,1,3,4], Set[2], qu, qv, g
 
@@ -192,7 +193,7 @@ module ArtDecomp # rubocop:disable ModuleLength
     end
 
     describe '#sensible?' do
-      it 'is a predicate whether it’s sensible, based on target Archs and G and H Archs' do
+      it 'is a sensiblility predicate, based on target, G and H Archs' do
         fsm = Object.new
 
         def fsm.input_count

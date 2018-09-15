@@ -45,7 +45,9 @@ module ArtDecomp
     end
 
     def edges
-      @neighbours.map { |v, adjacents| adjacents.map { |adj| Set[v, adj] } }.flatten.to_set
+      @neighbours.map do |v, adjacents|
+        adjacents.map { |adj| Set[v, adj] }
+      end.flatten.to_set
     end
 
     def merge_by_edge_labels!

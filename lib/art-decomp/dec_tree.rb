@@ -78,7 +78,8 @@ module ArtDecomp
       code = nil
       decs.each.with_index do |dec, d|
         codes = Hash[dec.fsm.beta_q.ints.sort.map do |row|
-          [dec.fsm.q_encoding(row), { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }]
+          qu_qv = { qu: dec.qu.encoding(row), qv: dec.qv.encoding(row) }
+          [dec.fsm.q_encoding(row), qu_qv]
         end]
         code ||= codes.keys.first
         encoded.prepend codes[code][:qv]

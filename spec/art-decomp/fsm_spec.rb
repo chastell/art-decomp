@@ -167,7 +167,7 @@ module ArtDecomp # rubocop:disable ModuleLength
     end
 
     describe '#fsm_cells' do
-      it 'returns the cell count for a given Set of Archs (if it’s implementable in it)' do
+      it 'returns the cell count for a given Set of Archs (if implementable)' do
         lion.fsm_cells(Set[Arch[4,1]]).must_equal 3
         lion.fsm_cells(Set[Arch[4,2]]).must_equal 2
         mc.fsm_cells(Set[Arch[4,2]]).must_equal   Infinity
