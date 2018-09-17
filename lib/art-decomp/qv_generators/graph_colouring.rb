@@ -15,8 +15,8 @@ module ArtDecomp
           beta_qv = Graph.new(fsm.beta_q, beta_g.seps - beta_v.seps)
                          .blanket_from_colouring
           yielder.yield beta_qv, beta_g
-          qv_graph = Graph.new(fsm.beta_q,
-                               fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps)
+          seps = fsm.beta_f.seps - beta_u.seps - beta_qu.seps - beta_v.seps
+          qv_graph = Graph.new(fsm.beta_q, seps)
           beta_qv = qv_graph.blanket_from_colouring
           beta_g  = Graph.new(beta_qv * beta_v,
                               fsm.beta_f.seps - beta_u.seps - beta_qu.seps)
