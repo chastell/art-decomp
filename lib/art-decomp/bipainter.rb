@@ -81,7 +81,8 @@ module ArtDecomp
           v_parent & g == g and qv_vertex & g != g
         end
         adjacents.each do |neighbour|
-          @qv_graph.vertices.select { |q| q & neighbour == neighbour }.each do |q_parent|
+          parents = @qv_graph.vertices.select { |q| q & neighbour == neighbour }
+          parents.each do |q_parent|
             forbid_qv! q_parent, colour
           end
         end

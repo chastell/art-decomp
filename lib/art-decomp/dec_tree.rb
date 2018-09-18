@@ -62,13 +62,14 @@ module ArtDecomp
     def dec_structures # rubocop:disable AbcSize, MethodLength
       decs.map.with_index do |dec, d|
         ins = (decs[d-1].u.sort.map { |x| "d#{d-1}_x(#{x})" } + ["d#{d-1}_g_o"])
-        d_x = "(#{ins.join ' & '})"
+        x_i = "(#{ins.join ' & '})"
+        d_x = dec.v.sort.map { |x| "d#{d}_x(#{x})" }
         OpenStruct.new(
-          x:   d.zero? ? 'fsm_i' : d_x,
+          x:   d.zero? ? 'fsm_i' : x_i,
           q:   d.zero? ? 'fsm_q' : "d#{d-1}_qu",
           qu:  "d#{d}_q(0 to #{state_pins(d) - dec.qv.pins - 1})",
           qv:  "d#{d}_q(#{state_pins(d) - decs[d].qv.pins} to #{state_pins(d) - 1})",
-          g_i: "(#{(dec.v.sort.map { |x| "d#{d}_x(#{x})" } + ["d#{d}_qv"]).join ' & '})",
+          g_i: "(#{(d_x + ["d#{d}_qv"]).join ' & '})",
         )
       end
     end

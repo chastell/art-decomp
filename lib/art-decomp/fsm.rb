@@ -104,7 +104,7 @@ module ArtDecomp
     end
 
     def fsm_cells(archs) # rubocop:disable AbcSize
-      return 0 if @outputs.map { |output| Blanket.from_array output }.inject(:*).size < 2
+      return 0 if @outputs.map(&Blanket.method(:from_array)).inject(:*).size < 2
       Arch[input_count + beta_q.pins, output_count + beta_q.pins].cells archs
     end
 

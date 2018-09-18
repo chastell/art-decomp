@@ -37,7 +37,8 @@ module ArtDecomp
 
     describe '#complete?' do
       it 'reports whether it’s complete' do
-        complete = Graph.new Blanket[B[1], B[2], B[3]], Set[Sep[1,2], Sep[1,3], Sep[2,3]]
+        complete = Graph.new Blanket[B[1], B[2], B[3]],
+                             Set[Sep[1,2], Sep[1,3], Sep[2,3]]
         assert complete.complete?
         refute graph.complete?
       end
