@@ -10,7 +10,9 @@ module ArtDecomp # rubocop:disable ModuleLength
     let(:fsm) { FSM.from_kiss 'spec/fixtures/fsm' }
     let(:u)   { Set[0,3,1] }
     let(:v)   { Set[2] }
-    let(:qu)  { Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]] }
+    let(:qu) do
+      Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]]
+    end
     let(:qv)  { Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]] }
     let(:g)   { Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]] }
 
@@ -80,9 +82,12 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#g_arch' do
       it 'returns G architecture' do
-        Decomposition.new(:fsm, :u, Set[1,2,3], :qu, b4, b4).g_arch.must_equal Arch[5,2]
-        Decomposition.new(:fsm, :u, Set[1,2],   :qu, b4, b4).g_arch.must_equal Arch[4,2]
-        Decomposition.new(:fsm, :u, Set[1,2],   :qu, b2, b2).g_arch.must_equal Arch[3,1]
+        Decomposition.new(:fsm, :u, Set[1,2,3], :qu, b4, b4).g_arch
+                     .must_equal Arch[5,2]
+        Decomposition.new(:fsm, :u, Set[1,2], :qu, b4, b4).g_arch
+                     .must_equal Arch[4,2]
+        Decomposition.new(:fsm, :u, Set[1,2], :qu, b2, b2).g_arch
+                     .must_equal Arch[3,1]
       end
     end
 

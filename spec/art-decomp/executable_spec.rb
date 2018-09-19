@@ -44,7 +44,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
       it 'requires directory for results' do
         capture_io do
-          -> { Executable.new ['--archs', '5/1', '--', fsm_path] }.must_raise SystemExit
+          lambda do
+            Executable.new ['--archs', '5/1', '--', fsm_path]
+          end.must_raise SystemExit
         end.last.must_include '--dir must be specified'
       end
 

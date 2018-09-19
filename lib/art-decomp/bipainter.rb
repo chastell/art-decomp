@@ -1,7 +1,9 @@
 module ArtDecomp
   class Bipainter # rubocop:disable ClassLength
     def initialize(beta_q, beta_v, seps) # rubocop:disable AbcSize
-      raise 'non-disjoint beta_v' unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
+      unless beta_v.ints.pairs.all? { |a, b| (a & b).zero? }
+        raise 'non-disjoint beta_v'
+      end
       @beta_v = beta_v
       @qv_colours = {}
       @g_colours  = {}
@@ -70,7 +72,9 @@ module ArtDecomp
 
     def colour_qv!(qv_vertex, colour) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       return if @qv_colours[qv_vertex] == colour
-      raise PaintingError if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
+      if @qv_colours[qv_vertex] and @qv_colours[qv_vertex] != colour
+        raise PaintingError
+      end
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
       @qv_colours[qv_vertex] = colour
       @qv_graph.adjacent(qv_vertex).each { |adjacent| forbid_qv! adjacent, colour }

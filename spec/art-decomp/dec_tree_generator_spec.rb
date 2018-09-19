@@ -35,9 +35,12 @@ module ArtDecomp
         decomposer111 = MiniTest::Mock.new.expect :decompositions, [dec111]
 
         dec_class = MiniTest::Mock.new
-        dec_class.expect :new, decomposer1,   [{ archs: archs, fsm: fsm,   gens: gens }]
-        dec_class.expect :new, decomposer11,  [{ archs: archs, fsm: fsm1,  gens: gens }]
-        dec_class.expect :new, decomposer111, [{ archs: archs, fsm: fsm11, gens: gens }]
+        dec_class.expect :new, decomposer1,
+                         [{ archs: archs, fsm: fsm,   gens: gens }]
+        dec_class.expect :new, decomposer11,
+                         [{ archs: archs, fsm: fsm1,  gens: gens }]
+        dec_class.expect :new, decomposer111,
+                         [{ archs: archs, fsm: fsm11, gens: gens }]
 
         dt_gen = DecTreeGenerator.new archs: archs, fsm: fsm, gens: gens,
                                       decomposer_class: dec_class
