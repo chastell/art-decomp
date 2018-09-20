@@ -290,9 +290,12 @@ module ArtDecomp # rubocop:disable ModuleLength
       end
 
       it 'properly generates encoded VHDL' do
-        one_hot.to_vhdl('mark1_hot').must_equal File.read 'spec/fixtures/mark1_hot.vhd'
-        nova.to_vhdl('mark1_nov').must_equal    File.read 'spec/fixtures/mark1_nov.vhd'
-        jedi.to_vhdl('mark1_jed').must_equal    File.read 'spec/fixtures/mark1_jed.vhd'
+        one_hot.to_vhdl('mark1_hot')
+               .must_equal File.read 'spec/fixtures/mark1_hot.vhd'
+        nova.to_vhdl('mark1_nov')
+            .must_equal File.read 'spec/fixtures/mark1_nov.vhd'
+        jedi.to_vhdl('mark1_jed')
+            .must_equal File.read 'spec/fixtures/mark1_jed.vhd'
       end
     end
 
