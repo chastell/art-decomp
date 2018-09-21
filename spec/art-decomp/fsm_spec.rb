@@ -82,7 +82,8 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#beta_x' do
       it 'returns the selected input Blankets' do
-        mc.beta_x(Set[0]).must_equal   Blanket[B[0,1,3,4,6,7,8,9], B[1,2,3,4,5,7,8,9]]
+        mc.beta_x(Set[0]).must_equal   Blanket[B[0,1,3,4,6,7,8,9],
+                                               B[1,2,3,4,5,7,8,9]]
         mc.beta_x(Set[1,2]).must_equal Blanket[B[0,1,3,5,6,8], B[0,1,4,5,6,9],
                                                B[0,2,3,6,7,8], B[0,2,4,6,7,9]]
         mc.beta_x(Set[]).must_equal    Blanket[B[0,1,2,3,4,5,6,7,8,9]]

@@ -32,7 +32,7 @@ module ArtDecomp # rubocop:disable ModuleLength
     end
 
     describe '#encoding' do
-      it 'returns the Blanket’s ‘natural’ encoding, based on the provided subblock' do
+      it 'returns the Blanket’s encoding based on the provided subblock' do
         blanket = Blanket[B[0,1,2], B[1,2,3], B[2,3,4]]
         blanket.encoding(B[0,1,2]).must_equal '00'
         blanket.encoding(B[1,2,3]).must_equal '01'

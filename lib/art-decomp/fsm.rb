@@ -154,7 +154,9 @@ module ArtDecomp
 
     def state_rows_of_next_state_of(rows)
       state = @next_state[rows.bits.first]
-      B[*(0...@state.size).select { |i| @state[i] == state or @state[i] == DontCare }]
+      B[*(0...@state.size).select do |i|
+        @state[i] == state or @state[i] == DontCare
+      end]
     end
 
     def stats
