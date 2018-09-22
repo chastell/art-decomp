@@ -4,9 +4,10 @@ module ArtDecomp
   describe CoreExtensions::String do
     describe '#dc_expand' do
       it 'expands don’t-cares when representing boolean inputs' do
-        '0'.extend(CoreExtensions::String).dc_expand.must_equal   ['0']
-        '-'.extend(CoreExtensions::String).dc_expand.must_equal   %w[0 1]
-        '-1-'.extend(CoreExtensions::String).dc_expand.must_equal %w[010 011 110 111]
+        '0'.extend(CoreExtensions::String).dc_expand.must_equal ['0']
+        '-'.extend(CoreExtensions::String).dc_expand.must_equal %w[0 1]
+        '-1-'.extend(CoreExtensions::String).dc_expand
+             .must_equal %w[010 011 110 111]
       end
 
       it 'the expansion is limitable to the given set of columns' do

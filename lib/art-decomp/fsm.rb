@@ -9,9 +9,9 @@ module ArtDecomp
         [st.to_sym, code.to_sym]
       end]
       if codes.empty?
-        codes = Hash[kiss.lines.grep(/^# States\./).map(&:split).map do |_, st, code|
-          [st[7..-1].to_sym, code.to_sym]
-        end]
+        codes = kiss.lines.grep(/^# States\./).map(&:split).map do |_, st, code|
+          { st[7..-1].to_sym => code.to_sym }
+        end.reduce({}, :merge)
       end
       kiss.each_line do |line| # rubocop:disable BlockLength
         case line

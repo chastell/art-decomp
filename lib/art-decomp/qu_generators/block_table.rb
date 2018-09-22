@@ -22,11 +22,13 @@ module ArtDecomp
 
       private
 
-      def fold! # rubocop:disable AbcSize
+      def fold! # rubocop:disable AbcSize, MethodLength
         pins = @rows.size.log2_ceil
         until @rows.size.log2_ceil < pins
           @rows.pairs.each do |a, b|
-            @r_adms[Set[a, b]] ||= @cols.map { |col| @seps.r_adm((a | b) & col) }.max
+            @r_adms[Set[a, b]] ||= @cols.map do |col|
+              @seps.r_adm((a | b) & col)
+            end.max
           end
           a, b = *@r_adms.min_by { |_key, val| val }.first
           @r_adms.delete_if { |key, _val| key.include? a or key.include? b }

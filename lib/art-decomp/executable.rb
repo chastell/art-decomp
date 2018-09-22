@@ -29,7 +29,9 @@ module ArtDecomp
       Trollop.die :qu, 'generator does not exist' unless qu_gens.empty?
       Trollop.die :qv, 'generator does not exist' unless qv_gens.empty?
 
-      self.archs = options[:archs].map { |s| Arch[*s.split('/').map(&:to_i)] }.to_set
+      self.archs = options[:archs].map do |s|
+        Arch[*s.split('/').map(&:to_i)]
+      end.to_set
       self.name  = File.basename args.first
       arch_list  = archs.sort.map(&:to_s).join(' ').tr('/', ':')
       self.dir   = "#{options[:dir]}/#{name}/#{arch_list}"

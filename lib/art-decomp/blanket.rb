@@ -58,7 +58,8 @@ module ArtDecomp
     end
 
     def inspect
-      "Blanket[#{@ints.map(&:bits).sort.map { |bl| "B[#{bl.join ','}]" }.join ', '}]"
+      ints = @ints.map(&:bits).sort.map { |bl| "B[#{bl.join ','}]" }.join ', '
+      "Blanket[#{ints}]"
     end
 
     def pins

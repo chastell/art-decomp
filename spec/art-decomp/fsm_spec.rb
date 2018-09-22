@@ -254,8 +254,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#state_rows_of_next_state_of' do
       it 'returns the row(s) of a state matching next-state of given row(s)' do
-        opus.state_rows_of_next_state_of(B[20,21]).must_equal B[0,8,9,10,11,12,13,14]
-        mark1.state_rows_of_next_state_of(B[2]).must_equal    B[0,22]
+        opus.state_rows_of_next_state_of(B[20,21])
+            .must_equal B[0,8,9,10,11,12,13,14]
+        mark1.state_rows_of_next_state_of(B[2]).must_equal B[0,22]
       end
     end
 

@@ -26,7 +26,8 @@ module ArtDecomp
     end
 
     def to_vhdl(name)
-      ERB.new(File.read('lib/art-decomp/dec_tree.vhdl.erb'), nil, '%').result binding
+      erb = File.read('lib/art-decomp/dec_tree.vhdl.erb')
+      ERB.new(erb, nil, '%').result binding
     end
 
     protected
@@ -68,7 +69,8 @@ module ArtDecomp
           x:   d.zero? ? 'fsm_i' : x_i,
           q:   d.zero? ? 'fsm_q' : "d#{d-1}_qu",
           qu:  "d#{d}_q(0 to #{state_pins(d) - dec.qv.pins - 1})",
-          qv:  "d#{d}_q(#{state_pins(d) - decs[d].qv.pins} to #{state_pins(d) - 1})",
+          qv:  "d#{d}_q(#{state_pins(d) - decs[d].qv.pins} to " \
+               "#{state_pins(d) - 1})",
           g_i: "(#{(d_x + ["d#{d}_qv"]).join ' & '})",
         )
       end
@@ -120,7 +122,9 @@ module ArtDecomp
         qvp = dec.qv.encoding dec.fsm.state_rows_of_next_state_of(row)
         y   = dec.fsm.y_encoding row
         dec.g.encodings(row).map do |g|
-          ["#{u}#{g}#{qu}", "#{qup}#{qvp}#{y}"] unless "#{qup}#{qvp}#{y}" =~ /\A-+\Z/
+          unless "#{qup}#{qvp}#{y}".match?(/\A-+\Z/)
+            ["#{u}#{g}#{qu}", "#{qup}#{qvp}#{y}"]
+          end
         end.compact
       end.sort]
     end
