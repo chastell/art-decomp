@@ -74,7 +74,8 @@ module ArtDecomp # rubocop:disable ModuleLength
 
       it 'starts logging if so instructed' do
         logging_class = MiniTest::Mock.new.expect :new, nil, ['unknown']
-        Executable.new ['--log', 'unknown'] + min_args, logging_class: logging_class
+        Executable.new ['--log', 'unknown'] + min_args,
+                       logging_class: logging_class
         logging_class.verify
       end
     end

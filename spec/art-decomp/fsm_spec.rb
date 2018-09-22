@@ -158,7 +158,8 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#expand_x' do
       it 'expands selected input columns and returns a new FSM instance' do
-        lion.expand_x(Set[0,1]).must_equal    FSM.from_kiss 'spec/fixtures/lion.exp'
+        lion.expand_x(Set[0,1])
+            .must_equal FSM.from_kiss 'spec/fixtures/lion.exp'
         fsm.expand_x(Set[0,1,2,3]).must_equal FSM.from_kiss 'spec/fixtures/fsm.exp'
         fsm.expand_x(Set[0,3])
            .must_equal FSM.from_kiss 'spec/fixtures/fsm.partially-exp'

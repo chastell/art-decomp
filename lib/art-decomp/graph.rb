@@ -84,13 +84,16 @@ module ArtDecomp
 
     private
 
-    def merge!(a, b) # rubocop:disable AbcSize
+    def merge!(a, b)
       new = a | b
       adjs = adjacent(a) | adjacent(b)
       adjs.each { |adj| @neighbours[adj] << new }
       @neighbours[new] = adjs
-      @neighbours.delete(a).each { |adj| @neighbours[adj].delete a } unless a == new
-      @neighbours.delete(b).each { |adj| @neighbours[adj].delete b } unless b == new
+      [a, b].each do |v|
+        unless v == new
+          @neighbours.delete(v).each { |adj| @neighbours[adj].delete v }
+        end
+      end
     end
   end
 end

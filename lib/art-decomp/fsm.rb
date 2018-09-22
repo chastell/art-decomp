@@ -5,9 +5,9 @@ module ArtDecomp
     def self.from_kiss(kiss) # rubocop:disable AbcSize, CyclomaticComplexity, MethodLength, PerceivedComplexity
       kiss = File.read kiss unless kiss.index "\n"
       inputs, outputs, state, next_state = [], [], [], []
-      codes = Hash[kiss.lines.grep(/^\.code [^*]/).map(&:split).map do |_, st, code|
-        [st.to_sym, code.to_sym]
-      end]
+      codes = kiss.lines.grep(/^\.code [^*]/).map(&:split).map do |_, st, code|
+        { st.to_sym => code.to_sym }
+      end.reduce({}, :merge)
       if codes.empty?
         codes = kiss.lines.grep(/^# States\./).map(&:split).map do |_, st, code|
           { st[7..-1].to_sym => code.to_sym }
@@ -188,7 +188,7 @@ module ArtDecomp
     end
 
     def truth_table?
-      @state.all? { |s| s == DontCare } and @next_state.all? { |ns| ns == DontCare }
+      @state.all?(DontCare) and @next_state.all?(DontCare)
     end
 
     def unique_relevance # rubocop:disable AbcSize

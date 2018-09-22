@@ -39,7 +39,9 @@ module ArtDecomp
 
     def colour_g!(g_vertex, colour) # rubocop:disable AbcSize
       return if @g_colours[g_vertex] == colour
-      raise PaintingError if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
+      if @g_colours[g_vertex] and @g_colours[g_vertex] != colour
+        raise PaintingError
+      end
       raise PaintingError if @g_forbidden[g_vertex].include? colour
       @g_colours[g_vertex] = colour
       @g_graph.adjacent(g_vertex).each { |adjacent| forbid_g! adjacent, colour }

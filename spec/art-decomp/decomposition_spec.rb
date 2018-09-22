@@ -118,11 +118,16 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#h_arch' do
       it 'returns H architecture' do
-        Decomposition.new(fsm, Set[0],   :v, b2, b2, b4).h_arch.must_equal Arch[4,4]
-        Decomposition.new(fsm, Set[0,1], :v, b2, b2, b4).h_arch.must_equal Arch[5,4]
-        Decomposition.new(fsm, Set[0],   :v, b4, b2, b4).h_arch.must_equal Arch[5,5]
-        Decomposition.new(fsm, Set[0],   :v, b2, b4, b4).h_arch.must_equal Arch[4,5]
-        Decomposition.new(fsm, Set[0],   :v, b2, b2, b2).h_arch.must_equal Arch[3,4]
+        Decomposition.new(fsm, Set[0],   :v, b2, b2, b4).h_arch
+                     .must_equal Arch[4,4]
+        Decomposition.new(fsm, Set[0,1], :v, b2, b2, b4).h_arch
+                     .must_equal Arch[5,4]
+        Decomposition.new(fsm, Set[0],   :v, b4, b2, b4).h_arch
+                     .must_equal Arch[5,5]
+        Decomposition.new(fsm, Set[0],   :v, b2, b4, b4).h_arch
+                     .must_equal Arch[4,5]
+        Decomposition.new(fsm, Set[0],   :v, b2, b2, b2).h_arch
+                     .must_equal Arch[3,4]
       end
     end
 

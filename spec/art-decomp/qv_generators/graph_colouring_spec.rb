@@ -4,7 +4,8 @@ module ArtDecomp
   describe QvGenerators::GraphColouring do
     describe '#==' do
       it 'performs class-based comparison' do
-        QvGenerators::GraphColouring.new.must_equal QvGenerators::GraphColouring.new
+        QvGenerators::GraphColouring.new
+                                    .must_equal QvGenerators::GraphColouring.new
       end
     end
 
