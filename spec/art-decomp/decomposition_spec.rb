@@ -13,8 +13,10 @@ module ArtDecomp # rubocop:disable ModuleLength
     let(:qu) do
       Blanket[B[0,4,5],B[1,2,3,13,14],B[6,7,8,9,10,11,12],B[15,16,17,18,19]]
     end
-    let(:qv)  { Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]] }
-    let(:g)   { Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]] }
+    let(:qv) do
+      Blanket[B[0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19],B[1,2,18]]
+    end
+    let(:g) { Blanket[B[0,2,5,6,7,9,11,15,16,17,18,19],B[1,3,4,8,10,12,13,14]] }
 
     let(:dec) { Decomposition.new fsm, u, v, qu, qv, g }
 
@@ -33,9 +35,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#disjoint?' do
       it 'is a predicate whether the Decomposition is disjoint' do
-        assert Decomposition.new(:fsm, Set[0],   Set[1],   :qu, :qv, :b).disjoint?
-        refute Decomposition.new(:fsm, Set[0,1], Set[1],   :qu, :qv, :b).disjoint?
-        refute Decomposition.new(:fsm, Set[1],   Set[0,1], :qu, :qv, :b).disjoint?
+        assert Decomposition.new(:fsm, Set[0], Set[1], :qu, :qv, :b).disjoint?
+        refute Decomposition.new(:fsm, Set[0,1], Set[1], :qu, :qv, :b).disjoint?
+        refute Decomposition.new(:fsm, Set[1], Set[0,1], :qu, :qv, :b).disjoint?
       end
     end
 

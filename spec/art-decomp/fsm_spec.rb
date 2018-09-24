@@ -113,7 +113,7 @@ module ArtDecomp # rubocop:disable ModuleLength
                                      B[5], B[6,7], B[8], B[9]]
       end
 
-      it 'returns the given output’s Blanket when called with a non-Enumerable' do
+      it 'returns the given output’s Blanket' do
         mc.beta_y(4).must_equal Blanket[B[0,1,2,3,4,5,6,7], B[8,9]]
       end
     end

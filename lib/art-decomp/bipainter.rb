@@ -80,7 +80,7 @@ module ArtDecomp
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
       @qv_colours[qv_vertex] = colour
       @qv_graph.adjacent(qv_vertex).each { |adj| forbid_qv! adj, colour }
-      return unless @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
+      return unless @qv_colours.any? { |q, cl| q != qv_vertex and cl == colour }
       @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
         v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
         adjacents = @g_graph.adjacent(g_vertex).select do |g|

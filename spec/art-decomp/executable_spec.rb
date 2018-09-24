@@ -32,7 +32,9 @@ module ArtDecomp # rubocop:disable ModuleLength
           -> { Executable.new min_args[0...-1] }.must_raise SystemExit
         end.last.must_include 'no FSM given'
         capture_io do
-          -> { Executable.new min_args[0...-1] + ['bogus'] }.must_raise SystemExit
+          lambda do
+            Executable.new min_args[0...-1] + ['bogus']
+          end.must_raise SystemExit
         end.last.must_include 'FSM does not exist'
       end
 
@@ -109,8 +111,8 @@ module ArtDecomp # rubocop:disable ModuleLength
                                                  OpenStruct.new(dectrees: []),
                                                  [{
                                                    archs: Set[Arch[5,1]],
-                                                   fsm:   FSM.from_kiss(fsm_path),
-                                                   gens:  gens,
+                                                   fsm: FSM.from_kiss(fsm_path),
+                                                   gens: gens,
                                                  }]
         executable.run dec_tree_generator_class: dt_gen_class
         dt_gen_class.verify
@@ -129,8 +131,10 @@ module ArtDecomp # rubocop:disable ModuleLength
         end
         executable.run dec_tree_generator_class: dt_gen_class,
                        dir_prefix: 'dir_prefix'
-        File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_0.vhdl").must_equal 'VHDL A'
-        File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_1.vhdl").must_equal 'VHDL B'
+        File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_0.vhdl")
+            .must_equal 'VHDL A'
+        File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_1.vhdl")
+            .must_equal 'VHDL B'
       end
     end
   end

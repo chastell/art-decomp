@@ -34,8 +34,9 @@ module ArtDecomp
       end
 
       it 'considers all architecture widths when generating the UV sets' do
-        uvg = UVRelevanceGenerator.new
-        uvs = uvg.uv_pairs(fsm, Set[Arch[3,1], Arch[2,1]], :common_relevance).to_a
+        uvg   = UVRelevanceGenerator.new
+        archs = Set[Arch[3,1], Arch[2,1]]
+        uvs   = uvg.uv_pairs(fsm, archs, :common_relevance).to_a
 
         uvs.size.must_equal 42
         uvs[0].must_equal   [fsm, Set[0,1,2,3], Set[4,5]]

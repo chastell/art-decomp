@@ -159,7 +159,8 @@ module ArtDecomp # rubocop:disable ModuleLength
       it 'cleans-up the matrix when building' do
         SepMatrix.new([]).must_equal                    sep_empty
         SepMatrix.new([0b00, 0b00]).must_equal          sep_empty
-        SepMatrix.new([0b010, 0b001, 0b000]).must_equal SepMatrix.new [0b10, 0b01]
+        SepMatrix.new([0b010, 0b001, 0b000])
+                 .must_equal SepMatrix.new [0b10, 0b01]
       end
     end
 
@@ -183,8 +184,10 @@ module ArtDecomp # rubocop:disable ModuleLength
     describe '#+' do
       it 'sums the SepMatrices together' do
         (sep_01_12 + sep_01_02).must_equal sep_01_02_12
-        (sep_01_02_03_04_13_14 + sep_01_02_12).must_equal sep_01_02_03_04_12_13_14
-        (sep_01_02_12 + sep_01_02_03_04_13_14).must_equal sep_01_02_03_04_12_13_14
+        (sep_01_02_03_04_13_14 + sep_01_02_12)
+          .must_equal sep_01_02_03_04_12_13_14
+        (sep_01_02_12 + sep_01_02_03_04_13_14)
+          .must_equal sep_01_02_03_04_12_13_14
       end
     end
 
@@ -202,8 +205,10 @@ module ArtDecomp # rubocop:disable ModuleLength
     describe '#|' do
       it 'ORs the SepMatrices together' do
         (sep_01_12 | sep_01_02).must_equal sep_01_02_12
-        (sep_01_02_03_04_13_14 | sep_01_02_12).must_equal sep_01_02_03_04_12_13_14
-        (sep_01_02_12 | sep_01_02_03_04_13_14).must_equal sep_01_02_03_04_12_13_14
+        (sep_01_02_03_04_13_14 | sep_01_02_12)
+          .must_equal sep_01_02_03_04_12_13_14
+        (sep_01_02_12 | sep_01_02_03_04_13_14)
+          .must_equal sep_01_02_03_04_12_13_14
       end
     end
 
