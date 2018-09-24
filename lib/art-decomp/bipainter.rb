@@ -79,7 +79,7 @@ module ArtDecomp
       end
       raise PaintingError if @qv_forbidden[qv_vertex].include? colour
       @qv_colours[qv_vertex] = colour
-      @qv_graph.adjacent(qv_vertex).each { |adjacent| forbid_qv! adjacent, colour }
+      @qv_graph.adjacent(qv_vertex).each { |adj| forbid_qv! adj, colour }
       return unless @qv_colours.any? { |q, col| q != qv_vertex and col == colour }
       @g_graph.vertices.select { |g| g & qv_vertex == g }.each do |g_vertex|
         v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
@@ -138,7 +138,8 @@ module ArtDecomp
       v_parent = @beta_v.ints.find { |v| v & g_vertex == g_vertex }
       colours  = @qv_colours.select { |q, _col| g_vertex & q == g_vertex }.values
       similar  = @qv_colours.select { |_q, col| colours.include? col }.keys
-      (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices).delete g_vertex
+      (similar.map { |q| q & v_parent }.to_set & @g_graph.vertices)
+        .delete g_vertex
     end
 
     def sync_colours(v1, v2) # rubocop:disable AbcSize

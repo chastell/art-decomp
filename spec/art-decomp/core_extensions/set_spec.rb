@@ -17,7 +17,8 @@ module ArtDecomp
         Set[Sep[1,2], Sep[5,6]].r_adm(b).must_equal 1
         Set[Sep[1,2], Sep[3,4]].r_adm(b).must_equal 1
         Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4]].r_adm(b).must_equal 1
-        Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4], Sep[3,4]].r_adm(b).must_equal 2
+        Set[Sep[1,3], Sep[1,4], Sep[2,3], Sep[2,4], Sep[3,4]].r_adm(b)
+                                                             .must_equal 2
         ArtDecomp::Blanket[B[1],B[2],B[3],B[4]].seps.r_adm(b).must_equal 2
       end
     end

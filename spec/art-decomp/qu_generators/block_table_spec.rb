@@ -27,7 +27,7 @@ module ArtDecomp
         ).first.must_equal Blanket[B[1,2], B[2,3]]
       end
 
-      it 'first tries to fold matching blocks and then folds by r-admissibility' do
+      it 'first folds matching blocks and then folds by r-admissibility' do
         qu_blankets(
           beta_f: MiniTest::Mock.new.expect(:seps, Set[Sep[1,2], Sep[2,3]]),
           beta_q: Blanket[B[1], B[2], B[3]],

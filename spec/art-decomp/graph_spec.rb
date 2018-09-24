@@ -15,7 +15,8 @@ module ArtDecomp
 
       it 'creates only the necessary edges' do
         blanket = Blanket[B[1,2,3], B[1,2,4], B[1,5], B[2,6]]
-        Graph.new(blanket, Set[Sep[1,2]]).edges.must_equal Set[Set[B[1,5], B[2,6]]]
+        Graph.new(blanket, Set[Sep[1,2]]).edges.must_equal Set[Set[B[1,5],
+                                                                   B[2,6]]]
       end
     end
 
@@ -46,7 +47,8 @@ module ArtDecomp
 
     describe '#degree' do
       it 'returns vertex degrees' do
-        degrees = { B[1,2] => 0, B[3,4] => 1, B[5,6] => 3, B[7] => 2, B[8,9] => 2 }
+        degrees = { B[1,2] => 0, B[3,4] => 1, B[5,6] => 3, B[7] => 2,
+                    B[8,9] => 2 }
         degrees.each { |vert, deg| graph.degree(vert).must_equal deg }
       end
     end

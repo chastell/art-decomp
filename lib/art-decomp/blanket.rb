@@ -72,7 +72,8 @@ module ArtDecomp
 
     def seps
       potential = @ints.inject(0, :|).bits.pairs.map { |a, b| Sep[a,b] }
-      not_separate = @ints.map { |i| i.bits.pairs.map { |a, b| Sep[a,b] } }.flatten
+      not_separate = @ints.map { |i| i.bits.pairs.map { |a, b| Sep[a,b] } }
+                          .flatten
       (potential - not_separate).to_set
     end
 

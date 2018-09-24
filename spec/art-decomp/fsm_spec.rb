@@ -54,7 +54,8 @@ module ArtDecomp # rubocop:disable ModuleLength
         opus.beta_f.must_equal Blanket[B[0,1], B[2,3,9], B[4,14], B[5,6],
                                        B[7,8,20,21], B[10,16], B[11,18],
                                        B[12,15], B[13,17], B[19]]
-        lion.beta_f.must_equal Blanket[B[0,1,4], B[2], B[2,3,7], B[5,6,10], B[8,9]]
+        lion.beta_f.must_equal Blanket[B[0,1,4], B[2], B[2,3,7], B[5,6,10],
+                                       B[8,9]]
         mc.beta_f.must_equal   Blanket[B[0,1], B[2], B[3], B[4], B[5], B[6,7],
                                        B[8], B[9]]
       end
@@ -160,7 +161,8 @@ module ArtDecomp # rubocop:disable ModuleLength
       it 'expands selected input columns and returns a new FSM instance' do
         lion.expand_x(Set[0,1])
             .must_equal FSM.from_kiss 'spec/fixtures/lion.exp'
-        fsm.expand_x(Set[0,1,2,3]).must_equal FSM.from_kiss 'spec/fixtures/fsm.exp'
+        fsm.expand_x(Set[0,1,2,3])
+           .must_equal FSM.from_kiss 'spec/fixtures/fsm.exp'
         fsm.expand_x(Set[0,3])
            .must_equal FSM.from_kiss 'spec/fixtures/fsm.partially-exp'
       end
