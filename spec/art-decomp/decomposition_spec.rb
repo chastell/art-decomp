@@ -151,7 +151,7 @@ module ArtDecomp # rubocop:disable ModuleLength
         dec.h_kiss.must_equal File.read 'spec/fixtures/fsm.h'
       end
 
-      it 'creates the H block properly, even if the G blanket seems ambiguous' do
+      it 'creates a proper H block even if the G blanket seems ambiguous' do
         fsm = FSM.from_kiss('spec/fixtures/opus').expand_x Set[0]
         qu  = Blanket[B[0,1,11,14,15,16,17,18,19,20,30,33,34,35,36,37],
                       B[2,5,7,14,21,24,26,33],B[3,4,10,13,14,22,23,29,32,33],

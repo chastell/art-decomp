@@ -41,7 +41,7 @@ module ArtDecomp
         end
       end
 
-      it 'preserves overlapping entries differing on subsequent column groups' do
+      it 'preserves overlapping entries differing on further column groups' do
         verify_kiss true, <<-end
         -- 1 0 1
         10 0 0 1

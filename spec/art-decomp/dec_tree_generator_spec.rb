@@ -30,8 +30,8 @@ module ArtDecomp
           true
         end
 
-        decomposer1   = MiniTest::Mock.new.expect :decompositions, [dec1]
-        decomposer11  = MiniTest::Mock.new.expect :decompositions, [dec11, dec12]
+        decomposer1 = MiniTest::Mock.new.expect :decompositions, [dec1]
+        decomposer11 = MiniTest::Mock.new.expect :decompositions, [dec11, dec12]
         decomposer111 = MiniTest::Mock.new.expect :decompositions, [dec111]
 
         dec_class = MiniTest::Mock.new

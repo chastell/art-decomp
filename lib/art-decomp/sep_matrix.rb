@@ -35,11 +35,13 @@ module ArtDecomp
 
     def &(other)
       smaller, larger = [@matrix, other.matrix].sort_by(&:size)
-      SepMatrix.new larger.zip(smaller).map { |a, b| a && b ? a & b : b }.compact
+      zip = larger.zip(smaller).map { |a, b| a && b ? a & b : b }.compact
+      SepMatrix.new zip
     end
 
     def -(other)
-      SepMatrix.new(@matrix.zip(other.matrix).map { |a, b| a && b ? a & ~b : a })
+      zip = @matrix.zip(other.matrix).map { |a, b| a && b ? a & ~b : a }
+      SepMatrix.new zip
     end
 
     def |(other)

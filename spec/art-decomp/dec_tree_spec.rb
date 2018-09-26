@@ -96,8 +96,9 @@ module ArtDecomp # rubocop:disable ModuleLength
 
     describe '#g_cells' do
       it 'returns the number of cells of target arch taken by G blocks' do
-        DecTree.new(Set[Arch[6,1], Arch[5,2]], [dec1, dec2]).g_cells.must_equal 3
-        DecTree.new(Set[Arch[6,1]],            [dec1, dec2]).g_cells.must_equal 6
+        DecTree.new(Set[Arch[6,1], Arch[5,2]], [dec1, dec2]).g_cells
+               .must_equal 3
+        DecTree.new(Set[Arch[6,1]], [dec1, dec2]).g_cells.must_equal 6
       end
     end
 
@@ -111,7 +112,8 @@ module ArtDecomp # rubocop:disable ModuleLength
     describe '#to_vhdl' do
       it 'returns VHDL representation' do
         dec_tree = DecTree.new Set[Arch[6,1], Arch[5,2]], [dec1, dec2]
-        dec_tree.to_vhdl('bbara').must_equal File.read 'spec/fixtures/bbara.vhdl'
+        dec_tree.to_vhdl('bbara')
+                .must_equal File.read 'spec/fixtures/bbara.vhdl'
       end
     end
   end

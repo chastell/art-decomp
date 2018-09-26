@@ -96,7 +96,7 @@ module ArtDecomp # rubocop:disable ModuleLength
                                      B[2,3,7,8], B[2,4,7,9]]
       end
 
-      it 'returns the given input’s Blanket when called with a non-Enumerable' do
+      it 'returns the given input’s Blanket' do
         mc.beta_x(0).must_equal Blanket[B[0,1,3,4,6,7,8,9], B[1,2,3,4,5,7,8,9]]
       end
     end
@@ -305,7 +305,7 @@ module ArtDecomp # rubocop:disable ModuleLength
     end
 
     describe '#truth_table?' do
-      it 'returns whether it’s a truth table (as opposed to a full-blown FSM)' do
+      it 'returns whether it’s a truth table (as opposed to an FSM)' do
         assert tt.truth_table?
         refute fsm.truth_table?
       end
@@ -334,7 +334,8 @@ module ArtDecomp # rubocop:disable ModuleLength
       end
 
       it 'returns the same (ordered) encoding regardless of input order' do
-        opus.x_encoding(Set[0,2], B[0]).must_equal opus.x_encoding Set[2,0], B[0]
+        opus.x_encoding(Set[0,2], B[0])
+            .must_equal opus.x_encoding Set[2,0], B[0]
       end
     end
 

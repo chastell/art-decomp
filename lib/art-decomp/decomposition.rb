@@ -49,7 +49,8 @@ module ArtDecomp
     end
 
     def h_arch
-      Arch[@u.size + @qu.pins + @g.pins, @fsm.output_count + @qu.pins + @qv.pins]
+      Arch[@u.size + @qu.pins + @g.pins,
+           @fsm.output_count + @qu.pins + @qv.pins]
     end
 
     def h_cells(archs)
