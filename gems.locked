@@ -14,7 +14,7 @@ GEM
     minitest-focus (1.1.2)
       minitest (>= 4, < 6)
     parallel (1.12.1)
-    parser (2.5.1.2)
+    parser (2.5.3.0)
       ast (~> 2.4.0)
     powerpack (0.1.2)
     rainbow (3.0.0)
@@ -41,4 +41,4 @@ DEPENDENCIES
   rubocop (~> 0.59.0)
 
 BUNDLED WITH
-   1.16.5
+   1.16.6
