@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 
