@@ -11,8 +11,8 @@ Gem::Specification.new do |gem|
   gem.executables = gem.files.grep(%r{^bin/}).map { |path| File.basename path }
   gem.test_files  = gem.files.grep %r{^spec/.*\.rb$}
 
+  gem.add_dependency 'optimist', '~> 3.0'
   gem.add_dependency 'rcapture', '~> 1.0'
-  gem.add_dependency 'trollop',  '~> 2.0'
 
   gem.add_development_dependency 'minitest',       '~> 5.0'
   gem.add_development_dependency 'minitest-focus', '~> 1.1'

@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     art-decomp (0.4.0)
+      optimist (~> 3.0)
       rcapture (~> 1.0)
-      trollop (~> 2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -13,6 +13,7 @@ GEM
     minitest (5.11.3)
     minitest-focus (1.1.2)
       minitest (>= 4, < 6)
+    optimist (3.0.0)
     parallel (1.12.1)
     parser (2.5.3.0)
       ast (~> 2.4.0)
@@ -29,7 +30,6 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.0)
-    trollop (2.9.9)
     unicode-display_width (1.4.0)
 
 PLATFORMS
