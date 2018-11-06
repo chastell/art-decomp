@@ -1,3 +1,6 @@
+Layout/AlignHash:
+  Enabled: false
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
