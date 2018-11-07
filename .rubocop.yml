@@ -1,5 +1,6 @@
 Layout/AlignHash:
-  Enabled: false
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
 
 Layout/EmptyLineAfterGuardClause:
   Enabled: false

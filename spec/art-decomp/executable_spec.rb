@@ -107,12 +107,13 @@ module ArtDecomp # rubocop:disable ModuleLength
         gens = { uv: [UVGenerators::RelativeRelevance.new],
                  qu: [QuGenerators::EdgeLabels.new],
                  qv: [QvGenerators::GraphColouring.new] }
+        fsm = FSM.from_kiss(fsm_path)
         dt_gen_class = MiniTest::Mock.new.expect :new,
                                                  OpenStruct.new(dectrees: []),
                                                  [{
                                                    archs: Set[Arch[5,1]],
-                                                   fsm: FSM.from_kiss(fsm_path),
-                                                   gens: gens,
+                                                   fsm:   fsm,
+                                                   gens:  gens,
                                                  }]
         executable.run dec_tree_generator_class: dt_gen_class
         dt_gen_class.verify
@@ -130,7 +131,7 @@ module ArtDecomp # rubocop:disable ModuleLength
           end
         end
         executable.run dec_tree_generator_class: dt_gen_class,
-                       dir_prefix: 'dir_prefix'
+                       dir_prefix:               'dir_prefix'
         File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_0.vhdl")
             .must_equal 'VHDL A'
         File.read("#{dir_path}/fsm/5:1/dir_prefix/fsm_1.vhdl")
