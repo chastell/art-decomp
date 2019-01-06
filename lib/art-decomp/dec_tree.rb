@@ -27,7 +27,7 @@ module ArtDecomp
 
     def to_vhdl(name)
       erb = File.read('lib/art-decomp/dec_tree.vhdl.erb')
-      ERB.new(erb, nil, '%').result binding
+      ERB.new(erb, trim_mode: '%').result binding
     end
 
     protected
